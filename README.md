@@ -7,4 +7,4 @@ Original URL: http://www.kinet-tv.ne.jp/~sat/
 
 Archived to preserve his publications and research contributions.
 
-He was my valued colleaugue and friend, and I want to amke sure his legacy lives on.
+He was my valued colleaugue and friend, and I want to make sure his legacy lives on.
