@@ -1,0 +1,2295 @@
+<html>
+<head>
+<title>Satoru Ikehara, Satoshi Shirai &amp; Tsukasa Kawaoka, Transaction of Information Processing Society of Japan, Vol.36, No.11, pp.2584-2596. </title>
+<meta http-equiv="content-type" content="text/html; charset=euc-jp">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Âçµ¬ÌÏÆüËÜ¸ì¥³¡¼¥Ñ¥¹¤«¤é¤ÎÏ¢º¿·¿¤ª¤è¤ÓÎ¥»¶·¿¤Î¶¦µ¯É½¸½¤Î¼«Æ°Ãê½ÐË¡</font>
+<br><br>
+
+<font size=+2>ÃÓ¸¶ ¸ç<sup>+</sup> &nbsp;&nbsp; Çò°æ Í¡<sup>+</sup> &nbsp;&nbsp; ²Ï²¬ »Ê<sup>++</sup></font>
+</div>
+<br><br>
+
+<p>
+µ¡³£ËÝÂôÅù¤Î¼«Á³¸À¸ì½èÍý¤ËÉ¬Í×¤Ê,
+»ÈÍÑÉÑÅÙ¤Î¹â¤¤É½¸½¤äÌÌÄêÅª¤Ê¸À¤¤²ó¤·¤Ê¤É¤ÎÉ½¸½¤òÃê½Ð¤¹¤ë¤¿¤á, ÂçÎÌ¤Î¸À¸ì¥Ç¡¼¥¿¤òÂÐ¾Ý¤Ë,
+Ï¢º¿·¿¤ª¤è¤ÓÎ¥»¶·¿¤Î¶¦µ¯É½¸½¤ò¸úÎ¨¤è¤¯¼«Æ°Åª¤ËÃê½Ð¤¹¤ë¥¢¥ë¥´¥ê¥º¥à¤òÄó°Æ¤·¤¿.
+Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÍ®½Ð¤Ç¤Ï, ºÇ¶áÄó°Æ¤µ¤ì¤¿n-gramÅý·×¤ÎÊýË¡¤¬»ÈÍÑ¤Ç¤­¤ë¤¬,
+ËÄÂç¤ÊÎÌ¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤ë¤¿¤á, ¤½¤Î¹Ê¤ê¹þ¤ß¤¬ÌäÂê¤Ç¤¢¤Ã¤¿.
+¤Þ¤¿, Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½Ð¤Ç¤Ï, Å¬ÀÚ¤ÊÊýË¡¤¬¤Ê¤«¤Ã¤¿.
+¤½¤³¤Ç, ËÜÏÀÊ¸¤Ç¤Ï, ¤Þ¤º, Ï¢º¿·¿¶¦µ¯É½¸½¤ËÂÐ¤·¤Æ,
+ÃÇÊÒÅª¤ÊÊ¸»úÎó¤ÎÃê½Ð¤òÂçÉý¤ËÍÞÀ©¤·¤Ê¤¬¤é, Ç¤°Õ¤ÎÄ¹¤µ°Ê¾å¤Ç,
+Ç¤°Õ¤Î½Ð¸½²ó¿ô°Ê¾å¤ÎÊ¸»úÎó¤òÃê½Ð¤¹¤ë¥¢¥ë¥´¥ê¥º¥à¤òÄó°Æ¤·¤¿.
+¼¡¤Ë, ¤³¤ì¤Ë¤è¤Ã¤ÆÆÀ¤é¤ì¤¿Ï¢º¿·¿¤Î¶¦µ¯É½¸½¤òÁÈ¤ß¹ç¤ï¤»¤Æ,
+Î¥»¶·¿¤Î¶¦µ¯É½¸½¤ò¼«Æ°Åª¤ËÏ³¤ì¤Ê¤¯Ãê½Ð¤¹¤ëÊýË¡¤òÄó°Æ¤·¤¿.
+3¥«·îÊ¬¤Î¿·Ê¹µ­»ö¥Ç¡¼¥¿(892Ëü»ú)¤òÂÐ¾Ý¤È¤·¤¿¼Â¸³¤ÎÎã¤Ë¤è¤ì¤Ð, Ï¢º¿·¿¶¦µ¯É½¸½¤Î¾ì¹ç,
+Ê¸»úÎóÄ¹2 Ê¸»ú°Ê¾å, ½Ð¸½ÉÑÅÙ2²ó°Ê¾å¤ÇÃê½Ð¤µ¤ì¤ëÉ½¸½¤Î¼ïÎà¤Ï, n-gram¤ÎÊýË¡¤Ç¤Ï,
+440Ëü¼ïÎà(±ä¤Ù½Ð¸½²ó¿ô3,120Ëü²ó)¤Ç¤¢¤Ã¤¿¤Î¤ËÂÐ¤·¤Æ, ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï,
+97Ëü¼ïÎà(±ä¤Ù½Ð¸½²ó¿ô260Ëü²ó)¤È¤Ê¤ê, ÃÇÊÒÅª¤ÊÉ½¸½¤ÏÂçÉý¤Ë¸º¾¯¤·¤¿.
+¤Þ¤¿, ¿·¤¿¤ËÄó°Æ¤·¤¿Î¥»¶·¿¶¦µ¯É½¸½Ãê½ÐÊý¼°¤Ç¤Ï, Ï¢º¿·¿¶¦µ¯¤ÎÃê½Ð¤ÇÆÀ¤é¤ì¤¿Ê¸»úÎó¤Î¤¦¤Á,
+10²ó°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó(12,350¼ïÎà)¤ÎÇ¤°Õ¤Î2¼ïÎà¤¬, 1Ê¸Ãæ¤Ë2²ó°Ê¾å¶¦µ¯¤·¤¿É½¸½¤ÎÁÈ¤Ï,
+6,500¼ïÎà(±ä¤Ù½Ð¸½²ó¿ô21,800²ó)¤Ç¤¢¤ë¤³¤È¤Ê¤É, ÍÆ°×¤Ëµá¤á¤ë¤³¤È¤¬¤Ç¤­¤¿.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=+3>Automatic Extraction of Uninterrupted and Interrupted Collocations from Very Large Japanese Corpora Using N-gram Statistics</font>
+<br><br>
+
+<font size=+2>SATORU IKEHARA,<sup>+</sup> SATOSHI SHIRAI<sup>+</sup> and TSUKASA KAWAOKA<sup>++</sup></font>
+</div>
+<br><br>
+
+<p>
+In order to extract rigid expressions with a high frequency of use,
+new algorithms that can efficiently extract both uninterrupted and
+interrupted collocations from very large Japanese corpora have been proposed.
+More recently, the technique of applying n-gram statistics for
+uninterrupted collocation has been proposed.
+This enables the extraction of collocations in the order of string length and
+frequency of use.
+But this metbod posed problems in that large volumes of fractional and
+unnecessary expressions are included. To solve this problem,
+this paper proposes a new algorithm that restrains the extraction of
+unnecessary expressions.
+This is followed by the proposal of a method that extracts interrupted collocations
+combining the uninterrupted collocations thus obtained.
+These new methods are applied to newspaper articles containing 8.92 million characters.
+In the case of uninterrupted collocations with string length of 2 or more characters and
+whose frequency of appearance is 2 or more times, there were 4,4 million expressions
+(total frequency or 31.2 million times) extracted by the conventional method.
+In contrast, the new method reduced this to 0.97 million types
+(total frequency of 2.6 million times) revealing a substantial reduction
+in fractional and unnecessary expressions.
+In the case of interrupted collocational substring extractions,
+combining the substring with frequency of 10 times or more extracted
+by the first method, yielded 6.5 thousand types of pairs of substrings
+with the total frequency of 21.S thousand times.
+</p>
+
+<hr size=2 width=40% align=left>
+
+<sup>+</sup>NTT¥³¥ß¥å¥Ë¥±¡¼¥·¥ç¥ó²Ê³Ø¸¦µæ½ê<br>
+NTT Communication Science Laboratories<br>
+<sup>++</sup>Æ±»Ö¼ÒÂç³Ø¹©³ØÉôÃÎ¼±¹©³Ø²Ê<br>
+University of Doshisha
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>¾ðÊó½èÍý³Ø²ñÏÀÊ¸»ï</i>, Vol.36, No.11, pp.2584-2596 (1995.11). ]<br>
+[ <i>Transaction of Information Processing Society of Japan</i>, Vol.36, No.11, pp.2584-2596 (November, 1995). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=15>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p09.html#chap-1.">1. ¤Þ¤¨¤¬¤­</a></td></tr>
+<tr><td><a href="p09.html#chap-2.">2. ½¾Íè¤ÎÊýË¡¤È¤½¤Î´ÖÂêÅÀ</a></td></tr>
+<tr><td><a href="p09.html#chap-3.">3. Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½ÐË¡</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-3.1">3.1 ½ÅÊ£¤¹¤ëÊ¸»úÎó¤Î°·¤¤</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-3.2">3.2 Ê¸»úÎóÃê½Ð¥¢¥ë¥´¥ê¥º¥à</a></td></tr>
+<tr><td><a href="p09.html#chap-4.">4. Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½ÐË¡</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-4.1">4.1 Ãê½Ð¤¹¤ë¶¦µ¯Ê¸»úÎó¤Î¾ò·ï</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-4.2">4.2 Ê¸»úÎóÃê»³¥¢¥ë¥´¥ê¥º¥à</a></td></tr>
+<tr><td><a href="p09.html#chap-5.">5. ¶¦µ¯É½¸½¤ÎÃê½Ð¼Â¸³</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-5.1">5.1 Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½Ð</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-5.2">5.2 Î¥»¶·¿¶¦µ¯Ê¸»úÎó¤ÎÃê½Ð</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#chap-5.3">5.3 º£¸å¤Î²þÎÉ¤È±þÍÑ¤Ë¤Ä¤¤¤Æ</a></td></tr>
+<tr><td><a href="p09.html#chap-6.">6. ¤¢¤È¤¬¤­</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p09.html#ref">»²¹ÍÊ¸¸¥</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. ¤Þ¤¨¤¬¤­</font></h2></a>
+
+<p>
+ºÇ¶á, ¼«Á³¸À¸ì½èÍý¤Ë¤ª¤¤¤Æ, ÂçÎÌ¤Î¥³¡¼¥Ñ¥¹¤äÍÑÎã¤Î½ÅÍ×À­¤¬»ØÅ¦¤µ¤ì,
+¤½¤ì¤òÊ¬ÀÏ¤¹¤ëµ»½Ñ¤ÎÉ¬Í×À­¤¬ÁýÂç¤·¤Æ¤¤¤ë.
+Îã¤¨¤Ð, µ¡³£ËÝÌõ¤Ç¤Ï, Ã±¸ìÃ±°Ì¤ÎÄ¾Ìõ¤Ç¤Ï¤¦¤Þ¤¯Ìõ¤»¤Ê¤¤¥Õ¥ì¡¼¥º¤ò½¸¤á,
+¥Õ¥ì¡¼¥ÖÃ±°Ì¤ËËÝÌõ¤¹¤ëÊýË¡¤ä, °ìÄê¤Î¹½Â¤¤ò»ý¤ÄÉ½¸½¤òÂÐÌõ¥Ñ¥¿¡¼¥ó²½¤·,
+¥Ñ¥¿¡¼¥ó¼­½ñ¤Ë¤è¤Ã¤Æ¸¶¸À¸ì¤òÌÜÅª¸À¸ì¤ËÂÐ±þ¤Å¤±¤ëÊýË¡¤Ê¤É¤¬¹Í¤¨¤é¤ì¤Æ¤¤¤ë.
+¤³¤ì¤é¤ÎÊýË¡¤ò¼Â¸½¤¹¤ë¤Ë¤Ï, ¸½¼Â¤Ë»ÈÍÑ¤µ¤ì¤Æ¤¤¤ë¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤«¤é,
+»ÈÍÑÉÑÅÙ¤Î¹â¤¤¥Õ¥ì¡¼¥º¤äÉ½¸½¤Î¥Ñ¥¿¡¼¥ó¤òÃê½Ð¤¹¤ë¤³¤È¤¬É¬Í×¤Ç¤¢¤ë.
+</p>
+<p>
+¤·¤«¤·, ËÄÂç¤Ê¸À¸ì¥Ç¡¼¥¿¤òÂÐ¾Ý¤È¤¹¤ë¤È¤­, Ç¤°Õ¤ÎÄ¹¤µ¤Ç,
+½Ð¸½ÉÑÅÙ¤Î¹â¤¤É½¸½Ê¸»úÎó¤òÏ³¤ì¤Ê¤¯¼«Æ°Åª¤ËÈ¯¸«¤·¤Æ, Ãê½Ð¤¹¤ë¤³¤È¤Ï,
+·×»»ÎÌ¤ÎÅÀ¤Çº¤Æñ¤Ç¤¢¤Ã¤¿.
+¤½¤Î¤¿¤á, ½¾Íè, ¼«Á³¸À¸ì¤È¤·¤Æ¤ÎÆÃÄ§¤ËÃåÌÜ¤¹¤ëÊýË¡,
+Ãê½Ð¤¹¤ëÊ¸»úÎó¤ÎÀ­¼Á¤ËÃåÌÜ¤¹¤ëÊýË¡¤Ê¤É,
+ÌÜÅª¤Ë¹çÃ×¤¹¤ëÊ¸»úÎó¤ò¸ÂÄêÅª¤ËÃê½Ð¤¹¤ëÊýË¡¤¬¹Í¤¨¤é¤ì¤Æ¤­¤¿.
+Îã¤¨¤Ð, Á°¼Ô¤ÎÊýË¡¤È¤·¤Æ¤Ï, ¸À¸ì¥Ç¡¼¥¿¤«¤é·ë¤Ó¤Ä¤­¤Î¶¯¤¤Ã±¸ì¤ò¼è¤ê½Ð¤¹´ÑÅÀ¤«¤é,
+2Ã±¸ì¤Î·ë¤Ó¤Ä¤­¤Î¶¯ÅÙ¤ËÃåÌÜ¤·¤¿ÊýË¡<sup><a href="p09.html#ref1">1)</a></sup>,
+Ã±¸ì´Ö¤Îµ÷Î¥¤ËÃåÌÜ¤·¤¿ÊýË¡<sup><a href="p09.html#ref2">2)</a></sup>,
+·ë¹çÃ±¸ì¿ô¤È½Ð¸½²ó¿ô¤ò¹ÍÎ¸¤·¤¿
+ÊýË¡<sup><a href="p09.html#ref3">3)</a>,<a href="p09.html#ref4">4)</a></sup>¤Ê¤É¤¬Äó°Æ¤µ¤ì¤Æ¤¤¤ë.
+¸å¼Ô¤ÎÊýË¡¤È¤·¤Æ¤Ï, Ãê½Ð¤¹¤ëÃ±¸ì¤äÊ¸»ú¤ÎÏ¢º¿¤Î¿ô¤òÀ©¸Â¤·¤¿¤ê,
+Ã»¤¤Ï¢º¿¤Ç½Ð¸½ÉÑÅÙ¤Î¹â¤¤¤â¤Î¤ËÃåÌÜ¤·¤Æ,
+¸ÂÄê¤µ¤ì¤¿Ê¸»úÎó(Ã±¸ìÎó)¤ÎÈÏ°Ï¤ÇÏ¢º¿¿ô¤òÁý¤ä¤·¤Æ½¸·×¤¹¤ë
+ÊýË¡<sup><a href="p09.html#ref5">5)</a></sup>¤Ê¤É¤¬¹Í¤¨¤é¤ì¤Æ¤¤¤¿.
+</p>
+<p>
+¤³¤ì¤ËÂÐ¤·¤Æ, ºÇ¶á, ÂçÎÌ¤Î¸À¸ì¥Ç¡¼¥¿¤òÂÐ¾Ý¤Ë,
+Ç¤°Õ¤În¤ËÂÐ¤¹¤ën-gramÅý·×¤ò¹âÂ®¤Ë¼Â¹Ô¤¹¤ëÊýË¡¤¬Äó°Æ¤µ¤ì<sup><a href="p09.html#ref6">6)</a></sup>,
+¸À¸ì¥Ç¡¼¥¿Æâ¤Ë¤¢¤ëÇ¤°Õ¤ÎÄ¹¤µ¤ÎÊ¸»úÎó(°ìÈÌ¤Ë¤Ïµ­¹æÎó)¤ò¼«Æ°Åª¤ËÃê½Ð¤·,
+¤½¤Î½Ð¸½²ó¿ô¤ò¥«¥¦¥ó¥È¤¹¤ë¤³¤È¤¬²ÄÇ½¤È¤Ê¤Ã¤¿.
+¤³¤Î·ë²Ì¤òÍÑ¤¤¤ì¤Ð, ¸¶Ê¸Ãæ¤Ë»ÈÍÑ¤µ¤ì¤¿Ê¸»úÎó¤ò,
+¤½¤ÎÄ¹¤µ(Ê¸»ú¿ô)¤Î½ç¤«¤Ä½Ð¸½·¹ÅÙ¤Î¹â¤¤½ç¤Ë½¸·×¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë.
+¤·¤«¤·, ¤³¤ÎÊýË¡¤Ç¤Ï, Ãê½Ð¤¹¤ëÊ¸»úÎó´Ö¤ÎÁê¸ß´Ø·¸¤¬Ìµ»ë¤µ¤ì¤Æ¤¤¤ë¤¿¤á,
+´û¤ËÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÉôÊ¬Ê¸»úÎó¤¬½ÅÊ£¤·¤ÆÃê½Ð¤µ¤ì¤ë.
+¤·¤¿¤¬¤Ã¤Æ, Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ò¸À¸ìÉ½¸½¤È¤·¤Æ¸«¤¿¾ì¹ç, Ê¸Ë¡Åª,
+°ÕÌ£Åª¤Ë¤Þ¤È¤Þ¤ê¤Î¤Ê¤¤ÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬Â¿¿ô¤òÀê¤á¤ë.
+¤³¤ì¤ò°ÕÌ£¤Î¤¢¤ëÊ¸»úÎó¤Ë¹Ê¤ê¹þ¤àÊýË¡¤È¤·¤Æ,
+Æ±°ì¤ÎÏÀÊ¸<sup><a href="p09.html#ref6">6)</a></sup>¤Ç¤Ï,
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤È¤½¤Î½Ð¸½²ó¿ô¤òÁê¸ß¤ËÁÈ¤ß¹ç¤ï¤»¤ëÊýË¡¤Î²ÄÇ½À­¤ò¼¨¤·¤Æ¤¤¤ë.
+¤½¤Î¸å, ¤³¤În-gramÅý·×¥Ç¡¼¥¿¤È¤·¤ÆÆÀ¤é¤ì¤¿Ê¸»úÎó¤«¤é°ÕÌ£¤Î¤¢¤ëÉ½¸½¤ò¼è¤ê½Ð¤¹ÊýË¡¤È¤·¤Æ,
+Ãê½Ð¤·¤¿Ê¸»úÎó¤Î¥¨¥ó¥È¥í¥Ô¡¼´ð½à¤òÍÑ¤¤¤ë
+ÊýË¡<sup><a href="p09.html#ref7">7)</a></sup>¤¬Äó°Æ¤µ¤ì¤Æ¤¤¤ë.
+¤Þ¤¿, n-gramÅý·×¤ò±þÍÑ¤·¤¿¤â¤Î¤Ë, ½õ»ìÅªÄê·¿É½¸½¤ÎÃê½Ð¤Î
+Îã<sup><a href="p09.html#ref8">8)</a></sup>¤¬¤¢¤ë¤¬, ¤³¤ÎÊýË¡¤Ç¤Ï, ¤¢¤é¤«¤¸¤á,
+Ãê½Ð¤¹¤ëÊ¸»úÎó¤ò¹½À®¤¹¤ë»ú¼ï¤ÎÁÈ¤ò¸ÂÄê¤¹¤ë¤³¤È¤Çn-gram¤Î·×»»ÎÌ¤ÎÌäÂê¤ò²óÈò¤·, ¤½¤Î¸å,
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ò¼ï¡¹¤Î¥Ò¥å¡¼¥ê¥¹¥Æ¥£¥Ã¥¯¥¹¤òÍÑ¤¤¤Æ¹Ê¤ê¹þ¤ó¤Ç¤¤¤ë.
+</p>
+<p>
+¼¡¤Ë, Î¥¤ì¤¿°ÌÃÖ¤Ë¶¦µ¯¤¹¤ëÉ½¸½¤ÎÁÈ¤ÎÃê½Ð¤ò¸«¤ë¤È, Ê£¿ô¤ÎÊ¸»úÎó¤òÁÈ¤ß¹ç¤ï¤»¤Æ,
+¸¶Ê¸Ãæ¤Ç¤Î¶¦µ¯¤òÄ´¤Ù¤ë¤³¤È¤¬É¬Í×¤Ç¤¢¤ë.
+n-gramÅý·×¤Ç¤Ï, ËÄÂç¤ÊÎÌ¤ÎÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤ë¤¿¤á,
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤¹¤Ù¤Æ¤òÁÈ¤ß¹ç¤ï¤»¤Æ¸¶Ê¸¤ò¥µ¡¼¥Á¤¹¤ë¤Î¤ÏÊªÍýÅª¤Ë°øÆñ¤Ç¤¢¤Ã¤¿.
+Ï¢º¿·¿, Î¥»¶·¿¤òÆÃ¤Ë¶èÊÌ¤»¤º,
+1Ê¸Ãæ¤Ë¶¦µ¯É½¸½¤¬Àê¤á¤ë³ä¹ç¤ÎÂ¿¤¤Ê¸¤òÄê·¿Åª¤ÊÊ¸¤È¤·¤ÆÃê½Ð¤¹¤ë
+»î¤ß<sup><a href="p09.html#ref9">9)</a>,<a href="p09.html#ref10">10)</a></sup>¤â¤¢¤ë¤¬,
+ÂçÎÌ¤Î¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤«¤é, ½Ð¸½ÉÑÅÙ¤Î¹â¤¤Ê¸»úÎó¤ÎÁÈ¤ò,
+Ï³¤ì¤Ê¤¯¼«Æ°Åª¤ËÈ¯¸«¤·½¸·×¤¹¤ë¤Î¤Ë¸ú²ÌÅª¤ÊÊýË¡¤ÏÃÎ¤é¤ì¤Æ¤¤¤Ê¤¤.
+</p>
+<p>
+¤È¤³¤í¤Ç, ÂçÎÌ¤Î¸À¸ì¥Ç¡¼¥¿¤òÂÐ¾Ý¤È¤¹¤ë¤È¤­, ¶¦µ¯É½¸½Ãê½Ð¤ÎÌäÂê¤Ï,
+Âè1¤Ë, ·×»»ÎÌ(¥Õ¥¡¥¤¥ëÎÌ)ÁýÂç¤Ë¤è¤ë·×»»²ÄÈÝ¤ÎÌäÂê¤Ç¤¢¤ê,
+Âè2¤Ë, ÆÀ¤é¤ì¤¿ÂçÎÌ¤Î·ë²Ì¤«¤éÉ¬Í×¤ÊÉ½¸½¤òÁªÂò¤¹¤ëÌäÂê¤Ç¤¢¤ë.
+ÆÃ¤Ë, Î¥»¶·¿¶¦µ¯¤Î¾ì¹ç, ·×»»ÎÌ¤Ï,
+¤½¤ì¤ò¹½À®¤¹¤ëÉ½¸½Í×ÁÇ¤Î¿ô¤ËÂÐ¤·¤Æ´ö²¿µé¿ôÅª¤ËÁý²Ã¤¹¤ë¤³¤È¤¬ÌäÂê¤È¤Ê¤ë.
+·×»»ÎÌ¤òºï¸º¤¹¤ëÊýË¡¤ò¹Í¤¨¤ëºÝ¤Ï, ¶¦µ¯É½¸½Ãê½Ð¤ÎÌÜÅª¤«¤é¹Í¤¨¤Æ,
+É¬Í×¤Ê¶¦µ¯É½¸½¤òÏ³¤é¤·¤Æ¤·¤Þ¤¦¤è¤¦¤Ê¹Ê¤ê¹þ¤ß¤ÏË¾¤Þ¤·¤¯¤Ê¤¤.
+</p>
+<p>
+Ï¢º¿·¿¤ÎÊ¸»úÎóÃê½Ð¤Î¾ì¹ç¤Ï, n-gramÅý·×¤ÎÊýË¡¤Ë¤è¤Ã¤Æ,
+¤¹¤Ç¤Ë, Âè1¤ÎÌäÂê¤Ï²ò·è¤µ¤ì¤Æ¤¤¤ë¤¬,
+É½¸½¤ÎÃ±°Ì¤È¤ß¤Ê¤»¤Ê¤¤(Ã±¸ì¤ÎÃÇÊÒ¤ò´Þ¤à)ÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬Â¿¼ÏÃê½Ð¤µ¤ì¤ë.
+¤³¤Î¤¿¤á, Î¥»¶·¿¶¦µ¯¤Î¾ì¹ç, ·×»»ÎÌ¤¬ÁýÂç¤·, ·×»»ÉÔ²ÄÇ½¤È¤Ê¤ë¤³¤È¤¬ÌäÂê¤È¤Ê¤ë.
+ÃÇÊÒÅª¤ÊÊ¸»úÎó¤ÎÃê½Ð¤¬ÍÞÀ©¤µ¤ì, ·×»»ÎÌ¤¬²ÄÇ½¤ÊÈÏ°Ï¤Ë¼ý¤Þ¤ì¤Ð,
+Î¥»¶·¿¶¦µ¯¤Ë¤ª¤¤¤Æ¤â, Âè1¤ÎÌäÂê¤Ï²ò·è¤¹¤ë.
+¤Þ¤¿, Âè2¤ÎÌäÂê¤Ë¤Ä¤¤¤Æ¤Ï, ºÇ½ªÅª¤Ë¤Ï, »ÈÍÑÌÜÅª¤´¤È¤Ë¿Í¼ê¤ÇÈ½ÃÇ¤»¤¶¤ë¤òÆÀ¤Ê¤¤¤«¤é,
+½ÐÎÏ¤µ¤ì¤ëÊ¸»úÎó¤ÎÎÌ(¼ïÎà)¤¬, ¿Í¼êºî¶È¤Ë»Ù¾ã¤Î¤Ê¤¤ÈÏ°Ï(¿ôÀé¼ï, ºÇÂç¿ôËü¼ï°Ê²¼)¤Ë¤Ê¤ì¤Ð,
+Âè2¤ÎÌäÂê¤âÅöÌÌ²ò·è¤·¤¿¤È¸À¤¨¤ë.
+</p>
+<p>
+°Ê¾å¤Î´ÑÅÀ¤«¤é, ËÜÏÀÊ¸¤Ç¤Ï,
+Ï¢º¿·¿¶¦µ¯É½¸½Ãê½Ð¤Ë¤ª¤¤¤ÆÃÇÊÒÅª¤ÊÊ¸»úÎóÃê½Ð¤òÍÞÀ©¤¹¤ëÊýË¡¤È¤·¤Æ,
+¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤«¤é, ºÇÄ¹°ìÃ×¤ÎÊ¸»úÎóÃê½Ð(¤¢¤ëÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤¿¤È¤­,
+¤½¤ÎÊ¸»úÎó¤Ë´Þ¤Þ¤ì¤ëÉôÊ¬Ê¸»úÎó¤ÏÃê½Ð¤·¤Ê¤¤)¤ò¾ò·ï¤È¤·,
+Ç¤°Õ¤ÎÄ¹¤µ°Ê¾å, Ç¤°Õ¤Î»ÈÍÑÉÑÅÙ°Ê¾å¤Î¶¦µ¯É½¸½¤ò, Ï³¤ì¤Ê¤¯, ¼«Æ°Åª¤ËÃê½Ð¤·,
+½¸·×¤¹¤ëÊýË¡¤òÄó°Æ¤¹¤ë.
+¼¡¤Ë, ¤½¤Î·ë²Ì¤ò»ÈÍÑ¤·¤Æ,
+Ê£¿ô¤ÎÍ×ÁÇ¤¬Î¥¤ì¤¿°ÌÃÖ¤Ë¶¦µ¯¤¹¤ëÎ¥»¶·¿¶¦µ¯É½¸½¤ò¼«Æ°Åª¤ËÃê½Ð¤·½¸·×¤¹¤ëÊýË¡¤ò¼¨¤¹.
+¤Þ¤¿, Äó°Æ¤·¤¿¼êË¡¤ÎÆ°ºî³ÎÇ§¤Î¤¿¤á¤ÎÅ¬ÍÑÎã¤È¤·¤Æ,
+ÆüËÜ¸ì¿·Ê¹µ­»ö¥Ç¡¼¥¿¤«¤é¤ÎÏ¢º¿·¿, Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½Ð·ë²Ì¤ò¼¨¤¹.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. ½¾Íè¤ÎÊýË¡¤È¤½¤Î´ÖÂêÅÀ</font></h2></a>
+
+<p>
+(1) Ê¸»úÎóÃê½Ð¤Î¾ò·ï
+</p>
+<p>
+¼«Á³¸À¸ì¤ÎÊ¸Ãæ¤Ç¶¦µ¯¤¹¤ëÉ½¸½<a name="rfn1" href="p09.html#fn1"><sup>¡ù</sup></a>¤È¤·¤Æ¤Ï,
+Ï¢¸ì¤ä¥Õ¥ì¡¼¥º¤Î¤è¤¦¤ËÏ¢Â³¤·¤¿Ê¸»úÎó¤ò¹½À®¤¹¤ë¤â¤Î(Ï¢º¿·¿¶¦µ¯É½¸½¤È¸Æ¤Ö)¤È,
+·¸¤ê·ë¤Ó, ¸Æ±þ´Ø·¸, ÆÃÄê¤ÎÆ°»ì¤ÈÆÃÄê¤ÎÌ¾»ì¤ÎÁÈ¤Ê¤É¤Î¤è¤¦¤Ë,
+2¼ïÎà°Ê¾å¤ÎÊ¸»úÎó¤¬, Ê¸Ãæ¤ÎÎ¥¤ì¤¿°ÌÃÖ¤Ë¸½¤ì¤ë¤â¤Î(Î¥»¶·¿¶¦µ¯É½¸½¤È¸Æ¤Ö)¤¬¤¢¤ë.
+Î¥»¶·¿¶¦µ¯É½¸½¤Ï, Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÊ¸»úÎó¤¬Ê¸Ãæ¤Ç¶¦µ¯¤·¤¿¤â¤Î¤È¹Í¤¨¤ë¤³¤È¤¬¤Ç¤­¤ë¤«¤é,
+¤Þ¤º, Á°¼Ô¤ÎÊ¸»úÎó¤ò¹Í¤¨¤ë.
+</p>
+<p>
+¤µ¤Æ, Ï¢¸ì¤ä¥Õ¥ì¡¼¥º¤Î¤è¤¦¤ÊÏ¢Â³¤·¤¿Ê¸»úÎó¤òÏ³¤ì¤Ê¤¯È¯¸«¤¹¤ë¤³¤È,
+¤Þ¤¿, Ê¸Ë¡Åª, °ÕÌ£Åª¤Ë¸«¤Æ,
+É½¸½¤ÎÃ±°Ì¤ò¤Ê¤µ¤Ê¤¤¤è¤¦¤ÊÃÇÊÒÅª¤ÊÊ¸»úÎó¤ÎÃê½Ð¤òºÇ¾®¸Â¤Ë²¡¤µ¤¨¤ë¤³¤È¤òÁÀ¤Ã¤Æ,
+°Ê²¼¤Î¾ò·ï¤ÇÊ¸»úÎó¤òÃê½Ð¤¹¤ë¤³¤È¤È¤¹¤ë.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3 width=20></td><td>Âè1¤Î¾ò·ï:</td>
+    <td>Ç¤°Õ¤ÎÄ¹¤µ°Ê¾å¤ÎÊ¸»úÎó¤òÃê½Ð¤¹¤ë.</td></tr>
+<tr valign=top><td>Âè2¤Î¾ò·ï:</td>
+    <td>Ç¤°Õ¤Î½Ð¸½ÉÑÅÙ°Ê¾å¤ÎÊ¸»úÎó¤òÃê½Ð¤¹¤ë.</td></tr>
+<tr valign=top><td>Âè3¤Î¾ò·ï:</td>
+    <td>ºÇÄ¹°ìÃ×¤Î¸¶Â§¤ÇÊ¸»úÎó¤òÃê½Ð¤¹¤ë.</td></tr>
+</table>
+</p>
+
+<p>
+¤³¤Î¤¦¤ÁÂè3¤Î¾ò·ï¤Ï, ¸¶Ê¸Ãæ¤Î¤¢¤ë¾ì½ê¤«¤é¤¢¤ëÊ¸»úÎó¤¬°ìÅÙÃê½Ð¤µ¤ì¤¿¸å¤Ï,
+¤½¤ÎÊ¸»úÎóÆâ¤Ë´Þ¤Þ¤ì¤ëÉôÊ¬Ê¸»úÎó¤ÏÃê½Ð¤ÎÂÐ¾Ý¤È¤·¤Ê¤¤¤³¤È¤ò°ÕÌ£¤¹¤ë.
+¤¿¤À¤·, ¤½¤ÎÉôÊ¬Ê¸»úÎó¤¬ÊÌ¤Î¾ì½ê¤Ë¸½¤ì¤¿»þ¤ÏÃê½Ð¤µ¤ì¤ë.
+Îã¤¨¤Ð, <b>¿Þ1</b>¤Î¾ì¹ç, 7gram¤ÎÊ¸»úÎó¦Á¤¬Ãê½Ð¤µ¤ì¤¿¤È¤¹¤ë¤È,
+¤½¤ì°Ê¹ß¤Î6gram°Ê²¼¤ÎÊ¸»úÎó¤ÎÃê½Ð¤Ç¤Ï, ¦ÁÉôÊ¬¤ÎÉôÊ¬Ê¸»úÎó¤Ç¤¢¤ë¦Â¤ä¦Ã¤ÏÂÐ¾Ý³°¤È¤¹¤ë.
+¤¿¤À¤·, ¦Á¤¬Ãê½Ð¤µ¤ì¤¿¾ì½ê°Ê³°¤Î°ÌÃÖ¤Ë¸½¤ì¤¿¡ÖDE¡×, ¡ÖGHI¡×¤ÏÅöÁ³, Ãê½Ð¤ÎÂÐ¾Ý¤È¤Ê¤ë.
+¤Þ¤¿, Ê¸»úÎó¦Ä¤Ï, ¦Á¤ÎÉôÊ¬Ê¸»úÎó¤Ç¤Ê¤¤¤Î¤Ç, Ãê½Ð¤ÎÂÐ¾Ý¤È¤¹¤ë.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p09/p09-fig1.gif" width=396 height=121>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ1 Ãê½ÐÂÐ¾ÝÊ¸»úÎó¤ÎÎã<br>
+</strong>
+Fig. 1 Substrings to be extracted.
+</div>
+</p>
+
+<p>
+(2) É½¸½Ãê½Ð¤Ë¤ª¤±¤ëºÇÄ¹°ìÃ×¤Î¸¶Â§¤Î°ÕµÁ
+</p>
+<p>
+°ìÈÌ¤Ë¸À¸ìÉ½¸½¤Ï, Âç¾®¤ÎÉ½¸½¤¬´ö½Å¤Ë¤â¥Í¥¹¥È¤·¤Æ¹½À®¤µ¤ì¤ë.
+¶¦µ¯É½¸½¤ÎÃê½Ð¤Ç¤Ï, É½¸½¤ÎÃ±°Ì¤äÄ¹¤µ¤ò¤¢¤é¤«¤¸¤á»ØÄê¤·¤Ê¤¯¤Æ¤â,
+¤³¤Î¤è¤¦¤ÊÉ½¸½¤ÎÃæ¤«¤é, ·«¤êÊÖ¤·»ÈÍÑ¤µ¤ì¤ëÉ½¸½¤ÎÃ±°Ì¤ò¼«Æ°Åª¤ËÈ¯¸«¤·,
+Ãê½Ð¤Ç¤­¤ë¤³¤È¤¬Ë¾¤Þ¤ì¤ë. ¤½¤³¤Ç, ¤¹¤Ù¤Æ¤ÎÊ¸»úÎó¤òÌÖÍåÅª¤ËÃê½Ð¤¹¤ì¤Ð,
+¤½¤Î¤è¤¦¤ÊÉ½¸½¤ÏÃê½Ð¤µ¤ì¤ë¤¬,
+°ìÅÙÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÃæ¤«¤é¤âÉôÊ¬Ê¸»úÎó¤¬½ÅÊ£¤·¤ÆÃê½Ð¤µ¤ì¤ë¤¿¤á,
+Â¿¤¯¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬´Þ¤Þ¤ì¤ë¤³¤È¤¬ÌäÂê¤È¤Ê¤ë.
+</p>
+<p>
+¤È¤³¤í¤Ç, ¸À¸ì¤Î¶¦µ¯É½¸½¤Ï, Ê£¿ô¤ÎÃ±¸ì¤¬¶¦µ¯¤·¤¿É½¸½¤À¤È¹Í¤¨¤ë¤È,
+¶¦µ¯É½¸½¤ÎÊ¸»úÎó¤Î¶­³¦¤Ï, Æ±»þ¤ËÃ±¸ì¶­³¦¤È¤â¤Ê¤Ã¤Æ¤¤¤ë.
+°ìÊý, ²ÄÇ½¤Ê¸Â¤êÄ¹¤¤Ã±°Ì¤ÇÊ¸»úÎó¤òÃê½Ð¤¹¤ì¤Ð,
+¤½¤ÎÊ¸»úÎó¤Î¶­³¦¤ÏÃ±¸ì¶­³¦¤Ë°ìÃ×¤¹¤ë²ÄÇ½À­¤¬¹â¤¤¤«¤é,
+ÃÇÊÒÅª¤ÊÊ¸»úÎó¤Ç¤Ï¤Ê¤¯¶¦µ¯É½¸½¤Ç¤¢¤ë²ÄÇ½À­¤¬¹â¤¯¤Ê¤ë.
+¤¹¤Ê¤ï¤Á, ÃÇÊÒÅªÊ¸»úÎó¤ÎÃê½Ð¤¬ÍÞÀ©¤µ¤ì¤ë¤È´üÂÔ¤µ¤ì¤ë.
+°Ê¾å¤«¤é(1)¤Ç¤Ï, Âè3¤Î¾ò·ï¤òÀß¤±¤¿.
+</p>
+<p>
+¤³¤³¤Ç, Âè3¤Î¾ò·ï¤ÇÃê½Ð¤¬ÍÞÀ©¤µ¤ì¤ëÊ¸»úÎó¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë.
+ÍÞÀ©¤µ¤ì¤ëÊ¸»úÎó¤Ë¤Ï, ¤è¤êÂç¤­¤ÊÊ¸»úÎó¤ÎÉôÊ¬¤È¤·¤Æ¤·¤«»ÈÍÑ¤µ¤ì¤Ê¤¤¤¿¤á,
+°ìÅÙ¤âÃê½Ð¤µ¤ì¤Ê¤¤¤â¤Î¤È, Â¾¤ÎÉôÊ¬¤«¤é¤ÏÆÈÎ©À­¤Î¤¢¤ëÉ½¸½¤È¤·¤Æ²¿²ó¤«Ãê½Ð¤µ¤ì¤ë¤¬,
+¤¢¤ëÊ¸»úÎó¤ÎÉôÊ¬Ê¸»úÎó¤È¤·¤Æ»ÈÍÑ¤µ¤ì¤¿ÉôÊ¬¤Ç¥«¥¦¥ó¥È¤¬ÍÞÀ©¤µ¤ì¤í¤â¤Î¤¬¤¢¤ë.
+¶¦µ¯É½¸½¤ÎÌÖÍåÀ­¤Î´ÑÅÀ¤«¤é¸«¤ì¤Ð, ¤³¤Î¤¦¤Á, Á°¼Ô¤ÎÃê½ÐÏ³¤ì¤¬ÌäÂê¤Ç,
+¤½¤ÎÃæ¤Ë, É½¸½¤È¤ß¤Ê¤»¤ëÊ¸»úÎó¤¬´Þ¤Þ¤ì¤ë¤«¤É¤¦¤«¤¬ÂçÀÚ¤Ç¤¢¤ë.
+</p>
+<p>
+¤·¤«¤·, ¤¢¤ëÉ½¸½¤¬¤è¤êÂç¤­¤ÊÊ¸»úÎó¤ÎÃæ¤ËËä¤â¤ì¤¿ÉôÊ¬Åª¤ÊÉ½¸½¤Ç¤¢¤Ã¤Æ¤â,
+ÆÈÎ©À­¤¬¹â¤¯, ·«¤êÊÖ¤·¤Æ»ÈÍÑ¤µ¤ì¤ë¤è¤¦¤ÊÉ½¸½¤Ç¤¢¤ì¤Ð,
+¤¢¤ëÊ¸»úÎó¤ÎÉôÊ¬Ê¸»úÎó¤È¤·¤Æ¤À¤±¤Ç¤Ê¤¯,
+¤½¤ì¼«¿È¤¬ºÇÄ¹¤ÎÃ±°Ì¤Ç¤¢¤ë¤è¤¦¤ÊÊ¸»úÎó¤È¤·¤Æ·«¤êÊÖ¤·½Ð¸½¤¹¤ë¤³¤È¤¬
+´üÂÔ¤Ç¤­¤ë<a name="rfn2" href="p09.html#fn2"><sup>¡ù</sup></a>.
+°Ê¾å¤«¤é, Âè3¤Î¾ò·ï¤¬¤¢¤Ã¤Æ¤â, ·«¤êÊÖ¤·»ÈÍÑ¤µ¤ì¤ë¶¦µ¯É½¸½(¤Î¼ïÎà)¤Ï,
+ÌÖÍåÅª¤ËÃê½Ð¤µ¤ì¤ë¤â¤Î¤È´üÂÔ¤Ç¤­¤ë.
+</p>
+<p>
+(3) Ä¹Èø¡¦¿¹¤ÎÊýË¡¤È¤½¤ÎÌäÂêÅÀ
+</p>
+<p>
+Ç¤°Õ¤În¤ËÂÐ¤¹¤ën-gram¤ò¸úÎ¨Åª¤ËÃê½Ð¤·¤Æ½¸·×¤¹¤ëÊýË¡¤È¤·¤Æ,
+´û¤Ë, Ä¹Èø¡¦¿¹¤ÎÊýË¡<sup><a href="p09.html#ref6">6)</a></sup>¤¬Äó°Æ¤µ¤ì¤Æ¤¤¤ë.
+¤³¤ÎÊýË¡¤òÍ×Ìó¤¹¤ë¤È°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¢¤ë.
+</p>
+<p>
+<strong>[Ä¹Èø¡¦¿¹¤ÎÊýË¡]</strong>
+</p>
+<p>
+½¸·×ÂÐ¾Ý¤È¤¹¤ë¸À¸ì¥Ç¡¼¥¿Á´ÂÎ¤ÎÊ¸»ú¿ô¤ò <i>N</i> ¤È¤¹¤ë.
+</p>
+<p>
+<strong>¼ê½ç1: ¡Ö¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤ÎºîÀ®¡×</strong>
+</p>
+<p>
+<i>N</i> ¸Ä¤Î¥ì¥³¡¼¥É¤«¤é¤Ê¤ë¥Õ¥¡¥¤¥ë(¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë)¤òÍÑ°Õ¤·,
+³Æ¥ì¥³¡¼¥É¤Ë, 0¤«¤é½ç¤Ë <i>N</i> -1 ¤ÎÃÍ(¸¶Ê¸ÈÖÃÏ)¤ò¤¤¤ì¤ë.
+¸¶Ê¸ÈÖÃÏ¤Ï, ¸À¸ì¥Ç¡¼¥¿¾å, ¤½¤ÎÃÍ¤Ç¼¨¤µ¤ì¤ëÊ¸»úÈÖ¹æ¤«¤é»Ï¤Þ¤ê,
+ËöÈø( <i>N</i> -1 ÈÖÌÜ¤ÎÊ¸»ú)¤Ç½ª¤ï¤ëÉôÊ¬Ê¸»úÎó(°Ê²¼, Ê¸»úÎóÃ±¸ì¤È¸Æ¤Ö)¤Ø¤Î
+¥Ý¥¤¥ó¥¿¤Î°ÕÌ£¤ò»ý¤Ä.
+</p>
+<p>
+<strong>¼ê½ç2: ¡ÖÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ÎºîÀ®¡×</strong>
+</p>
+<p>
+¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤ò, ÂÐ±þ¤¹¤ëÊ¸»úÎóÃ±¸ì¤ÎÊ¸»ú¥³¡¼¥É½ç¤Ë,
+¥½¡¼¥È¤·¤¿¥Õ¥¡¥¤¥ë(ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë)¤ò¤Ä¤¯¤ë.
+</p>
+<p>
+<strong>¼ê½ç3: ¡Ö°ìÃ×Ê¸»ú¿ô¤Î¥«¥¦¥ó¥È¡×</strong>
+</p>
+<p>
+ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤Î¼¨¤¹Ê¸»úÎóÃ±¸ì¤ò,
+¤½¤ÎÄ¾¸å¤Î¥ì¥³¡¼¥É¤ÎÊ¸»úÎóÃ±¸ì¤ÈÀèÆ¬Ê¸»ú¤«¤éÈæ³Ó¤·,
+°ìÃ×¤·¤¿Ê¸»ú¿ô(°ìÃ×Ê¸»ú¿ô)¤ò½ñ¤­¹þ¤à.
+</p>
+<p>
+<strong>¼ê½ç4: ¡ÖÊ¸»úÎó¤ÎÃê½Ð¤È¥«¥¦¥ó¥È¡×</strong>
+</p>
+<p>
+°ìÃ×Ê¸»ú¿ô¤ò¥ì¥³¡¼¥É½ç¤ËÄ´¤Ù, ÉôÊ¬Ê¸»úÎó¤Î¼ïÎà¤È¤½¤Î½Ð¸½²ó¿ô¤òÊÔ½¸¤¹¤ë.
+</p>
+<p>
+¤³¤ÎÊýË¡¤Ë¤è¤ê, Ç¤°Õ¤Î²ó¿ô°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó¤òÄ¹¤µ(Ê¸»ú¿ô)¤´¤È¤Ë,
+¤«¤Ä, ½Ð¸½²ó¿ô¤ÎÂç¤­¤¤½ç¤ËÆÀ¤ë¤³¤È¤¬¤Ç¤­¤ë¤¿¤á,
+ÌÜÉ¸¤È¤¹¤ëÂè1, Âè2¤Î¾ò·ï¤ÏËþÂ­¤µ¤ì¤ë¤¬, ÌÜÉ¸¤È¤¹¤ëÂè3¤Î¾ò·ï¤ÏËþÂ­¤µ¤ì¤Ê¤¤.
+</p>
+<p>
+Âè3¤Î¾ò·ï¤òËþ¤¿¤¹¤è¤¦¤Ë¤¹¤ë¤¿¤á, Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Î½Ð¸½²ó¿ô¤ËÂÐ¤·¤Æ,
+¤è¤êÄ¹¤¤Ê¸»úÎó¤Ë´Þ¤Þ¤ì¤Æ¤¤¤¿ÉôÊ¬Ê¸»úÎó¤Î½Ð¸½²ó¿ô¤òº¹¤·°ú¤¯¤Ê¤É,
+¼¡¿ô¤Î°Û¤Ê¤ëÊ£¿ô¤Î<i>n</i>-gram ½¸·×É½¤òÁÈ¤ß¹ç¤ï¤»¤Æ·×»»¤¹¤ëÊýË¡¤¬¹Í¤¨¤é¤ì¤ë¤¬,
+½¸·×É½¤¬À¸À®¤µ¤ì¤¿»þÅÀ¤Ç¤Ï, Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Î¸¶Ê¸Ãæ¤Ç¤ÎÁê¸ß´Ø·¸¤Î¾ðÊó¤¬¼º¤ï¤ì¤Æ¤¤¤ë¤¿¤á,
+·×»»¤ÏÉÔ²ÄÇ½¤Ç¤¢¤ë<a name="rfn3" href="p09.html#fn3"><sup>¡ù</sup></a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½ÐË¡</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 ½ÅÊ£¤¹¤ëÊ¸»úÎó¤Î°·¤¤</font></h2></a>
+
+<p>
+ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ËÌá¤Ã¤Æ, ¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤Ç,
+°ìÅÙÃê½Ð¤·¤¿Ê¸»úÎó¤ÎÉôÊ¬¤ÏÊÌ¤ÎÊ¸»úÎó¤È¤·¤Æ²þ¤á¤ÆÃê½Ð¤·¤¿¤ê,
+¥«¥¦¥ó¥È¤·¤¿¤ê¤·¤Ê¤¤ÊýË¡¤ò¹Í¤¨¤ë.
+°Ê²¼¤Ç¤Ï, ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤«¤é, °ìÃ×Ê¸»ú¿ô¤ÎÂ¿¤¤½ç¤Ë,
+ÉôÊ¬Ê¸»úÎó¤òÃê½Ð¤¹¤ë¤â¤Î¤È¤·¤ÆµÄÏÀ¤¹¤ë.
+</p>
+<p>
+¤µ¤Æ, <i>n</i>-gram Ê¸»úÎó¤È<i>m</i>-gram Ê¸»úÎó¤ÎÃê½Ð¤ò¹Í¤¨¤ë.
+<i>n</i> ¡ä<i>m</i> ¤È¤¹¤ë¤È, ¾ò·ï¤è¤ê, <i>n</i>-gram Ê¸»úÎó¤ÎÃê½Ð¤Ï,
+<i>m</i>-gram Ê¸»úÎó¤ËÀèÎ©¤Ã¤Æ¼Â¹Ô¤µ¤ì¤ë.
+¸¶Ê¸¾å, <i>n</i>-gram Ê¸»úÎó¤È<i>m</i>-gram Ê¸»úÎó¤¬¶¦ÄÌÉôÊ¬¤ò»ý¤Ä¾ì¹ç¤¬ÌäÂê¤È¤Ê¤ë¤«¤é,
+¤½¤ì¤òÊ¬Îà¤¹¤ë¤È, <b>¿Þ2</b>¤Î¤è¤¦¤Ë,
+<i>m</i>-gram Ê¸»úÎó¤¬<i>n</i>-gram Ê¸»úÎóÆâ¤ËÆâÊñ¤µ¤ì¤ë¾ì¹ç¤È,
+<i>m</i>-gram Ê¸»úÎó¤È<i>n</i>-gram Ê¸»úÎó¤¬¸ß¤¤¤Ë¤½¤ÎÉôÊ¬¤ò¶¦Í­¤¹¤ë¾ì¹ç¤ËÊ¬¤±¤é¤ì¤ë.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p09/p09-fig2.gif" width=442 height=225>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ2 Ãê½ÐÊ¸»úÎó¤ÎÁê¸ß´Ø·¸<br>
+</strong>
+Fig. 2 Inter-relationships between extracted substrings.
+</div>
+</p>
+
+<p>
+(1) Ìµ¸ú²½¤ÎÉ¬Í×¤Ê¥ì¥³¡¼¥É¤ÎÈÏ°Ï
+</p>
+<p>
+<i>n</i>-gram ¤¬Àè¹Ô¤·¤ÆÃê½Ð¤µ¤ì¤¿¤È¤­,
+case1 ¤Î<i>m</i>-gram ¤Ï, ¤¤¤º¤ì¤âÃê½ÐÂÐ¾Ý¤È¤Ê¤é¤Ê¤¤.
+¤·¤¿¤¬¤Ã¤Æ, <i>n</i>-gram Ê¸»úÎó¤òÃê½Ð¤¹¤ë¤È¤­, ¤³¤Î¤è¤¦¤Ê´Ø·¸¤Ë¤¢¤ë<i>m</i>-gram ¤Ï,
+¸å¤Î½èÍý¤ÇÃê½Ð¤µ¤ì¤Ê¤¤¤è¤¦¤Ë¤¹¤ëÉ¬Í×¤¬¤¢¤ë.
+¤½¤³¤Ç, <i>n</i>-gram ¤¬Ãê½Ð¤µ¤ì¤¿¤È¤­, ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¾å¤Ç,
+¤½¤ì¤ËÊñ´Þ¤µ¤ì¤ë<i>m</i>-gram ¤òÃµ¤·¤Æ,
+³ºÅö¥ì¥³¡¼¥É¤¬Ìµ¸ú¤È¤µ¤ì¤ë¾ò·ï¤òÉÕÍ¿¤¹¤ëÊýË¡¤ò¹Í¤¨¤ë.
+</p>
+<p>
+¤½¤³¤Ç, ¤Þ¤ºÌµ¸ú²½¤ÎÂÐ¾Ý¤È¤Ê¤ë¥ì¥³¡¼¥É¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë¤È, case 1-1 ¤Î¾ì¹ç¤Ï,
+Ãê½Ð¤µ¤ì¤¿n-gram ¤Î¥ì¥³¡¼¥É¼«ÂÎ¤¬ºÆ¤ÓÃê½Ð¤ÎÂÐ¾Ý¤Ë¤Ê¤é¤Ê¤¤¤è¤¦¤Ë¤¹¤ì¤Ð¤è¤¤.
+¼¡¤Ë, case 1-2, case 1-3 ¤Î¾ì¹ç¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë¤È, Ìµ¸ú²½¤ÎÂÐ¾Ý¤È¤Ê¤ë¥ì¥³¡¼¥É¤Ï,
+¸¶Ê¸¾å, ÃåÌÜ¤¹¤ë <i>n</i>-gram ¤Î³«»ÏÊ¸»ú¤Î°ÌÃÖ¤«¤é¿ô¤¨¤Æ
+<i>n</i> Ê¸»úÀè¤Þ¤Ç¤Î³ÆÊ¸»ú¤òÀèÆ¬Ê¸»ú¤È¤¹¤ëÊ¸»úÎóÃ±¸ì¤Î¥ì¥³¡¼¥É¤Ç¤¢¤ë¤³¤È¤¬Ê¬¤«¤ë.
+</p>
+<p>
+¼¡¤Ë, Ìµ¸ú²½¤Î¾ò·ï¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë¤È,
+case 2-2 ¤Î¾ì¹ç¤Î<i>m</i>-gram ¤ÏÌµ¸ú²½¤·¤Æ¤Ï¤Ê¤é¤Ê¤¤¤«¤é,
+¾åµ­¤ÎÂÐ¾Ý¥ì¥³¡¼¥É¤Î¤¦¤Á, Ìµ¸ú²½¤¹¤ë¥ì¥³¡¼¥É¤Ï, °ìÃ×Ê¸»ú¿ô¤¬¤½¤ì¤¾¤ì
+<i>n</i> - 1, <i>n</i> - 2, ¡¦¡¦¡¦, 1 °Ê²¼¤Î¥ì¥³¡¼¥É¤Ë¸Â¤é¤ì¤ë¤³¤È¤¬Ê¬¤«¤ë.
+¤Ê¤ª, case 2-1 ¤Ë¤¢¤ë¤è¤¦¤Ê<i>m</i>-gram ¤Î¾ì¹ç¤Ï,
+¾åµ­¤ÎÌµ¸ú²½½èÍý¤ÎÂÐ¾Ý³°¤È¤Ê¤Ã¤Æ¤ª¤ê, Ãê½Ð½¸·×¤ÎÂÐ¾Ý¤È¤Ê¤ë.
+</p>
+<p>
+°Ê¾å¤ÎÌµ¸ú²½½èÍý¤ÎÂÐ¾ÝÈÏ°Ï¤Ë¤Ä¤¤¤Æ, <b>¿Þ3</b> ¤ËÎã¤ò¼¨¤¹.
+¿Þ¤Ç¤Ï, ¸¶Ê¸ÈÖÃÏ3 ¤Î¥ì¥³¡¼¥É¤«¤é6 gram ¤ÎÊ¸»úÎó,
+¡ÖC¡ÁH¡× ¤¬Ãê½ÐÂÐ¾Ý¤ÈÈ½ÃÇ¤µ¤ì¤¿¤È¤­¤Ï,
+¸¶Ê¸ÈÖÃÏ4¡Á8 ¤ÎÊ¸»úÎó¤ÎH ¤Þ¤Ç¤ÎÉôÊ¬¤¬Ìµ¸ú²½¤µ¤ì¤ë¤³¤È¤ò¼¨¤·¤Æ¤¤¤ë.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p09/p09-fig3.gif" width=501 height=259>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ3 Ê¸»úÎóºÎÈÝÈ½Äê¤ÎÊýË¡<br>
+</strong>
+Fig. 3 Example of validity determination.
+</div>
+</p>
+
+<p>
+(2) Ìµ¸ú²½¤¹¤Ù¤­¥ì¥³¡¼¥É¤Î¸¡º÷
+</p>
+<p>
+ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î¥ì¥³¡¼¥É¤Ï,
+Ê¸»úÎóÃ±¸ì¤ò¼¨¤¹¸¶Ê¸ÈÖÃÏ¤ÎÃÍ<i>i</i> ¤ËÂÐ¤·¤Æ½çÉÔÆ±¤ËÊÂ¤ó¤Ç¤¤¤ë.
+¤½¤Î¤¿¤á, ¤¢¤ë¥ì¥³¡¼¥É¤Î¸¶Ê¸ÈÖÃÏ¤ÎÃÍ<i>i</i> ¤ò¸«¤Æ, ¸¶Ê¸ÈÖÃÏ¤ÎÃÍ¤¬,
+<i>i</i> + 1, <i>i</i> + 2, ¡¦¡¦¡¦ ¤È¤Ê¤Ã¤Æ¤¤¤ë¥ì¥³¡¼¥É¤òÃµ¤¹¤Ë¤Ï,
+¥·¡¼¥±¥ó¥·¥ã¥ë¥µ¡¼¥Á¤¬É¬Í×¤Ç, ¸¡º÷»þ´Ö¤¬Âç¤­¤ÊÌäÂê¤È¤Ê¤ë.
+¤³¤ì¤ËÂÐ¤·¤Æ, ¸µ¤Î¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤Ç¤Ï, ¥ì¥³¡¼¥É¤Ï¸¶Ê¸¹áÃÏ¤ÎÃÍ<i>i</i> ¤Î½ç¤ËÊÂ¤ó¤Ç¤¤¤ë.
+¤¹¤Ê¤ï¤Á, Ìµ¸ú²½¤ÎÍ×µá¤¬È¯À¸¤·¤¿¥ì¥³¡¼¥É¤Ë°ú¤­Â³¤¤¤Æ,
+Ìµ¸ú²½¤ò¥Á¥§¥Ã¥¯¤¹¤Ù¤­¥ì¥³¡¼¥É¤¬½çÈÖ¤ËÊÂ¤ó¤Ç¤¤¤ë¤¿¤á, ¸¡º÷¤Ï¹âÂ®¤Ë¼Â¹Ô¤Ç¤­¤ë.
+¤½¤³¤Ç, ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ò¤â¤¦°ìÅÙ, ¸¶Ê¸ÈÖÃÏ¤ÎÃÍ¤Î½ç¤ËºÆ¥½¡¼¥È¤·,
+ÆÀ¤é¤ì¤¿¥Õ¥¡¥¤¥ë¾å¤ÇÌµ¸ú²½½èÍý¤ò
+¹Ô¤¦¤â¤Î¤È¤¹¤ë<a name="rfn4" href="p09.html#fn4"><sup>¡ù</sup></a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Ê¸»úÎóÃê½Ð¥¢¥ë¥´¥ê¥º¥à</font></h2></a>
+
+<p>
+(1) ¥¢¥ë¥´¥ê¥º¥à
+</p>
+<p>
+Á°¾Ï¤ÎµÄÏÀ¤ò¤Õ¤Þ¤¨, ¸À¸ì¥Ç¡¼¥¿¤«¤é,
+2 ²ó°Ê¾å¤Î½Ð¸½²ó¿ô¤ò»ý¤Ä¸ÇÄêÅª¤Ê(ÆÈÎ©À­¤Î¹â¤¤) É½¸½¤òÊ¸»úÎó¤È¤·¤Æ,
+Ê¸»ú¿ô¤ÎÂ¿¤¤½ç¤Ë, ¤«¤Ä, ½ÅÊ£¤Ê¤·¤ËÃê½Ð¤¹¤ë¥¢¥ë¥´¥ê¥º¥à¤òÄó°Æ¤¹¤ë.
+</p>
+<p>
+<strong>[Ê¸»úÎóÃê½Ð¥¢¥ë¥´¥ê¥º¥à]</strong>
+</p>
+<p>
+<strong>¼ê½ç1¡Á¼ê½ç3</strong> : Ä¹Èø¡¦ ¿¹¤ÎÊýË¡¤ÈÆ±¤¸
+</p>
+<p>
+<strong>¼ê½ç4 : ¡ÖÃê»³Ê¸»ú¿ô¤Îµ­Æþ¡×</strong>
+</p>
+<p>
+ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤Î¼¨¤¹Ê¸»úÎóÃ±¸ì¤Ë¤Ä¤¤¤Æ,
+ÀèÆ¬¤«¤é²¿Ê¸»úÃê½ÐÂÐ¾Ý¤È¤Ê¤Ã¤Æ¤¤¤ë¤«(Ãê½ÐÊ¸»ú¿ô) ¤òÄ´¥Ù,
+¥ì¥³¡¼¥É¤Ëµ­Æþ¤¹¤ë (³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤¬¤Ç¤­¤ë).
+Ãê½ÐÊ¸»ú¿ô¤Ï, Á°¸å¤Î¥ì¥³¡¼¥É¤Î°ìÃ×Ê¸»ú¿ô¤Î´Ø·¸¤«¤é´ÊÃ±¤Ë·è¤Þ¤ë.
+</p>
+<p>
+<strong>¼ê½ç5 : ¡Ö³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤ÎºîÀ®¡×</strong>
+</p>
+<p>
+³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ò¸¶Ê¸ÈÖ¹æ½ç¤Ë¥½¡¼¥È¤·Ä¾¤·, ³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤È¤¹¤ë.
+</p>
+<p>
+<strong>¼ê½ç6 : ¡ÖÍ­¸úÌµ¸úÈ½Äê½èÍý¡×</strong>
+</p>
+<p>
+³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤ÎÃê½ÐÊ¸»ú¿ô¤ò½ç¤ËÄ´¥Ù, ³Æ¥ì¥³¡¼¥É¤ÎÌµ¸úÈ½Äê¤ò¹Ô¤¦.
+¤½¤Î·ë²Ì¤ÏºÎÈÝÉ½¼¨¤ÎÃÍ¤È¤·¤Æµ­Æþ¤¹¤ë.
+Ìµ¸úÈ½Äê¤ÎÊýË¡¤Ï, 3.1 Àá¤Ç½Ò¤Ù¤¿¤È¤ª¤ê¤Ç¤¢¤ë.
+</p>
+<p>
+<stron>¼ê½ç7 : ¡ÖºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ÎºîÀ®¡×</strong>
+</p>
+<p>
+¾åµ­¤ÇÆÀ¤é¤ì¤¿³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤òºÆÅÙ, ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î¥ì¥³¡¼¥É½ç¤Ë¥½¡¼¥È¤·,
+¤³¤ì¤òºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤È¤¹¤ë.
+</p>
+<p>
+<strong>¼ê½ç8 : ¡ÖÃê½ÐÊ¸»úÎó½¸·×½èÍý¡×</strong>
+</p>
+<p>
+ºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ÎºÎÈÝÉ½¼¨, Ãê½ÐÊ¸»ú¿ô,
+°ìÃ×Ê¸»ú¿ô¤Î´Ø·¸¤òÄ´¤Ù¤ÆÃê½Ð¤¹¤ëÊ¸»úÎó¤ò·èÄê¤·, Æ±»þ¤Ë, ¤½¤Î½Ð¸½²ó¿ô¤òµá¤á¤ë.
+</p>
+<p>
+¤³¤Î¤È¤­, Á°¸å¤Î¥ì¥³¡¼¥É¤Î°ìÃ×Ê¸»ú¿ô¤Î´Ø·¸¤«¤éÃê½ÐÊ¸»ú¿ô¤Ïµá¤á¤é¤ì¤ë (¼ê½ç4 »²¾È) ¤¿¤á,
+Ãê½ÐÊ¸»ú¿ô¤Ï»²¾È¤·¤Ê¤¯¤Æ¤â½¸·×¤Ç¤­¤ë.
+</p>
+<p>
+(2) ÎãÂê¸¡Æ¤
+</p>
+<p>
+°Ê¾å¤Î¥¢¥ë¥´¥ê¥º¥à¤ÎÅ¬ÍÑÎã¤ò¿Þ4 ¤Ë¼¨¤¹.
+¤³¤ÎÎã¤Ç¤Ï, <i>n</i>-gram Åý·×¤ÇÃê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Î¼ïÎà¤¬24 ¼ïÎà¤Ç,
+±ä¤Ù½Ð¸½²ó¿ô¤¬72 ²ó¤Ç¤¢¤ë¤Î¤ËÂÐ¤·¤Æ, ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï, 5 ¼ïÎà, 10 ²ó¤Ë¹Ê¤é¤ì¤ë.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td align=right>[¸¶Ê¸¥Ç¡¼¥¿]</td><td width=10>:</td>
+    <td>¤à¤«¤·</td><td width=5></td><td>¤à</td><td>¤«¤·</td><td>¤Î</td><td width=5></td>
+    <td>¤ª¤«¤·¤Ê</td><td>¤ª</td><td>¤«</td><td>¤·</td><td>¡£</td><td width=5></td>
+    <td>¤ª</td><td>¤«¤·</td><td>¤Î</td><td>¤Ï¤Ê¤·</td><td>¤Ï</td><td width=5></td>
+    <td>¤ª¤«¤·¤Ê</td><td width=5></td><td>¤ª</td><td>¤Ï¤Ê¤·</td><td>¡£</td>
+    <td width=20></td></tr>
+<tr align=center><td rowspan=3 align=right>(Ãê½ÐÂÐ¾Ý²Õ½ê)</td>
+    <td rowspan=3 width=10>¨£<br>¨¢<br>¨¦</td>
+    <td bgcolor=#0000ff>­¥</td></td><td><td colspan=2 bgcolor=#0000ff>­¥</td><td colspan=2></td>
+    <td colspan=2 bgcolor=#ff0000>­¡</td><td colspan=10></td><td colspan=2 bgcolor=#ff0000>­¡</td><td colspan=4></td>
+    <td rowspan=3 valign=top align=right>¡û°õ:Ãê½Ð¤µ¤ì¤ë<br>È¦¤ÎÊ¸»úÎó</td></tr>
+<tr align=center><td colspan=7></td><td colspan=3 bgcolor=#ffcf00>­¢</td><td colspan=2></td>
+    <td colspan=2 bgcolor=#ffcf00>­¢</td><td></td><td bgcolor=#00ff00>­¤</td><td colspan=5></td><td bgcolor=#00ff00>­¤</td></tr>
+<tr align=center><td colspan=3></td><td colspan=2 bgcolor=#ffff00>­£</td><td colspan=4></td>
+    <td colspan=2 bgcolor=#ff00ff>­¦</td><td colspan=2></td><td colspan=2 bgcolor=#ffff00>­£</td></tr>
+</table>
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td>
+<div align=center>
+¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td><br><br>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td>
+    <td>Ê¸»úÎóÃ±¸ì<br>[¥½¡¼¥È¤Ê¤·]<br><br>(ÀèÆ¬ÉôÊ¬)</td></tr>
+<tr><td align=right>1</td><td><b>¤à</b>¤«¤·¤à¤«¤·</td></tr>
+<tr><td align=right>2</td><td><b>¤«</b>¤·¤à¤«¤·¤Î</td></tr>
+<tr><td align=right>3</td><td><b>¤·</b>¤à¤«¤·¤Î¤ª</td></tr>
+<tr><td align=right>4</td><td><b>¤à</b>¤«¤·¤Î¤ª¤«</td></tr>
+<tr><td align=right>6</td><td><b>¤«</b>¤·¤Î¤ª¤«¤·</td></tr>
+<tr><td align=right>6</td><td><b>¤·</b>¤Î¤ª¤«¤·¤Ê</td></tr>
+<tr><td align=right>7</td><td><b>¤Î</b>¤ª¤«¤·¤Ê¤ª</td></tr>
+<tr><td align=right>8</td><td><b>¤ª</b>¤«¤·¤Ê¤ª¤«</td></tr>
+<tr><td align=right>9</td><td><b>¤«</b>¤·¤Ê¤ª¤«¤·</td></tr>
+<tr><td align=right>10</td><td><b>¤·</b>¤Ê¤ª¤«¤·¡£</td></tr>
+<tr><td align=right>11</td><td><b>¤Ê</b>¤ª¤«¤·¡£¤ª</td></tr>
+<tr><td align=right>12</td><td><b>¤ª</b>¤«¤·¡£¤ª¤«</td></tr>
+<tr><td align=right>13</td><td><b>¤«</b>¤·¡£¤ª¤«¤·</td></tr>
+<tr><td align=right>14</td><td><b>¤·</b>¡£¤ª¤«¤·¤Î</td></tr>
+<tr><td align=right>15</td><td><b>¡£</b>¤ª¤«¤·¤Î¤Ï</td></tr>
+<tr><td align=right>16</td><td><b>¤ª</b>¤«¤·¤Î¤Ï¤Ê</td></tr>
+<tr><td align=right>17</td><td><b>¤«</b>¤·¤Î¤Ï¤Ê¤·</td></tr>
+<tr><td align=right>18</td><td><b>¤·</b>¤Î¤Ï¤Ê¤·¤Ï</td></tr>
+<tr><td align=right>19</td><td><b>¤Î</b>¤Ï¤Ê¤·¤Ï¤ª</td></tr>
+<tr><td align=right>20</td><td><b>¤Ï</b>¤Ê¤·¤Ï¤ª¤«</td></tr>
+<tr><td align=right>21</td><td><b>¤Ê</b>¤·¤Ï¤ª¤«¤·</td></tr>
+<tr><td align=right>22</td><td><b>¤·</b>¤Ï¤ª¤«¤·¤Ê</td></tr>
+<tr><td align=right>23</td><td><b>¤Ï</b>¤ª¤«¤·¤Ê¤ª</td></tr>
+<tr><td align=right>24</td><td><b>¤ª</b>¤«¤·¤Ê¤ª¤Ï</td></tr>
+<tr><td align=right>25</td><td><b>¤«</b>¤·¤Ê¤ª¤Ï¤Ê</td></tr>
+<tr><td align=right>26</td><td><b>¤·</b>¤Ê¤ª¤Ï¤Ê¤·</td></tr>
+<tr><td align=right>27</td><td><b>¤Ê</b>¤ª¤Ï¤Ê¤·¡£</td></tr>
+<tr><td align=right>28</td><td><b>¤ª</b>¤Ï¤Ê¤·¡£</td></tr>
+<tr><td align=right>29</td><td><b>¤Ï</b>¤Ê¤·¡£</td></tr>
+<tr><td align=right>30</td><td><b>¤Ê</b>¤·¡£</td></tr>
+<tr><td align=right>31</td><td><b>¤·</b>¡£</td></tr>
+<tr><td align=right>32</td><td><b>¡£</b></td></tr>
+</table>
+</p>
+</td>
+<td><br><br><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=4>[¼ê½ç2]<br>³ÈÄ¥ÈÆÍÑ<br>¥½¡¼¥È<br>¥Õ¥¡¥¤¥ë<br>¤ÎºîÀ®</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4>[¼ê½ç3]¢ª<br>°ìÃ×Ê¸»ú¿ô<br>¤Î¥«¥¦¥ó¥È</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4>[¼ê½ç4]¢ª<br>Ãê½ÐÊ¸»ú¿ô<br>¤Îµ­Æþ</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td>
+    <td>°ì<br>Ã×<br>Ê¸<br>»ú<br>¿ô</td><td>¥ì<br>¥³<br>¡Ã<br>¥É<br>ÈÖ<br>¹æ</td>
+    <td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td>
+    <td>Ê¸»úÎóÃ±¸ì<br>[¥½¡¼¥È¤¢¤ê]<br><br>(ÀèÆ¬ÉôÊ¬)</td></tr>
+<tr align=center><td>5</td><td>5</td><td align=right>1</td><td align=right>8</td>
+    <td align=left><b>¤ª¤«¤·¤Ê¤ª</b>¤«</td></tr>
+<tr align=center><td>5</td><td>3</td><td align=right>2</td><td align=right>24</td>
+    <td align=left><b>¤ª¤«¤·¤Ê¤ª</b>¤Ï</td></tr>
+<tr align=center><td>3</td><td>3</td><td align=right>3</td><td align=right>16</td>
+    <td align=left><b>¤ª¤«¤·</b>¤Î¤Ï¤Ê</td></tr>
+<tr align=center><td>3</td><td>1</td><td align=right>4</td><td align=right>12</td>
+    <td align=left><b>¤ª¤«¤·</b>¡£¤ª¤«</td></tr>
+<tr align=center><td>1</td><td>0</td><td align=right>5</td><td align=right>28</td>
+    <td align=left><b>¤ª</b>¤Ï¤Ê¤·¡£</td></tr>
+<tr align=center><td>4</td><td>4</td><td align=right>6</td><td align=right>9</td>
+    <td align=left><b>¤«¤·¤Ê¤ª</b>¤«¤·</td></tr>
+<tr align=center><td>4</td><td>2</td><td align=right>7</td><td align=right>25</td>
+    <td align=left><b>¤«¤·¤Ê¤ª</b>¤Ï¤Ê</td></tr>
+<tr align=center><td>3</td><td>3</td><td align=right>8</td><td align=right>6</td>
+    <td align=left><b>¤«¤·¤Î</b>¤ª¤«¤·</td></tr>
+<tr align=center><td>3</td><td>2</td><td align=right>9</td><td align=right>17</td>
+    <td align=left><b>¤«¤·¤Î</b>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>2</td><td>2</td><td align=right>10</td><td align=right>2</td>
+    <td align=left><b>¤«¤·</b>¤à¤«¤·¤Î</td></tr>
+<tr align=center><td>2</td><td>0</td><td align=right>11</td><td align=right>13</td>
+    <td align=left><b>¤«¤·</b>¡£¤ª¤«¤·</td></tr>
+<tr align=center><td>3</td><td>3</td><td align=right>12</td><td align=right>10</td>
+    <td align=left><b>¤·¤Ê¤ª</b>¤«¤·¡£</td></tr>
+<tr align=center><td>3</td><td>1</td><td align=right>13</td><td align=right>26</td>
+    <td align=left><b>¤·¤Ê¤ª</b>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>2</td><td>2</td><td align=right>14</td><td align=right>6</td>
+    <td align=left><b>¤·¤Î</b>¤ª¤«¤·¤Ê</td></tr>
+<tr align=center><td>2</td><td>1</td><td align=right>15</td><td align=right>18</td>
+    <td align=left><b>¤·¤Î</b>¤Ï¤Ê¤·¤Ï</td></tr>
+<tr align=center><td>1</td><td>1</td><td align=right>16</td><td align=right>22</td>
+    <td align=left><b>¤·</b>¤Ï¤ª¤«¤·¤Ê</td></tr>
+<tr align=center><td>1</td><td>1</td><td align=right>17</td><td align=right>3</td>
+    <td align=left><b>¤·</b>¤à¤«¤·¤Î¤ª</td></tr>
+<tr align=center><td>1</td><td>1</td><td align=right>18</td><td align=right>31</td>
+    <td align=left><b>¤·</b>¡£</td></tr>
+<tr align=center><td>1</td><td>0</td><td align=right>19</td><td align=right>14</td>
+    <td align=left><b>¤·</b>¡£¤ª¤«¤·¤Î</td></tr>
+<tr align=center><td>2</td><td>2</td><td align=right>20</td><td align=right>11</td>
+    <td align=left><b>¤Ê¤ª</b>¤«¤·¡£¤ª</td></tr>
+<tr align=center><td>2</td><td>1</td><td align=right>21</td><td align=right>27</td>
+    <td align=left><b>¤Ê¤ª</b>¤Ï¤Ê¤·¡£</td></tr>
+<tr align=center><td>2</td><td>2</td><td align=right>22</td><td align=right>21</td>
+    <td align=left><b>¤Ê¤·</b>¤Ï¤ª¤«¤·</td></tr>
+<tr align=center><td>2</td><td>0</td><td align=right>23</td><td align=right>30</td>
+    <td align=left><b>¤Ê¤·</b>¡£</td></tr>
+<tr align=center><td>1</td><td>1</td><td align=right>24</td><td align=right>7</td>
+    <td align=left><b>¤Î</b>¤ª¤«¤·¤Ê¤ª</td></tr>
+<tr align=center><td>1</td><td>0</td><td align=right>25</td><td align=right>19</td>
+    <td align=left><b>¤Î</b>¤Ï¤Ê¤·¤Ï¤ª</td></tr>
+<tr align=center><td>1</td><td>1</td><td align=right>26</td><td align=right>23</td>
+    <td align=left><b>¤Ï</b>¤ª¤«¤·¤Ê¤ª</td></tr>
+<tr align=center><td>3</td><td>3</td><td align=right>27</td><td align=right>20</td>
+    <td align=left><b>¤Ï¤Ê¤·</b>¤Ï¤ª¤«</td></tr>
+<tr align=center><td>3</td><td>0</td><td align=right>28</td><td align=right>29</td>
+    <td align=left><b>¤Ï¤Ê¤·</b>¡£</td></tr>
+<tr align=center><td>3</td><td>3</td><td align=right>29</td><td align=right>4</td>
+    <td align=left><b>¤à¤«¤·</b>¤Î¤ª¤«</td></tr>
+<tr align=center><td>3</td><td>0</td><td align=right>30</td><td align=right>1</td>
+    <td align=left><b>¤à¤«¤·</b>¤à¤«¤·</td></tr>
+<tr align=center><td>0</td><td>0</td><td align=right>31</td><td align=right>32</td>
+    <td align=left>¡£</td></tr>
+<tr align=center><td>0</td><td>0</td><td align=right>32</td><td align=right>15</td>
+    <td align=left>¡£¤ª¤«¤·¤Î¤Ï</td></tr>
+</table>
+</td>
+<td><br><br><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=4>[¼ê½ç5]<br>³ÈÄ¥¸¶Ê¸<br>ÈÖÃÏ<br>¥Õ¥¡¥¤¥ë<br>¤ÎºîÀ®</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4>[¼ê½ç6]¢ª<br>Í­¸úÌµ¸ú<br>È½Äê½èÍý</td></tr>
+</table>
+</td>
+<td>
+<div>
+³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë
+</div align=center>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>ºÎ<br>ÈÝ<br>É½<br>¼¨</td>
+    <td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td><td>°ì<br>Ã×<br>Ê¸<br>»ú<br>¿ô</td>
+    <td>¥ì<br>¥³<br>¡Ã<br>¥É<br>ÈÖ<br>¹æ</td><td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td>
+    <td>Ê¸»úÎó<br>Ã±¸ì</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>0</td>
+    <td align=right>30</td><td align=right>1</td><td align=left><b>¤à</b>¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>10</td><td align=right>2</td><td align=left><b>¤«</b>¤·¤à</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>17</td><td align=right>3</td><td align=left><b>¤·</b>¤à¤«</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>29</td><td align=right>4</td><td align=left><b>¤à</b>¤«¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>8</td><td align=right>6</td><td align=left><b>¤«</b>¤·¤Î</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>14</td><td align=right>6</td><td align=left><b>¤·</b>¤Î¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>24</td><td align=right>7</td><td align=left><b>¤Î</b>¤ª¤«</td></tr>
+<tr align=center><td>¡û</td><td>5</td><td>6</td>
+    <td align=right>1</td><td align=right>8</td><td align=left><b>¤ª</b>¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>4</td><td>4</td>
+    <td align=right>6</td><td align=right>9</td><td align=left><b>¤«</b>¤·¤Ê</td></tr>
+<tr align=center><td>¡ß</td><td>3</td><td>3</td>
+    <td align=right>12</td><td align=right>10</td><td align=left><b>¤·</b>¤Ê¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>20</td><td align=right>11</td><td align=left><b>¤Ê</b>¤ª¤«</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>1</td>
+    <td align=right>4</td><td align=right>12</td><td align=left><b>¤ª</b>¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>o</td>
+    <td align=right>11</td><td align=right>13</td><td align=left><b>¤«</b>¤·¡£</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>19</td><td align=right>14</td><td align=left><b>¤·</b>¡£¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>0</td><td>0</td>
+    <td align=right>32</td><td align=right>15</td><td align=left><b>¡£</b>¤ª¤«</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>3</td><td align=right>16</td><td align=left><b>¤ª</b>¤«¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>2</td>
+    <td align=right>9</td><td align=right>17</td><td align=left><b>¤«</b>¤·¤Î</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>1</td>
+    <td align=right>16</td><td align=right>18</td><td align=left><b>¤·</b>¤Î¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>25</td><td align=right>19</td><td align=left><b>¤Î</b>¤Ï¤Ê</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>27</td><td align=right>20</td><td align=left><b>¤Ï</b>¤Ê¤·</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>22</td><td align=right>21</td><td align=left><b>¤Ê</b>¤·¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>16</td><td align=right>22</td><td align=left><b>¤·</b>¤Ï¤ª</td></tr>
+<tr align=center><td>¡û</td><td>1</td><td>1</td>
+    <td align=right>26</td><td align=right>23</td><td align=left><b>¤Ï</b>¤ª¤«</td></tr>
+<tr align=center><td>¡û</td><td>5</td><td>3</td>
+    <td align=right>2</td><td align=right>24</td><td align=left><b>¤ª</b>¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>4</td><td>2</td>
+    <td align=right>7</td><td align=right>25</td><td align=left><b>¤«</b>¤·¤Ê</td></tr>
+<tr align=center><td>¡ß</td><td>3</td><td>1</td>
+    <td align=right>13</td><td align=right>26</td><td align=left><b>¤·</b>¤Ê¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>1</td>
+    <td align=right>21</td><td align=right>27</td><td align=left><b>¤Ê</b>¤ª¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>5</td><td align=right>28</td><td align=left><b>¤ª</b>¤Ï¤Ê</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>0</td>
+    <td align=right>28</td><td align=right>29</td><td align=left><b>¤Ï</b>¤Ê¤·</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>0</td>
+    <td align=right>23</td><td align=right>30</td><td align=left><b>¤Ê</b>¤·¡£</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>18</td><td align=right>31</td><td align=left><b>¤·</b>¡£</td></tr>
+<tr align=center><td>¡ß</td><td>0</td><td>0</td>
+    <td align=right>31</td><td align=right>32</td><td align=left><b>¡£</b></td></tr>
+</table>
+</td></tr>
+</table>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top><td><br><br><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=4>[¼ê½ç7]<br>ºÆ³ÈÄ¥ÈÆÍÑ<br>¥½¡¼¥È<br>¥Õ¥¡¥¤¥ë¤Î<br>ºîÀ®</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4>[¼ê½ç8]¢ª<br>Ãê½ÐÊ¸»úÎó<br>½¸·×½èÍý</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+ºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>ºÎ<br>ÈÝ<br>É½<br>¼¨</td>
+    <td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td><td>°ì<br>Ã×<br>Ê¸<br>»ú<br>¿ô</td>
+    <td>¥ì<br>¥³<br>¡Ã<br>¥É<br>ÈÖ<br>¹æ</td><td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td>
+    <td>Ê¸»úÎó<br>Ã±¸ì</td></tr>
+<tr align=center><td>¡û</td><td>5</td><td>5</td>
+    <td align=right>1</td><td align=right>8</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>¡û</td><td>5</td><td>3</td>
+    <td align=right>2</td><td align=right>24</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>¡»</td><td>3</td><td>3</td>
+    <td align=right>3</td><td align=right>16</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>1</td>
+    <td align=right>4</td><td align=right>12</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>5</td><td align=right>28</td><td align=left>¤ª¤Ï¤Ê</td></tr>
+<tr align=center><td>¡ß</td><td>4</td><td>4</td>
+    <td align=right>6</td><td align=right>9</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td>¡ß</td><td>4</td><td>2</td>
+    <td align=right>7</td><td align=right>25</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>8</td><td align=right>5</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>2</td>
+    <td align=right>9</td><td align=right>17</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>10</td><td align=right>2</td><td align=left>¤«¤·¤à</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>0</td>
+    <td align=right>11</td><td align=right>13</td><td align=left>¤«¤·¡£</td></tr>
+<tr align=center><td>¡ß</td><td>3</td><td>3</td>
+    <td align=right>12</td><td align=right>10</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>3</td><td>1</td>
+    <td align=right>13</td><td align=right>26</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>14</td><td align=right>6</td><td align=left>¤·¤Î¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>1</td>
+    <td align=right>15</td><td align=right>18</td><td align=left>¤·¤Î¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>16</td><td align=right>22</td><td align=left>¤·¤Ï¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>17</td><td align=right>3</td><td align=left>¤·¤à¤«</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>18</td><td align=right>31</td><td align=left>¤·¡£</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>19</td><td align=right>14</td><td align=left>¤·¡£¤ª</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>20</td><td align=right>11</td><td align=left>¤Ê¤ª¤«</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>1</td>
+    <td align=right>21</td><td align=right>27</td><td align=left>¤Ê¤ª¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>2</td>
+    <td align=right>22</td><td align=right>21</td><td align=left>¤Ê¤·¤Ï</td></tr>
+<tr align=center><td>¡ß</td><td>2</td><td>0</td>
+    <td align=right>23</td><td align=right>30</td><td align=left>¤Ê¤·¡£</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>1</td>
+    <td align=right>24</td><td align=right>7</td><td align=left>¤Î¤ª¤«</td></tr>
+<tr align=center><td>¡ß</td><td>1</td><td>0</td>
+    <td align=right>25</td><td align=right>19</td><td align=left>¤Î¤Ï¤Ê</td></tr>
+<tr align=center><td>¡û</td><td>1</td><td>1</td>
+    <td align=right>26</td><td align=right>23</td><td align=left>¤Ï¤ª¤«</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>27</td><td align=right>20</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>0</td>
+    <td align=right>28</td><td align=right>29</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>3</td>
+    <td align=right>29</td><td align=right>4</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td>¡û</td><td>3</td><td>0</td>
+    <td align=right>30</td><td align=right>1</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td>¡ß</td><td>0</td><td>0</td>
+    <td align=right>31</td><td align=right>32</td><td align=left>¡£</td></tr>
+<tr align=center><td>¡ß</td><td>0</td><td>0</td>
+    <td align=right>32</td><td align=right>15</td><td align=left>¡£¤ª¤«</td></tr>
+</table>
+</td>
+<td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td colspan=2><br><br><br>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr><td colspan=5 align=center>ºÇ½ª·ë²Ì</td><td>¡À</td><td></td></tr>
+    <tr><td>¨£</td><td>¨¡</td><td>¨¡</td><td>¨¡</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+    <tr><td>¨¦</td><td>¨¡</td><td>¨¡</td><td>¨¡</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td>¡¿</td></tr>
+    </table>
+</td></tr>
+<tr><td width=10><br></td></tr>
+<tr><td colspan=2><b>[¸¶Ê¸ÈÖÃÏ]</b></td></tr>
+<tr><td></td><td width=120>¼«¥ì¥³¡¼¥É¤¬¡¢¸¶Ê¸¤ÎÀèÆ¬¤«¤é²¿ÈÖÌÜ¤ÎÊ¸»ú¤«¤é»Ï¤Þ¤ëÃ±¸ìÊ¸»úÎó¤ËÂÐ±þ¤¹¤ë¤«¤òÉ½¼¨¡£</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=2><b>[¥ì¥³¡¼¥ÉÈÖ¹æ]</b></td></tr>
+<tr><td></td><td width=120>ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î¥ì¥³¡¼¥É¤ÎÈÖ¹æ</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=2><b>[°ìÃ×Ê¸»ú¿ô]</b></td></tr>
+<tr><td></td><td width=120>Ä¾¸å¤Î¥ì¥³¡¼¥É¤ÎÊ¸»úÎó¤ÈÈæ¤Ù¤Æ¡¢ÀèÆ¬¤«¤é°ìÃ×¤¹¤ëÊ¸»ú¿ô</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=2><b>[Ãê½ÐÊ¸»ú¿ô]</b></td></tr>
+<tr><td></td><td width=120>¼«Ê¬¤Î¥ì¥³¡¼¥É¤ÇÃê½ÐÂÐ¾Ý¤È¤Ê¤ëÀèÆ¬¤«¤é¤ÎÊ¸»ú¿ô</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=2><b>[ºÎÈÝÉ½¼¨]</b></td></tr>
+<tr><td></td><td width=120>ÉôÊ¬Ê¸»úÎó¤È¤·¤ÆÃê½Ð¤¹¤ë¤«ÈÝ¤«¤ÎÈ½Äê·ë²Ì</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>ÊýË¡</td>
+    <td colspan=2>ËÜÏÀÊ¸¤ÎÊýË¡</td><td colspan=2>½¾Íè¤ÎÊýË¡(»²¹Í)</td></tr>
+<tr align=center><td>gram¿ô</td>
+    <td>Ê¸»úÎó</td><td>½Ð¸½<br>²ó¿ô</td><td>Ê¸»úÎó</td><td>½Ð¸½<br>²ó¿ô</td></tr>
+<tr align=center><td>5 gram</td>
+    <td align=left>­¡¤ª¤«¤·¤Ê¤ª</td><td>2</td>
+    <td align=left>¤ª¤«¤·¤Ê¤ª</td><td>2</td></tr>
+<tr valign=top align=center><td rowspan=2>4 gram</td>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý¡Ý¡Ý</td><td>¡Ý</td>
+    <td align=left>¤ª¤«¤·¤Ê</td><td>2</td></tr>
+<tr align=center>
+    <td><br></td><td><br></td>
+    <td align=left>¤«¤·¤Ê¤ª</td><td>2</td></tr>
+<tr valign=top align=center><td rowspan=6>3 gram</td>
+    <td align=left>­¢¤ª¤«¤·</td><td>2</td>
+    <td align=left>¤ª¤«¤·</td><td>4</td></tr>
+<tr align=center>
+    <td><br></td><td><br></td>
+    <td align=left>¤«¤·¤Ê</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>­£¤«¤·¤Î</td><td>2</td>
+    <td align=left>¤«¤·¤Î</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤·¤Ê¤ª</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>­¤¤Ï¤Ê¤·</td><td>2</td>
+    <td align=left>¤Ï¤Ê¤·</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>­¥¤à¤«¤·</td><td>2</td>
+    <td align=left>¤à¤«¤·</td><td>2</td></tr>
+<tr valign=top align=center><td rowspan=8>2 gram</td>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤ª¤«</td><td>4</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>¡Ý</td>
+    <td align=left>¤«¤·</td><td>6</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤·¤Ê</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤·¤Î</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤Ê¤ª</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤Ê¤·</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤Ï¤Ê</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý¡Ý</td><td>-</td>
+    <td align=left>¤à¤«</td><td>2</td></tr>
+<tr valign=top align=center><td rowspan=7>1 gram</td>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤ª</td><td>5</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤«</td><td>6</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤·</td><td>8</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤Ê</td><td>4</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤Î</td><td>2</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤Ï</td><td>3</td></tr>
+<tr align=center>
+    <td align=left>&nbsp;&nbsp; ¡Ý</td><td>-</td>
+    <td align=left>¤à</td><td>2</td></tr>
+<tr align=center><td>¡Ý¡Ý¡Ý</td>
+    <td>¹ç·×</td><td>10</td>
+    <td>¹ç·×</td><td>72</td></tr>
+</table>
+<div align=center>
+(2²ó°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó¤Ç¡¢<br>&nbsp;ÉôÊ¬Åª¤ËÁê¸ß½ÅÊ£¤Î¤Ê¤¤Ê¸»úÎó)
+</div>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ4 Ï¢º¿·¿¶¦µ¯É½¸½Ãê½Ð¥¢¥ë¥´¥ê¥º¥à¼Â»ÜÎã<br>
+</strong>
+Fig. 4 Example of uninterrupted collocational substring extraction.
+</div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½ÐË¡</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Ãê½Ð¤¹¤ë¶¦µ¯Ê¸»úÎó¤Î¾ò·ï</font></h2></a>
+
+<p>
+Æó¤Ä°Ê¾å¤ÎÉ½¸½¤¬, 1 Ê¸Ãæ¤ÎÎ¥¤ì¤¿°ÌÃÖ¤Ë¶¦µ¯¤¹¤ë¤è¤¦¤ÊÉ½¸½¤ÎÁÈ(Î¥»¶·¿¶¦µ¯É½¸½) ¤È,
+¤½¤Î½Ð¸½²ó¿ô¤òµá¤á¤ëÊýË¡¤ò¹Í¤¨¤ë.
+Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½Ð (3 ¾Ï¤ÎÊýË¡) ¤Ç¤Ï,
+Ê£¿ô¤ÎÊ¸¤Ë¤Þ¤¿¤¬¤ëÊ¸»úÎó¤ÏÃê½Ð¤ÎÂÐ¾Ý³°¤È¤·¤¿¤¿¤á,
+Ãê½Ð¤µ¤ì¤¿Ï¢º¿·¿¶¦µ¯É½¸½¤Ï, Ê¸Æâ¤ËÊÄ¤¸¤Æ¤¤¤ë.
+¤·¤¿¤¬¤Ã¤Æ, Î¥»¶·¿¶¦µ¯É½¸½¤òÃê½Ð¤¹¤ë¤Ë¤Ï, ¸À¸ì¥Ç¡¼¥¿¤òÀèÆ¬¤ÎÊ¸¤«¤é½ç¤Ë¥µ¡¼¥Á¤·,
+Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÊ¸»úÎó¤ÎÁÈ¤¬1 Ê¸Ãæ¤Ë¸½¤ì¤ë¸½¾Ý¤ò, Ê¸»úÎó¤ÎÁÈ¤´¤È¤Ë¥«¥¦¥ó¥È¤¹¤ì¤Ð¤è¤¤¤¬,
+Ê¸¶­³¦Ê¸»ú(¶çÅÀ) ¤Î°·¤¤¤ÈÃê½Ð¤¹¤ëÉ½¸½¤Î°ÌÃÖ´Ø·¸¤¬ÌäÂê¤È¤Ê¤ë.
+</p>
+<p>
+(1) ¶çÅÀ¤Î°·¤¤
+</p>
+<p>
+ÄÌ¾ï, ÆüËÜÊ¸¤Ï¶çÅÀ¤Ç½ª¤ï¤ë¤¿¤á, ¶çÅÀ¤«¤é¶çÅÀ¤Þ¤Ç¤ò1 Ê¸¤È¤¹¤ë.
+°úÍÑÊ¸Åù, 1 Ê¸Æâ¤Ë¶çÅÀ¤ò»ý¤ÄÊÌ¤ÎÊ¸¤Ê¤É¤òÆâÊñ¤¹¤ëÊ¸¤Ç¤Ï,
+´ÊÃ±¤Î¤¿¤á, ÆâÊñ¤µ¤ì¤ëÊ¸(ÂÐ¤È¤Ê¤Ã¤Æ¤¤¤ë°úÍÑµ­¹æ¤Î¶è´Ö) ¤ÏÌµ»ë¤¹¤ë.
+</p>
+<p>
+(2) Ãê½Ð¤¹¤ëÊ¸»úÎó¤ÎÁê¸ß´Ø·¸
+</p>
+<p>
+Î¥»¶·¿¤ÎÊ¸»úÎó¶¦µ¯¤Ç¤Ï, Ê¸Ãæ¤Ç,
+¸ß¤¤¤ËÀÜÂ³¤·¤¿Ê¸»úÎó¤äÉôÊ¬Åª¤Ë¥ª¡¼¥Ð¥é¥Ã¥×¤¹¤ëÊ¸»úÎó¤ÎÁÈ¤ÏÃê½Ð¤ÎÂÐ¾Ý³°¤È¤Ê¤ë.
+¤½¤³¤Ç, 3 ¾Ï¤ÇÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÁê¸ß´Ø·¸¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë.
+</p>
+<p>
+¤µ¤Æ, Ê¸»úÎó¦Á¤È¦Â¤¬Æ±°ì¤ÎÊ¸¤«¤éÃê½Ð¤µ¤ì¤¿Ï¢º¿·¿Ê¸»úÎó¤È¤¹¤ë¤È,
+¤½¤Î¸¶Ê¸¾å¤Î°ÌÃÖÅª´Ø·¸¤Ï, <strong>¿Þ5</strong> ¤Ë¼¨¤¹¤è¤¦¤Ê»°¤Ä¤Î´Ø·¸¤Î¤¤¤º¤ì¤«¤È¤Ê¤ë.
+Ê¸»úÎó¦Á¤È¦Â¤¬Ê¬Î¥¤·¤Æ¤¤¤ë(c) ¤Î¾ì¹ç¤Ï, ÅöÁ³, Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½ÐÂÐ¾Ý¤Ë¤Ê¤ë¤«¤é,
+¤³¤³¤Ç¤Ï, (a), (b)¤Î¾ì¹ç¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ë.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p09/p09-fig5.gif" width=444 height=195>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ5 ¥ª¡¼¥Ð¥é¥Ã¥×¤·¤¿Ê¸»úÎó¤Î°·¤¤
+</strong>
+Fig. 5 Relations between two extracted substrings.
+</div>
+</p>
+
+<p>
+(a) Ê¸»úÎó¦Á¤È¦Â¤¬ÀÜÂ³¤·¤Æ¤¤¤ë¾ì¹ç
+</p>
+<p>
+¸À¸ì¥Ç¡¼¥¿Ãæ, ¤³¤Î¤è¤¦¤ÊÊ¸»úÎó¤ò´Þ¤à¾ì½ê¤Ï, ºÇÂç1 ¥«½ê¤Ç¤¢¤ë.
+¤Ê¤¼¤Ê¤é, ¤½¤Î¤è¤¦¤ÊÊ¸»úÎó¤ò´Þ¤à¾ì½ê¤¬2 ¥«½ê°Ê¾å¤¢¤ë¾ì¹ç¤Ï,
+Ê¸»úÎó¦Á¦Â¤¬¤è¤êÊ¸»ú¿ô¤ÎÂ¿¤¤Ê¸»úÎó¦Ã ¤È¤·¤Æ½¸·×¤µ¤ì,
+¤½¤ì¤é¤ÎÊ¸Ãæ¤ÎÉôÊ¬Ê¸»úÎó¦Á¤ª¤è¤Ó¦Â¤Ï¥«¥¦¥ó¥È¤µ¤ì¤Ê¤¤¤«¤é¤Ç¤¢¤ë.
+¤·¤¿¤¬¤Ã¤Æ, Ê¸»úÎó¦Á¤È¦Â¤¬Ê¸Ãæ¤Ë¶¦µ¯¤¹¤ë²ó¿ô¤¬2 ²ó°Ê¾å¤¢¤ë¾ì¹ç¤Ï,
+ºÇÂç1 Ê¸¤ò½ü¤¯Â¾¤Î³ºÅö¤¹¤ëÊ¸¤Ï (c) ¤Î¥¿¥¤¥×(Ê¬Î¥·¿) ¤Î¶¦µ¯¤È¤Ê¤Ã¤Æ¤¤¤ë.
+¤³¤Î¾ì¹ç, (a) ¤Î¥¿¥¤¥×¤Î¶¦µ¯¤Ï, ÄÌ¾ï,
+Ê¬Î¥·¿¤Ç¶¦µ¯¤¹¤ëÊ¸»úÎó¤¬¤¿¤Þ¤¿¤ÞÀÜÂ³¤·¤¿¤â¤Î¤È¤ß¤Ê¤»¤ë¤«¤é,
+Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½ÐÂÐ¾Ý¤È¤Ê¤ë.
+</p>
+<p>
+(b) Ê¸»úÎó¦Á¤È¦Â¤¬¥ª¡¼¥Ð¥é¥Ã¥×¤·¤Æ¤¤¤ë¾ì¹ç
+</p>
+<p>
+Ê¸»úÎó¦Á¤È¦Â¤òÊñ´Þ¤¹¤ëÊ¸»úÎó¤ò¦Ã ¤È¤¹¤ë.
+Á°¹à¤ÈÆ±ÍÍ, ¤³¤Î¤è¤¦¤ÊÊ¸»úÎó¦Ã ¤¬, ¸À¸ì¥Ç¡¼¥¿Æâ¤Ë2 ¥«½ê°Ê¾å½Ð¸½¤·¤¿¾ì¹ç¤Ï,
+¦Ã ¼«¿È¤¬Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½Ð¤ÎÂÐ¾Ý¤È¤Ê¤ê, ¤½¤ÎÉôÊ¬¤Ë´Þ¤Þ¤ì¤¿Ê¸»úÎó¦Á ¤È¦Â¤Ï,
+Ãê½Ð¤µ¤ì¤Ê¤¤. ¤·¤¿¤¬¤Ã¤Æ, ¸¶Ê¸Ãæ, (b) ¤Î¤è¤¦¤Ê´Ø·¸¤Ë¤¢¤ëÊ¸»úÎó¦Á¤È¦Â¤¬Ãê½Ð¤µ¤ì¤¿Ê¸¤Ï,
+¹â¡¹1 Ê¸¤Ë¸Â¤é¤ì, ¦Á¤È¦Â¤¬¶¦µ¯¤¹¤ë»Ä¤ê¤ÎÊ¸¤Ï, ¤¤¤º¤ì¤â (c) ¤Î¥¿¥¤¥×¤Î¶¦µ¯¤Ç¤¢¤ë.
+¤·¤«¤·, ¤³¤Î¾ì¹ç¤Ï, (b) ¤Î¥¿¥¤¥×¤Î¦Á¤È¦Â¤ÏÊ¸Ãæ¤Î¶¦µ¯¤È¤Ï¸À¤¨¤Ê¤¤¤«¤é,
+Ãê½Ð½¸·×¤ÎÂÐ¾Ý¤È¤Ê¤é¤Ê¤¤.
+</p>
+<p>
+°Ê¾å¤«¤é, Ê¸Æâ¤ÎÎ¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½Ð¤Ë¤ª¤¤¤Æ¤Ï,
+(b) ¤Î¥¿¥¤¥×¤Î¶¦µ¯¤Î¤ß¤òÃê½ÐÂÐ¾Ý³°¤È¤¹¤ì¤Ð¤è¤¤.
+</p>
+<p>
+(3) É½¸½Í×ÁÇ¤Î½Ð¸½½ç½ø¤Î°·¤¤
+</p>
+<p>
+Î¥»¶·¿¶¦µ¯É½¸½¤Ç¤Ï, ¤½¤ì¤ò¹½À®¤¹¤ëÉ½¸½Í×ÁÇ( ¤³¤³¤Ç¤Ï,
+Ï¢º¿·¿¶¦µ¯É½¸½¤È¤·¤ÆÃê½Ð¤µ¤ì¤¿ÉôÊ¬Ê¸»úÎó)¤Î½Ð¸½½ç½ø¤Ï°ÕÌ£¤ò»ý¤Ä¤¿¤á,
+½Ð¸½½ç½ø¤ò¶èÊÌ¤·¤ÆÃê½Ð¤·½¸·×¤¹¤ë.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Ê¸»úÎóÃê»³¥¢¥ë¥´¥ê¥º¥à</font></h2></a>
+
+<p>
+(1) ¥¢¥ë¥´¥ê¥º¥à ( <b>¿Þ6</b> »²¾È)
+</p>
+<p>
+<strong>[Á°½àÈ÷]</strong>
+</p>
+<p>
+ºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¾å¤ÎÏ¢º¿·¿¶¦µ¯É½¸½¤È¤·¤ÆÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ËÊ¸»úÎóÈÖ¹æ¤òÉÕÍ¿¤¹¤ë.
+</p>
+<p>
+<strong>¼ê½ç9 : ¡ÖºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ÎºÆ¥½¡¼¥È¡×</strong>
+</p>
+<p>
+ºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ò¸¶Ê¸ÈÖÃÏ¤ÎÃÍ¤Î½ç¤Ë¥½¡¼¥È¤·,
+³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¤Î¥ì¥³¡¼¥É½ç¤ËÌá¤¹.
+</p>
+<p>
+<strong>¼ê½ç10 : ¡ÖÊ¸ÈÖ¹æ¤ÎÉÕÍ¿¡×</strong>
+</p>
+<p>
+ÆÀ¤é¤ì¤¿¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤ËÊ¸ÈÖ¹æ¤òµ­Æþ¤¹¤ë.
+</p>
+<p>
+<strong>¼ê½ç11 : ¡Ö¥Õ¥¡¥¤¥ë¤Î°µ½Ì¡×</strong>
+</p>
+<p>
+¾åµ­¥Õ¥¡¥¤¥ë¤ò°Ê²¼¤Î¼ê½ç¤Ç°µ½Ì¤·, ¡ÖÎ¥»¶·¿¶¦µ¯°µ½Ì¥Õ¥¡¥¤¥ë¡×¤òºîÀ®¤¹¤ë(¼¡¤Î¼ê½ç¤ËÈ÷¤¨¤Æ,
+ÉÔÍ×¤Êºî¶ÈÎÎ°è¤ò³«Êü¤¹¤ë).
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2 width=20></td><td>­¡</td>
+    <td>Ê¸ÈÖ¹æ, Ê¸»úÎóÈÖ¹æ, Ãê½ÐÊ¸»ú¿ô, ¸¶Ê¸ÈÖÃÏ¤Î»Í¤Ä¤ÎÍó°Ê³°¤Ï, ºï½ü¤¹¤ë.</td></tr>
+<tr valign=top><td>­¢</td>
+    <td>Ê¸»úÎóÈÖ¹æ¤ÎÍó¤ÎÃÍ¤¬¤Ê¤¤¥ì¥³¡¼¥É¤òºï½ü¤¹¤ë.</td></tr>
+</table>
+</p>
+<p>
+<strong>¼ê½ç12 : ¡ÖÎ¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½Ð¤È¥«¥¦¥ó¥È¡×</strong>
+</p>
+<p>
+°ìÈÌ¤Ë, <i>k</i>: ¼ïÎà(<i>k</i> ¡æ2)¤ÎÊ¸»úÎó¤«¤é¤Ê¤ëÎ¥»¶·¿¶¦µ¯É½¸½¤òÃê½Ð¤¹¤ë¤â¤Î¤È¤¹¤ë¤È,
+Æ±°ì¤ÎÊ¸Æâ¤Ë¤¢¤ëÊ¸»úÎóÈÖ¹æ¤Î<i>k</i> ¸Ä¤ÎÁÈ¤ß¹ç¤ï¤»¤Î¤¹¤Ù¤Æ¤ò
+(Ê¸Ãæ¤Î½Ð¸½½ç½ø¤Î½ç¤Ë¥»¥Ã¥È¤Ë¤¹¤ë) ¥Õ¥¡¥¤¥ë¤Ë½ñ¤­½Ð¤·,
+¤½¤ì¤ò¥½¡¼¥È¤·¤Æ, Æ±°ì¤ÎÁÈ¤Î¿ô¤ò¥«¥¦¥ó¥È¤¹¤ë.
+</p>
+<p>
+°Ê¾å¤Ç, Î¥»¶·¿¶¦µ¯É½¸½¤Î½¸·×É½¤¬µá¤á¤é¤ì¤ë.
+¤³¤ì¤é¤ÎÉ½¸½¤ò´Þ¤àÊ¸¤ò½ÐÎÏ¤¹¤ë¤Ë¤Ï,
+¼ê½ç12 ¤ÇºîÀ®¤¹¤ë³ÆÉ½¸½¤ÎÁÈ¤ËÊ¸ÈÖ¹æ¤òÄÉµ­¤·¤Æ¤ª¤±¤Ð¤è¤¤.
+</p>
+<p>
+(2) ÎãÂê¸¡Æ¤
+</p>
+<p>
+°Ê¾å¤Î¼ê½ç¤ò, ¿Þ4 ¤ÎÎã¤ËÅ¬ÍÑ¤·, Í×ÁÇ¿ô2 ¤ÎÎ¥»¶·¿¶¦µ¯É½¸½¤òµá¤á¤¿.
+¤½¤Î·ë²Ì¤ò¿Þ6 ¤Ë¼¨¤¹.
+¤³¤ÎÎã¤Ç¤Ï, 3 ¾Ï¤ÇÃê½Ð¤µ¤ì¤¿5 ¼ï¤ÎÏ¢º¿·¿¶¦µ¯Ê¸»úÎó25ÁÈÃæ,
+1 Ê¸Æâ¤ËÎ¥¤ì¤Æ2 ²ó°Ê¾å, ¶¦µ¯¤¹¤ëÊ¸»úÎó¤ÎÁÈ¤¬6 ÁÈ¤Ç, ¤½¤ì¤é¤Î±ä¤Ù½Ð¸½²ó¿ô¤Ï12 ²ó¤Ç¤¢¤ë.
+</p>
+
+
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td align=right>[¸¶Ê¸¥Ç¡¼¥¿]</td><td width=10>:</td>
+    <td>¤à¤«¤·</td><td width=5></td><td>¤à</td><td>¤«¤·</td><td>¤Î</td><td width=5></td>
+    <td>¤ª¤«¤·¤Ê</td><td>¤ª</td><td>¤«</td><td>¤·</td><td>¡£</td><td width=5></td>
+    <td>¤ª</td><td>¤«¤·</td><td>¤Î</td><td>¤Ï¤Ê¤·</td><td>¤Ï</td><td width=5></td>
+    <td>¤ª¤«¤·¤Ê</td><td width=5></td><td>¤ª</td><td>¤Ï¤Ê¤·</td><td>¡£</td>
+    <td width=20></td></tr>
+<tr align=center><td rowspan=3 align=right>(Ãê½ÐÂÐ¾Ý²Õ½ê)</td>
+    <td rowspan=3 width=10>¨£<br>¨¢<br>¨¦</td>
+    <td bgcolor=#0000ff>­¥</td></td><td><td colspan=2 bgcolor=#0000ff>­¥</td><td colspan=2></td>
+    <td colspan=2 bgcolor=#ff0000>­¡</td><td colspan=10></td><td colspan=2 bgcolor=#ff0000>­¡</td><td colspan=4></td>
+    <td rowspan=3 valign=top align=right>¡û°õ:Ãê½Ð¤µ¤ì¤ë<br>È¦¤ÎÊ¸»úÎó</td></tr>
+<tr align=center><td colspan=7></td><td colspan=3 bgcolor=#ffcf00>­¢</td><td colspan=2></td>
+    <td colspan=2 bgcolor=#ffcf00>­¢</td><td></td><td bgcolor=#00ff00>­¤</td><td colspan=5></td><td bgcolor=#00ff00>­¤</td></tr>
+<tr align=center><td colspan=3></td><td colspan=2 bgcolor=#ffff00>­£</td><td colspan=4></td>
+    <td colspan=2 bgcolor=#ff00ff>­¦</td><td colspan=2></td><td colspan=2 bgcolor=#ffff00>­£</td></tr>
+</table>
+</td></tr>
+<tr><td><br></td></tr>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top><td><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=4>¡ÎÁ°½èÍý¡Ï<br>ºÆ³ÈÄ¥ÈÆÍÑ<br>¥½¡¼¥È<br>¥Õ¥¡¥¤¥ë¤Ë<br>²Ã¹©</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+ºÆ³ÈÄ¥ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>Ê¸<br>»ú<br>Îó<br>ÈÖ<br>¹æ</td>
+    <td>ºÎ<br>ÈÝ<br>É½<br>¼¨</td>
+    <td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td><td>°ì<br>Ã×<br>Ê¸<br>»ú<br>¿ô</td>
+    <td>¥ì<br>¥³<br>¡Ã<br>¥É<br>ÈÖ<br>¹æ</td><td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td>
+    <td>Ê¸»úÎó<br>Ã±¸ì</td></tr>
+<tr align=center><td>­¡</td><td>¡û</td><td>£µ</td><td>£µ</td>
+    <td align=right>1</td><td align=right>8</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>­¡</td><td>¡û</td><td>£µ</td><td>£³</td>
+    <td align=right>2</td><td align=right>24</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>­¢</td><td>¡»</td><td>£³</td><td>£³</td>
+    <td align=right>3</td><td align=right>16</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>­¢</td><td>¡û</td><td>£³</td><td>£±</td>
+    <td align=right>4</td><td align=right>12</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>5</td><td align=right>28</td><td align=left>¤ª¤Ï¤Ê</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£´</td><td>£´</td>
+    <td align=right>6</td><td align=right>9</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£´</td><td>£²</td>
+    <td align=right>7</td><td align=right>25</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td>­£</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>8</td><td align=right>5</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td>­£</td><td>¡û</td><td>£³</td><td>£²</td>
+    <td align=right>9</td><td align=right>17</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>10</td><td align=right>2</td><td align=left>¤«¤·¤à</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£°</td>
+    <td align=right>11</td><td align=right>13</td><td align=left>¤«¤·¡£</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£³</td><td>£³</td>
+    <td align=right>12</td><td align=right>10</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£³</td><td>£±</td>
+    <td align=right>13</td><td align=right>26</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>14</td><td align=right>6</td><td align=left>¤·¤Î¤ª</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£±</td>
+    <td align=right>15</td><td align=right>18</td><td align=left>¤·¤Î¤Ï</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>16</td><td align=right>22</td><td align=left>¤·¤Ï¤ª</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>17</td><td align=right>3</td><td align=left>¤·¤à¤«</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>18</td><td align=right>31</td><td align=left>¤·¡£</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>19</td><td align=right>14</td><td align=left>¤·¡£¤ª</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>20</td><td align=right>11</td><td align=left>¤Ê¤ª¤«</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£±</td>
+    <td align=right>21</td><td align=right>27</td><td align=left>¤Ê¤ª¤Ï</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>22</td><td align=right>21</td><td align=left>¤Ê¤·¤Ï</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£²</td><td>£°</td>
+    <td align=right>23</td><td align=right>30</td><td align=left>¤Ê¤·¡£</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>24</td><td align=right>7</td><td align=left>¤Î¤ª¤«</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>25</td><td align=right>19</td><td align=left>¤Î¤Ï¤Ê</td></tr>
+<tr align=center><td><br></td><td>¡û</td><td>£±</td><td>£±</td>
+    <td align=right>26</td><td align=right>23</td><td align=left>¤Ï¤ª¤«</td></tr>
+<tr align=center><td>­¤</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>27</td><td align=right>20</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>­¤</td><td>¡û</td><td>£³</td><td>£°</td>
+    <td align=right>28</td><td align=right>29</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>­¥</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>29</td><td align=right>4</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td>­¥</td><td>¡û</td><td>£³</td><td>£°</td>
+    <td align=right>30</td><td align=right>1</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£°</td><td>£°</td>
+    <td align=right>31</td><td align=right>32</td><td align=left>¡£</td></tr>
+<tr align=center><td><br></td><td>¡ß</td><td>£°</td><td>£°</td>
+    <td align=right>32</td><td align=right>15</td><td align=left>¡£¤ª¤«</td></tr>
+</table>
+</td>
+<td valign=top><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=4>¡Î¼ê½ç£¹¡Ï<br>ºÆ³ÈÄ¥ÈÆÍÑ<br>¥½¡¼¥È<br>¥Õ¥¡¥¤¥ë¤Î<br>ºÆ¥½¡¼¥È</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4>¡Î¼ê½ç10¡Ï<br>Ê¸ÈÖ¹æ¤Î<br>ÉÕÍ¿ ¢ª</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+³ÈÄ¥¸¶Ê¸ÈÖÃÏ¥Õ¥¡¥¤¥ë¡ÊÊ¸ÈÖ¹æÉÕ¤­¡Ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>Ê¸<br>ÈÖ<br>¹æ</td>
+    <td><br>Ê¸<br>»ú<br>Îó<br>ÈÖ<br>¹æ</td>
+    <td>ºÎ<br>ÈÝ<br>É½<br>¼¨</td><td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td>
+    <td>°ì<br>Ã×<br>Ê¸<br>»ú<br>¿ô</td><td>¥ì<br>¥³<br>¡Ã<br>¥É<br>No</td>
+    <td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td><td>Ê¸»úÎó<br>Ã±¸ì</td></tr>
+<tr align=center><td>£±</td><td>­¥</td><td>¡û</td><td>£³</td><td>£°</td>
+    <td align=right>30</td><td align=right>1</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>10</td><td align=right>2</td><td align=left>¤«¤·¤à</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>17</td><td align=right>3</td><td align=left>¤·¤à¤«</td></tr>
+<tr align=center><td>£±</td><td>­¥</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>29</td><td align=right>4</td><td align=left>¤à¤«¤·</td></tr>
+<tr align=center><td>£±</td><td>­£</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>8</td><td align=right>5</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>14</td><td align=right>6</td><td align=left>¤·¤Î¤ª</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>24</td><td align=right>7</td><td align=left>¤Î¤ª¤«</td></tr>
+<tr align=center><td>£±</td><td>­¡</td><td>¡û</td><td>£µ</td><td>£µ</td>
+    <td align=right>1</td><td align=right>8</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£´</td><td>£´</td>
+    <td align=right>6</td><td align=right>9</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£³</td><td>£³</td>
+    <td align=right>12</td><td align=right>10</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>20</td><td align=right>11</td><td align=left>¤Ê¤ª¤«</td></tr>
+<tr align=center><td>£±</td><td>­¢</td><td>¡û</td><td>£³</td><td>£±</td>
+    <td align=right>4</td><td align=right>12</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£²</td><td>£°</td>
+    <td align=right>11</td><td align=right>13</td><td align=left>¤«¤·¡£</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>19</td><td align=right>14</td><td align=left>¤·¡£¤ª</td></tr>
+<tr align=center><td>£±</td><td><br></td><td>¡ß</td><td>£°</td><td>£°</td>
+    <td align=right>32</td><td align=right>15</td><td align=left>¡£¤ª¤«</td></tr>
+<tr align=center><td>£²</td><td>­¢</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>3</td><td align=right>16</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>£²</td><td>­£</td><td>¡û</td><td>£³</td><td>£²</td>
+    <td align=right>9</td><td align=right>17</td><td align=left>¤«¤·¤Î</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£²</td><td>£±</td>
+    <td align=right>15</td><td align=right>18</td><td align=left>¤·¤Î¤Ï</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>25</td><td align=right>19</td><td align=left>¤Î¤Ï¤Ê</td></tr>
+<tr align=center><td>£²</td><td>­¤</td><td>¡û</td><td>£³</td><td>£³</td>
+    <td align=right>27</td><td align=right>20</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£²</td><td>£²</td>
+    <td align=right>22</td><td align=right>21</td><td align=left>¤Ê¤·¤Ï</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>16</td><td align=right>22</td><td align=left>¤·¤Ï¤ª</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡û</td><td>£±</td><td>£±</td>
+    <td align=right>26</td><td align=right>23</td><td align=left>¤Ï¤ª¤«</td></tr>
+<tr align=center><td>£²</td><td>­¡</td><td>¡û</td><td>£µ</td><td>£³</td>
+    <td align=right>2</td><td align=right>24</td><td align=left>¤ª¤«¤·</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£´</td><td>£²</td>
+    <td align=right>7</td><td align=right>25</td><td align=left>¤«¤·¤Ê</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£³</td><td>£±</td>
+    <td align=right>13</td><td align=right>26</td><td align=left>¤·¤Ê¤ª</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£²</td><td>£±</td>
+    <td align=right>21</td><td align=right>27</td><td align=left>¤Ê¤ª¤Ï</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£±</td><td>£°</td>
+    <td align=right>5</td><td align=right>28</td><td align=left>¤ª¤Ï¤Ê</td></tr>
+<tr align=center><td>£²</td><td>­¤</td><td>¡û</td><td>£³</td><td>£°</td>
+    <td align=right>28</td><td align=right>29</td><td align=left>¤Ï¤Ê¤·</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£²</td><td>£°</td>
+    <td align=right>23</td><td align=right>30</td><td align=left>¤Ê¤·¡£</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£±</td><td>£±</td>
+    <td align=right>18</td><td align=right>31</td><td align=left>¤·¡£</td></tr>
+<tr align=center><td>£²</td><td><br></td><td>¡ß</td><td>£°</td><td>£°</td>
+    <td align=right>31</td><td align=right>32</td><td align=left>¡£</td></tr>
+</table>
+</td></tr>
+<tr><td><br></td></tr>
+</table>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td colspan=7>¡Î¼ê½ç11¡Ï<br>¥Õ¥¡¥¤¥ë¤Î<br>°µ½Ì</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+</table>
+</td>
+<td>
+<div align=center>
+Î¥»¶·¿¶¦µ¯°µ½Ì¥Õ¥¡¥¤¥ë
+</div>
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr valign=bottom align=center><td>Ê¸<br>ÈÖ<br>¹æ</td><td>Ê¸<br>»ú<br>Îó<br>ÈÖ<br>¹æ</td>
+    <td>Ãê<br>½Ð<br>Ê¸<br>»ú<br>¿ô</td><td>¸¶<br>Ê¸<br>ÈÖ<br>ÃÏ</td></tr>
+<tr align=center><td>£±</td><td>­¥</td><td>£³</td><td align=right>1</td></tr>
+<tr align=center><td>£±</td><td>­¥</td><td>£³</td><td align=right>4</td></tr>
+<tr align=center><td>£±</td><td>­£</td><td>£³</td><td align=right>5</td></tr>
+<tr align=center><td>£±</td><td>­¡</td><td>£µ</td><td align=right>8</td></tr>
+<tr align=center><td>£±</td><td>­¢</td><td>£³</td><td align=right>12</td></tr>
+<tr align=center><td>£²</td><td>­¢</td><td>£³</td><td align=right>16</td></tr>
+<tr align=center><td>£²</td><td>­£</td><td>£³</td><td align=right>17</td></tr>
+<tr align=center><td>£²</td><td>­¤</td><td>£³</td><td align=right>20</td></tr>
+<tr align=center><td>£²</td><td>­¡</td><td>£µ</td><td align=right>24</td></tr>
+<tr align=center><td>£²</td><td>­¤</td><td>£³</td><td align=right>29</td></tr>
+</table>
+</td>
+<td>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td colspan=4><br><br><br><br>¡Î¼ê½ç12¡Ï<br>Î¥»¶·¿¶¦µ¯<br>É½¸½¤Î<br>Ãê½Ð¤È<br>¥«¥¦¥ó¥È</td></tr>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td colspan=4 align=right>ÅÇ¤­½Ð¤·</td></tr>
+</table>
+</td>
+<td>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr><td>¡Ê­¥¡¤­¥¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­£¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­¢¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­£¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­¢¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¢¡Ë</td></tr>
+<tr><td>¡Ê­¡¡¤­¢¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­£¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­¤¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¤¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­¡¡¤­¤¡Ë</td></tr>
+</table>
+</td>
+<td>
+<br><br><br><br><br><br><br><br><br>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td></td><td></td><td>¡À</td><td></td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¥</td><td>¡À</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡¿</td></tr>
+<tr><td colspan=4 align=right>¥½¡¼¥È</td></tr>
+</table>
+</td>
+<td>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr><td>¡Ê­¡¡¤­¢¡Ë</td></tr>
+<tr><td>¡Ê­¡¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¢¡¤­£¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¢¡¤­¤¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¢¡¤­¤¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­£¡¤­¡¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­£¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­£¡¤­¢¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­£¡¤­¤¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­£¡¤­¤¡Ë</td></tr>
+<tr><td>¡Ê­¤¡¤­¡¡Ë</td></tr>
+<tr><td>¡Ê­¤¡¤­¤¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­¡¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­¡¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­¢¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­¢¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­£¡Ë</td></tr>
+<tr><td bgcolor=#e0e0e0>¡Ê­¥¡¤­£¡Ë</td></tr>
+<tr><td>¡Ê­¥¡¤­¥¡Ë</td></tr>
+</table>
+</td>
+<td valign=bottom rowspan=2>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td colspan=5 align=center>¥«¥¦¥ó¥È</td></tr>
+<tr><td>¨£</td><td>¨¡</td><td>¨¡</td><td>¨¤</td></tr>
+<tr><td>¨¦</td><td>¨¡</td><td>¨¤</td><td>¨¢</td></tr>
+<tr><td></td><td>¡À</td><td>¨¢</td><td>¨¢</td><td>¡¿</td></tr>
+<tr><td></td><td></td><td>¡À</td><td>¡¿</td></tr>
+</table>
+</td></tr>
+<tr><td colspan=6><br></td></tr>
+</table>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<td>
+Î¥»¶·¿¶¦µ¯É½¸½½¸·×É½¡ÎºÇ½ª·ë²Ì¡Ï
+<table border=1 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Á°Êý¤ÎÊ¸»úÎó</td><td colspan=6>Ê¸Æâ¸åÊý¤ÎÊ¸»úÎó¤È½Ð¸½²ó¿ô</tr>
+<tr><td>­¢¤ª¤«¤·</td>
+    <td>­¤¤Ï¤Ê¤·</td><td>£²²ó</td></tr>
+<tr><td>­£¤«¤·¤Î</td>
+    <td>­¡¤ª¤«¤·¤Ê¤ª</td><td>£²²ó</td><td>­¤¤Ï¤Ê¤·</td><td>£²²ó</td></tr>
+<tr><td>­¥¤à¤«¤·</td>
+    <td>­¡¤ª¤«¤·¤Ê¤ª</td><td>£²²ó</td><td>­¢¤ª¤«¤·</td><td>£²²ó</td>
+    <td>­£¤«¤·¤Î</td><td>£²²ó</td></tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+¿Þ6 Î¥»¶·¿¶¦µ¯É½¸½Ãê½Ð¥¢¥ë¥´¥ê¥º¥à¼Â»ÜÎã (¿Þ4 ¤Î¼ê½ç7 ¤«¤éÂ³¤¯)<br>
+</strong>
+Fig. 6 Example of Interrupted collocational substring extraction (Follows from Fig. 4).
+</div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. ¶¦µ¯É½¸½¤ÎÃê½Ð¼Â¸³</font></h2></a>
+
+<p>
+ËÜÏÀÊ¸¤ÇÄó°Æ¤·¤¿ÊýË¡¤Î¸ú²Ì¤ò¸¡¾Ú¤¹¤ë¤¿¤á, ÆüËÜ¸ì¥Ç¡¼¥¿¤Ø¤ÎÅ¬ÍÑÎã¤È¤·¤Æ,
+Æü·Ð¿·Ê¹µ­»ö3 ¥«·îÊ¬(892 Ëü»ú) ¤òÂÐ¾Ý¤Ë,
+Ï¢º¿·¿¶¦µ¯Ê¸»úÎó¤ª¤è¤ÓÎ¥»¶·¿¶¦µ¯Ê¸»úÎó¤ÎÃê½Ð¼Â¸³¤ò¹Ô¤Ã¤¿.
+¤¿¤À¤·, ÆÉÅÀ¤ò½ü¤¯µ­¹æÎà¤ò´Þ¤àÊ¸»úÎó¤ÏÃê½Ð¤ÎÂÐ¾Ý¤È¤·¤Ê¤¤¤³¤È¤È¤·¤¿.
+»ÈÍÑ¤·¤¿·×»»µ¡¤Ï, XEROX ARGOSS 5270 (SUN OS4.1.3) ¤Ç, »ÈÍÑ¤·¤¿¥á¥â¥êÎÌ¤ÏºÇÂç48 MB ¤Ç¤¢¤ë.
+ËÜ¾Ï¤Ç, ÆÀ¤é¤ì¤¿Ê¸»úÎó¤ÎÆÃÄ§¤È½èÍý»þ´Ö¤Ë¤Ä¤¤¤Æ½Ò¤Ù¤ë.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 Ï¢º¿·¿¶¦µ¯É½¸½¤ÎÃê½Ð</font></h2></a>
+
+<p>
+(1) Ãê½ÐÊ¸»úÎó¤ÎÀ­¼Á
+</p>
+<p>
+Ãê½Ð¤¹¤ëÊ¸»ú¿ô¤â¤·¤¯¤ÏÊ¸»úÎó¤Î½Ð¸½²ó¿ô¤òÀ©¸Â¤·¤¿¾ì¹ç¤Ë,
+Ãê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Î¼ïÎà¿ô¤È±ä¤Ù½Ð¸½²ó¿ô¤ò½¾Íè¤ÎÊýË¡¤ÈÈæ³Ó¤·¤Æ,
+<strong>É½1</strong>, <strong>É½2</strong> ¤Ë¼¨¤¹.
+Ê¸»úÎó¤ÎÄ¹¤µ¤«¤é¸«¤¿, Ãê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Î¼ïÎà¿ô,
+½Ð¸½²ó¿ô¤ª¤è¤ÓÊ¸»úÎó¤ÎÎã¤ò<strong>É½3</strong> ¤Ë¼¨¤¹.
+¤Þ¤¿, ½Ð¸½ÉÑÅÙ¤Î¹â¤¤Ê¸»úÎó¤ÎÎã¤ò<strong>É½4</strong> ¤Ë¼¨¤¹.
+</p>
+
+<p>
+<div align=center><strong>
+É½1 Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Î¼ïÎà¤È±ä¤ÙÅÙ¿ô ( ¤½¤Î1<sup>*</sup> )<br>
+</strong>
+Table 1 Number of extracted substrings and their total frequency (No.1 ).
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td>
+	    <td colspan=2 align=right>·ë²ÌÈæ³Ó</td></tr>
+	<tr><td><font size=-2 color=#c0c0c0>--------</font></td>
+	    <td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td></tr>
+	<tr><td colspan=2>Ãê½ÐÂÐ¾Ý</td></tr>
+	</table>
+    </td>
+    <td colspan=2>ËÜÏÀÊ¸¤ÎÊýË¡</td><td colspan=2>Ä¹Èø¡¦¿¹¤ÎÊýË¡</td>
+    <td colspan=2>¸º¾¯¤Î·ë²Ì</td></tr>
+<tr align=center><td>a) Ê¸»úÎó¤Î¼ïÎà¿ô</td><td>b) ±ä¤Ù½Ð¸½²ó¿ô</td>
+    <td>c) Ê¸»úÎó¤Î¼ïÎà¿ô</td><td>d) ±ä¤Ù½Ð¸½²ó¿ô</td><td>a/c</td><td>b/d</td></tr>
+<tr align=right><td align=left>2Ê¸»ú°Ê¾å</td><td>970,203</td><td>2,613,704</td>
+    <td>4,374,141</td><td>31,178,897</td><td>22.2 &nbsp;%</td><td>8.38%</td></tr>
+<tr align=right><td align=left>5Ê¸»ú°Ê¾å</td><td>591,901</td><td>1,476,922</td>
+    <td>2,960,487</td><td>10,808,458</td><td>20.0 &nbsp;%</td><td>13.7 &nbsp;%</td></tr>
+<tr align=right><td align=left>10Ê¸»ú°Ê¾å</td><td>52,214</td><td>114,270</td>
+    <td>673,601</td><td>1,550,817</td><td>7.75%</td><td>7.37%</td></tr>
+<tr align=right><td align=left>20Ê¸»ú°Ê¾å</td><td>1,792</td><td>3,692</td>
+    <td>177,298</td><td>359,810</td><td>1.01%</td><td>1.03%</td></tr>
+</table>
+<div align=center>
+<sup>*</sup> Ê¸»úÎó¤ÎÄ¹¤µ¤«¤é¸«¤¿½¸·×
+</div>
+</p>
+
+<p>
+<div align=center><strong>
+É½2 Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Î¼ïÎà¤È±ä¤ÙÅÙ¿ô ( ¤½¤Î2<sup>*</sup> )<br>
+</strong>
+Table 2 Number of extracted substrings and their total frequency (No.2).
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td>
+	    <td colspan=2 align=right>·ë²ÌÈæ³Ó</td></tr>
+	<tr><td><font size=-2 color=#c0c0c0>--------</font></td>
+	    <td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td></tr>
+	<tr><td colspan=2>Ãê½ÐÂÐ¾Ý</td></tr>
+	</table>
+    </td>
+    <td colspan=2>ËÜÏÀÊ¸¤ÎÊýË¡</td><td colspan=2>Ä¹Èø¡¦¿¹¤ÎÊýË¡</td>
+    <td colspan=2>¸º¾¯¤Î·ë²Ì</td></tr>
+<tr align=center><td>a) Ê¸»úÎó¤Î¼ïÎà¿ô</td><td>b) ±ä¤Ù½Ð¸½²ó¿ô</td>
+    <td>c) Ê¸»úÎó¤Î¼ïÎà¿ô</td><td>d) ±ä¤Ù½Ð¸½²ó¿ô</td><td>a/c</td><td>b/d</td></tr>
+<tr align=right><td align=left>2²ó°Ê¾å</td><td>970,203</td><td>2,613,704</td>
+    <td>4,377,087</td><td>39,588,291</td><td>22.2 &nbsp;%</td><td>6.60%</td></tr>
+<tr align=right><td align=left>5²ó°Ê¾å</td><td>67,321</td><td>551,441</td>
+    <td>882,217</td><td>31,288,701</td><td>7.63%</td><td>1.76%</td></tr>
+<tr align=right><td align=left>10²ó°Ê¾å</td><td>12,351</td><td>217,934</td>
+    <td>372,291</td><td>28,050,199</td><td>3.32%</td><td>0.78%</td></tr>
+<tr align=right><td align=left>20²ó°Ê¾å</td><td>2,288</td><td>92,804</td>
+    <td>169,375</td><td>25,871,964</td><td>1.35%</td><td>0.36%</td></tr>
+<tr align=right><td align=left>50²ó°Ê¾å</td><td>285</td><td>37,850</td>
+    <td>62,991</td><td>22,209,875</td><td>0.45%</td><td>0.17%</td></tr>
+<tr align=right><td align=left>100²ó°Ê¾å</td><td>76</td><td>24,167</td>
+    <td>30,316</td><td>19,961,961</td><td>0.25%</td><td>0.12%</td></tr>
+<tr align=right><td align=left>200²ó°Ê¾å</td><td>20</td><td>16,771</td>
+    <td>14,363</td><td>17,759,432</td><td>0.14%</td><td>0.07%</td></tr>
+</table>
+<div align=center>
+<sup>*</sup> ½Ð¸½ÉÑÅÙ¤«¤é¸«¤¿½¸·×
+</div>
+</p>
+
+<p>
+<div align=center><strong>
+É½3 Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÎã ( ½Ð¸½²ó¿ô¤ÎÂ¿¤¤½ç¤Ë·ÇºÜ: ( ) Æâ¤Ï½Ð¸½²ó¿ô)<br>
+</strong>
+Table 3 Examples of extracted substrings (in the order of frequency).
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr align=center><td width=60>Ê¸»ú¿ô</td><td>ËÜÏÀÊ¸¤ÎÊýË¡</td><td>Ä¹Èø¡¦¿¹¤ÎÊýË¡</td></tr>
+<tr valign=top><td align=center>2Ê¸»ú</td>
+    <td><nobr>¤Þ¤¿(325),</nobr> <nobr>¼Ì¿¿(315),</nobr> <nobr>Åìµþ(281),</nobr> 
+	<nobr>²Á³Ê(276),</nobr> <nobr>Ï¢ÂÓ(198),</nobr> <nobr>¤Ê¤É(198),</nobr>
+	<nobr>¤¿¤À(198),</nobr> <nobr>¤³¤Î(180),</nobr> <nobr>»þ»ö(178),</nobr>
+	<nobr>¤µ¤ó(162),</nobr> <nobr>°ì¡¢(143),</nobr> <nobr>£Å£Ã(132),</nobr>
+	<nobr>¶¦Æ±(129),</nobr> <nobr>Åö»þ(125),</nobr> <nobr>ÆÃ¤Ë(117),</nobr>
+	<nobr>¤À¤¬(117),</nobr> <nobr>Æó¸Þ(114),</nobr> <nobr>¤È¤«(110),</nobr>
+	<nobr>»ä¤Ï(104),</nobr> <nobr>À¯ÉÜ(99),</nobr>
+	<div align=right>[¹ç·×40,843¼ïÎà ±ä¥Ù165,177²ó]</div></td>
+    <td><nobr>¤Æ¤¤(55025),</nobr> <nobr>¤·¤Æ(47026),</nobr> <nobr>¤¤¤ë(45236),</nobr> 
+	<nobr>¤¹¤ë(39828),</nobr> <nobr>¤·¤¿(36679),</nobr> <nobr>¤Ã¤Æ(31790),</nobr>
+	<nobr>¤Ã¤¿(29370),</nobr> <nobr>¤³¤È(27816),</nobr> <nobr>¤«¤é(27428),</nobr>
+	<nobr>¤Ê¤¤(26396),</nobr> <nobr>¤¢¤ë(24223),</nobr> <nobr>¤Ê¤É(22126),</nobr>
+	<nobr>¤¬¡¢(20855),</nobr> <nobr>¤Ï¡¢(20631),</nobr> <nobr>¤È¤¤(19388),</nobr>
+	<nobr>¤ë¤È(7654),</nobr>
+	<div align=right>[¹ç·×1,413,654 ¼ïÎà±ä¥Ù7,954,309²ó]</div></td></tr>
+<tr valign=top><td align=center>5Ê¸»ú</td>
+    <td><nobr>¤È¤·¤Æ¤¤¤ë(436),</nobr> <nobr>²¤½£¶¦Æ±ÂÎ(277),</nobr>
+	<nobr>¤³¤Î¤¿¤á¡¢(158),</nobr> <nobr>»Ô¾ìÀêÍ­Î¨(141),</nobr>
+	<nobr>¤È¤ß¤Æ¤¤¤ë(141),</nobr> <nobr>¥â¡¼¥¿¡¼¥º(133),</nobr>
+	<nobr>¤È¶¯Ä´¤·¤¿(130),</nobr> <nobr>¤³¤ì¤ËÂÐ¤·(126),</nobr>
+	<nobr>¤³¤Î·ë²Ì¡¢(112),</nobr> <nobr>±ßÌ±ÁíÀ¸»º(110),</nobr>
+	<nobr>¤³¤Î¤Û¤«¡¢(107),</nobr> <nobr>¤È¤³¤í¤¬¡¢(105),</nobr>
+	<nobr>¤òÈ¯É½¤·¤¿(92),</nobr> <nobr>¤½¤ì¤À¤±¤Ë(89),</nobr>
+	<nobr>¤½¤Î·ë²Ì¡¢(89),</nobr>
+	<div align=right>[¹ç·×190,925¼ïÎà ±ä¤Ù499,653²ó]</div></td>
+    <td><nobr>¤Ê¤Ã¤Æ¤¤¤ë(3710),</nobr> <nobr>¤Æ¤¤¤ë¤¬¡¢(2827),</nobr> 
+	<nobr>¤Ë¤è¤ë¤È¡¢(2753),</nobr> <nobr>¤Ë¤Ä¤¤¤Æ¤Ï(2721),</nobr>
+	<nobr>¤µ¤ì¤Æ¤¤¤ë(2334),</nobr> <nobr>¤ë¤³¤È¤Ë¤Ê(2286),</nobr>
+	<nobr>¤Ë¤Ê¤Ã¤Æ¤¤(2079),</nobr> <nobr>¤È¤·¤Æ¤¤¤ë(1997),</nobr>
+	<nobr>¸Þ½½¼·Ç¯ÅÙ(1849),</nobr> <nobr>¥Ü¡¼¥é¥ó¥É(1818),</nobr>
+	<nobr>¤Æ¤¤¤ë¤³¤È(1776),</nobr> <nobr>¤·¤Æ¤ª¤ê¡¢(1697),</nobr>
+	<nobr>¤¹¤ë¤³¤È¤Ë(1581),</nobr> <nobr>¤È¤Ê¤Ã¤Æ¤¤(1544),</nobr>
+	<nobr>ÌÀ¤é¤«¤Ë¤·(1517),</nobr>
+	<div align=right>[¹ç·×748,172¼ïÎà ±ä¤Ù3,793,077²ó]</div></td></tr>
+<tr valign=top><td align=center>10Ê¸»ú</td>
+    <td><nobr>¤¹¤ë¤³¤È¤Ë¤Ê¤Ã¤Æ¤¤¤ë(44),</nobr> <nobr>ÂèÆó¼¡Î×»þ¹ÔÀ¯Ä´ºº²ñ(35),</nobr> 
+	<nobr>¤¹¤ë¤³¤È¤Ë¤Ê¤ê¤½¤¦¤À(19),</nobr> <nobr>£¸£²¥¸¥ã¥Ñ¥ó¥·¥ç¥Ã¥×(17),</nobr>
+	<nobr>¤·¤Æ¤¤¤ë¤Î¤Ç¤Ï¤Ê¤¤¤«(16),</nobr> <nobr>¥ï¥·¥ó¥È¥ó°ì¶åÆü¶¦Æ±(14),</nobr>
+	<nobr>¥µ¥¦¥¸¥¢¥é¥Ó¥¢ÄÌ²áÄ£(14),</nobr> <nobr>¤È¤·¤ÆÃíÌÜ¤µ¤ì¤Æ¤¤¤ë(14),</nobr>
+	<nobr>¥Ë¥å¡¼¥è¡¼¥¯Æó½½¸ÞÆü(13),</nobr> <nobr>¤òÍ¾µ·¤Ê¤¯¤µ¤ì¤Æ¤¤¤ë(13),</nobr>
+	<div align=right>[¹ç·×21,155¼ï ±ä¤Ù47,336²ó]</div></td>
+    <td><nobr>¤·¤¿¤È¤³¤í¤Ë¤è¤ë¤È¡¢(273),</nobr> <nobr>¤é¤«¤Ë¤·¤¿¤È¤³¤í¤Ë¤è(223),</nobr> 
+	<nobr>ÌÀ¤é¤«¤Ë¤·¤¿¤È¤³¤í¤Ë(223),</nobr> <nobr>¤«¤Ë¤·¤¿¤È¤³¤í¤Ë¤è¤ë(222),</nobr>
+	<nobr>¤Ë¤·¤¿¤È¤³¤í¤Ë¤è¤ë¤È(222),</nobr> <nobr>ÂèÆó¼¡Î×»þ¹ÔÀ¯Ä´ºº²ñ(208),</nobr>
+	<nobr>¤ë¤³¤È¤òÌÀ¤é¤«¤Ë¤·¤¿(191),</nobr> <nobr>ÆüÌÀ¤é¤«¤Ë¤·¤¿¤È¤³¤í(173),</nobr>
+	<nobr>¤¿¤³¤È¤òÌÀ¤é¤«¤Ë¤·¤¿(120),</nobr> <nobr>¥Û¥Æ¥ë¥Ë¥å¡¼¥¸¥ã¥Ñ¥ó(112),</nobr>
+	<div align=right>[¹ç·×132,865¼ïÎà ±ä¥Ù345,232²ó]</div></td></tr>
+<tr valign=top><td align=center>20Ê¸»ú</td>
+    <td><nobr>»²±¡Á´¹ñ¶èÀ©²þ³×¤Î¤¿¤á¤Î¸ø¿¦ÁªµóË¡²þÀµ°Æ(5),</nobr> 
+	<nobr>¸Þ½½¶åÇ¯°ì·î¤«¤é¼Â»Ü¤µ¤ì¤ë¥°¥ê¡¼¥ó¥«¡¼¥É(5),</nobr>
+	<nobr>ÎëÌÚ¼óÁê¤Ï°ìÏ»Æü¸á¸å¤Î»²±¡Í½»»°Ñ°÷²ñ¤Ç¡¢(4),</nobr>
+	<nobr>ËÜ¼ÒÅìµþ¡¢¼ÒÄ¹ÎÓ·òÉ§»á¡¢»ñËÜ¶âÉ´¼·½½²¯±ß(4),</nobr>
+	<nobr>½½·î°ìÆü²ñ¼ÒËÃÌä¡¢½½°ì·î°ìÆüÆþ¼Ò»î¸³²ò¶Ø(4),</nobr>
+	<div align=right>[¹ç·×823¼ï ±ä¤Ù677²ó]</div></td>
+    <td><nobr>¤ÎºÇ¤âÂ¿¤«¤Ã¤¿Ãæ¿´Áê¾ì¤ÏÁ°Ç¯Ãæ¿´ÃÍ¤ËÈæ¥Ù(18),</nobr>
+	<nobr>°ú¤ÎºÇ¤âÂ¿¤«¤Ã¤¿Ãæ¿´Áê¾ì¤ÏÁ°Ç¯Ãæ¿´ÃÍ¤ËÈæ(18),</nobr>
+	<nobr>¼è°ú¤ÎºÇ¤âÂ¿¤«¤Ã¤¿Ãæ¿´Áê¾ì¤ÏÁ°Ç¯Ãæ¿´ÃÍ¤Ë(18),</nobr>
+	<nobr>¤Î¹ñÎ©¥ª¥ê¥ó¥Ô¥Ã¥¯µ­Ç°ÀÄ¾¯Ç¯Áí¹ç¥»¥ó¥¿¡¼(17),</nobr>
+	<nobr>ÌÚ¤Î¹ñÎ©¥ª¥ê¥ó¥Ô¥Ã¥¯µ­Ç°ÀÄ¾¯Ç¯Áí¹ç¥»¥ó¥¿(17),</nobr>
+	<div align=right>[¹ç·×14,625¼ïÎà ±ä¤Ù30,664²ó]</div></td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+É½4 ½Ð¸½ÉÑÅÙ¤Î¹â¤¤Ê¸»úÎó¤ÎÎã
+</strong>
+Table 4 Examples of substrings with high frequency.
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr valign=top><td><nobr>ÉÑÅÙ¤Î¹â¤¤</nobr><br>Ê¸»úÎó<br>200²ó°Ê¾å</td>
+    <td><nobr>¤È¤¤¤¦(586),</nobr> <nobr>¤È½Ò¤Ù¤¿(512),</nobr>
+	<nobr>¤È¤·¤Æ¤¤¤ë(436),</nobr> <nobr>¤Þ¤¿(325),</nobr> <nobr>¤Ç¤¢¤ë(324),</nobr>
+	<nobr>¼Ì¿¿(315),</nobr> <nobr>¤·¤«¤·¡¢(302),</nobr> <nobr>¤È¸ì¤Ã¤¿(283),</nobr>
+	<nobr>Åìµþ(281),</nobr> <nobr>²Á³Ê(278),</nobr> <nobr>²¤½£¶¦Æ±ÂÎ(277),</nobr>
+	<nobr>¤·¤«¤·(274),</nobr> <nobr>¥Ý¥¤¥ó¥È(269),</nobr> <nobr>¤Ò¤È¤³¤È(264),</nobr>
+	<nobr>È¯Çä´ü´Ö(259),</nobr> <nobr>¤Þ¤¿¡¢(236),</nobr> <nobr>¤³¤ì¤Ï(220),</nobr>
+	<nobr>¤³¤Î¤¿¤á(204),</nobr> <nobr>¤¿¤À¡¢(201)</nobr></td></tr>
+</table>
+</p>
+
+<p>
+¤³¤ì¤é¤ÎÉ½¤«¤é, °Ê²¼¤Î¤³¤È¤¬Ê¬¤«¤ë.
+</p>
+<p>
+ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï, ´üÂÔ¤µ¤ì¤¿¤È¤ª¤ê, ½¾Íè¤ÎÊýË¡¤ËÈæ¤Ù¤Æ,
+Â¿¤¯¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó¤ÎÃê½Ð¤¬²¡À©¤µ¤ì, Ãê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Î¼ïÎà,
+½Ð¸½²ó¿ô¶¦¤ËÂçÉý¤Ë¸º¾¯¤¹¤ë.
+Îã¤¨¤Ð, 2Ê¸»ú°Ê¾å, 2²ó°Ê¾å¤ÎÊ¸»úÎó¤Ç¤Ï, Ãê½Ð¤µ¤ì¤ë¼ïÎà¤¬Ìó5Ê¬¤Î1,
+±ä¤Ù½Ð¸½²ó¿ô¤âÌó12Ê¬¤Î1¤ËÍÞÀ©¤µ¤ì¤ë.
+¤³¤Î¸ú²Ì¤Ï, Ê¸»ú¿ô¤ÎÂç¤­¤¤Ê¸»úÎó¤Û¤ÉÂç¤­¤¯, 20Ê¸»ú°Ê¾å¤Î¾ì¹ç¤Ç¤Ï,
+Ãê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Î¼ïÎà, ±ä¤Ù½Ð¸½²ó¿ô¶¦¤Ë, Ìó100Ê¬¤Î1¤Ë¤Ê¤ë.
+</p>
+<p>
+(2) ½èÍý»þ´Ö¤Ë¤Ä¤¤¤Æ
+</p>
+<p>
+ºÇ½é¤ÎÊ¸»úÎóÃ±¸ì¤Î¥½¡¼¥È(ÈÆÍÑ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤ÎºîÀ®)¤Ë,
+ºÇ¤âÂ¿¤¯¤Î»þ´Ö(¥¿¡¼¥ó¥¢¥é¥¦¥ó¥É»þ´Ö: Ìó40»þ´Ö,
+CPU»þ´Ö: Ìó10»þ´Ö)¤¬¤«¤«¤Ã¤¿<a name="rfn5" href="p09.html#fn5"><sup>¡ù</sup></a>¤¬,
+¤½¤Î¸å¤Î½èÍý¤Ï, ¤½¤ì¤ËÈæ¤Ù¤Æ¤­¤ï¤á¤ÆÃ»»þ´Ö(Æ±: 34Ê¬, Æ±: 16Ê¬)¤Ç¤¢¤Ã¤¿.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 Î¥»¶·¿¶¦µ¯Ê¸»úÎó¤ÎÃê½Ð</font></h2></a>
+
+<p>
+(1) Ãê½ÐÊ¸»úÎó¤ÎÀ­¼Á
+</p>
+<p>
+´ÊÃ±¤Î¤¿¤á, Ã±ÆÈ¤Ç¤Ï¤½¤ì¤¾¤ì10²ó°Ê¾å½Ð¸½¤·¤¿2¼ïÎà¤ÎÊ¸»úÎó¤¬1Ê¸Æâ¤ËÎ¥¤ì¤Æ¶¦µ¯¤¹¤ë
+¾ì¹ç<a name="rfn6" href="p09.html#fn6"><sup>¡ù</sup></a>¤Ë¤Ä¤¤¤Æ,
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÁÈ¤Î¿ô¤ò<strong>É½5</strong>¤Ë¼¨¤¹.
+¤Þ¤¿, ½Ð¸½ÉÑÅÙ¤ÎÂ¿¤¤Ê¸»úÎó¤ÎÁÈ¤È,
+2²ó°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó¤ÎÁÈ¤ÎÃæ¤Ç¹ç·×Ê¸»ú¿ô¤ÎÂ¿¤¤Ê¸»úÎó¤ÎÁÈ¤ò,
+¤½¤ì¤¾¤ì, <strong>É½6</strong>, <strong>É½7</strong>¤Ë¼¨¤¹.
+</p>
+
+<p>
+<div align=center><strong>
+É½5 Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ÎÁÈ¤Î¼ïÎà¤È±ä¤ÙÅÙ¿ô
+</strong>
+Table 5 Characteristics of extracted pairs of substrings.
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td>
+	    <td colspan=2 align=right>·ë²Ì</td></tr>
+	<tr><td><font size=-2 color=#c0c0c0>--------</font></td>
+	    <td rowspan=2><font size=+2 color=#c0c0c0>¡À</font></td></tr>
+	<tr><td colspan=2>Ãê½ÐÂÐ¾Ý</td></tr>
+    </table>
+    </td>
+    <td>Ê¸»úÎó¤ÎÁÈ¤Î<br>¼ïÎà¿ô</td><td>±ä¤Ù½Ð¸½²ó¿ô</td></tr>
+<tr align=right><td align=center>2²ó°Ê¾å</td><td>6,544</td><td>21,829</td></tr>
+<tr align=right><td align=center>5²ó°Ê¾å</td><td>941</td><td>9,057</td></tr>
+<tr align=right><td align=center>10²ó°Ê¾å</td><td>237</td><td>4,556</td></tr>
+<tr align=right><td align=center>20²ó°Ê¾å</td><td>61</td><td>2,291</td></tr>
+</table>
+<div align=center>
+(2¼ïÎà¤ÎÊ¸»úÎó¤ÎÊ¸Æâ¶¦µ¯¤Î¾ì¹ç)
+</div>
+</p>
+
+<p>
+<div align=center><strong>
+É½6 ½Ð¸½ÉÑÅÙ¤Î¹â¤¤Ê¸»úÎó¤ÎÁÈ¤ÎÎã<br>
+</strong>
+Table 6 Pairs of substrings with high frequency.
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>½ç°Ì</td><td>Á°ÊýÊ¸»úÎó</td><td>¸åÊýÊ¸»úÎó</td><td>²ó¿ô</td></tr>
+<tr><td align=center>1°Ì</td><td>²Á³Ê</td><td>È¯Çä»þ´ü</td><td align=right>257</td></tr>
+<tr><td align=center>2°Ì</td><td>¥¼¥Í¥é¥ë</td><td>¥â¡¼¥¿¡¼¥º</td><td align=right>117</td></tr>
+<tr><td align=center>3°Ì</td><td>¥µ¥ß¥Ã¥È</td><td>Àè¿Ê¹ñ¼óÇ¾²ñµÄ</td><td align=right>86</td></tr>
+<tr><td align=center>4°Ì</td><td>£Å£Ã</td><td>²¤½£¶¦Æ±ÂÎ</td><td align=right>80</td></tr>
+<tr><td align=center>4°Ì</td><td>¥¤¥é¥ó</td><td>¥¸¥ã¥Ñ¥óÀÐÌý²½³Ø</td><td align=right>80</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+É½7 ¹ç·×Ê¸»ú¿ô¤ÎÂç¤­¤¤Ê¸»úÎó¤ÎÎã<br>
+</strong>
+Table 7 Pairs of longest substrings.
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>½ç°Ì</td><td>Á°ÊýÊ¸»úÎó</td><td>¸åÊýÊ¸»úÎó</td><td>¹ç·×»ú¿ô</td><td>²ó¿ô</td></tr>
+<tr valign=top><td align=center>1°Ì</td>
+    <td>Éô²ñÄ¹¡¢ÇßËÜ½ãÀµÉðÅÄÌôÉÊ¹©¶ÈÉû¼ÒÄ¹</td><td>¤Ë¤Ä¤¤¤Æ¶¨µÄ¤·¤¿</td>
+    <td align=right>25</td><td align=right>2</td></tr>
+<tr valign=top><td align=center>2°Ì</td>
+    <td>ËÜ¼ÒÍ¼Ä¥»Ô¡¢ÊÝÁ´´ÉÍý¿Í»³º¬¶¬»á</td><td>ÌäÂê¤Ê¤É¤Ë¤Ä¤¤¤Æ</td>
+    <td align=right>23</td><td align=right>2</td></tr>
+<tr valign=top><td align=center>3°Ì</td>
+    <td>ËÌÃºÍ¼Ä¥Ãº¹£</td><td>ËÜ¼ÒÍ¼Ä¥»Ô¡¢ÊÝÁ´´ÉÍý¿Í»³º¬¶¬»á</td>
+    <td align=right>21</td><td align=right>9</td></tr>
+<tr valign=top><td align=center>4°Ì</td>
+    <td>±ÊÅÄÄ®¤Î¥Û¥Æ¥ë¥Ë¥å¡¼¥¸¥ã¥Ñ¥ó</td><td>²£°æ±Ñ¼ù¼ÒÄ¹</td>
+    <td align=right>21</td><td align=right>11</td></tr>
+<tr valign=top><td align=center>5°Ì</td>
+    <td>¥Þ¥ë¥¯¤Ï°ì¥É¥ë</td><td>¥Õ¥é¥ó¡¢±Ñ¥Ý¥ó¥É¤Ï°ì¥Ý¥ó¥É</td>
+    <td align=right>20</td><td align=right>5</td></tr>
+</table>
+</p>
+
+<p>
+É½6, É½7¤«¤é, ½Ð¸½ÉÑÅÙ¤Î¹â¤¤Î¥»¶·¿¶¦µ¯¤ÎÂ¿¤¯¤Ï, Ì¾»ìÆ±»Î¤Î¶¦µ¯¤Ç¤¢¤ë¤³¤È¤¬Ê¬¤«¤ë.
+ÆÃ¤Ë, ÏÃÂê¤È¤·¤Ç¿·Ê¹µ­»ö¤Ë¼è¤ê¾å¤²¤é¤ì¤¿¸ÇÍ­Ì¾»ì¤äÆü»þÅù¤Î¿ôÎÌ¤È¤Î¶¦µ¯¤¬¿ôÂ¿¤¯
+¼è¤ê½Ð¤µ¤ì¤Æ¤¤¤ë<a name="rfn7" href="p09.html#fn7"><sup>¡ù¡ù</sup></a>.
+</p>
+<p>
+¤³¤Î¤è¤¦¤ÊÌ¾»ì¤Î¶¦µ¯¾ðÊó¤Ï, Îã¤¨¤Ð, µ¡³£ËÝÌõÍÑ¤Î¼­½ñºîÀ®¤Ê¤É¤Ë±þÍÑ¤Ç¤­¤ë.
+¤Þ¤¿, ¥Æ¥ó¥×¥ì¡¼¥ÈËÝÌõ¤Ê¤É¤Ç¤Ï, Ì¾»ìÆ±»Î¤Î¶¦µ¯¤è¤ê¤â¤à¤·¤í,
+Ê¸·¿¥Ñ¥¿¡¼¥ó¤òºî¤ê°×¤¤½õ»ì¤ä½õÆ°»ì¤ò´Þ¤àÉ½¸½Í×ÁÇ¤Î¶¦µ¯¤ò¼ý½¸¤·¤¿¤¤¾ì¹ç¤¬¤¢¤ë.
+É½5¤ò¸«¤ë¤È, Ãê½Ð¤µ¤ì¤¿É½¸½¤ÎÁÈ¤Ï, ¤¹¤Ç¤Ë¤«¤Ê¤ê¹Ê¤ê¹þ¤Þ¤ì¤Æ¤¤¤ë¤¿¤á(Á´ÂÎ¤Ç, 6,544·ï),
+Á´ÂÎ¤ò¿Í¼ê¤Ë¤è¤Ã¤Æ¥Á¥§¥Ã¥¯¤·, ½õ»ì, ½õÆ°»ì¤ò´Þ¤àÉ½¸½¤ÎÁÈ¤Ê¤É,
+ÌÜÅª¤Ë±þ¤¸¤¿É½¸½¤ÎÁÈ¤òÁªÂò¤·¤Æ¼è¤ê½Ð¤¹¤³¤È¤Ï¤µ¤Û¤Éº¤Æñ¤Ç¤Ï¤Ê¤¤.
+</p>
+<p>
+¤·¤«¤·, ¤µ¤é¤ËÂçÎÌ¤Î¸À¸ì¥Ç¡¼¥¿¤Î¾ì¹ç, ½ÐÎÏ¤µ¤ì¤ë¥Ç¡¼¥¿ÎÌ¤¬ÁýÂç¤·,
+¿Í¼ê¤Ë¤è¤ëÁªÂò¤¬º¤Æñ¤È¤Ê¤ë¤³¤È¤¬¹Í¤¨¤é¤ì¤ë.
+¤½¤Î¤è¤¦¤Ê¾ì¹ç, ÆÀ¤é¤ì¤¿·ë²Ì¤«¤éÌÜÅª¤Ë¤¢¤ï¤Ê¤¤¤è¤¦¤ÊÉ½¸½¤òÁªÂòÅª¤Ëºï½ü¤¹¤ëÊýË¡¤â¤¢¤ë¤¬,
+Ï¢º¿·¿¶¦µ¯, Î¥»¶·¿¶¦µ¯¤ÎÃê½Ð½èÍý¤Î²áÄø¤Ë²ðÆþ¤·¤Æ,
+Ãê½ÐÂÐ¾ÝÊ¸»úÎó¤ËÀ©¸Â¤ò²Ã¤¨¤ë¤³¤È¤â¤Ç¤­¤ë.
+¤Ê¤ë¤Ù¤¯Áá¤¤ÃÊ³¬¤Ç, Ãê½ÐÂÐ¾Ý¤È¤¹¤ëÊ¸»úÎó¤Î»ú¼ï¹½À®¤ËÀ©Ìó¤ò²Ã¤¨¤¿¤ê,
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤ò¥Á¥§¥Ã¥¯¤·¤Æ, ÉÔÍ×¤Ê¤â¤Î¤òÁ°½ü¤·¤¿¤ê¤¹¤ì¤Ð, ¤½¤Î¸å¤Î·×»»ÎÌ¤Ï¸º¾¯¤·,
+½ÐÎÏ·ë²Ì¤Î¥Á¥§¥Ã¥¯ºî¶È¤â¸º¾¯¤¹¤ë<a name="rfn8" href="p09.html#fn8"><sup>¡ù¡ù¡ù</sup></a>.
+</p>
+<p>
+¤³¤³¤Ç¤Ï°ìÎã¤È¤·¤Æ, ¤Ò¤é¤¬¤ÊÊ¸»ú¤ò´Þ¤Þ¤Ê¤¤Ê¸»úÎó¤Èµ­¹æ±Ñ¿ô»ú¤ò´Þ¤àÊ¸»úÎó¤Ï
+Ãê½Ð¤·¤Ê¤¤¤È¤¤¤¦¾ò·ï¤ÇÆÀ¤é¤ì¤¿Î¥»¶·¿¶¦µ¯¤Î·ë²Ì¤Î
+°ìÉô¤ò<strong>É½8</strong>, <strong>É½9</strong>¤Ë¼¨¤¹.
+¤³¤Î¾ì¹ç, ¿·Ê¹µ­»ö¤ÎÊ¸·¿¤ËÁêÅö¤¹¤ë¤è¤¦¤Ê, Î¥»¶·¿¶¦µ¯É½¸½¤¬Ãê½Ð¤µ¤ì¤ë¤³¤È¤¬Ê¬¤«¤ë.
+</p>
+
+<p>
+<div align=center><strong>
+É½8 Ãê½Ð¤µ¤ì¤¿Î¥»¶·¿¶¦µ¯É½¸½¤ÎÎã (( )Æâ¤Ï½Ð¸½²ó¿ô)<br>
+</strong>
+Table 8 Interrupted collocational expressions (in the order of frequency).
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr><td><nobr>¡Á¤È¤·¤Ê¤¬¤é¤â¡Á¤È½Ò¤Ù¤¿(9),</nobr>
+    <nobr>¡Á¤Î¼ÁÌä¤ËÅú¤¨¡Á¤È½Ò¤Ù¤¿(9),</nobr> <nobr>¤½¤ÎÆâÍÆ¤Ï¡Á¤È¤¤¤¦¤â¤Î(6),</nobr>
+    <nobr>¤ï¤ì¤ï¤ì¤Ï¡Á¤È¸ì¤Ã¤¿(6),</nobr> <nobr>¤µ¤é¤Ë¼óÁê¤Ï¡Á¤È½Ò¤Ù¤¿(5),</nobr>
+    <nobr>¤½¤ÎÆâÍÆ¤Ï¡Á¤Ê¤É(5),</nobr> <nobr>¡Á¤È¤·¡¢¡Á¤È½Ò¤Ù¤¿(5),</nobr>
+    <nobr>¡Á¤Ë¤Ä¤¤¤Æ¤â¡Á¤È¤·¤Æ¤¤¤ë(4),</nobr> <nobr>¤¤¤«¤Ë¤â¡Á¤é¤·¤¤(4),</nobr>
+    <nobr>¤Ä¤Þ¤ê¡Á¤Ç¤¢¤ë(4),</nobr> <nobr>¡Á¤Ë¤·¤í¡Á¤Ë¤·¤í(4),</nobr>
+    <nobr>¤³¤Î¤Û¤«¡Á¤Ê¤É¤È¸ì¤Ã¤¿(4),</nobr> <nobr>¤³¤ì¤ËÂÐ¤·¡Á¤ÈÅú¤¨¤¿(4),</nobr>
+    <nobr>¤³¤ÎÃæ¤Ë¤Ï¡Á¤â´Þ¤Þ¤ì¤Æ¤¤¤ë(3),</nobr> <nobr>¤³¤ì¤ËÂÐ¤·¡Á¤ÈÈ¿ÏÀ¤·¤¿(3),</nobr>
+    <nobr>¤³¤ì¤ËÂÐ¤·¤Æ¡Á¤ÈÅú¤¨¤¿(3),</nobr> <nobr>¡Á¤¹¤ë¤Ä¤â¤ê¤À¡Á¤È¸ì¤Ã¤¿(3),</nobr>
+    <nobr>¤³¤ì¤«¤é¤Ï¡Á¤È¤¤¤¦(3),</nobr> <nobr>¤³¤Î¹ü»Ò¤Ï¡Á¤È¤¤¤¦¤â¤Î(3),</nobr>
+    <nobr>¡Á¤Ë¤»¤è¡¢¡Á¤Ë¤»¤è(3),</nobr> <nobr>¤½¤ÎÆâÍÆ¤Ï¡Á¤Ê¤É¤È¤Ê¤Ã¤Æ¤¤¤ë(3),</nobr>
+    <nobr>¡Á¤Ê¤É¤«¤é¡Á¤È¤ß¤Æ¤¤¤ë(3),</nobr> <nobr>¡Á¤Ë¤¹¤ë¤«¡Á¤Ë¤¹¤ë¤«(3),</nobr>
+    <nobr>¡Á¤È½Ò¤Ù¤ë¤È¤È¤â¤Ë¡Á¤È¸ì¤Ã¤¿(3),</nobr> <nobr>¡Á¤Ê¤ê¡Á¤Ê¤ê(3),</nobr></td></tr>
+</table>
+<div align=center>
+(¤Ò¤é¤¬¤Ê¤ò´Þ¤ß, µ­¹æ±Ñ¿ô»ú¤ò´Þ¤Þ¤Ê¤¤Í×ÁÇ¤òÃê½Ð¤·¤¿·ë²Ì) 
+</div>
+</p>
+
+<p>
+<div align=center><strong>
+É½9 ¹ç·×Ê¸»ú¿ô¤ÎÂ¿¤¤Î¥»¶·¿¶¦µ¯É½¸½¤ÎÎã<br>
+</strong>
+Table 9 Interrupted collocational expressions (in the order of total length).
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Á°ÊýÊ¸»úÎó</td><td>¸åÊýÊ¸»úÎó</td><td>¹ç·×»ú¿ô</td><td>²ó¿ô</td></tr>
+<tr><td>¤¹¤ë¤³¤È¤Ë¤Ê¤í¤¦</td><td>¤È¤Î¸«ÄÌ¤·¤òÌÀ¤é¤«¤Ë¤·¤¿</td>
+    <td align=center>20</td><td align=center>2</td></tr>
+<tr><td>¤½¤Î·ë²Ì</td><td>¤È¤Î°Õ¸«¤¬ÂçÀª¤òÀê¤á¤¿</td>
+    <td align=center>16</td><td align=center>2</td></tr>
+<tr><td>¤·¤Æ¤¤¤ë¤¦¤¨¡¢</td><td>¤·¤Æ¤¤¤ë¤³¤È¤«¤é</td>
+    <td align=center>16</td><td align=center>2</td></tr>
+<tr><td>¤Ë¤Ä¤¤¤Æ¤â</td><td>¤¹¤ë¤³¤È¤Ë¤Ê¤ê¤½¤¦¤À</td>
+    <td align=center>15</td><td align=center>2</td></tr>
+<tr><td>¤È¸ì¤ê¡¢</td><td>¤¹¤ëÊý¿Ë¤òÌÀ¤é¤«¤Ë¤·¤¿</td>
+    <td align=center>15</td><td align=center>2</td></tr>
+<tr><td>¤Ç¤¢¤ì¡¢</td><td>¤¹¤ë¤³¤È¤Ë¤Ê¤ê¤«¤Í¤Ê¤¤</td>
+    <td align=center>15</td><td align=center>2</td></tr>
+<tr><td>¤½¤ÎÍýÍ³¤È¤·¤Æ</td><td>¤Ê¤É¤ò¤¢¤²¤Æ¤¤¤ë</td>
+    <td align=center>15</td><td align=center>2</td></tr>
+<tr><td>¤·¤«¤·¡¢¤³¤¦¤·¤¿</td><td>¤¬½Ð¤Æ¤­¤Æ¤¤¤ë</td>
+    <td align=center>15</td><td align=center>2</td></tr>
+</table>
+<div align=center>
+(¤Ò¤é¤¬¤Ê¤ò´Þ¤ß, µ­¹æ±Ñ¿ô»ú¤ò´Þ¤Þ¤Ê¤¤Í×ÁÇ¤òÃê½Ð¤·¤¿·ë²Ì)
+</div>
+</p>
+
+<p>
+(2) ¸À¸ì¥Ç¡¼¥¿ÎÌ¤È½èÍý¥µ¥¤¥º¤Ë¤Ä¤¤¤Æ
+</p>
+<p>
+Î¥»¶·¿¶¦µ¯¤Î¾ì¹ç¤Ï, Ï¢º¿·¿¶¦µ¯¤ÇÃê½Ð¤·¤¿É½¸½¤ÎÁÈ¤ò°·¤¦¤¿¤á,
+É½¸½¤ÎÁÈ¤ò½ñ¤­½Ð¤¹¤¿¤á¤Î¥Õ¥¡¥¤¥ë¤ÎÍÆÎÌ¤¬ÌäÂê¤È¤Ê¤ë¤ÈÍ½ÁÛ¤µ¤ì¤ë.
+¤³¤Î¥Õ¥¡¥¤¥ë¤ÎÉ¬Í×ÎÌ¤Ï, Î¥»¶·¿¶¦µ¯¤È¤·¤ÆÀ¸µ¯¤·¤¿É½¸½¤Î¿ô(ÉÑÅÙ1°Ê¾å¤Î±ä¤ÙÅÙ¿ô)¤Ç·è¤Þ¤ë.
+</p>
+<p>
+¼Â¸³Îã¤Ë¤è¤ì¤Ð, Ï¢º¿·¿¶¦µ¯¤ÇÃê½Ð¤·¤¿É½¸½97Ëü¼ïÎà(±ä¤ÙÅÙ¿ô260Ëü²ó)¤òÂ­ÀÚ¤ê¤ò¤»¤º
+(¤¿¤À¤·ÅÙ¿ô1¤Î¤â¤Î¤Ï½ü¤¯), ¤½¤Î¤Þ¤Þ»ÈÍÑ¤·¤ÆÍ×ÁÇ¿ô2¤ÎÎ¥»¶·¿¶¦µ¯¤ò·×»»¤¹¤ë¤È,
+ÅÙ¿ô2°Ê¾å¤ÎÎ¥»¶·¿É½¸½¤È¤·¤Æ, 18Ëü¼ïÎà(±ä¤ÙÅÙ¿ô40Ëü²ó)¤ÎÉ½¸½¤ÎÁÈ¤¬ÆÀ¤é¤ì¤¿.
+¤³¤Î¤È¤­, ¼ê½ç12¤Ç¥Õ¥¡¥¤¥ë¤Ë½ñ¤­½Ð¤µ¤ì¤¿É½¸½¤ÎÁÈ(¤¿¤À¤·Ê¸»úÎóÈÖ¹æ¤Î¥Ú¥¢)¤Ï,
+2,000ËüÁÈ¤Ç, ¤½¤ì¤ËÍ×¤·¤¿¥Õ¥¡¥¤¥ëÎÌ¤Ï400MB(20¥Ð¥¤¥È/Ê¸»úÎó¥Ú¥¢)¤Ç¤¢¤Ã¤¿.
+</p>
+<p>
+¤³¤ì¤ËÂÐ¤·¤Æ, Ï¢º¿·¿¶¦µ¯¤È¤·¤ÆÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Î¤¦¤Á,
+ÅÙ¿ô10°Ê¾å¤Î¤â¤Î1.2Ëü¼ïÎà(±ä¤ÙÅÙ¿ôÌó22Ëü²ó)¤ò¼è¤ê¾å¤²,
+¤½¤ì¤é¤òÍ×ÁÇ¤È¤¹¤ëÎ¥»¶·¿¶¦µ¯É½¸½¤òµá¤á¤¿¾ì¹ç¤Ï, 2ÅÙ¿ô°Ê¾å¤ÎÎ¥»¶·¿¶¦µ¯É½¸½¤È¤·¤Æ,
+6,500¼ïÎà(±ä¤ÙÅÙ¿ôÌó2Ëü²ó)¤ÎÉ½¸½¤¬ÆÀ¤é¤ì¤¿.
+¤³¤Î·×»»¤Î²áÄø¤Ç¥Õ¥¡¥¤¥ë¤Ë½ñ¤­½Ð¤µ¤ì¤¿É½¸½¤ÎÁÈ¤Ï, Ìó58ËüÁÈ¤Ç,
+»ÈÍÑ¤·¤¿¥Õ¥¡¥¤¥ëÎÌ¤ÏÌó12MB¤Ç¤¢¤ê, Â­ÀÚ¤ê¤ò¤·¤Ê¤¤¾ì¹ç¤ËÈæ¤Ù¤Æ, 1/30°Ê²¼¤Ë¸º¾¯¤·¤¿.
+</p>
+<p>
+¤³¤³¤Ç, ¸À¸ì¥Ç¡¼¥¿ÎÌ¤È½èÍý¥µ¥¤¥º¤Î´Ø·¸¤ò¹Í¤¨¤ë.
+Ï¢º¿·¿¶¦µ¯¤ÇÃê½Ð¤µ¤ì¤ëÉ½¸½¤Î±ä¤ÙÅÙ¿ô¤Ï, ¸À¸ì¥Ç¡¼¥¿ÎÌ¤Ë¤Û¤ÜÈæÎã¤·,
+Î¥»¶·¿¶¦µ¯¤ÇÃê½Ð¤µ¤ì¤ëÉ½¸½¤Î±ä¤ÙÅÙ¿ô¤Ï,
+Ï¢º¿·¿¶¦µ¯¤ÇÆÀ¤é¤ì¤¿É½¸½¤Î±ä¤ÙÅÙ¿ô¤Î2¾è¤Ë¤Û¤ÜÈæÎã¤¹¤ë¤È¹Í¤¨¤é¤ì¤í¤«¤é,
+Î¥»¶·¿¶¦µ¯½¸·×ÍÑ¤Î¥Õ¥¡¥¤¥ë»ÈÍÑÎÌ¤Ï, ¸À¸ì¥Ç¡¼¥¿ÎÌ¤Î2¾è¤Ë¤Û¤ÜÈæÎã¤¹¤ë¤È¿äÄê¤µ¤ì¤ë.
+¤·¤«¤·, ¸À¸ì¥Ç¡¼¥¿ÎÌ¤¬Áý²Ã¤·¤¿¤È¤­¤Ï,
+¤½¤ì¤ËÈæÎã¤·¤ÆÏ¢º¿·¿¶¦µ¯É½¸½¤ÎÂ­ÀÚ¤êÃÍ¤ò¾å¤²¤Æ¤âÃê½ÐÀºÅÙ¤ÏÄã²¼¤»¤º,
+½ÅÍ×¤Ê(ÉÑÅÙ¤Î¹â¤¤)É½¸½¤ÏÏ³¤ì¤Ê¤¯¼ý½¸¤Ç¤­¤ë¤È
+´üÂÔ¤µ¤ì¤ë<a name="rfn9" href="p09.html#fn9"><sup>¡ù</sup></a>.
+¤½¤³¤Ç, É½2¤ò¸«¤ë¤È, Â­ÀÚ¤êÃÍ¤Ë¤Û¤ÜÈ¿ÈæÎã¤·¤Æ,
+Ãê½Ð¤µ¤ì¤ëÏ¢º¿·¿¶¦µ¯É½¸½¤Î±ä¤ÙÅÙ¿ô¤Ï¸º¾¯¤·¤Æ¤¤¤ë¤³¤È¤¬Ê¬¤«¤ë.
+</p>
+<p>
+¤³¤ì¤é¤ÎÅÀ¤«¤é, ¸¶Ê¸¥Ç¡¼¥¿ÎÌ¤¬Áý²Ã¤·¤¿¤È¤­¤Ï, Â­ÀÚ¤êÃÍ¤ò¤½¤ì¤ËÈæÎã¤·¤Æ¾å¤²¤ë¤³¤È¤Ë¤è¤ê,
+Ãê½ÐÀºÅÙ¤òÄã²¼¤µ¤»¤Ê¤¤¤ÇÎ¥»¶·¿¶¦µ¯¤Î·×»»¤¬¤Ç¤­,
+¤½¤Î¤È¤­, ·×»»¤ËÉ¬Í×¤È¤µ¤ì¤ë¥Õ¥¡¥¤¥ëÎÌ¤ÎÁý²Ã¤Ï,
+¸À¸ì¥Ç¡¼¥¿¤ÎÁý²Ã¤ËÈæÎã¤¹¤ë¥ª¡¼¥À¤ËÍÞ¤¨¤é¤ì¤ë¤È´üÂÔ¤Ç¤­¤ë.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3"><h2><font color=#ff0000>5.3 º£¸å¤Î²þÎÉ¤È±þÍÑ¤Ë¤Ä¤¤¤Æ</font></h2></a>
+
+<p>
+(1) ÌÜÅª¤Ë¹ç¤ï¤»¤¿Ãê½ÐÊ¸»úÎó¼ïÊÌ¤Î»ØÄê
+</p>
+<p>
+Î¥»¶·¿¤Î¶¦µ¯É½¸½Ãê½Ð¤Î¾ì¹ç, ·×»»²ÄÇ½¤Ê¸À¸ì¥Ç¡¼¥¿ÎÌ¤òÁýÂç¤µ¤»¤ë¤¿¤á¤Ë¤Ï,
+ÆÃ¤Ë, ¤½¤ì¤Ë»ÈÍÑ¤¹¤ëÏ¢º¿·¿Ê¸»úÎó¤Î¼ïÎà¤ò¾¯¤·¤Ç¤â¸º¾¯¤µ¤»¤ë¤³¤È¤¬Ë¾¤Þ¤ì¤ë.
+¤³¤ì¤ËÂÐ¤·¤Æ, ¼Â¸³Îã¤ÇÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤Ë¤Ï, ¤Þ¤À, ÍÍ¡¹¤Ê¼ïÎà¤ÎÊ¸»úÎó¤¬º®¤¶¤Ã¤Æ¤¤¤ë.
+ÆüËÜ¸ì¥Ç¡¼¥¿¤Î¾ì¹ç, Îã¤¨¤Ð,
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3 width=20></td><td width=20>­¡</td>
+    <td>¿ô»ú, ¥«¥¿¥«¥Ê¸ì, ±Ñ»úÎ¬¸ì¤«¤é¤Ï, Â¿¤¯¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤ä¤¹¤¤.</td></tr>
+<tr valign=top><td>­¢</td>
+    <td>Ê¸·¿¤ò·è¤á¤ë¤è¤¦¤Ê¥­¡¼¥ï¡¼¥É¤Ï¤«¤ÊÊ¸»ú¤ò1Ê¸»ú°Ê¾å´Þ¤à¾ì¹ç¤¬Â¿¤¤.</td></tr>
+<tr valign=top><td>­£</td>
+    <td>´Á»ú¤ò´Þ¤Þ¤Ê¤¤Ê£¹çÌ¾»ì¤Ï¾¯¤Ê¤¤.</td></tr>
+</table>
+¤Ê¤É¤ÎÀ­¼Á¤ËÃåÌÜ¤·, ¼ê½ç3°Ê¹ß¤Ç, Ãê½Ð¤¹¤ëÊ¸»úÎó¤ò¹½À®¤¹¤ë»ú¼ï¤ò»ØÄê¤¹¤ì¤Ð,
+ÉÔÍ×¤ÊÊ¸»úÎó¤ÎÃê½Ð¤Ï¤µ¤é¤ËÍÞÀ©¤Ç¤­¤ë.
+</p>
+<p>
+(2) ÍÞÀ©¤µ¤ì¤¿Ê¸»úÎó¥«¥¦¥ó¥È¤Î°ìÉôÉü³è
+</p>
+<p>
+ËÜÏÀÊ¸¤Ç¤Ï, Ï¢º¿·¿¶¦µ¯¤Î·×»»¤Ë¤ª¤¤¤Æ,
+°ìÅÙÃê½Ð¤·¤¿Ê¸»úÎóÆâ¤ÎÉôÊ¬Ê¸»úÎó¤ÎÃê½Ð¤Ï¥À¥Ö¥ë¥«¥¦¥ó¥È¤Ë¤Ê¤ë¤È¹Í¤¨,
+¾ò·ï3(ºÇÄ¹°ìÃ×¤Î¤â¤Î¤Î¤ßÃê½Ð)¤òÁ°Äó¤È¤·¤¿.
+¤³¤Î¤¿¤á, Ãê½Ð¤µ¤ì¤ëÊ¸»úÎó¤Ï, ÆÈÎ©À­¤¬¤¢¤ê, Ï¢º¿¶¦µ¯¤È¤ß¤Ê¤»¤ëÊ¸»úÎó¤Ë¹Ê¤é¤ì¤Æ¤¤¤ë.
+¤·¤«¤·, ¤è¤êºÙ¤«¤¤Í×ÁÇ¤«¤é¤Ê¤ëÎ¥»¶·¿¶¦µ¯¤ò¤â¼ý½¸¤·¤è¤¦¤È¤¹¤ë¾ì¹ç¤Ï,
+°ìÅÙÃê½Ð¤·¤¿Ê¸»úÎó¤ÎÃæ¤ÎÍ×ÁÇ¤«¤é¤â, Í×ÁÇÅª¤ÊÉ½¸½¤òÃê½Ð¤¹¤ì¤Ð¤è¤¤.
+</p>
+<p>
+ÃÇÊÒÅª¤ÊÊ¸»úÎó¤ÎÃê½Ð¤òÍÞÀ©¤·¤Ê¤¬¤é, ¤³¤ì¤é¤ÎÍ×ÁÇÅªÉ½¸½¤òÃê½Ð¤¹¤ë¤Ë¤Ï,
+¿Þ1¤Ç, Ê¸»úÎó¦Á¤ÎÃæ¤Ë´Þ¤Þ¤ì¤ëÉôÊ¬Ê¸»úÎó¤Î¦Â¤ä¦Ã¤â,
+¤½¤ÎÊ¸»úÎó¤¬¸¶Ê¸Ãæ¤ÎÂ¾¤ÎÉôÊ¬¤ËÀ¸µ¯¤·¤ÆÃê½ÐÂÐ¾Ý¤È¤Ê¤Ã¤¿¤È¤­¤Ï,
+¥«¥¦¥ó¥È¤Ë²Ã¤¨¤ë¤ÈÎÉ¤¤.
+¶ñÂÎÅª¤Ë¤Ï, 3¾Ï¤Î¥¢¥ë¥´¥ê¥º¥à¤Î¼ê½ç8¤Ç, <i>n</i>-gram ¤ÎÊ¸»úÎó¤òÃê½Ð¤¹¤ëºÝ,
+¤½¤Î¥ì¥³¡¼¥É¤Î¾åÊý¸þ¤ËÏ¢Â³¤¹¤ë¥ì¥³¡¼¥É¤Ç,
+Ãê½ÐÊ¸»ú¿ô¤ÎÃÍ¤¬<i>n</i>+1 °Ê¾å¤Î¤â¤Î¤â<i>n</i>-gram ¤ÎÃê½ÐÂÐ¾Ý¤Ë²Ã¤¨¤ì¤Ð¤è¤¤.
+¤½¤ÎºÝ, ¿·¤¿¤ËÃê½ÐÂÐ¾Ý¤È¤Ê¤Ã¤¿¥ì¥³¡¼¥É(½ÅÊ£Ãê½Ð¤ÎÂÐ¾Ý¥ì¥³¡¼¥É)¤ò¥³¥Ô¡¼¤·¤ÆÄÉ²Ã¤·¤Æ¤ª¤±¤Ð,
+Î¥»¶·¿¶¦µ¯¤Î·×»»½èÍý¤Î¼êÄ¾¤·¤ÏÉÔÍ×¤È¤Ê¤ë.
+</p>
+<p>
+(3) Î¥»¶·¿¶¦µ¯É½¸½Ãê½Ð¤Ë¤ª¤±¤ë1Ê¸»úÍ×ÁÇ¤Î°·¤¤
+</p>
+<p>
+ËÜÏÀÊ¸¤Î¼Â¸³Îã¤Ç¤Ï, ·×»»ÎÌ¤ò¸º¾¯¤µ¤»¤ë¤¿¤á, Ãê½ÐÂÐ¾ÝÊ¸»úÎó¤ÎÊ¸»ú¿ô¤Ï2Ê¸»ú°Ê¾å¤Ç¤¢¤ë¤È¤·¤¿.
+¤·¤«¤·, Î¥»¶·¿¶¦µ¯É½¸½¤ÎÃê½Ð¤Ë¤ª¤¤¤Æ, ÆüËÜÊ¸¤ÎÊ¸·¿¤òÃê½Ð¤·¤¿¤¤¤è¤¦¤Ê¾ì¹ç,
+¡Ö¡Á¤¬¡Á¤ò¡Á¤Ë¡Á¡×¤Ê¤É¤Î¤è¤¦¤Ë, Ê¸Ãæ¤«¤é1Ê¸»ú¥­¡¼¥ï¡¼¥É¤ÎÁÈ¤òÃµ¤·¤¿¤¤¾ì¹ç¤¬¤¢¤ë.
+¤³¤Î¤è¤¦¤Ê¾ì¹ç¤Ï, ¸å¤Ë½Ò¤Ù¤ë¤è¤¦¤Ë, ·ÁÂÖÁÇ²òÀÏ·ë²Ì¤ËÂÐ¤·¤Æ,
+ËÜÏÀÊ¸¤ÎÊýË¡¤òÅ¬ÍÑ¤¹¤ì¤Ð¤è¤¤¤È¹Í¤¨¤é¤ì¤ë¤¬, (1)¤Ç½Ò¤Ù¤¿ÊýË¡¤Ê¤É¤Ë¤è¤ê,
+Ãê½ÐÂÐ¾Ý¤ò¹Ê¤ê¹þ¤à¤³¤È¤Ë¤è¤Ã¤Æ·×»»ÎÌ¤ò¸º¤é¤·, Ãê½Ð¤ò²ÄÇ½¤È¤¹¤ë¤³¤È¤â¹Í¤¨¤é¤ì¤ë.
+</p>
+<p>
+(4) ·ÁÂÖÁÇÎó, Ã±¸ìÎóÅù¤Ø¤ÎÅ¬ÍÑ
+</p>
+<p>
+ÆüËÜ¸ì¤ÎÊ¸·¿¤òÃê½Ð¤¹¤ë¤Ë¤Ï,
+¸À¸ì¥Ç¡¼¥¿¤ò·ÁÂÖÁÇ²òÀÏ¤·¤ÆÆÀ¤é¤ì¤¿Ã±¸ì¤ÎÊ¸Ë¡ÅªÂ°À­¤ä°ÕÌ£Â°À­¤òÉ½¤¹µ­¹æÎó¤ËÂÐ¤·¤Æ,
+ËÜÏÀÊ¸¤ÎÊýË¡¤òÅ¬ÍÑ¤¹¤ë¤³¤È¤¬´üÂÔ¤µ¤ì¤ë.
+Ê¸Ë¡Åª, °ÕÌ£Åª¤Ë¸«¤Æ¤É¤Î¤è¤¦¤Ê¼ïÎà¤ÎÊ¸·¿¾ðÊó¤¬ÆÀ¤é¤ì¤ë¤«,
+¤Þ¤¿, Ã±¸ì¶¦µ¯¾ðÊó¤òÆÀ¤ë¾ì¹ç, Ê¸»úÏ¢º¿¤ËÅ¬ÍÑ¤¹¤ëÊýË¡¤È,
+Ã±¸ìÎó¤ËÅ¬ÍÑ¤¹¤ëÊýË¡¤Î¤É¤Á¤é¤¬¤è¤¤¤«¤Ê¤É, º£¸å¤Î²ÝÂê¤Ç¤¢¤ë.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. ¤¢¤È¤¬¤­</font></h2></a>
+
+<p>
+¸À¸ì¥³¡¼¥Ñ¥¹¤Ê¤É¤ÎËÄÂç¤Ê¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤«¤é,
+»ÈÍÑÉÑÅÙ¤Î¹â¤¤É½¸½¤ª¤è¤ÓÉ½¸½¤ÎÁÈ¤ò¼«Æ°Åª¤ËÈ¯¸«¤·½¸·×¤¹¤ëÊýË¡¤òÄó°Æ¤·¤¿.
+¶ñÂÎÅª¤Ë¤Ï, ¤Þ¤º, Ç¤°Õ¤Î<i>n</i>-gram ¤Î·×»»Ë¡¤È¤·¤ÆÄó°Æ¤µ¤ì¤¿Ä¹Èø¤é¤Î¥¢¥ë¥´¥ê¥º¥à¤ò
+ÆÈÎ©À­¤Î¹â¤¤É½¸½¤òÃê½Ð¤¹¤ë´ÑÅÀ¤«¤é²þÎÉ¤·,
+¸À¸ì¥Ç¡¼¥¿¤ÎÃæ¤Ë2²ó°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó(Ï¢º¿·¿¶¦µ¯É½¸½)¤ò,
+¡Ö°ìÅÙ, Ãê½Ð¤·¤¿Ê¸»úÎó¤ÎÉôÊ¬Ê¸»úÎó¤Ï, ¤½¤Î¸å, Ãê½ÐÂÐ¾Ý¤È¤·¤Ê¤¤¡×¤È¤¤¤¦¾ò·ï²¼¤Ç,
+Ï³¤ì¤Ê¤¯¼«Æ°Åª¤ËÃê½Ð¤·½¸·×¤¹¤ëÊýË¡¤òÄó°Æ¤·¤¿.
+¼¡¤Ë, ¤³¤ÎÊýË¡¤ÇÃê½Ð¤µ¤ì¤¿Ê¸»úÎó¤òÁÈ¤ß¹ç¤ï¤»¤Æ,
+Ê¸Ãæ¤ÎÎ¥¤ì¤¿°ÌÃÖ¤Ë¶¦µ¯¤¹¤ëÊ¸»úÎó¤ÎÁÈ(Î¥»¶·¿¶¦µ¯É½¸½)¤òÃê½Ð¤·,
+¤½¤ÎÉÑÅÙ¤òµá¤á¤ëÊýË¡¤ò¼¨¤·¤¿.
+</p>
+<p>
+3¥«·îÊ¬¤Î¿·Ê¹µ­»ö¥Ç¡¼¥¿(892Ëü»ú)¤ËÅ¬ÍÑ¤·¤¿Îã¤Ë¤è¤ì¤Ð,
+Ï¢º¿·¿¶¦µ¯É½¸½Ãê½Ð¤Î¾ì¹ç, ½¾Íè¤ÎÊýË¡¤Ç¤Ï, 2Ê¸»ú°Ê¾å, 2ÅÙ¿ô°Ê¾å¤ÎÊ¸»úÎó¤¬,
+440Ëü¼ïÎà, ±ä¤Ù3,120Ëü²ó¤ÎÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤¿¤Î¤ËÂÐ¤·¤Æ,
+ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï, 97Ëü¼ïÎà, ±ä¤Ù260Ëü·ï¤Ë¸º¾¯¤·¤¿.
+Ãê½Ð¤µ¤ì¤¿Ê¸»úÎó¤òÈæ³Ó¤·¤¿·ë²Ì, <i>n</i>-gram ¤ÎÊýË¡¤ÇÆÀ¤é¤ì¤¿Ê¸»úÎó¤¬,
+ËÄÂç¤ÊÎÌ¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó(Ê¸Ë¡Åª, °ÕÌ£Åª¤Ë°ÕÌ£¤Î¤Ê¤¤Ê¸»úÎó)¤ò´Þ¤à¤Î¤ËÂÐ¤·¤Æ,
+ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï, ¤½¤ì¤é¤ÎÃÇÊÒÅª¤ÊÊ¸»úÎó¤¬ÂçÉý¤Ëºï½ü¤µ¤ì¤ë¤³¤È¤¬³ÎÇ§¤µ¤ì¤¿.
+</p>
+<p>
+¤³¤Î¸ú²Ì¤Ë¤è¤ê, Î¥»¶·¿¤Î¶¦µ¯É½¸½¤ÎÌÖÍåÅª¤Ê¼«Æ°Ãê½Ð¤¬²ÄÇ½¤È¤Ê¤Ã¤¿.
+Äó°Æ¤·¤¿Î¥»¶·¿¶¦µ¯É½¸½Ãê½ÐÊý¼°¤ÎÅ¬ÍÑÎã¤Ç¤Ï, Ï¢º¿·¿¶¦µ¯¤Î½¸·×¤ÇÆÀ¤é¤ì¤¿Ê¸»úÎó¤Î¤¦¤Á,
+10²ó°Ê¾å½Ð¸½¤·¤¿Ê¸»úÎó(12,350¼ïÎà)¤ÎÇ¤°Õ¤Î2¼ïÎà¤¬, 1Ê¸Ãæ¤Ë2²ó°Ê¾å¶¦µ¯¤·¤¿É½¸½¤ÎÁÈ¤Ï,
+6,500¼ïÎà(±ä¤Ù½Ð¸½²ó¿ô21,800²ó)¤Ç¤¢¤ë¤³¤È¤Ê¤É,
+Î¥»¶·¿¤Î¶¦µ¯É½¸½¤¬ÍÆ°×¤Ëµá¤á¤é¤ì¤ë¤³¤È¤¬Ê¬¤«¤Ã¤¿.
+</p>
+<p>
+°Ê¾å¤Î¤È¤ª¤ê, ËÜÏÀÊ¸¤ÎÊýË¡¤Ç¤Ï, Ï¢º¿·¿¶¦µ¯É½¸½Ãê½Ð¤Ç¤ÎÃÇÊÒÅªÊ¸»úÎó¤ÎÃê½Ð¤¬ÍÞÀ©¤µ¤ì¤ë·ë²Ì,
+Î¥»¶·¿¶¦µ¯É½¸½¤òÍÆ°×¤Ë·×»»¤¹¤ë¤³¤È¤¬²ÄÇ½¤È¤Ê¤ê,
+Ê¸·¿¥Ñ¥¿¡¼¥ó¤Ê¤É, Ê¸¹½Â¤¤Ë´Ø¤¹¤ë´ðÁÃ¥Ç¡¼¥¿¤ò, ¤Û¤Ü¼«Æ°Åª¤Ë¼ý½¸¤¹¤ë¤³¤È¤¬²ÄÇ½¤È¤Ê¤Ã¤¿.
+</p>
+<p>
+ËÜÏÀÊ¸¤Ç¤Ï, Å¬ÍÑÎã¤È¤·¤ÆÆüËÜ¸ìÊ¸»úÎó¥Ç¡¼¥¿¤«¤é¤ÎÃê½Ð·ë²Ì¤ò¼¨¤·¤¿¤¬,
+¤³¤ÎÊýË¡¤Ï, Ç¤°Õ¤Îµ­¹æÎó¤ËÅ¬ÍÑ¤Ç¤­¤ë¤¿¤á,
+Ã±¸ìÃ±°Ì¤ËÊ¬³ä¤·¤¿Ã±¸ìÎó¤ä·ÁÂÖÁÇ²òÀÏ¤Î·ë²Ì¤È¤·¤ÆÆÀ¤é¤ì¤¿Ê¸Ë¡ÅªÍ×ÁÇÎó,
+¤â¤·¤¯¤Ï, ³ÆÃ±¸ì¤ò¤½¤Î°ÕÌ£Â°À­¤ÇÃÖ¤­´¹¤¨¤¿°ÕÌ£Â°À­Ï¢º¿¤Ê¤É,
+¼ï¡¹¤Î±þÍÑ¤¬²ÄÇ½¤Ç¤¢¤ë<a name="rfn10" href="p09.html#fn10"><sup>¡ù</sup></a>.
+º£¸å¤Ï, ¼ï¡¹¤ÎÅ¬ÍÑ¼Â¸³¤ò¹Ô¤¤, ¤µ¤é¤Ë²þÎÉ¤ò²Ã¤¨¤Æ¤¤¤¯¤Ä¤â¤ê¤Ç¤¢¤ë.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>»²¹ÍÊ¸¸¥</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>1)</strong></a>
+<dd>Church, K.W. and Hanks, P.:
+	Word Association Norms, Mutual Information and Lexicography,
+	<i>Computational Linguistics</i>, Vol.16, No.1, pp.22-29 (1990).
+	<br><br>
+<dt><a name="ref2"><strong>2)</strong></a>
+<dd>Smadja, F.A. and MeKeown, K.R.:
+	Automatically Extracting and Representing Collocations for Language Generation,
+	<i>Proceedings of the 28th Annnal Meeting of the Association for Compntational
+	Linguistics</i>, pp.252-259 (1990).
+	<br><br>
+<dt><a name="ref3"><strong>3)</strong></a>
+<dd>ËÌ, ¾®ÁÒ, ¿¹¸µ, ÌðÌî:
+	»Å»öÎÌ´ð½à¤òÍÑ¤¤¤¿¥³¡¼¥Ñ¥¹¤«¤é¤ÎÄê·¿É½¸½¤Î¼«Æ°Ãê½Ð,
+	¾ðÊó½èÍý³Ø²ñÏÀÊ¸»ï, Vol.34, No.9, pp.1937-1943 (1993).
+	<br><br>
+<dt><a name="ref4"><strong>4)</strong></a>
+<dd>Kita, K., Kato, Y., Omoto, T. and Yano, Y.:
+	A Comparative Study of Automatic Extraction of Collocations from Corpora:
+	Mutual Inforrnation vs. Cost Criteria,
+	<i>Journal of Natural Language Processing</i>, Vol.1, No.1, pp.21-33 (1994).
+	<br><br>
+<dt><a name="ref5"><strong>5)</strong></a>
+<dd>Smadja, F.:
+	Retrieving Collocations from Text,
+	<i>Computational Linguistics</i>, Vol.19, No.9, pp.143-177 (1993).
+	<br><br>
+<dt><a name="ref6"><strong>6)</strong></a>
+<dd>Nagao, M and Mori, S.:
+	A New Method of <i>N</i>-gram Statistics for Large Number of n and Automatic
+	Extraction of Words and Phrases from Large Text Data of Japanese,
+	<i>Proceedings of the 15th International Conference on Computational
+	Linguistics</i>, pp.611-615 (1994).
+	<br><br>
+<dt><a name="ref7"><strong>7)</strong></a>
+<dd>±ºÃ«:
+	¥Ë¥å¡¼¥¹¸¶¹Æ¥Ç¡¼¥¿¥Ù¡¼¥¹¤«¤é¤ÎÉ½¸½¥Ñ¥¿¡¼¥ó¤ÎÃê½Ð,
+	Âè50²ó¾ðÊó½èÍý³Ø²ñÁ´¹ñÂç²ñÏÀÊ¸½¸, 1R-8 (1995).
+	<br><br>
+<dt><a name="ref8"><strong>8)</strong></a>
+<dd>¿·Ç¼, °æº´¸¶:
+	µ¿»÷N¥°¥é¥à¤òÍÑ¤¤¤¿½õ»ìÅªÄê·¿É½¸½¤Î¼«Æ°Ãê½Ð,
+	¾ðÊó½èÍý³Ø²ñÏÀÊ¸»ï, Vol.36, No.1, pp.32-40 (1995).
+	<br><br>
+<dt><a name="ref9"><strong>9)</strong></a>
+<dd>Collier, R.:
+	<i>N</i>-gram Cluster Identification during Empirical Knowledge
+	Representation Generation,
+	<i>Proceedings of the 15th International Conference on Computational
+	Linguistics</i>, pp.1054-1058 (1994).
+	<br><br>
+<dt><a name="ref10"><strong>10)</strong></a>
+<dd>²ÃÆ£, ÁêÂô:
+	³°ÅÅ¥Ë¥å¡¼¥¹¤ÎÄê·¿Ê¸Ãê½Ð¤È¤½¤Î±ÑÆüµ¡³£ËÝÌõ,
+	¾ðÊó½èÍý³Ø²ñ¼«Á³¸À¸ì½èÍý¸¦µæ²ñ»ñÎÁ, 93-2 (1993). 
+</dl>
+
+<div align=right>
+(Ê¿À®7Ç¯3·î31Æü¼õÉÕ)<br>
+(Ê¿À®7Ç¯9·î6ÆüºÎÏ¿)
+</div>
+
+<br>
+
+<hr size=2 width=40% align=left>
+
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p09/p09-a1.gif" width=93 height=120></td>
+    <td><font size=+1><strong>ÃÓ¸¶ ¸ç</strong> (Àµ²ñ°÷)</font><br>	
+	1967Ç¯ÂçºåÂç³Ø´ðÁÃ¹©³ØÉôÅÅµ¤¹©³Ø²ÊÂ´¶È.
+	1969Ç¯Æ±Âç³Ø±¡½¤»Î²ÝÄø½¤Î».
+	Æ±Ç¯ÆüËÜÅÅ¿®ÅÅÏÃ¸ø¼Ò¤ËÆþ¼Ò.
+	°ÊÍè, ¿ô¼°½èÍý, ¥È¥é¥Õ¥£¥Ã¥¯ÍýÏÀ, ¼«Á³¸À¸ì½èÍý¤Î¸¦µæ¤Ë½¾»ö.
+	¸½ºß, NTT¥³¥ß¥å¥Ë¥±¡¼¥·¥ç¥ó²Ê³Ø¸¦µæ½ê¸¦µæ¥°¥ë¡¼¥×¡¦¥ê¡¼¥À(¼ç´´¸¦µæ°÷).
+	¹©³ØÇî»Î.
+	1982Ç¯¾ðÊó½èÍý³Ø²ñÏÀÊ¸¾Þ, 1993Ç¯Æ±³Ø²ñ¸¦µæ¾Þ,
+	1995Ç¯ÆüËÜ²Ê³Øµ»½Ñ¾ðÊó¥»¥ó¥¿¾Þ(³Ø½Ñ¾Þ), Æ±Ç¯¿Í¹©ÃÎÇ½³Ø²ñÏÀÊ¸¾Þ¼õ¾Þ.
+	ÅÅ»Ò¾ðÊóÄÌ¿®³Ø²ñ, ¿Í¹©ÃÎÇ½³Ø²ñ, ¸À¸ì½èÍý³Ø²ñ³Æ²ñ°÷.
+</tr>
+</table>
+</p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p09/p09-a2.gif" width=93 height=120></td>
+    <td><font size=+1><strong>Çò°æ Í¡</strong> (Àµ²ñ°÷)</font><br>	
+	1978Ç¯ÂçºåÂç³Ø¹©³ØÉôÄÌ¿®¹©³Ø²ÊÂ´¶È.
+	1980Ç¯Æ±Âç³Ø±¡Çî»ÎÁ°´ü²ÝÄø½¤Î».
+	Æ±Ç¯ÆüËÜÅÅ¿®ÅÅÏÃ¸ø¼Ò¤ËÆþ¼Ò.
+	°ÊÍè, Æü±Ñµ¡³£ËÝÌõ¤òÃæ¿´¤È¤¹¤ë¼«Á³¸À¸ì½èÍý¤Î¸¦µæ¤Ë½¾»ö.
+	¸½ºß, NTT¥³¥ß¥å¥Ë¥±¡¼¥·¥ç¥ó²Ê³Ø¸¦µæ½ê¼ç´´¸¦µæ°÷.
+	1995Ç¯ÆüËÜ²Ê³Øµ»½Ñ¾ðÊó¥»¥ó¥¿¾Þ(³Ø½Ñ¾Þ), Æ±Ç¯¿Í¹©ÃÎÇ½³Ø²ñÏÀÊ¸¾Þ¼õ¾Þ.
+	ÅÅ»Ò¾ðÊóÄÌ¿®³Ø²ñ, ¸À¸ì½èÍý³Ø²ñ³Æ²ñ°÷.
+</tr>
+</table>
+</p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p09/p09-a3.gif" width=94 height=119></td>
+    <td><font size=+1><strong>²Ï²¬ »Ê</strong> (Àµ²ñ°÷)</font><br>	
+	1966Ç¯ÂçºåÂç³Ø¹©³ØÉôÄÌ¿®¹©³Ø²ÊÂ´¶È.
+	1968Ç¯Æ±Âç³Ø±¡½¤»Î²ÝÄø½¤Î».
+	Æ±Ç¯ÆüËÜÅÅ¿®ÅÅÏÃ¸ø¼Ò¤ËÆþ¼Ò.
+	¸¦µæ³«È¯µ»½ÑËÜÉô±¿±Ä»ÜºöÉôÄ¹, ¾ðÊóÄÌ¿®ÌÖ¸¦µæ½êÃÎ¼±½èÍý¸¦µæÉôÄ¹,
+	NTT¥³¥ß¥å¥Ë¥±¡¼¥·¥ç¥ó²Ê³Ø¸¦µæ½ê½êÄ¹¤ò·Ð¤Æ, ¸½ºß, Æ±»Ö¼ÒÂç³Ø¹©³ØÉô¶µ¼ø.
+	¹©³ØÇî»Î.
+	ÅÅ»Ò¾ðÊóÄÌ¿®³Ø²ñ, ¿Í¹©ÃÎÇ½³Ø²ñ³Æ²ñ°÷.
+</tr>
+</table>
+</p>
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>¡ù</sup></a>
+ËÜÏÀÊ¸¤Ç¤Ï, Ê¸Ë¡Åª, °ÕÌ£Åª¤ËÉ½¸½¤ÎÃ±°Ì¤È¤ß¤Ê¤»¤ëÊ¸±§Îó¤ò°Õ¼±¤·¤Æ¡ÖÉ½¸½¡×¤È¸Æ¤Ö.
+(<a href="p09.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>¡ù</sup></a>
+¤¢¤ëÉ½¸½¤ÎÉôÊ¬¤È¤·¤Æ¤·¤«»ÈÍÑ¤µ¤ì¤Ê¤¤¤è¤¦¤ÊÉôÊ¬Åª¤ÊÉ½¸½¤Ï
+Ãê½Ð¤µ¤ì¤Ê¤¤¤¬, ¤½¤Î¤è¤¦¤ÊÉ½¸½¤Ï, ¸µ¡¹, ¤½¤ì¤ò´Þ¤à¤è¤êÂç¤­
+¤ÊÉ½¸½¤Î°ìÉô¤Ë¤¹¤®¤Ê¤¤¤È¹Í¤¨¤é¤ì¤ë¤«¤é, ²þ¤á¤Æ¼è¤ê½Ð¤¹¤³
+¤È¤Ï¤·¤Ê¤¤. (<a href="p09.html#rfn2">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>¡ù</sup></a>
+½¾Íè, Ã±¸ìÎó¤Î¾ì¹ç, ·ë²Ì¤«¤é·×»»¤¹¤ëÊýË¡¤¬»È¤ï¤ì¤Æ¤¤¤¿Îã<sup><a href="p09.html#ref3">3)</a></sup>
+¤¬¤¢¤ë. ¤·¤«¤·, ¤½¤ÎÊýË¡¤Ç¤Ï, ¸¶Ê¸¤Î¤¢¤ë°ìÄêÎÎ°è¤«¤é, ¸ß
+¤¤¤ËÉôÊ¬Ê¸»úÎó¤ò¶¦Í­¤¹¤ë¤è¤¦¤ÊÊ£¿ô¤ÎÊ¸»úÎó¤¬Ãê½Ð¤µ¤ì¤Æ¤¤
+¤ë¤È¤­, °ú¤­²á¤®¤¬À¸¤¸¤ë. Ãê½Ð¤Î½ª¤ï¤Ã¤¿ÃÊ³¬¤Ç¤Ï, °ú¤­²á
+¤®¤ÎÍ­Ìµ¤ÎÈ½ÃÇ¤Ï²¼Ç½¤Ê¤¿¤á, Àµ³Î¤Ê·×»»¤Ï¤Ç¤­¤Ê¤¤. (<a href="p09.html#rfn3">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>¡ù</sup></a>
+ÈÆÍÑ ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Î³Æ¥ì¥³¡¼¥É¤Ë, ¼¡Ã±¸ìÈÖÃÏ(next pointer)
+¤Î¥Õ¥£¡¼¥ë¥É¤òÀß¤±¤ì¤Ð, ¥é¥ó¥À¥à¥¢¥¯¥»¥¹¤Ë¤è¤Ã¤Æ¤¿¤É¤ì¤ë.
+¤·¤«¤·, ÄÌ¾ï¥Õ¥¡¥¤¥ë¥µ¥¤¥º¤ÏÂç¤­¤¯, ¥Ç¥£¥¹¥¯¥¢¥¯¥»¥¹²ó¿ô
+¤¬ËÄÂç (4 ¾Ï¤Î¼Â¸³Îã¤Ç¤Ï, Á´¥ì¥³¡¼¥É¤Ë1 ²ó¤º¤Ä¥é¥ó¥À¥à¤Ë
+¥¢¥¯¥»¥¹¤¹¤ë»þ´Ö¤Ï, 1,000 Ëü²ó ¡ß 10 ms ¡á 30»þ´ÖÄøÅÙ¤È¿ä
+Äê¤µ¤ì¤ë) ¤È¤Ê¤ë. ¤³¤ì¤ËÂÐ¤·¤ÆÏ¢Â³¤·¤¿¥ì¥³¡¼¥É¤Î½èÍý (IO
+¥Ð¥Ã¥Õ¥¡¤Î¥µ¥¤¥º¤Ë¤â¤è¤ë¤¬) ¤Ï¹âÂ®¤Ç¤¢¤ë. ¤½¤Î¤è¤¦¤Ë¤¹¤ë¤Ë
+¤Ï, ËÜÊ¸¤Ç½Ò¤Ù¤¿¤è¤¦¤Ë¸¶Ê¸ÈÖÃÏ½ç¤Ë¥½¡¼¥È¤·Ä¾¤¹É¬Í×¤¬¤¢¤ë
+¤¬, ¤½¤Î¤¿¤á¤Î¥½¡¼¥È»þ´Ö¤Ï, ¥½¡¼¥È¥Õ¥¡¥¤¥ë¤Ë¼¡Ã±¸ì¹áÃÏ¤ò
+Ãµ¤·¤Æ½ñ¤­¹þ¤à½èÍý¤ÈÆ±Åù¤Î»þ´Ö¤Ç¼Â¹Ô¤Ç¤­¤ë. °Ê¾å¤«¤é, ¥é
+¥ó¥À¥à¥¢¥¯¥»¥¹¤ËÈæ¤Ù¤Æ, ¥Í¥¯¥¹¥È¥µ¡¼¥Á¤ÎÊý¤¬¹âÂ®¤À¤È´üÂÔ
+¤µ¤ì¤ë. ¤Ê¤ª, Æ±¼ï¤ÎºÆ¥½¡¼¥È½èÍý¤Ï, Ï¢º¿·¿¶¦µ¯Ê¸»úÎóÃê½Ð
+¤Ç2 ²ó, Î¥»¶·¿¶¦µ¯¤Ç1 ²ó¤Î¹ç·×3 ²óÉ¬Í×¤È¤Ê¤ë¤¬, ¤¤¤º¤ì¤â,
+½çÉÔÆ±¤È¤Ê¤Ã¤¿¥ì¥³¡¼¥ÉÈÖ¹æ¤¬¸µ¤ÎÏ¢Â³ÈÖ¹æ¤Ë¤Ê¤ë¤è¤¦¤Ë¥½¡¼
+¥È¤·Ä¾¤¹¤â¤Î¤Ç¤¢¤ê, Ã±½ã¤Ç¹âÂ®¤Ë¼Â¹Ô¤Ç¤­¤ë (4 ¾Ï¤ÎÎã¤Ç¤Ï,
+¥½¡¼¥È 1 ²óÅö¤¿¤ê¿ôÊ¬¤Ç¤¢¤ë). (<a href="p09.html#rfn4">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>¡ù</sup></a>
+Ä¹Èø¡¦ ¿¹¤Î¥¢¥ë¥´¥ê¥º¥à¤ò»ÈÍÑ¤¹¤ëÉôÊ¬¤Ç, ËÜ¼Â¸³¤Ç¤Ï, ÄÌ¾ï¤Î
+¥³¥à¥½¡¼¥È¤ò»ÈÍÑ¤·¤¿¤¬, ´ÖÀÜ¥¢¥É¥ì¥¹¤Ë¤è¤ë¥½¡¼¥È¤Ç¤¢¤ë¤¿
+¤á»þ´Ö¤¬¤«¤«¤Ã¤¿. ¤³¤ì¤ò¹âÂ®²½¤¹¤ë¤¿¤á¤Ë¤Ï, ÀèÆ¬1 ¡Á2 Ê¸»ú
+¤ò¥á¥â¥ê¾å¤Ë¼è¤ê½Ð¤·, Ä¾ÀÜ¥½¡¼¥È¤·¤¿¸å, ÉôÊ¬¥½¡¼¥È¤ò·«¤ê
+ÊÖ¤¹¤Ê¤É¤ÎÊýË¡¤¬¹Í¤¨¤é¤ì¤ë. (<a href="p09.html#rfn5">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn6"><sup>¡ù</sup></a>
+2 ¼ïÎà¤ÎÉ½¸½¤ÎÁÈ¤Î½¸·×¤Ç¤Ï, Â­ÀÚ¤ê¤ò¤·¤Ê¤¤ (2 ÅÙ¿ô°Ê¾å¤òÂÐ
+¾Ý¤È¤¹¤ë) ¾ì¹ç, Ìó18 Ëü¼ïÎà(±ä¥Ù40 ËüÅÙ¿ô) ¤ÎÎ¥»¶·¿É½¸½
+¤¬Ãê½Ð¤µ¤ì¤¿. ¤³¤³¤Ç¤Ï, ·ë²Ì¤ò¸«¤ä¤¹¤¯¤¹¤ë¤¿¤á, Ãê½Ð¤µ¤ì
+¤ë¼ïÎà¤¬Ìó1Ëü·ï°Ê²¼¤Ë¤Ê¤ë¤è¤¦¤Ë, Ã±ÆÈ½Ð¸½²ó¿ô10 ¤Ç, ÆþÎÏ
+¤ÎÂ­ÀÚ¤ê¤ò¤·¤¿¾ì¹ç¤ò¼¨¤¹. (<a href="p09.html#rfn6">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn7"><sup>¡ù¡ù</sup></a>
+É½6 ¤Ç¤Ï¡Ö¥¼¥Í¥é¥ë¡×+ ¡Ö¥â¡¼¥¿¡¼¥¹¡×, ¡Ö¥µ¥ß¥Ã¥È¡×+ ¡ÖÀè¿Ê¹ñ
+¼óÇ¾²ñµÄ¡× ¤Ê¤É¤Î¥Ú¥¢¤«ÉÑ½Ð¤·¤Æ¤¤¤ë¤¬, ¤³¤ì¤Ï, ËÜÊ¸Ãæ¤Ë¤Ï
+¡Ö¥¼¥Í¥é¥ë¡¦ ¥â¡¼¥¿¡¼¥¹¡×, ¡Ö¥µ¥ß¥Ã¥È (Àè¿Ê¹ñ¼óÇ¾²ñµÄ)¡×¤Ê¤É¤È
+¤·¤Æ½Ð¸½¤·¤Æ¤¤¤¿¤¿¤á¤Ç, ÆÉÅÀ¤ò½ü¤¯µ­¹æÎà¤ÏÏ¢º¿·¿¶¦µ¯¤Î½¸
+·×¤ÎÂÐ¾Ý¤È¤·¤Ê¤«¤Ã¤¿¤¿¤á¤Ç¤¢¤ë. (<a href="p09.html#rfn7">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn8"><sup>¡ù¡ù¡ù</sup></a>
+Îã¤¨¤Ð, Ï¢º¿·¿¤ÇÃê½Ð¤·¤¿Ê¸»úÎó¤Î10%¤¬Í­¸ú¤ÊÉ½¸½¤À¤Ã¤¿
+¤È¤¹¤ë¤È, Î¥»¶·¿¤Î¾ì¹ç¤ËÃê½Ð¤µ¤ì¤ëÊ¸»úÎó¤ÎÁÈ¤ÎÍ­¸ú¤Ê¤â¤Î
+¤Ï, 0.1 ¤Î<i>n</i> ¾è (<i>n</i> ¤ÏÍ×ÁÇ¤È¤¹¤ëÉ½¸½¤Î¿ô) °Ê²¼¤Ë¸º¾¯¤¹¤ë
+¤È¹Í¤¨¤é¤ì¤ë. ¤·¤¿¤¬¤Ã¤Æ, Ï¢º¿·¿¤ËÈæ¤Ù¤ÆÎ¥»¶·¿¤Ç¤Ï¤µ¤é¤Ë,
+Ãê½Ð¤·¤¿¤¤É½¸½¤ò¤¤¤«¤Ë¹Ê¤ê¹þ¤à¤«¤¬½ÅÍ×¤ÊÌäÂê¤È¤Ê¤ë. ¼Â¸³
+¤Ë¤è¤ì¤Ð, Ãê½Ð¤·¤¿¤¤É½¸½¤ò»ú¼ï¤Ë¤è¤Ã¤ÆÀ©Ìó¤¹¤ë¸ú²Ì¤¬Âç¤­
+¤¤¤¬, ¤³¤ÎÅÀ¤Ï, ¤µ¤é¤Ëº£¸å¤Î¸¡Æ¤¤¬É¬Í×¤Ç¤¢¤ë. (<a href="p09.html#rfn8">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn9"><sup>¡ù</sup></a>
+¶¦µ¯É½¸½¤ÎÃê½Ð¤Ç¤Ï, ½Ð¸½ÉÑÅÙ¤Î¹â¤¤É½¸½¤ò¤¤¤«¤Ë¤â¤ì¤Ê¤¯½¦
+¤¤½Ð¤¹¤«¤¬ÌäÂê¤Ç¤¢¤ë. ½Ð¸½¤¹¤ëÉ½¸½¤ÎÊ¬ÉÛ¤ËÂç¤­¤ÊÊÐ¤ê¤Î¤Ê
+¤¤É¸ËÜ¤Ç¤¢¤ì¤Ð, É¸ËÜÎÌ¤òÁý²Ã¤µ¤»¤¿¤È¤­, ¤½¤ì¤Ë¤Ä¤ì¤Æ½Ð¸½
+ÉÑÅÙ¤Î¹â¤¤É½¸½¤Î½Ð¸½²ó¿ô¤âÁý²Ã¤¹¤ë¤«¤é, Å¬Åö¤ÊÃÍ¤ÇÂ­ÀÚ¤ê
+¤ò¤·¤Æ¤â¤½¤ì¤é¤òÏ³ ¤é¤¹¿´ÇÛ¤Ï¾¯¤Ê¤¤. ¤Ê¤ª, É½¸½¤ËÂç¤­¤ÊÊÐ
+¤ê¤Î¤¢¤ëÉ¸ËÜ¤Î¾ì¹ç¤Ï, ¥¸¥ã¥ó¥ë¤´¤È¤ËÊ¬¤±¤Æ, ¶¦µ¯É½¸½¤ò¼ý
+½¸¤¹¤ëÊý¤¬Å¬ÀÚ¤È¸À¤¨¤ë. (<a href="p09.html#rfn9">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn10"><sup>¡ù</sup></a>
+Ãøºî¸¢¥Á¥§¥Ã¥¯¤Î¤¿¤á¤ÎÃøºîÊª¤Î¾È¹ç,°äÅÁ»Ò¹©³Ø¤Ë¤ª¤±¤ëDNA
+Â®º¿¤Î¥Á¥§¥Ã¥¯¤Ê¤É¤Ø¤Î±þÍÑ¤â´üÂÔ¤µ¤ì¤ë. ¸½ºß¥×¥í¥°¥é¥à¤Î
+¥Ñ¥Ã¥±¡¼¥¸²½¤òÍ½Äê¤·¤Æ¤¤¤ë¤Î¤Ç, ¤´´õË¾¤ÎÊý¤ÏÃø¼Ô¤Þ¤Ç¤´Ï¢
+Íí¤¯¤À¤µ¤¤. ({ikehara, shirai}@nttkb.ntt.jp) (<a href="p09.html#rfn10">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

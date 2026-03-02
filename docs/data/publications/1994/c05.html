@@ -1,0 +1,592 @@
+<html>
+<head>
+<title>Satoru Ikehara, Satoshi Shirai, Kentaro Ogura, Akio Yokoo, Hiromi Nakaiwa &amp; Tsukasa Kawaoka, IFIP 13th World Computer Congress, August 8, 1994</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>ALT-J/E, a Japanese to English Machine Translation System for Communication with Translation</font>
+<br><br>
+
+<font size=+2>Satoru Ikehara <sup>a</sup>, Satoshi Shirai <sup>a</sup>, Kentaro Ogura <sup>a</sup>, Akio Yokoo <sup>a</sup>, Hiromi Nakaiwa <sup>a</sup> and Tsukasa Kawaoka <sup>b</sup></font>
+<br><br>
+
+<font size=+1><sup>a</sup> NTT Information Network Systems Laboratories, Yokosuka-shi, 238-03 Japan</font>
+<br>
+<font size=+1><sup>b</sup> NTT Communication Science Laboratories, Seika-chou, Kyouto-fu, 619-02 Japan</font>
+</div>
+
+<h2>Abstract</h2>
+<p>
+Machine translation services to facilitate social interaction are strongIy needed. This
+paper discusses forms of communication with machine translation services and the required
+translation quality. The Multi-Level Machine Transintion method based on semantic
+analysis is proposed to realize the required translation quality.
+</p>
+<p>
+Test experiments to date indicate that conventional machine translation systems, which
+place emphasis on syntax developed from compositional semantics, are limited to a translation
+success rate of about 30% for Japanese to English machine translation. The proposed
+method achieves a success rate of up to 80%. This level of translation quality is sufficient to
+make many new communication services feasible such as E-mail with translation.
+</p>
+
+<br><br>
+
+<h3>Keyword Codes:</h3> I.2.7; C.3; J.7
+
+<h3>Keywords:</h3>
+
+<p>
+Natural Language Proccesing; SPECIAL-PURPOSE AND APPLICATION BASED SYSTEMS; COMPUTERS IN OTHER SYSTEMS
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of IFIP 13th World Computer Congress</i>, pp.80-85 (August, 1994). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=13>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c05.html#chap-1.">1. INTRODUCTION</a></td></tr>
+<tr><td><a href="c05.html#chap-2.">2. CWMT SERVICES AND MT QUALITY</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-2.1">2.1 Types of CWMT Services</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-2.2">2.2 Translation Quality for Communications</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-2.3">2.3 Multi-Lingual Translation</a></td></tr>
+<tr><td><a href="c05.html#chap-3.">3. MLMT METHOD AND ITS EFFECTS</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-3.1">3.1 MLMT Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-3.2">3.2 Linguistic Knowledge in ALT-J/E</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-3.3">3.3 Effects of Semantic Analysis</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#chap-3.4">3.4 Capabilities of MLMT Method</a></td></tr>
+<tr><td><a href="c05.html#chap-4.">4. CONCLUSION</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c05.html#ref">REFERENCES</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. INTRODUCTION</font></h2></a>
+
+<p>
+Progress in the field of telecomnlunications technology has overcome
+the communication barriers of distance and time facing mankind. The
+major remaining problem is the language barrier. To support the
+ever-increasing volume of international communications, the
+realization of communications with machine translations servtces (CWMT
+services)[<a href="c05.html#ref1">1</a>] has become the major issue. CWMT
+services transcend the conventional scope of communication services
+which are limited to the transfer of signals. CWMT deals with the
+contents of a message and constitutes a new value added communication
+service.
+</p>
+<p>
+Since the 1980s, research related to machine translation (MT) has
+rapidly progressed and the development of various systems[<a
+href="c05.html#ref2">2</a>,<a href="c05.html#ref3">3</a>] has been undertaken. Yet
+good quality MT between languages that are as far apart as Japanese
+and English is still unrealized. Many actual MT systems require manual
+processes such as rewording the origInal text into a form more readily
+translatable (pre-editing) and/or rewriting the translation results
+(postediting). Applications of such systems have been limited to
+manuals and other forms involving expressions that are comparatively
+easy to handle. Thus, conventional MT systems fail to realize the CWMT
+services that can accessed easily by the general public.  Realization
+of a MT system capable of high qualify translation and requiring no
+pre-editing nor postediting has long been awaited.
+</p>
+<p>
+This paper discusses forms of CWMT services and the qualify of
+translation required for them. In order to realize MT system required
+for CMMT services, we propose a Multi-Level Translation Method (MLTM
+method) which is based on a new semantic analysis.  Applying this
+method to the Japanese-English machine translation system ALT-J/E, the
+improvements in translation qualify is tested to confirm that CWMT
+services are feasible.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. CWMT SERVICES AND MT QUALITY</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Types of CWMT Services</font></h2></a>
+
+<p>
+Let's consider the agent for natural language processing shown in
+Fig.1. Several of these are located at nodes in a communication
+network to offer CWMT services.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c05/c05-fig1.gif" width=559 height=222>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.1 Agent for Natural Language Processing in Networks
+</strong></div>
+</p>
+
+<p>
+Depending on the media used, CWMT services can be classified into
+three types: character communication, voice communication and static
+image communication. The last two types depend on the technologies of
+recognition and synthesis. Synthesis technologies for voice and
+characters are already being used. Therefore, progress in recognition
+technologies is one of the key factors in realizing comprehensive CWMT
+services.
+</p>
+<p>
+When performing MT on texts, the type of source texts should be taken
+into account.  Translation qualify depends on the text type such as
+colloquial style and literary style and also the types of documents
+such as letters, manuals, theses, and newspapers. Here we limit the
+source texts to the literary style and examine the following three
+types of communication services which are expected to be popular in
+the near future.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>(1)</td><td>Network Translation Services<img src="c05/j0000.gif">communicate asynchronously via messages</td></tr>
+<tr valign=top><td>(2)</td><td>Facsimile Translation Services<img src="c05/j0000.gif">communicate through ISDN networks.</td></tr>
+<tr valign=top><td>(3)</td><td>Information Retrieval Translation Services</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Translation Quality for Communications</font></h2></a>
+
+<p>
+We cannot expect that general users be conversant with details of
+their partner's language or details of the MT system used. When the
+services above mentioned are provided as public services, the MT
+system must produce translation results that can be understood easily
+without manually pre-editing the source texts or manually postediting
+the translations.
+</p>
+<p>
+Evaluating trarlslation qualify is the aim of the zero to ten
+evaluation method[<a href="c05.html#ref4">4</a>]. In this method, a score of
+six or more points indicates successful translation in that the
+original meaning could be correctly understood. Experiments were
+conducted using this method to find the relation between the grade of
+text understanding and translation qualify for each sentence in a
+text. We found that when the translation score of at least 70% of the
+sentences was 6 or more, the text could be understood in
+general. These results indicate that CWMT services must achieve a
+translation success rate of 70% to be successful. The success rate of
+conventional Japanese to English MT systems is about 30 % for
+newspaper translations.  Thus, more than twice the current translation
+quality is required,
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Multi-Lingual Translation</font></h2></a>
+
+<p>
+The difficulty of MT depends on the relation between the source and
+target languages.  Translating greatly different languages such as
+Japanese and English is much harder than translating similar languages
+such as Japanese and Korean. The interlingua translation method[<a
+href="c05.html#ref5">5</a>] uses an artificial intermediate language. However,
+no successful interlingua system has been introduced for widely
+different languages. Natural language reflects mental processes in the
+act of communication.
+</p>
+<p>
+We propose a new multi-lingual translation method based on the use of
+representative languages. The method is shown in Fig.2. In this
+method, translation is conducted as follows. First, languages close to
+each other are collected into discrete language groups.  This paper
+introduces three language groups: the agglutinative language group,
+the inflection language group and the isolating language group. Next,
+a representative language is selected for each group. There are two
+types of translations. Conventional translation technology appears
+suitable only for type B translation,
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c05/c05-fig2.gif" width=545 height=225>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.2 Multi Lingual Trnslation though Representative Languages
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. MLMT METHOD AND ITS EFFECTS</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 MLMT Method</font></h2></a>
+
+<p>
+Starting with the Constructive Process Theory[<a href="c05.html#ref6">6</a>]
+for natural languages, we propose the Multi-Level Translation Method
+(MLMT method) shown in Fig.3. The method uses semantic analysis and is
+mainly featured by the following two points.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c05/c05-fig3.gif" width=553 height=254>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.3 Multi-Level Translation Method
+</strong></div>
+</p>
+
+<p>
+<strong>(1) Separation of Expressions</strong>
+</p>
+<p>
+Expressions in the source text are separated into two
+types. Subjective expressions express the speaker's emotions and
+intentions directly. Objective expressions express the conceptualized
+object world. Subjective expressions are translated into the target
+language using reference tables,
+</p>
+<p>
+<strong>(2) Abstraction of Patterns</strong>
+</p>
+<p>
+Objective expressions are translated into the target language through
+transfer rules.  Transfer rules are prepared in advance so as to
+abstracting patterns swithout changing their meanings. Pattern
+abstraction is performed in accordance with the strength of the
+structure and abstracted patterns are classified into dictionaries
+that reflect dinering degrees of abstraction.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Linguistic Knowledge in ALT-J/E</font></h2></a>
+
+<p>
+The Japanese to English MT System, ALT-J/E[<a href="c05.html#ref7">7</a>], was
+developed to evaluate the effects of the proposed method. Within this
+system the linguistic knowledge systems were developed.
+</p>
+<p>
+<strong>(1) Description Language for Dictionaries</strong>
+</p>
+<p>
+In order to describe syntactic and semantic usage of words, a
+syntactic attribute system (500 attributes) and a semantic attribute
+system (3,000 attributes) were developed. The semantic attribute
+system is comprised of three subsystems: the common noun semantic
+attribute system (2,800 nodes), the proper noun semantic attribute
+system (200 nodes), and the verbal semantic attribute system (100
+nodes). Semantic features of words are defined by sets of attribute
+names and their values. Semantic features of words are defined by
+attribute names.
+</p>
+<p>
+<strong>(2) Syntactic and Semantic Dictionaries</strong>
+</p>
+<p>
+Linguistic knowledge needed for Japanese to English MT is compiled in
+syntactic word dictionaries and semantic word dictionaries. The
+semantic dictionaries are composed of a semantic word dictionary
+(400,000 words) and a semantic structure dictionary (15,000
+patterns). Abstracted Japanese sentence patterns are written using a
+semantic attribute system and registered in the laner dictionary with
+corresponding English sentence patterns.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Effects of Semantic Analysis</font></h2></a>
+
+<p>
+Language processing rules were also written by using me abovementioned
+syntactic and semantic attribute systems. The rules were applied to
+translations in cooperation with the linguistic knowledge described by
+the same attributes, This framework makes it easy to develop various
+new translation functions. Some of them are shown in the following.
+</p>
+<p>
+<strong>(1) Differentiating Translations for Verbs</strong>
+</p>
+<p>
+One Japanese verb usually corresponds to more than one expression in
+English. For example, the Japanese verb "<img src="c05/j0001.gif"><i>(kakeru)</i> " can
+be translated in more than 80 ways, some of them are shown in
+Fig.4. Experiments showed that 2,000 more classes of semantic
+attributes are needed if we are to successfully differentiate the
+translation of Japanese verbs.  This problem has been solved by the
+3,000 semantic attribute system used in ALT-J/E.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=3 align=center>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=0 cellspacing=0 align=left>
+	<tr><td>kanojo-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>hana-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>mizu-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketa</td></tr>
+	<tr><td><img src="c05/j0002.gif"></td><td><img src="c05/j0003.gif"></td><td><u><img src="c05/j0004.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0006.gif"></u><img src="c05/j0007.gif"></td>
+	    <td align=right><img src="c05/j0008.gif"></td></tr>
+	</table>
+    </td>
+    <td>She <u><strong>poureed water</strong></u> on a flower.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>kare-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>isu-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>kosi-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketeiru</td></tr>
+	<tr><td><img src="c05/j0009.gif"></td><td><img src="c05/j0010.gif"></td><td><u><img src="c05/j0011.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0012.gif"></u><img src="c05/j0013.gif"></td>
+	    <td align=right><img src="c05/j0014.gif"></td></tr>
+	</table>
+    </td>
+    <td>He <u>is <strong>sitting down</strong></u> on a chair.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>kare-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>nikai-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>hasigo-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketa</td></tr>
+	<tr><td><img src="c05/j0009.gif"></td><td><img src="c05/j0015.gif"></td><td><u><img src="c05/j0016.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0006.gif"></u><img src="c05/j0007.gif"></td>
+	    <td align=right><img src="c05/j0017.gif"></td></tr>
+	</table>
+    </td>
+    <td>He <u><strong>placed</strong> a ladder up tp</u> the second floor.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>kensetsushou-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>koko-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>hasi-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketa</td></tr>
+	<tr><td><img src="c05/j0018.gif"></td><td><img src="c05/j0019.gif"></td><td><u><img src="c05/j0020.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0006.gif"></u><img src="c05/j0007.gif"></td>
+	    <td><img src="c05/j0021.gif"></td></tr>
+	</table>
+    </td>
+    <td>The Ministryof Construction <u><strong>built</strong> a bridge</u> here.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>kanojo-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>purezento-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>ribon-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketa</td></tr>
+	<tr><td><img src="c05/j0002.gif"></td><td><img src="c05/j0022.gif"></td><td><u><img src="c05/j0023.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0006.gif"></u><img src="c05/j0007.gif"></td>
+	    <td align=right><img src="c05/j0021.gif"></td></tr>
+	</table>
+    </td>
+    <td>She <u><strong>tied</strong> ribbon</u> around a gift.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>ano</td><td rowspan=2>&nbsp;</td>
+	    <td>kissatenn-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>modannjyazu-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketeiru</td></tr>
+	<tr><td><img src="c05/j0024.gif"></td><td><img src="c05/j0025.gif"></td><td><u><img src="c05/j0026.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0012.gif"></u><img src="c05/j0013.gif"></td>
+	    <td align=right><img src="c05/j0000.gif"></td></tr>
+	</table>
+    </td>
+    <td>That coffee shop <u>is <strong>playing</strong> modern jazz</u>.</td></tr>
+<tr valign=bottom>
+    <td><table border=0 cellpadding=1 cellspacing=1 align=left>
+	<tr><td>kanojo-ha</td><td rowspan=2>&nbsp;</td>
+	    <td>shokutaku-ni</td><td rowspan=2>&nbsp;</td>
+	    <td>te-burukurosu-wo</td><td rowspan=2>&nbsp;</td>
+	    <td>kaketa</td></tr>
+	<tr><td><img src="c05/j0002.gif"></td><td><img src="c05/j0027.gif"></td><td><u><img src="c05/j0028.gif"></u></td>
+	    <td><u><strong><img src="c05/j0005.gif"></strong><img src="c05/j0029.gif"></u></td>
+	    <td align=right><img src="c05/j0030.gif"></td></tr>
+	</table>
+    </td>
+    <td>She <u><strong>spread</strong> a tablecloth</u> on a dining table.</td></tr>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.4 Differentiating the Translation of the Japanese Verb "kakeru( <img src="c05/j0001.gif"> )"
+</strong></div>
+</p>
+
+<p>
+<strong>(2) Supplementation of Elements Ellipsis</strong>
+</p>
+<p>
+Japanese writers refrain from writing what readers are assumed to
+understand.  Specifically, subjects and objects are usually
+omitted. Successful translation, therefore, demands that these
+elements he recovered from the context. Our experiments[<a
+href="c05.html#ref8">8</a>] into translating newspaper articles by ALT-J/E
+showed that 95% of subject and object ellipsis could be correctly
+supplemented automatically.
+</p>
+<p>
+<strong>(3) Automatic Rewriting of Source Text</strong>
+</p>
+<p>
+Although the automation of preediting has been desired for a long
+time, it was difficult because of undesirable side effects. With
+ALT-J/E, it is possible to judge whether a expression can be rewritten
+or not without changing the meaning using the automatic rewriting
+rules developed by the semantic attribute system. Experiments[<a
+href="c05.html#ref9">9</a>] showed that if the original success rate is about
+50 %, the improvement in translation success rate is about 20 % with
+automatic rewriting performed by ALT-J/E,
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.4"><h2><font color=#ff0000>3.4 Capabilities of MLMT Method</font></h2></a>
+
+<p>
+Experiments performed to translate newspaper articles found that
+originally omitted translation rules can easily be added without
+causing conflict among the rules in the system such that the success
+rate of translations can be improved up to 80%. The 20% of
+translations that failed are difficult even for the technology of
+semantic analysis and require meaning understanding technologies based
+on world knowledge.
+</p>
+<p>
+The success rate obtained in this experiment (80%) is more than the
+twice of that of the conventional method (30%). Therefore, it can be
+said that we are now able to realize CWMT services, some types of
+which were mentioned in section 2.2.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. CONCLUSION</font></h2></a>
+
+<p>
+Based on a discussion about the types of communications with
+translation (CWT) services, the requirements for translation qualify
+and the problems of conventional machine translation (MT) systems were
+clarified. To solve the problems inherent in conventional MT, the
+Multi-Level Machine Translation Method (MLMT method) based on semantic
+analysis was proposed and applied to the Japanese to English MT
+system, ALT-J/E. According to experimental translation results, the
+proposed method significantly increases translation performance.
+</p>
+<p>
+The results can be summarized as follows. Conventional MT methods,
+which emphasize syntax based on compositional semantics, achieve a
+translation success rate of about 30% in the case of Japanese to
+English MT. The proposed method achieves a success rate of about
+80%. This rate exceeds the translation quality (70%) required to begin
+CWMT services such as mail translation, facsimile translation and
+information retrieval with translation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>REFERENCES</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>1.</strong></a>
+<dd>S. Ikehara:
+	Toward High Quality Machine Translation(in Japanese),
+	NTT Technical Journal, pp.44-47 (1992.5).
+	<br><br>
+<dt><a name="ref2"><strong>2.</strong></a>
+<dd>Proceedings of Machine Translation SUMMIT 1-4 (1987, 1989, 1991 and 1993).
+	<br><br>
+<dt><a name="ref3"><strong>3.</strong></a>
+<dd>J. Carbonell et.al.:
+    JTEC Panel Report on Machine Translation in Japan,
+    Loyala College in Maryland (1992).
+	<br><br>
+<dt><a name="ref4"><strong>4.</strong></a>
+<dd>S. Ikehara:
+	Language Characteristics in MT Evaluation,
+	MT Evaluation Workshop (1992.11).
+	<br><br>
+<dt><a name="ref5"><strong>5.</strong></a>
+<dd>H. Uchida and M. Zhu:
+	Interlingua for Multilingual Machine Translation,
+	Proceedings of MT-SUMMIT IV, pp.157-169 (1993).
+	<br><br>
+<dt><a name="ref6"><strong>6.</strong></a>
+<dd>T. Miura:
+	Theory of Languages and Recognitions,
+	Vol.1-3 (in Japanese), Keiso-Bookstore, Tokyo (1967).
+	<br><br>
+<dt><a name="ref7"><strong>7.</strong></a>
+<dd>S. Ikehara:
+	Multi-Level Machine Translation System,
+	Future Computer Systems, Vol.2, No.3, pp.261-274 (1989).
+	<br><br>
+<dt><a name="ref8"><strong>8.</strong></a>
+<dd>N. Nakaiwa and S. Ikehara:
+	Zero Pronoun Resolution in a Japanese to English Machine Translation System
+	Using Verbal Semantic Attributes,
+	ANLP, PP.201-208 (1992),
+	<br><br>
+<dt><a name="ref9"><strong>9.</strong></a>
+<dd>S. Shirai, S. Ikehara and T. Kawaoka:
+	Effects of Automatic Rewriting of Source Language within a Japanese
+	to English MT System,
+	Proceedings of the Fifth TMI, pp.226-239 (1993).
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

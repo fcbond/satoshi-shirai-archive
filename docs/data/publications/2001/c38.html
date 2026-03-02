@@ -1,0 +1,839 @@
+<html>
+<head>
+<title>Kyonghee Paik, Francis Bond &amp; Satoshi Shirai, Workshop on Language Resource in Asia, NLPRS-2001, November 30, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Using Multiple Pivots to align Korean and Japanese Lexical Resources</font>
+<br><br>
+
+<font size=+2>Kyonghee Paik,<sup>+</sup> Francis Bond<sup>++</sup> and Shirai Satoshi<sup>+</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup>ATR Spoken Language Translation Research Lab</font>
+<br>
+<font size=+1><tt> {kyonghee.paik,satoshi.shirai}@atr.co.jp</tt></font>
+
+<br><br>
+
+<font size=+1><sup>++</sup>NTT Communication Science Laboratories <br> Nippon Telegraph and Telephone Corporation</font>
+<br>
+<font size=+1><tt> bond@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+We propose a simple method to make a dictionary using intermediate means, 
+taking advantage of accessible resources such as English-to-X dictionaries and X-to-English dictionaries. 
+Also, we focus on how we can improve the existing method to generate Korean-to-Japanese dictionary automatically. 
+Since Korean and Japanese share Chinese characters for the majority of words, we use them as well. 
+We argue that this "multi-pivot criterion" is useful to build dictionaries 
+especially for the languages using Chinese characters such as Vietnamese and so on.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of Workshop on Language Resource in Asia, NLPRS-2001</i>, pp.63-70 (November, 2001). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=13>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c38.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c38.html#chap-2">2 Background</a></td></tr>
+<tr><td><a href="c38.html#chap-2.">2. 1 Chinese Characters in Japanese and Korean</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#chap-2.2">2.2 Previous Research</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#chap-2.3">2.3 Why open source?</a></td></tr>
+<tr><td><a href="c38.html#chap-3">3 Experiment</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#chap-3.1">3.1 Lexical Resources</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#chap-3.2">3.2 Method</a></td></tr>
+<tr><td><a href="c38.html#chap-4">4 Evaluation and Discussion</a></td></tr>
+<tr><td><a href="c38.html#chap-5">5 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#ack">Acknowledgements</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c38.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In this paper, we propose a method for using two bilingual dictionaries to make a third dictionary. 
+As the number of people who use computers for collecting information from all aronnd the world increases, 
+the demand for dictionaries with many other language combination including a native language does also grow. 
+It is very difficult to find bilingual dictionaries between minor languages, 
+or freely accessible resources even between major languages. 
+However, it is relatively easy to find dictionaries to-or-from English. 
+In order to translate between two lesser known languages, X and Y, 
+we look up a dictionary of X-to-EngIish, then look up a dictionary of a EngIish-to-Y. 
+That is, we use English as a pivot,
+</p>
+<p>
+There is a growing body of research on the generation of dictionaries automatically. 
+It is common to generate a third dictionary using English as a pivot. 
+In this paper, we focus on how we can improve the existing method 
+to generate a Korean-to-Japanese dictionary automatically. 
+We call our method "multi-pivot alignment": in addition to using English as a pivot, 
+we will also use Chinese characters (<strong>hanzi</strong>). 
+We are able to do this as Korean and Japanese share much vocabulary using equivalent Chinese characters. 
+We will refer to Chinese characters in general as <strong>hanzi</strong> (the Chinese word for them), 
+Japanese Chinese characters as <strong>kanji</strong>, the Japanese word, 
+and Korean Chinese characters as <strong>hanja</strong>, the Korean word. 
+These are all different pronunciations or the same hanzi, 
+written as <img src="c38/j0000.gif"> and <img src="c38/xf9d3e.gif"> in Japanese and Korean respectively.
+</p>
+<p>
+Below we give an example of using both English and hanzi to build up a Korean-to-Japanese dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td colspan=2><strong>Korean</strong></td><td></td>
+    <td colspan=3><strong>English/Hanzi</strong></td><td></td>
+    <td colspan=2><strong>Japanese</strong></td></tr>
+<tr><td></td><td colspan=3 rowspan=2 valign=bottom><img src="c38/j0001.gif" width=60 height=15><br>
+    <img src="c38/j0002.gif" width=60 height=15></td>
+    <td align=center><img src="c38/xd1e4e.gif"></td>
+    <td colspan=3 rowspan=3><img src="c38/j0002.gif" width=60 height=15><br>
+	<img src="c38/j0001.gif" width=60 height=15><br>
+	<img src="c38/j0003.gif" width=60 height=15><br>
+	<img src="c38/j0002.gif" width=60 height=15></td>
+    <td align=right><img src="c38/j0004.gif"></td></tr>
+<tr><td><img src="c38/nakin.gif"></td>
+    <td align=center><i>brand</i></td>
+    <td align=right><i>rakuin</i></td></tr>
+<tr><td><i>nak'in</i></td><td colspan=3></td>
+    <td align=center><img src="c38/xdfc2f.gif"></td>
+    <td align=right><img src="c38/j0005.gif"></td></tr>
+<tr><td></td><td colspan=3></td>
+    <td></td><td colspan=3></td>
+    <td align=right><i>shouhyou</i></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1: Matching through multiple criteria
+</i></strong></div>
+</p>
+
+<p>
+Korean <img src="c38/nakin.gif"> <i>nak'in</i> "brand" means "identification mark on skin, made by burning". 
+English <i>brand</i>, however, has another meaning: "trademark"; it is ambiguous. 
+Therefore, if only English is used as a pivot, 
+we create a spurious link to Japanese <img src="c38/j0005.gif"> <i>shouhyou</i> "brand". 
+By also comparing the Chinese characters, we are able to select the correct translation, 
+as both <i>nak'in</i> "brand" and <i>rakuin</i> "brand" have the same hanzi: <img src="c38/j0006.gif">. 
+This we have one, correct, entry in our Korean-Japanese lexicon: 
+<img src="c38/nakin.gif"> (<img src="c38/xd1e4e.gif">) <img src="c38/j0007.gif"> 
+<img src="c38/j0004.gif"> (<img src="c38/j0006.gif">).
+</p>
+<p>
+We did a small pilot study of words in a Korean-Japanese lexicon and found 58% Sino-Korean, 
+32% native Korean, 7.5% foreign-origin and 2.5% mixed multi-word expressions (one word native, one word Sino-Korean). 
+Of the Sino-Korean words 80% had equivalent hanzi to the Japanese kanji (48% of the total number of words). 
+The upper limit of matching using these two pivots will thus be 48%.
+</p>
+<p>
+When automatically creating lexical resources, 
+we believe it is possible and necessary to exploit any similarities between the source and target languages. 
+Here we are using Chinese characters, but other language pairs can use other similarities. 
+For example, to generate a French-to-Eng:lish dictionary, 
+it is effective to use the number of common contiguous matching characters, 
+since the two languages share many common words (such as <i>aberration</i>, <i>abolition</i>, <i>alliance</i>, ... ). 
+Even with slight difference8, rough matches can be made between cognates, 
+using, for example, the Longest Common Subsequence Ratio 
+to match <i>fantastic</i> (E) with <i>fantastique</i> (F) (<a href="c38.html#ref8">Melamed, 2001, p.15</a>).
+</p>
+<p>
+In the next section we give some background on Chinese characters, 
+previous research on automatically building bilingual lexicons and the importance of open-source resources. 
+We then present the resources we used and our method of alignment (<img src="c38/j0008.gif">3), 
+and discuss our results (<img src="c38/j0008.gif">4).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Background</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. 1 Chinese Characters in Japanese and Korean</font></h2></a>
+
+<p>
+Chinese characters have been used in four east Asian languages: 
+Chinese, Korean, Japanese and Vietnamese (although they are no longer used in Vietnam). 
+The characters vary slightly from country to country,
+because they have been modified to express vernacular situations appropriately 
+and the meaning of characters has been diversified in the process of using them.
+</p>
+<p>
+Korean has two kinds of writing. 
+The phonetic script, called <strong>hangul</strong> was invented by King Sejong (1397-1450). 
+It used to be used along with Chinese characters (hanja). 
+However hanja are no longer in general use in Korea. 
+A typical newspaper will be mainly hangul, 
+with hanja only used parenthetically to identify proper-names or ambiguous words.
+</p>
+<p>
+According to <a href="c38.html#ref11">Sohn (1999, p.13)</a>, contemporary Korean vocabulary is composed of three parts: 
+native Korean (35%), Sino-Korean (60%), and western loan words (5%), which is compatible with our results of Table 1. 
+Sino-Korean words consist of three kinds: Sino-Korean words from Chinese 
+(e.g. <img src="c38/xedbbe.gif"> "nature", <img src="c38/xf4b8f.gif"> "heaven and earth" ), 
+Sino-Korean words coined in Korea 
+(e.g. <img src="c38/xdca5f.gif"> "letter", <img src="c38/xdcd8d.gif"> "real estate agency" ) 
+and Sino-Korean words from Japan (e.g. <img src="c38/xdeabf.gif"> "flight", <img src="c38/xd5e9f.gif"> "travel" ). 
+From the end of 19th century (Meiji period), Chinese-style words made in Japan began to be introduced to Korea 
+such as <img src="c38/xe1bcd.gif"> "fire engine", <img src="c38/xe1bcf.gif"> "fire extinguisher", 
+<img src="c38/xdeabf.gif"> "air plane", <img src="c38/xd5e9f.gif"> "journey", etc., 
+which are made obviously due to the influence of western culture. 
+Since then, the majority of technical terms have been coined in Japan and then introduced to Korea as well as back to China. 
+In the 19th century 10% of Sino-Korean words came from Japanese (<a href="c38.html#ref4">Chang, 2000</a>). 
+Now, according to <a href="c38.html#ref6">Lee (1984)</a>, (38%) of a sample including 2,635 words 
+which use the same Chinese characters are made in Japan. 
+This shows that the number or the Japanese-made words has been increasing.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right><td align=left>Type</td><td>Number</td><td>percentage</td></tr>
+<tr></tr>
+<tr align=right><td align=left>Sino Korean</td><td>116</td><td>58.0%</td></tr>
+<tr align=right><td align=left>Korean Native</td><td>64</td><td>32.0%</td></tr>
+<tr align=right><td align=left>Other Foreign</td><td>15</td><td>7.5%</td></tr>
+<tr align=right><td align=left>Mixed</td><td>5</td><td>2.5%</td></tr>
+<tr></tr>
+<tr align=right><td align=left>Total</td><td>200</td><td>100.0%</td></tr>
+</table>
+<div align=center><strong><i>
+Table 1: Distribution of Character Types in Korean-English Dictionary
+</i></strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right><td align=left>Type</td><td>No.</td><td>%</td><td>% of Total</td></tr>
+<tr></tr>
+<tr align=right><td align=left>Exact Match</td><td>76</td><td>65.5%</td><td>38.0%</td></tr>
+<tr align=right><td align=left>Equivalent</td><td>19</td><td>16.4%</td><td>9.5%</td></tr>
+<tr align=right><td align=left>No Match</td><td>21</td><td>18.1%</td><td>10.5%</td></tr>
+<tr align=right><td align=left>Sub-Total</td><td>116</td><td>100.0%</td><td>58.0%</td></tr>
+<tr></tr>
+<tr align=right><td align=left>Total</td><td>200</td><td>--</td><td>100%</td></tr>
+</table>
+<div align=center><strong><i>
+Table 2: Sino-Korean hanja compared to Japanese kanji
+</i></strong></div>
+</p>
+
+<p>
+In Japanese, there are three kinds or writing. 
+One is the classic kanji, i.e. Chinese characters, 
+and the other two are phonetic scripts called <strong>hiragana</strong> and <strong>katakana</strong>. 
+Hiragana is mainly used for inflectional endings and functional words, katakana is used for foreign words. 
+Some Sino-Japanese like <img src="c38/xded0f.gif"> "camera", 
+<img src="c38/xe3b0c.gif"> "elevator", etc. are not used anymore. 
+These words are replaced with Katakana words such as <img src="c38/j0009.gif"> "camera", 
+<img src="c38/j0010.gif"> "elevator", and many other loan words, mainly from English.
+</p>
+<p>
+<a href="c38.html#ref1">Backhouse (1993, pp 74-76)</a> estimates that
+54% of Japanese vocabulary is Sino-Japanese,
+6% of western origin and the remaining 40%
+native.
+</p>
+<p>
+<strong>Encoding of Chinese Characters</strong>
+</p>
+<p>
+Japanese and Korean both have more than one way of encoding Chinese characters on a computer
+(<a href="c38.html#ref7">Lunde, 1999</a>). 
+This means that even though two characters may appear the same, 
+such as Korean <img src="c38/xe9b8.gif"> and Japanese <img src="c38/j0011.gif">, 
+they will not have the same binary representation. 
+However, when the Unicode encoding was designed, 
+equivalent characters from different national character sets were mapped to the same character encodings, 
+a process known as Han Unification (<a href="c38.html#ref7">Lunde, 1999, pp 120-128</a>). 
+Therefore, in Unicode, Korean <img src="c38/j0011.gif"> and Japanese <img src="c38/j0011.gif"> are exactly the same. 
+Characters where the meaning is different, or old and new variations exist in a national encoding, 
+are not unifled in Unicode. 
+For example <img src="c38/xd1a8.gif"> (normally used in Korean) and <img src="c38/j0012.gif"> normally used in Japanese 
+(which, however, also encodes <img src="c38/j0013.gif">) are not unified.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Previous Research</font></h2></a>
+
+<p>
+Tanaka and Umemura (<a href="c38.html#ref12">1994</a>) extended a Japanese-French dictionary 
+using English as an intermediate language. 
+They used a method of "inverse consultation". 
+First, they look up English translations for a Japanese word, and then French translations or these English translations. 
+Then, for each French word, they look up all of its English translations. 
+They then count how many English translations match. 
+This is called "one time inverse consultation". 
+This was extended to "two time inverse consultation" : 
+that is, they look up all the Japanese translations of all the English translations of a given French word 
+and see how many times the Japanese word appears. 
+They prove that their method was useful for revising and supplementing the vocabulary of existing dictionaries.
+</p>
+<p>
+Shirai and Yamamoto (<a href="c38.html#ref9">2001</a>) used a Korean-English and a Japanese-English dictionary 
+to build a Korean-Japanese dictionary using English as a pivot. 
+Their method is a refinement of Tanaka and Umemura (<a href="c38.html#ref12">1994</a>). 
+First, they extract some sets of English words corresponding to Korean words from a Korean-to-English dictionary. 
+Second, they search for Japanese words having English equivalents that are similar to Korean counterparts in meaning. 
+Finally, we link the Korean words to Japanese ones. 
+They tested 1,000 Korean words extracted at random and get 365 appropriate Japanese words. 
+The result shows that 72% are accurate for the matched Japanese words for a degree of similarity of 0.8 and above. 
+However, in spite of their high accuracy, their method needs to improve the recall or translation pairs.
+</p>
+<p>
+Bond et al. (<a href="c38.html#ref2">2001</a>) show how semantic classes can be used 
+along with a pivot language to create a Japanese-to-Malay dictionary. 
+In addition to using English to link pairs, they use semantic classes to rank translation equivalents 
+so that word pairs with compatible semantic classes are chosen automatically.
+</p>
+<p>
+A simplifIed example is given below: The Semantic class of <i>anjing laut</i> 
+matches with <img src="c38/j0014.gif"> <i>azarashi</i> "seal", so it is ranked first. 
+This makes it possible to eliminate bad equivalence candidate and to make a one-to-one matching dictionary. 
+Bond et al. (<a href="c38.html#ref2">2001</a>) also match through Chinese, 
+and show that using two pivot languages is effective in distinguishing between homonyms.
+</p>
+<p>
+<ul>
+<li>Japanese-English pair (Input) <br>
+    <table border=0 cellpadding=1 cellspacing=1>
+    <tr><td rowspan=3><img src="c38/j0015.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0017.gif"></td>
+	<td>Japanese</td><td rowspan=3>&nbsp;</td><td><img src="c38/j0014.gif"> <i>azarashi</i></td>
+	<td rowspan=3><img src="c38/j0018.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0019.gif"></td></tr>
+    <tr><td>English</td><td><i>seal</i></td></tr>
+    <tr><td>Sem Classes</td><td>&lt;<tt>animal</tt>&gt;</td></tr>
+    </table>
+    <br>
+<li> Malay-English pairs (Input) <br>
+    <table border=0 cellpadding=1 cellspacing=1>
+    <tr><td rowspan=3><img src="c38/j0015.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0017.gif"></td>
+	<td>Malay</td><td rowspan=7>&nbsp;</td><td><i>anjing laut</i></td>
+	<td rowspan=3><img src="c38/j0018.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0019.gif"></td></tr>
+    <tr><td>English</td><td><i>seal</i></td></tr>
+    <tr><td>Sem Classes</td><td>&lt;<tt>animal</tt>&gt;</td></tr>
+    <tr></tr>
+    <tr><td rowspan=3><img src="c38/j0015.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0017.gif"></td>
+	<td>Malay</td><td><i>tera</i></td>
+	<td rowspan=3><img src="c38/j0018.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0019.gif"></td></tr>
+    <tr><td>English</td><td><i>seal</i></td></tr>
+    <tr><td>Sem Classes</td><td>&lt;<tt>stationary</tt>&gt;</td></tr>
+    </table>
+    <br>
+<li> Japanese-Malay pair (Best Output) <br>
+    <table border=0 cellpadding=1 cellspacing=1>
+    <tr><td rowspan=4><img src="c38/j0015.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0016.gif"><br><img src="c38/j0017.gif"></td>
+	<td>Japanese</td><td rowspan=4>&nbsp;</td><td><img src="c38/j0014.gif"> <i>azarashi</i></td>
+	<td rowspan=4><img src="c38/j0018.gif"><br><img src="c38/j0016.gif"><br>
+	<img src="c38/j0016.gif"><br><img src="c38/j0016.gif"><br><img src="c38/j0019.gif"></td></tr>
+    <tr><td>Malay</td><td><i>anjing laut</i></td></tr>
+    <tr><td>English</td><td><i>seal</i></td></tr>
+    <tr><td>Sem Classes</td><td>&lt;<tt>animal</tt>&gt;</td></tr>
+    </table>
+</ul>
+</p>
+<p>
+There may be many other alternatives to improve the previous methods. 
+We may want to use English linguistic information fully, 
+which will not affect the generality of the proposed method 
+in the sense of building up a dictionary automatically and any pair of languages. 
+Or, we can use the ideal combination of method using the information of specific language pairs. 
+Wo can think of two step selection: the first step is to look up Korean-to-English dictionary and then, 
+to consequently look up the Japanese words for the English search results obtained from the first output. 
+In addition to this, we want to use Chinese characters for enhancing the generation Korean-Japanese dictionary. 
+This method is similar to (<a href="c38.html#ref2">Bond et al., 2001</a>) in the sense of using Chinese as a second pivot. 
+In addition, we will use the synonyms of Wordnet (<a href="c38.html#ref13">WordNet, 1997</a>) to get more matches.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Why open source?</font></h2></a>
+
+<p>
+Finally, this research was made possible by the existence or a number of open source resources. 
+The results of this research will, of course, be made open, 
+and we have filed bug reports and updates with many of the resources we use. 
+In doing so, we produce better resources for everyone to use, 
+so that the tedious process or compiling lexicons does not have to be repeated over and over again. 
+We hope and expect that this will become standard, 
+so that each generation of researchers can build not only on the ideas of their predecessors, 
+but also on the knowledge that they have compiled.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Experiment</font></h2></a>
+
+<p>
+Due to the some variations among the three languages, 
+we need several pre-editing processes so that equivalent variations can still be matched to get the right candidates. 
+After introducing the lexical resources, we will explain the method we use in detail. 
+In the next section, we show the results.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Lexical Resources</font></h2></a>
+
+<p>
+In this paper, we use five resources:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&nbsp;&nbsp;</td>
+    <td valign=top>1.</td>
+    <td><tt>engdic</i> an English-to-Korean dictionary
+	made available through the Debian
+	Project &lt;<tt>www.debian.or.kr</tt>&gt;</td></tr>
+<tr></tr><tr></tr><tr></tr><tr></tr>
+<tr><td></td>
+    <td valign=top>2.</td>
+    <td>the Hangul/Hanja dictionaries from the
+	<tt>freewnn-kserver</tt> and AMI front end
+	processors &lt;<tt>www.freewnn.org&gt;</tt></td></tr>
+<tr></tr><tr></tr><tr></tr><tr></tr>
+<tr><td></td>
+    <td valign=top>3.</td>
+    <td><tt>edict</tt> a Japanese-to-EngIish dictionary and available for personal use
+	from &lt;<tt>www.csse.monash.edu.au/~jwb/wwwjdic.html</tt>&gt;</td></tr>
+<tr></tr><tr></tr><tr></tr><tr></tr>
+<tr><td></td>
+    <td valign=top>4.</td>
+    <td>a list or old/new kanji equivalents,
+	compiled by Kazuo Koike and available
+	from &lt;<tt>www.l-h.co.jp/lhcontents/l-hlib/koike_pointer.html</tt>&gt;</td></tr>
+<tr></tr><tr></tr><tr></tr><tr></tr>
+<tr><td></td>
+    <td valign=top>5.</td>
+    <td><tt>mule-ucs</tt>, an Emacs extension to do Unicode conversion</td></tr>
+<tr></tr><tr></tr><tr></tr><tr></tr>
+<tr><td></td>
+    <td valign=top>6.</td>
+    <td><tt>wordnet</tt>, an English net of words, available from Princeton</td></tr>
+</table>
+</p>
+<p>
+Engdic is a large English-to-Korean dictionary of some 210,000 word pairs. 
+It contains only Hangul and English, and is not consistently formatted. 
+The original format is (roughly) : English word; part of speech (sometimes omitted, sometimes multiple); 
+Korean translation equivalent(s).
+</p>
+<p>
+The freewnn-kserver has lists of single Hanja/Hangul (4,900) as well as Hanja words and their Hangul equivalents (32,000).
+</p>
+<p>
+Edict, developed by Jim Breen, is a comprehensive Japanese-English electronic dictionaries capable of use 
+within a variety of search-and-display, electronic-text reading support,
+and machine translation environments (<a href="c38.html#ref3">Breen, 1995</a>). 
+His project has been still under way since early 1991 and is now being extended to other languages, 
+notably German and French. 
+It currentIy has around 170,000 Japanese-English pairs, excluding proper nouns. 
+The format is (roughly) : Japanese word; Kanji (if any); 
+part of speech (sometimes omitted, sometimes multiple); English equivalents.
+</p>
+<p>
+We also used a list of modern Japanese Kanji and their older equivalents, 
+with just under 700 pairs, put on the web by Kazuo Koike.
+</p>
+<p>
+Finally we used the Unicode extension to Mule (Mule-UCS) and WordNet.
+</p>
+<p>
+Since we are using all on-line resources, 
+we strongIy feel the importance or providing feedback to the resources we have used. 
+We intend to add the Japanese-Korean pairs we produce to edict, and release an improved version of engdic. 
+We have already made some additions to the freewnn-kserver Hanja/Hangul dictionaries. 
+It is very important to share resources to develop improved systems.
+</p>
+<p>
+We attempted to use commercial dictionaries for our experiments, as many now come with CD-ROMs. 
+However, the Korean-English dictionary we bought could only be accessed on a Korean Windows operating system, 
+and most Japanese dictionaries are only available for Japanese operating systems, 
+making this kind of research very difficult. 
+Just to display the data is not a simple matter. 
+The portability of on-line open source dictionaries is making possible research that could not be done in the past.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Method</font></h2></a>
+
+<p>
+We used a perI script to convert engdic to triplets of Korean; POS; English. 
+We then used the freewnn-kserver word dictionary to add hanja candidates to the Korean words. 
+This gave us possible hanja for around 45% or the words. 
+We then did some simple morphologicaI analysis (such as stripping inflections from nominal verbs and adjectives) 
+to add hanja to another 5%.
+</p>
+<p>
+This gave us a dictionary with entries such
+as the following:
+</p>
+<p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>Korean</td><td rowspan=3>&nbsp;</td><td>Pos &nbsp;</td>
+    <td>English</td><td rowspan=3>&nbsp;</td>
+    <td>Hanja Candidates</td></tr>
+<tr><td><img src="c38/yongki.gif"> <i>yongi</i></td>
+    <td>n</td><td>container</td>
+    <td><img src="c38/xe9b8d.gif">, <img src="c38/xe9bbd.gif">, <img src="c38/xe9c4d.gif"></td></tr>
+<tr><td><img src="c38/yongki.gif"> <i>yongi</i></td>
+    <td>n</td><td>courage</td>
+    <td><img src="c38/xe9b8d.gif">, <img src="c38/xe9bbd.gif">, <img src="c38/xe9c4d.gif"></td></tr>
+</table>
+</p>
+</p>
+<p>
+We then mapped the Korean-English pairs to Japanese, by looking up edict as an English-Japanese dictionary. 
+This gave an enormous number of equivalence candidates. 
+There were 9 English-Japanese pairs for <i>comtainer</i>, and 12 for <i>courage</i>.
+</p>
+<p>
+Our next step was to compare the Korean Hanja with the Japanese Kanji. 
+When matching characters, we first try to match the Unicode representations. 
+This allows us to successfulIy link Korean <img src="c38/xe9bbd.gif"> <i>yongi</i> "container" 
+with Japanese <img src="c38/j0020.gif"> <i>youki</i> "container". 
+When we could not find an exact match, 
+we try to match the modern equivalents of older characters using the table given by Koike. 
+This allows us to match Korean <img src="c38/xe9b8d.gif"> "courage" 
+with Japanese <img src="c38/j0021.gif"> <i>yuuki</i> "courage", 
+where <img src="c38/j0012.gif"> is a new variant of <img src="c38/xd1a8.gif">.
+</p>
+<p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>Korean</td><td rowspan=3>&nbsp;</td>
+    <td>English</td><td rowspan=3>&nbsp;</td>
+    <td>Hanzi</td><td rowspan=3>&nbsp;</td>
+    <td>Japanese</td></tr>
+<tr><td><img src="c38/yongki.gif"> <i>yongi</i>
+    </td><td>container</td>
+    <td><img src="c38/xe9bbd.gif"></td>
+    <td><img src="c38/j0022.gif"> <i>youki</i></td></tr>
+<tr><td><img src="c38/yongki.gif"> <i>yongi</i></td>
+    <td>courage</td>
+    <td><img src="c38/xe9b8d.gif">/<img src="c38/xe9b8d.gif"></td>
+    <td><img src="c38/j0023.gif"> <i>yuuki</i></td></tr>
+</table>
+</p>
+</p>
+<p>
+As a side effect of this matching, 
+Korean words with more than one potential Hanja equivalent are disambiguated according to their English reading. 
+We can thus produce a Korean-English dictionary with Hanja as a by-product or our research.
+</p>
+<p>
+A total of 27,979 Hangul index words matched through English to Japanese. 
+Of these, 3,664 also matched using hanzi, 12.3%.
+</p>
+<p>
+These results are shown under "plain match" in Table 3. 
+About one in four of these matches used the old-new character equivalence table.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right><td></td><td>Plain Match</td><td>With Wordnet</td></tr>
+<tr align=right><td align=left>Hangul index words</td><td>27,979</td><td>30,713</td></tr>
+<tr align=right><td align=left>Matching Entries</td><td>3,664</td><td>3,822</td></tr>
+</table>
+<div align=center><strong><i>
+Table 3: Results
+</i></strong></div>
+</p>
+
+<p>
+The upper limit of matching predicted by our pilot study was 48%. 
+We were well below this limt. 
+The main reason is that we were able to match fewer Hanja to our lexicon than we should expect: 36% rather than 60%. 
+This is because the freewnn-kserver Hangul/Hanja lexicon is not very complete, 
+Korean use of Hanja is declining, so there is not a lot of interest in HanguI/Hanja conversions.
+</p>
+<p>
+Another reason is that the choice of English translations in engdic and edict are somewhat arbitrary. 
+One lexicon may have "scorn" and one "disdain" for two words that are basically equivalent in meaning, 
+and share the same Chinese characters.
+</p>
+<p>
+We also did a little normalization or the English, mainly stripping the final "s" off nouns, to give the singular form. 
+In this way we could match the Korean entry <img src="c38/xf9d3e.gif"> <i>hanja</i> "Chinese character" 
+with the Japanese entry <img src="c38/j0000.gif"> <i>kanji</i> "Chinese characters".
+</p>
+<p>
+Finally, Koike's old-new equivalence table only included characters from the Japanese encoding JIS X 0208:1997. 
+To this we therefore added some equivalences with Korean characters not found in this encoding, 
+such as Korean <img src="c38/xf4ec.gif">, the equivalent of Japanese <img src="c38/j0024.gif">.
+</p>
+<p>
+We began to overcome the second problem by using the wordnet English thesaurus to widen the matching in our English pivot. 
+This will, of course, give us many more spurious equivalence candidates, 
+but we can rely on the second hanzi pivot to thin these out. 
+We widen our net by looking up Wordnet's synonyms fOr all the Korean entries that had Hanja, and try to match all of them.
+</p>
+<p>
+By doing this, and using the extended new-old equivalences, we matched 3,822 Hanja-Kanji pairs. 
+Again, roughIy 1 in 4 matches was made using the old-new equivalence table. 
+There were 2.4 times as many equivalence candidates (575,243), most of which are spurious. 
+Note that the number of matches through English also increased, so the percentage of matches only increased slightly 12.4%. 
+However, in absolute terms,</td></tr> we increased the number of matches by 157 from 3,664, an increase of over 4%.
+</p>
+<p>
+The precision of matching with two pivots is 100%, all the entries that matched through both sources are good translations.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Evaluation and Discussion</font></h2></a>
+
+<p>
+In order to test the absolute usefulness of our method, we did a further evaluation. 
+This time, we took 200 words from a Korean-Japanese lexicon, 
+and tested (a) whether we matched them in our experiment and (b) if not, why we failed. 
+As only Sino-Korean words can match, we only consider the Sino-Korean entries 104 out of the 200. 
+Of these 104 entries, 69 (66%) were not found in our Korean-English Dictionary, and thus could not be evalnated. 
+We thus looked at the remaining 35 entries. 
+We expect a maximum result of around 80% (as per Table 2). The resuIts can be found in Table 4
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right><td align=left>Type</td><td>No.</td><td>%</td></tr>
+<tr></tr>
+<tr align=right><td align=left><strong>Match</strong></td><td>12</td><td>34%</td></tr>
+<tr align=right><td align=left>No Hanja</td><td>5</td><td>14%</td></tr>
+<tr align=right><td align=left>No Japanese</td><td>2</td><td>6%</td></tr>
+<tr align=right><td align=left>Eng. mismatch</td><td>11</td><td>31%</td></tr>
+<tr align=right><td align=left>POS mismatch</td><td>1</td><td>3%</td></tr>
+<tr align=right><td align=left>New <img src="c38/j0025.gif"> Old</td><td>4</td><td>11%</td></tr>
+<tr></tr>
+<tr align=right><td align=left>Total</td><td>35</td><td>100%</td></tr>
+</table>
+<div align=center><strong><i>
+Table 4: Evaluation of matching Sino-Korean words
+</i></strong></div>
+</p>
+
+<p>
+That so few words were found in the Korean dictionary engdic is a reflection of two things. 
+The first is that it is originally an English-Korean dictionary. 
+Therefore, Korean concepts, which are one word in Korean but may be a phrase in English, 
+are not found: for example <img src="c38/xf2a2f.gif"> <i>ji'pyo</i> "surface of the earth". 
+This is found in edict, but not in engdic. 
+Also, many of the Korean entries are explanations, 
+rather than translation equivalents, and these, of course, do not match. 
+The second is that is a relatively new open source resource, with no active maintainer. 
+The edict project has grown from a few thousand word pairs to over 170,000 in ten years, 
+let us hope that engdic will grow in the same way.
+</p>
+<p>
+As we mentioned earlier, Hanja are falling out of use in Korea, so the Hanja/Hangul dictionary is also very incomplete. 
+This was the cause of 14% of our failures.
+</p>
+<p>
+Even using Wordnet, the English mismatches are the largest source of errors. 
+Some mismatches were caused by spelling errors (<i>magnificance</i> for <i>magnificence</i> in edict), 
+some by the addition of parenthesized elements in the English gloss, 
+and some by genuine mismatches <i>produce</i> did not match <i>fruit</i>, even with our thesaurus. 
+We should note that we found during our evaluation that we were not using all the synonyms in Wordnet. 
+Fixing our program to use these should match another 3 entries, an increase of almost 9%.
+</p>
+<p>
+Use of a derivational dictionary, would match the POS mismatch. It may also introduce some spurious matches.
+</p>
+<p>
+FinalIy, our old-new mapping table is still incomplete. 
+As we extend our evaluation, we expect to find more equivalents. 
+Each new equivalent adds around 5 to 10 new matches. 
+We have put our latest version on the web at: <tt>www.kecl.ntt.co.jp/icl/mtg/ members/bond/lists/ko-ja-hanzi.html</tt>, 
+and encourage anyone to use it and add to it.
+</p>
+<p>
+Almost all of the errors are due to deficiencies in the lexical resources. 
+We address some ways of improving them in the following section.
+</p>
+<p>
+<strong>Further Work</strong>
+</p>
+<p>
+We find that having a broad coverage of words in our resources is the key to reusing them. 
+We therefore plan to collect and combine more dictionaries which already exist and are open to the public. 
+For the Korean dictionaries, we hope to use the Korean dictionary now being created 
+by the 21st Century Sejong Project in Korea (<a href="c38.html#ref5">Kim and Cho, 2001</a>). 
+This will have Hanja, Hangul and source words of foreign-origin words.
+</p>
+<p>
+For the Japanese dictionaries we will use the additional engdic Iexicons available in the engdic project, 
+with computational, life science, linguIstic and other words (<tt>compdic</tt>, <tt>lifscdic</tt>, <tt>lingdic</tt> ... ). 
+These increase the number or word pairs to over 400,000.
+</p>
+<p>
+An obvious drawback of our method is that it does not match foreign or native words. 
+To match foreign words, we propose the use of automatic transliteration 
+to find the source word and then match using it as a second pivot. 
+For example <img src="c38/ppang.gif"> <i>ppang</i> "bread" and <img src="c38/j0026.gif"> <i>pan</i> "bread" 
+both come from the Portuguese word for bread <i>pan</i>. 
+They would match both through English "bread" and the transliteration "pan". 
+Native words must be matched by other methods, 
+such as those of Shirai and Yamamoto (<a href="c38.html#ref9">2001</a>) and Shirai et al. (<a href="c38.html#ref10">2001</a>).
+</p>
+<p>
+Finally, we will continue to provide feedback to the maintainers of all the resources we use. 
+In addition we will put our Korean-Japanese entries into the new multilingual JMDICT project 
+(Jim Breen's multilingual extension of edict).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Conclusion</font></h2></a>
+
+<p>
+In this paper, we present an method of generating part of a Korean-Japanese dictionary fully automatically. 
+We use both English and Chinese characters to match, which gives a match rate of around 12%, with a 100% precision. 
+The theoretical maximum is 48%. 
+Our present research is based on the simple fact that both Korean and Japanese use Chinese characters, 
+not on any more information. 
+The demand of generating dictionaries for more novel pairs of languages is growing 
+and we should be able to use many other types of clues such as word similarity, 
+characteristics of language combination, and so on in addition to using English. 
+We were also able to show that the use of an English thesaurus in the matching process, led to gains of over 4%.
+</p>
+<p>
+This research was carried out using open source resources, and would not have been possible without them. 
+The results are being released as open source. 
+As open-source resources are constantly improving, 
+we hope to be able to rerun our matching algorithm in the future, with improved inputs, 
+and produce further improvements in our output.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgements</font></h2></a>
+
+<p>
+We would like to thank the compilers and maintainers of all of the resources we used, 
+as well as Takehiko Maruyama and Mitsuo Shimohata of ATR for their helpful discussions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">A. E. Backhouse. 1993.</a>
+<dd><i>The Japanese Language: An Introduction</i>. Oxford University Press.
+	<br><br>
+<dt><a name="ref2">Francis Bond, Ruhaida Binti Sulong, Tahefumi Yamazaki, and Kentaro Ogura. 2001. </a>
+<dd>Design and construction of a machine-tractable Japanese-Malay dictionary. 
+	In <i>MT Summit-2001</i>, pages 53-58, Santiago de Compostela.
+	<br><br>
+<dt><a name="ref3">Jim Breen. 1995. </a>
+<dd>Building an electronic japanese-english dictionary. 
+	Japanese Studies Association of Australia Conference 
+	(<tt>http://www.csse.monash.edu.au/~jwb/jsaa_paper/hpaper.html</tt>) .
+	<br><br>
+<dt><a name="ref4">WonJae Chang. 2000. </a>
+<dd>A study on the use of nihonkango in the Korean language in the late 19th century:
+	focusing on forms of kango which were the same in Japan and Korea.
+	<i>Japanese Liuguistics</i>, 8:76-95. (in Japanese).
+	<br><br>
+<dt><a name="ref5">Se-jung Kim and Nam-ho Cho. 2001. </a>
+<dd>The progress and prospect of the 21st century Sejong project. In <i>ICCPOL-2001</i>, pages 9-12, Seoul.
+	<br><br>
+<dt><a name="ref6">Manseup Lee. 1984.</a>
+<dd>Chinese character vocabularies shared by Japanese and Korean. <i>Nihongogaku</i>, 3(8). (in Japanese).
+	<br><br>
+<dt><a name="ref7">Ken Lunde. 1999.</a>
+<dd><i>CJKV Information Processing</i>. O'Reilly.
+	<br><br>
+<dt><a name="ref8">Dan Melamed. 2001.</a>
+<dd><i>Empirical methos for exploiting parallel texts</i>. MIT.
+	<br><br>
+<dt><a name="ref9">Satoshi Shirai and Kazuhide Yamamoto. 2001.</a>
+<dd>Linking English words in two bilingual dictionaries to generate another language pair dictionary.
+	In <i>ICCPOL-2001</i>, pages 174-179, Seoul.
+	<br><br>
+<dt><a name="ref10">Satoshi Shirai, Kazuhide Yamamoto, and Kyonghee Paik. 2001.</a>
+<dd>Overlapping constraints of two step selection to generate a transfer dictionary.
+	In <i>ICSP-2001</i>, pages 731-736.
+	<br><br>
+<dt><a name="ref11">Ho-Min Sohn. 1999.</a>
+<dd><i>The Korean Lauguage</i>. Cambridge Language Surveys. Cambridge University Press.
+	<br><br>
+<dt><a name="ref12">Kumiko Tanaka and Kyoji Umemura. 1994.</a>
+<dd>Construction of a bilingual dictionary intermediated by a third language.
+	In <i>15th International Conference on Computational Linguistics: COLING-94</i>, pages 297-303, Kyoto.
+	(<tt>http://xxx.lanl.gov/abs/cmp-lg/9410020</tt>).
+	<br><br>
+<dt><a name="ref13">WordNet, 1997.</a>
+<dd><i>WordNet - a Lexical Database for English</i>.
+	Cognitive Science Laboratory, Princeton University, 221 Nassau St., Princeton, NJ 08542. Version 1.6,
+	<tt>http://www.cogsci.princeton.edu/~wn/</tt>.
+</dl>
+
+<br><br>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

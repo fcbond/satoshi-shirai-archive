@@ -1,0 +1,664 @@
+<html>
+<head>
+<title>Toshiyuki Takezawa, Satoshi Shirai &amp; Yoshifumi Ooyama, ICCPOL 2001, May 14-16, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Characteristics of Colloquial Expressions in a Bilingual Travel Conversation Corpus</font>
+<br><br>
+
+<font size=+2>Toshiyuki Takezawa<sup>+</sup>, Satoshi Shirai<sup>+</sup> and Yoshifumi Ooyama<sup>++</sup></font>
+<br><br>
+<font size=+1><sup>+</sup> ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>2-2-2 Hikaridai, Seika-cho, Soraku-gun, Kyoto 619-0288, Japan</font>
+<br>
+<font size=+1>E-mail: <tt> {takezawa, shirai}@slt.atr.co.jp</tt></font>
+
+<br><br>
+
+<font size=+1><sup>++</sup> NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>2-4 Hikaridai, Seika-cho, Soraku-gun, Kyoto 619-0237, Japan</font>
+<br>
+<font size=+1>E-mail: <tt> ooyama@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+In order to develop a speech translation system that has a large vocabulary and accepts various expressions, 
+we have carried out a practical and quantitative investigation of similarities and differences 
+among the tasks of machine translation for written language such as newspaper articles, 
+and those for spoken language such as conversations in daily life. 
+First, we mention the characteristics of vocabularies for colloquial expressions in conversations. 
+Next, we report the cbaracteristics of basic sentence patterns 
+which consist of one predicate and essential case phrases from the viewpoint of translation from Japanese to English. 
+Finally, we discuss state-of-the-art technology based on a case study of a Japanese-to-English speech 
+translation system ATR-MATRIX built by ATR Interpreting Telecommunications Research Laboratories. 
+</p>
+
+<br><br>
+
+<h3>Key words:</h3>
+
+<p>
+Bilingual corpus, conversation, spoken language, speech translation. 
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of ICCPOL 2001</i>, pp.384-389 (May, 2001). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=13>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c30.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c30.html#chap-2">2 Corpus and dictionary</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#chap-2.1">2.1 A bilingual travel conversation corpus</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#chap-2.2">2.2 Goi-Taikei: A Japanese Lexicon</a></td></tr>
+<tr><td><a href="c30.html#chap-3">3 Vocabulary characteristics of travel conversations</a></td></tr>
+<tr><td><a href="c30.html#chap-4">4 Basic sentence pattern characteristics of travel conversations</a></td></tr>
+<tr><td><a href="c30.html#chap-5">5 Discussions and future works</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#chap-5.1">5.1 State-of-the-art speech translation technology</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#chap-5.2">5.2 Future works</a></td></tr>
+<tr><td><a href="c30.html#chap-6">6 Conclusions</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c30.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+Current speech translation research assumes a limited task such as hotel room reservations 
+and carries out medium vocabulary size experiments of about ten thousand words 
+[<a href="c30.html#ref1">1</a>,<a href="c30.html#ref2">2</a>,<a href="c30.html#ref3">3</a>]. 
+In order to enlarge the application area of speech translation systems, 
+we must develop a large vocabulary speech translation system that accepts more expressions. 
+Machine translation systems for written language such as newspaper articles can deal with a larger vocabulary 
+than speech translation systems. 
+However, there seem to be different problems for machine translation of texts and that for conversations 
+[<a href="c30.html#ref4">4</a>]. 
+Despite one study on a machine translation system for spoken language [<a href="c30.html#ref5">5</a>], 
+there have not been enough studies comparing the tasks and expressions 
+of machine translation for text and that for conversations. 
+</p>
+<p>
+NTT has recently developed a Japanese-to-English machine translation system, ALT-J/E [<a href="c30.html#ref6">6</a>], 
+which can deal with texts such as newspaper articles. 
+Part of its semantic dictionary has been published as a book 
+entitled "Goi-Taikei: A Japanese Lexicon" [<a href="c30.html#ref7">7</a>] and its CD-ROM is also available [<a href="c30.html#ref8">8</a>]. 
+On the other hand, a bilingual travel conversation corpus 
+built by ATR Interpreting Telecommunications Research Laboratories [<a href="c30.html#ref9">9</a>,<a href="c30.html#ref10">10</a>] 
+has already been released outside of ATR and used for research at many research institutes and universities. 
+</p>
+<p>
+A practical and quantitative analysis is necessary for good guidelines or helpful knowledge 
+to make a machine translation system for text deal with spoken language. 
+Therefore, we investigated characteristics of a digitized bilingual travel conversation corpus 
+in comparison with "Goi-Taikei: A Japanese Lexicon" 
+which is a machine-readable large vocabulary dictionary for Japanese-to-English translation. 
+</p>
+<p>
+Section 2 describes the bilingual travel conversation corpus and "Goi-Taikei: A Japanese Lexicon." 
+Section 3 reports the characteristics of vocabularies for colloquial expressions in conversations. 
+Section 4 presents the characteristics of basic sentence patterns which consist of 
+one predicate and essential case phrases from the viewpoint of translation from Japanese to English. 
+Section 5 discusses state-of-the-art technology based on a case study of a Japanese-to-English speech translation 
+system ATR-MATRIX built by ATR Interpreting Telecommunications Research Laboratories. 
+Finally, section 6 offers conclusions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Corpus and dictionary</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 A bilingual travel conversation corpus</font></h2></a>
+
+<p>
+ATR Interpreting Telecommunications Research Laboratories have built a bilingual travel conversation corpus 
+for speech translation research [<a href="c30.html#ref9">9</a>,<a href="c30.html#ref10">10</a>]. 
+An interpreter to each translation direction (J to E or E to J) is assigned 
+when collecting one conversation in order to gather good quality data. 
+The task of the bilingual corpus involves travel conversations between a tourist and a front desk clerk at a hotel. 
+This task was selected because of its familiarity to people, 
+and its expected use in future speech translation systems. 
+The interpreters speak English and Japanese in all of the conversations, and serve as a speech translation system. 
+The human interpreters successively interpreted each utterance 
+so we could gather basic data for developing a speech translation system. 
+Table 1 shows an overview of the bilingual travel conversation corpus. 
+You can find release information at <u>http://results.atr.co.jp/products_e/</u>.
+</p>
+
+
+<p>
+<div align=center><strong><i>
+Table 1: Overview of a bilingual travel conversation corpus
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Number of collected conversations</td><td align=right>618</td></tr>
+<tr><td>Speaker participants</td>	      <td align=right>71</td></tr>
+<tr><td>Interpreter participants</td>	      <td align=right>23</td></tr>
+<tr><td>Total number of utterances</td>	      <td align=right>16,107</td></tr>
+<tr><td>Total number of Japanese words</td>   <td align=right>301,961</td></tr>
+</table>
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Goi-Taikei: A Japanese Lexicon</font></h2></a>
+
+<p>
+NTT has developed a Japanese-to-English machine translation system. 
+ALT-J/E [<a href="c30.html#ref6">6</a>] which can deal with texts such as newspaper articles. 
+A part of its semantic dictionary has been published as a book 
+entitled "Goi-Taikei: A Japanese Lexicon" [<a href="c30.html#ref7">7</a>] and its CD-ROM is also available [<a href="c30.html#ref8">8</a>]. 
+It contains 300,000 Japanese words tagged with 3,000 semantic categories 
+and 14,000 Japanese-to-English valency patterns of 6,000 Japanese verbs. 
+Table 2 shows an overview of the items used for this study. 
+You can find useful information at <u>http://www.kecl.ntt.co.jp/icl/mtg/</u>.
+</p>
+
+
+<p>
+<div align=center><strong><i>
+Table 2: Overview of "Goi-Taikei: A Japanese Lexieon"
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Category</td><td>Number of items</td></tr>
+<tr><td>The word dictionary</td>   <td align=right>300,000 words</td></tr>
+<tr><td>The valency dictionary</td><td align=right>6,000 verbs<br>
+						   14,000 valency patterns</td></tr>
+</table>
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Vocabulary characteristics of travel conversations</font></h2></a>
+
+<p>
+Using utterances translated from Japanese to English in the bilingual travel conversation corpus, 
+words were extracted and their frequency calculated. 
+Figure 1 shows an example of the Japanese particle "<i>no</i>." 
+The items separated by the symbol | are surface form, reading, standard form, and part-of-speech, respectively, 
+and the number in () is frequency.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Surface form | Readings | Standard form | Part-of-speech | (Frequency) </td></tr>
+<tr><td><tt>
+	No | no | no | case particle | ( 69 ) <br>
+	No | no | no | Sentence final particle | ( 4 ) <br>
+	No | no | no | Nominal particle |( 337 ) <br>
+	No | no | no | Prenominal particle | ( 4135 ) </tt></td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1: Example of particle "no"
+</i></strong></div>
+</p>
+
+<p>
+As shown in Table 3, the part-of-speech system in the bilingual travel conversation corpus 
+is different from that of "Goi-Taikei: A Japanese Lexicon." 
+Therefore, we made mapping tables such as those described between () in Table 3, 
+in which a nominal particle in the bilingual travel conversation corpus 
+is mapped to the formal <i>keishiki</i> noun in "Goi-Taikei: A Japanese Lexicon," 
+a topic particle is mapped to the adverbial particle, and parallel particles, 
+prenominal particles and quotational particles in the bilingual travel conversation corpus 
+are mapped to case particles in "Goi-Taikei: A Japanese Lexicon."
+</p>
+
+
+<p>
+<div align=center><strong><i>
+Table 3: Differences of part-of-speech information
+(example of particle)
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>A bilingual travel conversation corpus</td><td>"Goi-Taikei: A Japanese Lexicon" or ALT-J/E</td></tr>
+<tr></tr>
+<tr><td>Case particle</td><td>Case particle</td></tr>
+<tr><td>Nominal particle</td><td>N.A. (Formal keishiki noun)</td></tr>
+<tr><td>Topic panicle</td><td>N.A. (Adverbial particle)</td></tr>
+<tr><td>Adverbial particle</td><td>Adverbial particle</td></tr>
+<tr><td>Parallel particle</td><td>N.A. (Case particle)</td></tr>
+<tr><td>Conjunctive particle</td><td>Conjunctive particle</td></tr>
+<tr><td>Sentence final particle</td><td>Sentence final particle</td></tr>
+<tr><td>Prenominal particle</td><td>N.A. (Case particle)</td></tr>
+<tr><td>Quotational particle</td><td>N.A. (Case particle)</td></tr>
+</table>
+</p>
+
+<p>
+In the example shown in Figure 1, the case particle, nominal particle and prenominal particle "<i>no</i>" 
+are covered by a "Goi-Taikei: A Japanese Lexicon" because the same lexical items are included through the mapping table. 
+However, the sentence final panIcIe "<i>no</i>" is not covered by the "Goi-Taikei: A Japanese Lexicon." 
+Therefore, coverage based on the word entries is 3/4 <i>i.e.</i> 75.0%. 
+Coverage based on the total number of words is 4541/4545 <i>i.e.</i> 99.9%.
+</p>
+<p>
+The bilingual travel conversation corpus contains word fragments because of self-repairs and disfluencies. 
+The parts-of-speech of such fragments are tagged with "others." 
+Moreover, inflection words are divided into a stem part and an inflection ending part 
+in the bilingual travel conversation corpus. 
+Therefore, we neglect a parts-of-speech such as "others" and "inflection ending." 
+Table 4 shows the result. 
+Figure 2 shows the coverage per pan-of-speech based on the word entries counting.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 4: Coverage of "Goi-Taikei: A Japanese Lexicon" to the bilingual travel conversation corpus (vocabulary)
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td></td><td>The number of total words</td><td>Word entries</td></tr>
+<tr align=right><td align=left>Matched words</td><td>80,685</td><td>2,493</td></tr>
+<tr align=right><td align=left>Unmatched words</td><td>18,828</td><td>1,269</td></tr>
+<tr align=right><td align=left>Coverage</td><td>81.1%</td><td>66.3%</td></tr>
+</table>
+</p>
+
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c30/c30-fig2.gif" width=606 height=412>
+<div align=center>Number of words</div>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2: Coverage per part-of-speech based on the word entries counting
+</i></strong></div>
+</p>
+
+<p>
+Words that are not covered by "Goi-Taikei: A Japanese Lexicon" are divided into two groups. 
+One is colloquial expressions in conversational language and the other is vocabulary dependent on the travel domain. 
+Examples are shown in the following.
+</p>
+<p>
+<ul>
+<li><strong>Colloquial expressions in conversational language: </strong>
+	Interjection, adverb, conjunction, particle, auxiliary verb, and so on. 
+	<br><br>
+	"<i>Arigatôgozaimashita</i> [Thank you very much] (inteIjection)," 
+	"<i>Irasshaimase</i> [May I help you?] (interjection)," 
+	"<i>Sumimasenga</i> [Excuse me] (adverb),"
+	"<i>Sôshimasuto</i> [then] (conjunction)," 
+	"<i>ja</i> [in, at] (case particle)," 
+	"<i>no</i> (sentence final particle, mainly used by female)," 
+	"<i>cha</i> [have p.p.] (auxiliary verb)," 
+	and so on.
+<br><br>
+<li><strong>Vocabulary dependent on the travel domain: </strong>
+	Common noun, proper noun and so on.
+	<br><br>
+	"<i>Sabazushi</i> [A kind of sushi using cut mackerel] (common noun)," 
+	"<i>Kanadianrokkî</i> [Canadian Rocky] (proper noun),"
+	"<i>Arashiyamasen</i> [Arashiyama line] (proper noun)," 
+	and so on.
+</ul>
+</p>
+<p>
+Among the words which are not covered by "Goi-Taikei: A Japanese Lexicon," 
+the number of nouns is 888 words based on word entries and 7,261 words based on the total number of words. 
+If we roughly estimate vocabulary dependent on the travel domain using the information of noun usage, 
+the percentage is about 70% based on word entries and about 40% based on the total number of words. 
+The remaining are the percentages for colloquial expressions in conversational spoken language.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Basic sentence pattern characteristics of travel conversations</font></h2></a>
+
+<p>
+Using utterances translated from Japanese to English in the bilingual travel conversation corpus, 
+basic sentence patterns which consist of one predicate and essential case phrases 
+were extracted and their frequency calculated. 
+So-called <i>dabun</i> (assertive sentences), <i>i.e.</i> a kind of fragmental sentence, 
+are frequently used in conversations. 
+Figure 3 shows examples. 
+The items are frequency count, basic Japanese sentence patterns, and basic English sentence patterns, respectively. 
+The frequency count is calculated per the palr of Japanese and English sentence patterns. 
+Basic Japanese sentence pattern consists of <i>da</i> predicate (a noun with <i>da</i>, an auxiliary verb of assertion) 
+and essential case phrases. 
+<I>Da</I> predicates are flanked by the symbol / . 
+The symbol # is added just before the <i>da</i>. 
+We extracted the surface form desu, <i>i.e.</i> a kind of polite expression of <i>da</i>, in the same form <i>da</i>. 
+ga((wa)) indicates that the surface form was a topic particle wa and the function is similar to the case particle <i>ga</i>. 
+Particles were sometimes dropped in conversational spoken language. 
+If we can infer some particle in some case phrases without particles, we flank it with the symbol *. 
+The basic English sentence patterns are surrounded by the symbol ". 
+Parts corresponding to Japanese <i>da</i> predicates are indicated flanked by the symbol /. 
+If a basic English sentence pattern contains some pronoun, we replaced it with the word "one." 
+English constituents separated by | are those necessary for translation from basic Japanese sentence patterns.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+1 /Ame#da/ "it /rain/"<br>
+3 /Hajimete#da/ "/be/ one's first tiine"<br>
+1 /Hajimete#da/ "/be/ one's first visit"<br>
+2 /Hajimete#da/ "/be/ the first time"<br>
+1 Nara ga ((wa)) /hajimete#da/ "this /be/ one's first trip | to Nara"<br>
+1 Kimono ga ((wa)) /hajimete#da/ "/be/ one's first time | to put kimono on"<br>
+1 Kimono ga ((wa)) /hajimete#da/ "/be/ one's first time | wearing a kimono"<br>
+1 Sore wa/o komari#da/ "that /be/ a problem"<br>
+1 Basu wo/go riyo#da/ "/take/ the bus"<br>
+1 Kochira ga/ chiketto#da/ "here /be/ one's tickets"<br>
+1 Sâbisuryô*ga* /komi#da/ "/include/ service charges"<br>
+1 Tôkyônaritakûkô wo/shuppatsu#da/ "/leave/ Tokyo Narita Airport"<br>
+1 Hitotsume ga/Tôjieki#da/ "the first stop /be/ Toji Station"<br>
+1 Chashitsu ga/iriyo#da/ "/need/ a tearoom"<br>
+3 /Go zonji#da/ "/know/"<br>
+6 /O tomari#da/ "/stay/"
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 3: Examples of "dabun (assertive sentences)"
+</i></strong></div>
+</p>
+
+<p>
+In the same manner, we have extracted general predicates such as verbs and adjectives as the basic sentence patterns. 
+Table 5 shows the result. 
+Only the percentage based on word entries are shown 
+because the percentage based on the number of total words is almost the same.
+</p>
+
+<p>
+<div align=center><strong><i>
+ Table 5: Coverage of "Goi-Taikei: A Japanese Lexicon" to the bilingual travel conversation corpus
+(basic sentence patterns)
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2></td><td colspan=2>General</td><td colspan=2>Dabun (assertive sentences)</td></tr>
+<tr align=center><td>Number of items</td><td>Percentage</td><td>Number of items</td><td>Percentage</td></tr>
+<tr align=right><td align=left>Correct English can be obtained.</td>
+	<td>327</td><td>9.1%</td><td>1</td><td>0.2%</td></tr>
+<tr align=right><td align=left>Correct English cannot be obtained but a single English predicate can be inferred.</td>
+	<td>1,413</td><td>39.5%</td><td>173</td><td>26.1%</td></tr>
+<tr align=right><td align=left>Correct English cannot be obtained and a single English predicate cannot be infened.</td>
+	<td>1,840</td><td>51.4%</td><td>488</td><td>73.7%</td></tr>
+<tr align=right><td align=left>Total</td><td>3,580</td><td>100.0%</td><td>662</td><td>100.0%</td></tr>
+</table>
+</p>
+
+<p>
+As for the general predicates such as verbs and adjectives, 
+approximately 10% of the basic sentence patterns can be translated correctly by "Goi-Taikei: A Japanese Lexicon." 
+For example, "<i>Chikatetsu Karasumasen ni /noru/</i>" can be translated into "/take/ the Karasuma subway line" 
+if the compound word "<i>Chikatetsu Karasumasen</i>" is recognized as a railway. 
+The approximately 90% of the basic sentence patterns remaining cannot be translated correctly 
+by "Goi-Taikei: A Japanese Lexicon." 
+However, for approximately 40% of basic sentence patterns, we can easily infer single English predicates. 
+Typical examples are as follows.
+</p>
+<p>
+<ul>
+<li><strong>Foreign words:</strong> "<i>/Fakkusu suru/</i>" -> /fax/<br>
+	Colloquial expressions using foreign (mainly English) vlords in predicates 
+	such as "<i>fakkusu suru</i> [fax]" and "<i>chekkuin suru</i> [check-in]" 
+	are frequently used in conversational language. 
+	Such kinds of expressions can be easily translated into English using the original English words.
+	<br><br>
+<li><strong>Honorific words:</strong> "<i>Yoyaku wo /kakunin itasu/</i>" -> /confirm/ one's reservation<br>
+	Honorific words such as itasu are frequently used in conversations 
+	between a tourist and a front desk clerk at a hotel. 
+	Such kinds of honorific words are rarely used in newspaper articles 
+	so "Goi-Taikei: A Japanese Lexicon" does not contain such words.
+	<br><br>
+<li><strong>Colloquial honorific expressions:</strong> 
+	"<i>Maikurobasu wo | go riyô ni/naru/</i>" -> /use/ the shuttle service<br>
+	This is a colloquial honorific expression. 
+	The predicate /naru/ in this basic sentence pattern is not an honorific word, 
+	however, the basic sentence pattern "o (go) ... ni /naru/" conveys politeness. 
+	The content words between a prefix o or go and the particle ni can be used as a predicate in the equivalent English.
+	<br><br>
+<li><strong>Person's name statement:</strong> "<i>Watakushi ga((wa))</i> | ... <i>to /môsu/</i>" -> my name /be/ ...<br>
+	In conversational language, the verb <i>môsu</i> is usually used as a statement of persons' names. 
+	"Goi-Taikei: A Japanese Lexicon" contains the verb <i>môsu</i> however it does not contains this kinds of usage.
+</ul>
+</p>
+<p>
+We cannot infer single English predicates to the approximately 50% of basic sentence patterns remaining. 
+Typical examples are as follows.
+</p>
+<p>
+<ul>
+<li><strong>Ambiguous words:</strong><br>
+	For example, a Japanese word <i>irassharu</i> has two meanings such as "exist" and "come." 
+	A basic sentence pattern such as "<i>Bunraku ga /ii/</i>" has several meanings 
+	such as "/recommend/ bunraku" and "bunraku /be fine/."
+	<br><br>
+<li><strong>Indirect expressions:</strong><br>
+	In conversational language, indirect expressions using the word <i>ni (to) /naru/</i> are frequently used 
+	like "<i>Chôshoku ga((wa)) betsu ni/naru/</i> -> /there be/ a separate charge for breakfast." 
+	The usage of these indirect expressions is quite similar to that of so-called <i>dabun</i> (assertive sentences).
+</ul>
+</p>
+<p>
+On the other hand, as for so-called dabun (assertive sentences), 
+only one pattern "<i>Ame da</i> (it rains)" is covered by "Goi-Taikei: A Japanese Lexicon." 
+In other words, almost all patterns of <i>dabun</i> (assertive sentences) 
+are not translated by "Goi-Taikei: A Japanese Lexicon." 
+We can infer single English predicates to approximately one fourth of them 
+such as "<i>Chashitsu ga/iriyô#da/</i>" which means "/need/ a tearoom." 
+We cannot infer a single English predicate to the remaining three fourths of them 
+such as "<i>Shibikku wo nidai da</i>" which means "two Civic" 
+if English predicates such as "rent" or "reserve" must be output. 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Discussions and future works</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 State-of-the-art speech translation technology</font></h2></a>
+
+<p>
+We discuss state-of-the-art technology based on a case study of a Japanese-to-English speech translation system 
+ATR-MATRIX built by ATR Interpreting Telecommunications Research Laboratories [<a href="c30.html#ref1">1</a>]. 
+Real examples output from the system are as follows.
+</p>
+<p>
+<ul>
+<li><i>Chashitsu ga iriyô desu</i> (The tea ceremony room is necessary) <br>
+	-> The tea ceremony room is necessary
+	<br><br>
+<li><i>Shiharai wa kâdo desu</i> (I will pay for it by card)<br>
+	-> The payment is by the card
+	<br><br>
+<li><i>Shibikku ga nidai desu</i> (Two Civic)<br>
+	-> Civic is two
+</ul>
+</p>
+<p>
+ATR-MATRIX can output correct English from Japanese expressions 
+such as "<i>Chashitsu ga iriyô desu</i> (The tea ceremony room is necessary)." 
+"<i>Shiharai wa kâdo desu</i> (I will pay for it by card)" could be translated into "The payment is by the card" 
+because some translation examples were prepared and successfully selected. 
+However, "<i>Shibikku ga nidai desu</i> (Two Civic)" was translated into "Civic is two" 
+because content words were replaced in the English syntactical structure pattern 
+directly corresponding to source the Japanese syntactical structures. 
+</p>
+<p>
+Previous research on speech translation systems assumed cooperative dialogues 
+between two people such as conversations between a tourist and a front desk clerk at a hotel. 
+<i>Sugaya et al.</i> confirmed that users could achieve their task such as hotel room reservations 
+through state-of-the-art speech translation systems because users sometimes uttered similar expressions 
+after mis-recognitions, or the other party sometimes uttered confirmation questions after mis-translations 
+[<a href="c30.html#ref3">3</a>]. 
+ATR-MATRIX conld sometimes translate some constituents such as important key words 
+based on the partial translation mechanism [<a href="c30.html#ref11">11</a>]. 
+Important key words help the user of speech translation systems to understand the other party's message in the situation. 
+Therefore, ATR-MATRIX could help communication between Japanese- and English-speakers, 
+even though state-of-the-art speech translation conld not avoid recognition and translation errors.
+</p>
+<p>
+In order to develop a large vocabulary speech translation system that accepts various expressions, 
+translating key words does not always help users. 
+High quality translation is indispensable for the announcements 
+because a quick response from the other party cannot be expected. 
+Therefore, we must improve the quality of translation, in particular for the category
+where "Correct English cannot be obtained and a single English predicate cannot be inferred." in TabIe 5.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 Future works</font></h2></a>
+
+<p>
+We are planning to build a basic sentence pattern dictionary of conversational language for Japanese-to-English translation 
+based on the data obtained by this study. Such a dictionary is expected to offer broader coverage than the original data
+</p>
+<p>
+According to Table 4, the coverage based on the total number of words is broader than that based on the word entries, 
+so that the vocabulary size may be limited by assuming a limited domain. 
+However, as for the basic sentence patterns, 
+the percentage based on the number of total words is almost the same as that based on the word entries. 
+Even if the vocabulary size may be limited, the basic sentence patterns, which are combinations of lexicons, 
+may not be limited, or, the corpus size may be too small 
+to obtain the necessary information for building a broad coverage translation dictionary. 
+We will study the density or sparseness of the corpus in both practical and theoretical manners.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Conclusions</font></h2></a>
+
+<p>
+Using "Goi-Taikei: A Japanese Lexicon" we have analyzed the characteristics of a bilingual travel conversation corpus 
+built by ATR Interpreting Telecommunications Research Laboratories. 
+There seem to be different problems for machine translation for texts and that for conversations, 
+but there have not been enough studies comparing the two. 
+Therefore, we investigated characteristics of a digitized bilingual travel conversation corpus 
+in comparison with a machine-readable large vocabulary dictionary for text, both of which are available to the public. 
+Such kinds of practical and quantitative analysis are expected to yield good guidelines or helpful knowledge 
+to make a machine translation system for text deal with conversational language. 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+<p>
+The authors wish to thank members at the Natural Language Processing Systems Department, Service Systems Division, 
+NTT Advanced Technology Corporation for their contributions to the analysis and investigation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Takezawa, T., Morimoto, T , Sagisaka, Y., Campbell, N., Iida, H., Sugaya, F,, Yokoo, A. and Yamamoto, S. 
+	A Japanese-to-English speech translation system: ATR-MATRIX. 
+	In <i>Proceedings of International Conference on Spoken Language Processing</i>. 1998, pp.2779-2782.
+	<br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>Sumita, E., Yamada, S., Yamamoto, K., Paul, M., Kashioka, H., Ishikawa, K. and Shirai, S. 
+	Solutions to problems inherent in spoken-language translation: the approach of ATR-MATRIX. 
+	In <i>Proceedings of Machine Translalion Summit VII</i>. 1999, pp.229-235.
+	<br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>Sugaya, F., Takezawa, T., Yokoo, A. and Yamamoto, S. 
+	End-to-end evaluation in ATR-MATRIX: speech translation system between English and Japanese. 
+	In <i>Proceedings of EUROSPEECH</i>. 1999, pp.2431-2434.
+	<br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>Nagao, M. 
+	Toward the new era of information technology. <i>IPSJ Magazine</i>, 2000, 41(1), pp.48-49. <i>(in Japanese)</i>.
+	<br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>Iida, H., Sumita, E. and Furuse, O. 
+	Spoken-language translation method using examples. In <i>Proceedings of COLING</i>. 1996, pp.1074-1077.
+	<br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>Ikehara, S., Shirai, S., Yokoo, A. and Nakaiwa, H. 
+	Toward an MT system without pre-editing --effects of new methods in ALT-J/E. 
+	In <i>Proceedings of Machine Translation Summit III</i>. 1991, pp.101-106.
+	<br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>Ikehara, S., Miyazaki, M., Shirai, S., Yokoo, A., Nakaiwa, H., Ogura, K., Ooyama, Y and Hayashi, Y. (Eds). 
+	Goi-Taikei: A Japanese Lexicon. Iwanami Shoten Publisher, Tokyo, Japan, 1997. <i>(in Japanese)</i>.
+	<br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>Ikehara, S., Miyazaki, M., Shirai, S., Yokoo, A., Nakaiwa, H., Ogura, K., Ooyama, Y and Hayashi, Y. (Eds). 
+	Goi-Taikei: A Japanese Lexicon CD-ROM. Iwanami Shoten Publisher, Tokyo, Japan, 1999. <i>(in Japanese)</i>.
+	<br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>Morimoto, T , Uratani, N., Takezawa, T., Furuse, O., Sobashima, Y., Iida, H., Nakamura, A., 
+	Sagisaka, Y., Higuchi, N. and Yamazaki, Y. 
+	A speech and language database for speech translation research. 
+	In <i>Proceedings of International Conference on Spoken Language Processing</i>. 1994, pp.1791-1794.
+	<br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>Takezawa, T. 
+	Building a bilingual travel conversation database for speech translation research. 
+	In <i>Proceedings of 2nd International Workshop on East-Asian Language Pesources and Evaluation 
+	--Oriental COCOSDA Workshop '99--</i>. 1999, pp.17-20.
+	<br><br>
+<dt><a name="ref11"><strong>[11]</strong></a>
+<dd>Wakita, Y., Kawai, J. and Iida, H. 
+	Correct parts extraction from speech recognition results using semantic distance calculation, 
+	and its application to speech translation. 
+	In <i>Proceedings of ACL/EACL Workshop on Spoken Language Translation</i>. 1997, pp.24-31.
+</dl>
+
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

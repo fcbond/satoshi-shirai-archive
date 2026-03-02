@@ -1,0 +1,618 @@
+<html>
+<head>
+<title>Masahiro Miyazaki, Shigeki Goto, Yoshifumi Ooyama &amp; Satoshi Shirai, ICTP '83, June 17-19, 1983, Ootemachi, Tokyo, Japan</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>LINGUISTIC PROCESSING IN A JAPANESE-TEXT-TO-SPEECH-SYSTEM</font>
+<br><br>
+
+<font size=+2>Masahiro MIYAZAKI, Shigeki GOTO, Yoshifumi OOYAMA and Satoshi SHIRAI</font>
+<br><br>
+
+<font size=+1>Nippon Telegraph and Telephone Public Corporation, Yokosuka Electrical Communication Laboratory,</font>
+<br>
+<font size=+1>1-2356, Take, Yokosuka-shi, Kanagawa-ken, Japan</font>
+</div>
+
+<br><br>
+
+<p>
+We have succeeded in developing a Japanese-text-to-speech-system that
+is capable of reading out ordinary Japanese sentences such as those
+found in newspapers and novels in natural synthesized voice.<br>
+</p>
+<p>
+A Japanese-text-to-speech-system is more difficult to realize than a
+comparable system for English because the linguistic processing of
+Japanese is vastly more difficult.<br>
+The increased difficulty stems from at least two reasons:<br>
+(i) Ordinary Japanese sentences are not segmented into words, unlike
+their English counterparts.<br>
+(ii) Japanese has several kinds of script such as Kanji (ideogram: ŽR, 
+ì, ‰Ô, ...), and two types of Kana (phonogram: ‚ , ‚¢, ‚¤, ..., ƒA, 
+ƒC, ƒE, ...), in addition to aiphanumerics.<br>
+Moreover, since each Kanji is an ideogram, usually having several
+possible readings, it is necessary for a
+Japanese-text-to-speech-system to give the reading of Kanji that is
+appropriate to the context.<br>
+These obstacles have prevented the development of a complete
+Japanese-text-to-speech-system up to now.<br>
+We realized a complete Japanese-text-to-speech-system by developing
+new linguistic processing techniques to identify a Japanese word in a
+sentence and give the proper Kanji reading.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>ICTP '83</i>, pp.315-320 (June, 1983). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c01.html#chap-1.">1. INTRODUCTION</a></td></tr>
+<tr><td><a href="c01.html#chap-2.">2. WORD SEGMENTATION PROCESS</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c01.html#chap-2.1">2.1 Phrase segmentation process</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c01.html#chap-2.2">2.2  Word segmentation process in a phrase</a></td></tr>
+<tr><td><a href="c01.html#chap-3.">3.  KANJI TO KANA TRANSLATION</a></td></tr>
+<tr><td><a href="c01.html#chap-4.">4.  PROSODIC PROCESSING</a></td></tr>
+<tr><td><a href="c01.html#chap-5.">5.  CONCLUSION</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c01.html#ack">ACKNOWLEDGEMENT</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c01.html#ref">REFERENCES</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. INTRODUCTION</font></h2></a>
+
+<p>
+A Japanese sentence consists of a series of phrases.  A phrase, in
+turn, is composed of a series of words as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=2>&lt;phrase&gt;:: &nbsp; = &nbsp;</td>
+    <td>&lt;substantive word&gt; | 
+	&lt;substantive word&gt; &lt;functional word string&gt;</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&lt;substantive word&gt;:: &nbsp; = &nbsp;</td>
+    <td>noun | verb | adjective | abverb | conjunction | interjection</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&lt;functional word sfcring&gt;:: &nbsp; = &nbsp;</td>
+    <td>&lt;functional word&gt;<sub>1</sub>, ----- , 
+	&lt;functional word&gt;<sub>n</sub></td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&lt;functional word&gt;:: &nbsp; = &nbsp;</td>
+    <td>particle | auxiliary verb</td></tr>
+</table>
+</p>
+<p>
+Sentences are not segmented into phrases, nor are phrases segmented
+into words. That is, there is no space between words to explicitly
+identify them.
+</p>
+<p>
+The order of phrases in a Japanese sentence has more freedom than in
+English. The case of a noun in a sentence is indicated by the
+following particle.  Verbs, adjectives are auxiliary verbs
+conjugate. A Japanese verb, itself does not express tense, mood or
+voice, all of which are denoted by the auxiliary verb concatenated to
+the verb. In a phrase, the order of the auxiliary verb and particle
+follows grammatical rules. Fig.l shows an example of the sentence
+structure in Japanese and English.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><u>Ž„‚Í</u></td><td rowspan=2>&nbsp;</td>
+	    <td><u>ƒŠƒ“ƒS‚ð</u></td><td rowspan=2>&nbsp;</td>
+	    <td><u>H‚×‚È‚©‚Á‚½</u>B</td></tr>
+	<tr align=center><td>S</td><td>O</td><td>V</td></tr>
+	</table>
+    </td><td rowspan=3>&nbsp;</td>
+    <td>(Japanese sentence)</td></tr>
+<tr><td><br></td></tr>
+<tr valign=top><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><u>&nbsp;I&nbsp;</u></td><td rowspan=2>&nbsp;&nbsp;</td>
+	    <td><u>didn't eat</u></td><td rowspan=2>&nbsp;&nbsp;</td>
+	    <td><u>an apple</u>.</td></tr>
+	<tr align=center><td>S</td><td>V</td><td>O</td></tr>
+	</table>
+    </td>
+    <td>(English senten</p>
+<p>ce)</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.1. Example of sentence structure in Japanese and English
+</strong></div>
+</p>
+
+<p>
+Japanese uses several kinds of script: Kana (hira-gana, and
+kata-kana), Kanji, and aiphanumerics. Kana characters are
+phonograms. Hira-gana is used mainly for functional words,
+conjugational parts, formal nouns, conjuctions and so on. Kata-kana is
+used for foreign words which are mainly nouns.
+</p>
+<p>
+Kanji were originally ideograms denoting Chinese words, but they have
+been used to denote Japanese words since the 5th Century A.D. Each
+kanji usually has several readings as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=2>(i)</td>
+    <td>A Chinese reading: as an ideogram denoting a Chinese word.</td></tr>
+<tr><td>For example: ‰Ô("ka"; flower)</td></tr>
+<tr valign=top><td rowspan=2>(ii)</td>
+    <td>A Japanese reading: as an ideogram denoting a Japanese word.</td></tr>
+<tr><td>For.example: ‰Ô("hana"; flower)</td></tr>
+<tr valign=top><td rowspan=2>(iii)</td>
+    <td>An idiomatic reading: 
+	an exceptional reading used for an idiom or a proper noun.</td></tr>
+<tr><td>For example; ˆê("hajime"; a man's first name)</td></tr>
+</table>
+</p>
+<p>
+Kanji are used mainly for nouns, verb stems and adjective stems.  A
+Japanese newspaper or a novel uses usually more than two thousand
+Kanji.
+</p>
+<p>
+The reading of a Kanji is determined by the word.  Therefore, to give
+the correct reading, it is first necessary to identify the word of
+which that Kanji is a member.  One noticeable characteristic of
+Japanese is that nouns are usually used in a compound form as a
+compound word.  That is, many nouns are connected to form a new
+compound noun.  It was impossible as well as impractical to record all
+compound words in the dictionary compiled for our system.
+</p>
+<p>
+To read a Japanese sentence in a natural way, following major problems
+had to be solved:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td>(i)</td>
+    <td>To give Kanji as well as alphanumerics the right reading.</td></tr>
+<tr valign=top><td>(ii)</td>
+    <td>To give the proper accent.</td></tr>
+</table>
+</p>
+<p>
+Essentially these problems were solved by preparing special
+dictionaries that give the readings and standard accent for each word.
+To make this possible, it was necessary to develop a system that could
+segment a sentence and a compound word into words which are recorded
+in the dictionary.
+</p>
+<p>
+The Japanese-text-to-speech-system shown in Fig.2 has been realized by
+combining the linguistic processing and speech synthesis processing
+using the LSP-CV method (1).  The new linguistic processing techniques
+required for a computer to translate ordinary Japanese sentences into
+natural synthetic voice are discussed in the following sections.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c01/c01-fig2.gif" width=844 height=607>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.2. Japanese-text-to-speech-system
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. WORD SEGMENTATION PROCESS</font></h2></a>
+
+<p>
+In the system, the twelve dictionaries listed in Table 1 are used.
+The dictionaries, altogether contain about 300,000 words.  The outline
+of the word segmentation process in a sentence is shown in Fig.3.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1. List of Japanese dictionaries
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=2>dictionary name</td>
+    <td>contents</td>
+    <td>example of contents</td></tr>
+<tr><td colspan=2>grammar dictionary</td>
+    <td>grammatical connection rules between words</td>
+    <td><hr size=1 width=50% color=000000></td></tr>
+<tr><td colspan=2>functional word dictionary</td>
+    <td>all conjugational forms of particles and auxiliary verbs, and affixes</td>
+    <td>‘–‚Á<u>‚½</u> (ran)</td></tr>
+<tr><td colspan=2>conjugational part dictionary</td>
+    <td>all conjugational parts of verbs and adjectives</td>
+    <td>‘–‚Á<u>‚½</u> (ran)</td></tr>
+<tr><td colspan=2>hira-gana substantive word dictionary</td>
+    <td>substantive words written in hira-gana</td>
+    <td>‚«‚Ì‚¤ (yesterday)</td></tr>
+<tr><td colspan=2>idiom dictionary</td>
+    <td>hira-gana strings denoting mood, tense, etc.</td>
+    <td>‘–‚Á<u>‚Ä‚¢‚é</u> (runn<u>ing</u>)</td></tr>
+<tr><td colspan=2>mixed word dictionary</td>
+    <td>mixed words written in hira-gana and kanji <br>
+	(begining character of word is hira-gana)</td>
+    <td>‚¯‚ñ§ (check)</td></tr>
+<tr><td colspan=2>affix dictionary</td>
+    <td>affixes written as one kanji</td>
+    <td><u>‘å</u>‰ïŽÐ (<u>big</u> company)</td></tr>
+<tr><td colspan=2>auxiliary numerals dictionary</td>
+    <td>auxiliary numerals</td>
+    <td>1<u>”N</u> (one year)</td></tr>
+<tr><td colspan=2>general word dictionary</td>
+    <td>general words</td>
+    <td>’PŒê (word)</td></tr>
+<tr><td colspan=2>technical term dictionary</td>
+  @<td>technical terms, abbreviations</td>
+    <td>OPEC</td></tr>
+<tr><td rowspan=4>proper noun dictionary</td>
+    <td>place names</td>
+    <td>place names</td><td>“Œ‹ž ("Tokyo")</td></tr>
+<tr><td>last names</td>
+    <td>last names</td>
+    <td>²“¡ ("Sato")</td></tr>
+<tr><td>first names</td>
+    <td>first names</td>
+    <td>ˆê ("Hajime")</td></tr>
+<tr><td>company names</td>
+    <td>company names</td>
+    <td>ŽO•H ("Mitsubishi")</td></tr>
+<tr><td colspan=2>kanji dictionary</td>
+    <td>kanji (about 6500)</td>
+    <td>ŽR, ì, ‰Ô, cc</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c01/c01-fig3.gif" width=765 height=1052>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.3. Outline of word segmentation process in a sentence
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Phrase segmentation process</font></h2></a>
+
+<p>
+We classify Kanji, Kata-kana, and aiphanumerics in the K class,
+hira-gana in the H class, punctuation marks and symbols in the T
+class.
+</p>
+<p>
+To segment a sentence into words, we first segment it into phrases
+using the following algorithm.  As mentioned before, nouns, verb stems
+and adjective stems as the main substantive words in Japanese
+sentences are written normally using characters of the K class,
+functional words connected to substantive words and conjugational
+parts connected to verb stems or adjective stems are written using
+characters of the H class.  Thus, the system, as the first guess,
+assumes that transition points of H ¨ K, T ¨ K, T ¨ H represent
+phrase boundaries (2).
+</p>
+<p>
+A phrase boundary in a phrase is adjusted or is newly set up in the
+word segmentation process, when the system recognizes a word such as a
+mixed word written in hira-gana and kanji and containing a transition
+point of H ¨ K in the character string of the word (e.g. "‚¯‚ñ§";
+check), a substantive word contained in a character string of the H
+class (e.g. "‚«‚å‚¤"; today), or a substantive word contained in a
+character string of the K class (e.g. "<u>ð“ú</u>Ž„‚Í@";
+<u>yesterday</u> , I ...).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2  Word segmentation process in a phrase</font></h2></a>
+
+<p>
+We define character string of the K class and a character string of
+the H class as C<sub>K</sub>, C<sub>H</sub> respectively.  After the
+phrase segmentation process in section 2.1, one of the following three
+kinds of phrases results.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(i)</td><td>C<sub>K</sub> EC<sub>H</sub></td></tr>
+<tr><td>(ii)</td><td>C<sub>K</sub></td></tr>
+<tr><td>(iii)</td><td>C<sub>H</sub></td></tr>
+</table>
+</p>
+<p>
+If C<sub>K</sub> contains a compound word or a series of substantive
+words written in kanji (e.g. a verb stem succeeded by adverb),
+C<sub>K</sub> contains multiple words.  To extract all possible word
+candidates in a phrase the dictionaries are consulted for all
+substrings in the phrase.  Using all possible word candidates in the
+phrase which are extracted by the above process, word segmentation is
+done in two processes as shown in Fig.3.
+</p>
+<p>
+Word segmentation in C<sub>H</sub> is done first, and possible
+candidates (we call them word chains), {Q<sub>lm</sub>}, are
+generated.  If several word chains are generated, we choose the word
+chain Q<sub>l</sub> with the least number of segmentations (3).
+</p>
+<p>
+In the next process, word segmentation in C<sub>K</sub> is done, and
+again possible candidates (word chains), {P<sub>ln</sub>}, are
+generated.  For each P<sub>ln</sub> we calculate the number of
+semantically dependency relationships (ƒ¿<sub>ln</sub> between words
+as shown Table 2.  ƒ¿<sub>ln</sub> is the number of occurrences of
+semantically dependency relationships between words in Table 2, for
+example, if two cases of semantically dependency relationships between
+words apply to P<sub>ln</sub>, then ƒ¿<sub>ln</sub> = 2.
+</p>
+
+<p>
+<div align=center><strong>
+Table 2. Semanticaliy dependency relationships between words
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c01/c01-tab2.gif" width=783 height=279>
+</td></tr>
+</table>
+</p>
+
+<p>
+The optimal word segmentation or word chain P<sub>l</sub> is
+selected as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td>(i)</td>
+    <td>Let ƒÀ<sub>ln</sub> be the number of words for word chain P<sub>ln</sub>, 
+	then calculate ƒÁ<sub>ln</sub> = ƒÀ<sub>ln</sub> - ƒ¿<sub>ln</sub>.</td></tr>
+<tr></tr><tr></tr>
+<tr><td>(li)</td>
+    <td>Let {P<sub>l</sub>} be the word chain which has the smallest ƒÁ<sub>ln</sub> 
+	in {P<sub>ln</sub>}.</td></tr>
+<tr></tr><tr></tr>
+<tr><td>(iii)</td><td>If there are many such {^P<sub>l</sub>} then choose the optimal
+	word chain Pi^ from {^P<sub>l</sub>} according to the total frequency of use of
+	words belonging to {^P<sub>l</sub>}.</td></tr>
+</table>
+</p>
+<p>
+In the last process, optimal word segmentation in the phrase is
+decided mainly from {P<sub>l</sub>} and {Q<sub>l</sub>} according to
+the number of segmentations (3).
+</p>
+<p>
+By the result of an experimentation, it has been proven that the above
+mentioned algorithm is able to segment ordinary Japanese sentences
+into words with an high accuracy.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3.  KANJI TO KANA TRANSLATION</font></h2></a>
+
+<p>
+The reading and accent of a word which has been segmented and
+recognized are found by consulting the general word, technical term,
+proper noun and affix dictionaries.
+</p>
+<p>
+The correct reading of identical characters, for which there are
+several possible readings, is determined by the part of speech,
+grammatically and semantically dependency relationships between words,
+frequency of use and so on.  Table 3 shows Method of readings for
+identical kanji.
+</p>
+
+<p>
+<div align=center><strong>
+Table 3. Method of readings for identical kanji
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c01/c01-tab3.gif" width=766 height=692>
+</td></tr>
+</table>
+</p>
+
+<p>
+Readings of numerals and auxiliary numerals change depending on how
+they are combined, for example, ‚P”N("ichi-nen"; one year), ‚PŒÂ
+("ikko"; one item), ‚P–{("ippon"; one cylindrical object), ‚Pl
+("hitori"; one person).  Readings of numerals and auxiliary numerals
+which follow phonemic change rules are given in the auxiliary numerals
+dictionary and exceptional readings are recorded in the general word
+dictionary.
+</p>
+<p>
+An abbreviation, such as "OPEC", which is read as one term, is found
+by consulting the technical term dictionary, whereas an abbreviation
+like "EC", where the alphabetical letters are read separately, is
+found by referring to special table.
+</p>
+<p>
+Undefinded words which are not recorded in the dictionaries are
+translated by consulting the kanji dictionary and the characters
+before and after each kanji and by giving the typical Chinese or
+Japanese readings for each kanji separately.
+</p>
+<p>
+Phonemic changes in compound words, for example ‰ïŽÐ("<u>Ka</u>isha";
+company), ‘å‰ïŽÐ("dai-<u>ga</u>isha"; big company) are processed by
+using flags in the dictionaries which mark the words that undergo
+phonemic changes in compound words.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4.  PROSODIC PROCESSING</font></h2></a>
+
+<p>
+In addition to kanji readings, prosodic information such as accent,
+pause, and so on are necessary for reading out ordinary Japanese
+sentences in natural synthesized voice.
+</p>
+<p>
+The accent for each word is obtained from the dictionaries as
+explained in section 3.  When two or more words are combined, the
+accent sometimes shifts to facilitate smoother speech.  In case a
+functional word is connected to a substantive word, the accent for the
+phrase is composed according to the rule for accent change.
+</p>
+<p>
+A pause is put as a suitable boundary between the two words at proper
+intervals.  Based on the grammatical and semantical connection between
+two phrases or a compound word composed of multiple members a pause is
+put at intervals of 15 ` 20 moras which are pronounced without
+pausing, avoiding boundaries where grammatical or semantical
+connections between the two phrases or members are strong.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5.  CONCLUSION</font></h2></a>
+
+<p>
+In a 90-day experiment using Japanese newspapers, our
+Japanese-text-to-speech-system translated ordinary Japanese sentences
+into kana sentences with an accuracy of over 99.5%<a name="rfn1"
+href="c01.html#fn1"><sup>*</sup></a>.  Translation error was caused mainly by
+mistranslating proper nouns or new words which were not recorded in
+dictionary and reading errors for identical characters.  Future work
+will be aimed at enhancing translation accuracy by improving the
+dictionaries and the processing procedure for identical kanji.
+</p>
+<p>
+This system will make it possible to provide such new services as an
+information retrieval system using home telephones.  A book reading
+machine may also be realized in by combining the system with optical
+character reading technology.
+</p>
+<p>
+This system will contribute to improving the man-machine interface
+between humans and computers, and is one step forward the development
+of an intelligent computer capable of conversing with humans by means
+of natural languages.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>ACKNOWLEDGEMENT</font></h2></a>
+
+<p>
+We would like to thank SANSAIDO Co., Ltd. for permitting to use the
+magnetic tape of "SANSEIDO's SHINMEIKAI Japanese dictionary (Second
+Edition)".  We also would like to thank members of speech synthesis
+group in speech processing systems section for developing speech
+synthesis processing part.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>REFERENCES</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Y. Tohkura and Y. Sagisaka,
+	Synthesis by rule using CV-syllables and its speech quality.
+	<i>Paper of the Technical Group on Speech Communication</i>,
+	Acoustical Society of Japan, S80-47, 1980, 371-376, in Japanese.
+	<br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>M. Nagao, J. Tsuji, A. Yamagami and S. Takabe,
+	Data-Structure of a Large Japanese Dictionary and Morphological Analysis,
+	<u>Information Processing</u>, Information Processing Society of Japan,
+	vol.19. No.6, 1978, 514-521, in Japanese.
+	<br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>K. Yoshimura, T. Hitaka and S. Yoshida,
+	Morphological Analysis of Non-marked-off Japanese Sentences
+	by the Least BUNSETSU's Number Method,
+	<u>Transactions of Information Processing Society of Japan</u>,
+	vol.24, No.1, 1983, 40-46, in Japanese.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sub>*</sub></a>
+<table border=0 cellpadding=1 cellspacing=1 align=left>
+<tr><td align=center>number of characters bringing about reading errors</td>
+    <td rowspan=3>~ 100 </td></tr>
+<tr><td><font size=-2>------------------------------------------------------------------------</font></td></tr>
+<tr><td align=center>number of characters contained in original sentences</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>(<a href="c01.html#rfn1">Return</a>)</td></tr>
+</table>
+</p>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,633 @@
+<html>
+<head>
+<title>Yoshihiro Matsuo, Satoshi Shirai, Akio Yokoo &amp; Satoru Ikehara, NeMLaP, September 14-16, 1994</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Direct Parse Tree Translation in cooperation with the Transfer Method</font>
+<br><br>
+
+<font size=+2>Yoshihiro MATSUO and Satoshi SHIRAI and Akio YOKOO and Satoru IKEHARA</font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+
+<font size=+1>1-2356 Take, Yokosuka-shi, Kanagawa, 238-03 JAPAN</font>
+<br>
+
+<font size=+1><tt> {yosihiro,shirai,ayokoo,ikehara}@nttkb.ntt.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper proposes a cooperative translation method that combines
+direct parse tree translation with the transfer method implemented in
+the Japanese-to-English machine translation system ALT-J/E. Direct
+parse tree translation uses pattern matching between a dependency
+analyzed Japanese input sentence and parse tree patterns in a parse
+tree dictionary. Ordinary transfer methods have a problem in that
+input sentences are split up too finely, utilizing this pattern
+matching prior to the split process helps eliminate unnecessary
+splits. It is shown that the nodes in the patterns should be treated
+as three different types in order to translate the variable parts in
+the pattern by the transfer method.
+</p>
+
+<br><br>
+
+<h3>Keywords:</h3>
+
+<p>
+Direct parse tree translation, Hybrid approach.
+</p>
+
+<br><br>
+ 
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of NeMLaP</i>, pp.144-149 (September, 1994). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c06.html#chap-1">Introduction</a></td></tr>
+<tr><td><a href="c06.html#chap-2">Translation system overview</a></td></tr>
+<tr><td><a href="c06.html#chap-3">Matching and Division process</a></td></tr>
+<tr><td><a href="c06.html#chap-4">Combining the 'trunk' and the 'leaves'</a></td></tr>
+<tr><td><a href="c06.html#chap-5">How to treat free elements</a></td></tr>
+<tr><td><a href="c06.html#chap-6">Applicability</a></td></tr>
+<tr><td><a href="c06.html#chap-7">Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c06.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c06.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>Introduction</font></h2></a>
+
+<p>
+Up till now, most machine translation systems have been based on the
+transfer method, where translation is conducted in several phases such
+as morphological analysis, syntactic analysis, semantic analysis,
+transfer, and generation. The semantic analysis and transfer phases
+mainly process words while the generation process combines the
+translations. Although phrase transfer rules using syntactic
+information have also been used, such rules, which are described
+without strictly defined semantic attributes, sometimes causes
+unexpected side effects. When the sentence is divided into the smaller
+units that are required by the semantic analyzer, if there is
+excessive division the meaning of the input sentences can be changed.
+</p>
+<p>
+Recently, example-based (<a href="c06.html#ref6">Nagao, 1992</a>; <a
+href="c06.html#ref1">Furuse and Iida, 1992</a>) , knowledge-based (<a
+href="c06.html#ref8">Tsujii and Ananiadou, 1993</a>; <a href="c06.html#ref7">Nirenburg
+and Levin, 1991</a>) and pattern-based (<a href="c06.html#ref4">Katoh and
+Uratani, 1992</a>; <a href="c06.html#ref5">Maruyama, 1993</a>) translation
+systems have been proposed to replace the transfer method. Since these
+methods translate without excessive division, the meaning in the input
+sentence structure is conserved. However, there are problems with all
+these methods. The example-based method can not readily calculate the
+similarity between input sentences and the exarnpIes also translation
+fails Without sufficiently similar exampIls. It is not clear how to
+use and build a knowledge-base for knowledge-based
+translation. Pattern-based translation with morpheme patterns cannot
+be applted to free word order languages.
+</p>
+<p>
+In order to conserve the meaning of an input sentence, translation
+units that cannot be divided prior to semantic analysis needed to be
+appropriately defined. The Japanese to EngliSh translation system
+ALT-J /E, based on the multi-level translation method (<a
+href="c06.html#ref2">Ikehara, 1989</a>), was developed to reduce unexpected
+division. This method employs three levels of abstraction for
+translating unit sentences<a name="rfn1" href="c06.html#fn1"><sup>1</sup></a>,
+and each level has its own transfer rules<a name="rfn2"
+href="c06.html#fn2"><sup>2</sup></a>. The least abstract rules are applied
+first. Other expressions such as noun phrases or adverbial phrases are
+translated based on a semantic analysis.
+</p>
+<p>
+Since the three levels of rules for unit sentences require units which
+contain one verb and some case elements and the semantic analyzers for
+noun or adverbial phrases require appropriate structures, the
+muIti-level transIation method must divide input sentences into
+several unitsThis makes it difficult to handle Japanese verbs with
+wide ranging meanings such as <i>naru</i> or <i>suru</i> which are
+used frequently (similar to "do" or "make" ) and English special
+expressions such as subjunctives, because the information needed for
+translation is often scattered between the units, In order to handle
+such scattered information, we have introduced direct parse tree
+translation into ALT-J/E. The direct parse tree translation uses
+pattern matching between the parse tree of an input sentence and parse
+trees in a dictionary.  Since this is processed prior to the division
+process, information from the entire parse tree can be utilized.
+</p>
+<p>
+It is possible to build a translation system using only this method,
+but such a system would have the following disadvantages.
+</p>
+<p>
+<ul>
+<li> Since every kind of structure is treated as a simple tree, it is
+	impossible to write suitable rules for structures such as noun
+	phrases or unit sentences.
+<li> It is not realistic to describe every phenomenon of a natural
+	language, so it is difficult to assure that the dictionary
+	contains enough patterns.
+</ul>
+</p>
+<p>
+Semantic analysis-based translation does not have these
+disadvantages. In order to integrate the two methods, direct parse
+tree translation is mainly used to handle long range dependency on the
+parse tree, which is difficult to treat With ordinary semantic
+analysis. This paper proposes a method of cooperative translation
+using both direct parse tree translation and the transfer method
+implemented in the Japanese-to-English machine translation system,
+ALT-J/E.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>Translation system overview</font></h2></a>
+
+<p>
+Direct parse tree translation should capture the Japanese structure
+corresponding to an English expression. It is difficult to find a
+pattern of morpheme sequences because Japanese has almost no word
+order dependency. Therefore, we introduce a pattern matching function
+on the dependency structure of the input sentences.
+</p>
+<p>
+Figure 1 shows an overview of the translation system. The whole system
+is made up of a pattern matching part, some semantic analysis-based
+translators and an English synthesizer. A white circle represents a
+Japanese phrase and a tree made up of white circles represents a
+dependency analyzed Japanese sentence; A hatched square represents a
+rule that a Japanese phrase should satisfy and a tree made up of
+hatched squares represents a parse tree pattern. A white triangle
+represents a English word and a tree of these triangles reprcsents a
+structure of English sentence.  A tree made up of hatched triangles
+represents a English template as described in the English template
+dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c06/c06-fig1.gif" width=727 height=453>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1: Translation system overview
+</strong></div>
+</p>
+
+<p>
+The pattern matching part receives a dependency analyzed Japanese
+sentence and compares it with the Japanese parse tree patterns
+described in the Japanese parse tree dictionary. If the pattern
+matches the input tree, the tree is divided into a 'trunk part' and
+some 'leaf parts'. The trunk part is the part that is translated as a
+whole, and the leaf parts are the rest of the input tree which will be
+translated by the semantic analysis-based translation. For the trunk
+part, since the scattered information is already captured, no further
+deep analysis is required. The system merely uses the English template
+which corresponds to the pattern from the Japanese parse tree
+dictionary. For each leaf part, the system invokes the relevant
+semantic analyzer and transfer process needed to generate the English
+structures. The English synthesizer receives the English template read
+from the English template dictionary and the English structures
+generated by the transfer process, and combines them into a complete
+English sentence,
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>Matching and Division process</font></h2></a>
+
+<p>
+The pattern matching part compares the dependency analyzed Japanese
+sentence with parse tree patterns. The dependency structures are
+represented as trees which contain words and phrases on their
+nodes. Therefore the parse tree patterns are made of trees with
+attribute conditions on their nodes. The entire comparison examines
+all conditions in each node in the parse tree pattern and the
+attributes of each node in the input sentence.
+</p>
+<p>
+The result of the pattern matching is that each node of each parse
+tree pattern has a part of an input tree as its value. The division
+process separates node values into leaf and trunk parts, but there may
+be more than one possible separation.  Sentence (1) shows the exanlple
+of a subjunctive expression; which cannot be represented by a more
+simple Japanese form.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>(1-a)</td><td rowspan=3>&nbsp;</td>
+    <td><i>kare-ha</i></td><td><i>marude</i></td><td><i>nan-demo</i></td>
+    <td><i>shitte-iru-ka-no-youni</i></td><td><i>hanasu</i>.</td></tr>
+<tr><td></td><td>he</td><td>almost</td><td>everything</td><td>know</td><td>talk</td></tr>
+<tr><td>(1-b)</td><td colspan=5>he talks as if he knew everything.</td></tr>
+</table>
+</p>
+<p>
+In this case, the key expressions that determine that this sentence is
+the subjunctive are the Japanese adverb <i>marude</i> and the compound
+made of an auxiliary verb <i>youni</i> and particles <i>kano</i>. The
+Japanese sentence is parsed into the dependency structure shown in
+Figure 2-(a), To capture this structure, the parse tree pattern of
+Figure 2-(b) can be prepared in the parse tree dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td><img src="c06/c06-fig2a.gif" width=199 height=154></td>
+    <td><img src="c06/c06-fig2b.gif" width=332 height=215></td></tr>
+<tr align=center><td><strong>(a)</strong></td><td><strong>(b)</strong></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 2: Dependency structure of sentence (1) and example pattern
+</strong></div>
+</p>
+
+<p>
+The pattern matching part supplies the result that X directly
+corresponds to <i>kare</i>, that Y directly corresponds to
+<i>shitteiru</i> and that Z directly corresponds to <i>marude</i>. To
+generate the phrase "know everything" , Y should be <i>nandemo
+shitteiru</i>. Thus, the additional element <i>nandemo</i> should be
+connected to variable Y. Z and W, however, are parts of the trunk and
+are not translated using the transfer rules.
+</p>
+<p>
+Another example, sentence (2) , may be informative.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>(2-a)</td><td rowspan=3>&nbsp;</td>
+    <td><i>kare-ha</i></td><td><i>isu-no</i></td><td>ashi-wo</i></td>
+    <td><i>kumu</i></td></tr>
+<tr><td></td><td>he</td><td>chair</td><td>leg</td><td>combine</td></tr>
+<tr><td>(2-b)</td>
+    <td colspan=4>He assembles chair legs.</td></tr>
+<tr><td>(2-c)</td><td align=right><sup>*</sup></td>
+    <td colspan=4>He crosses chair legs.</td></tr>
+</table>
+</p>
+<p>
+In this case, to correctly translate <i>kumu</i> as "assemble"
+requires that <i>ashi</i> does not refer to a part of an animal<a
+name="rfn3" href="c06.html#fn3"><sup>3</sup></a>. Thus the parse tree pattern
+in Figure 3-(b) should be prepared in the parse tree dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=bottom><td><img src="c06/c06-fig3a.gif" width=134 height=128></td>
+    <td><img src="c06/c06-fig3b.gif" width=314 height=208></td></tr>
+<tr align=center><td><strong>(a)</strong></td><td><strong>(b)</strong></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 3: Dependency structure of sentence (2) and example pattern
+</strong></div>
+</p>
+
+<p>
+The result from the pattern matching part is that X directly
+corresponds to kan; that Y directly corresponds to <i>ashi</i>, that Z
+directly corresponds to <i>isu</i> and that W directly corresponds to
+<i>kumu.</i> Since the input to generate the phrase &quot;chair
+leg&quot; in node Y is that Y is <i>isu-no ashi,</i> Z needs to be
+connected to variable Y.
+</p>
+<p>
+These examples show that the Z in the pattern for sentence (2) should
+be treated differently from the Z in the pattern for sentence (1).
+</p>
+<p>
+To do this, we introduce three types of node in the parse tree
+pattern.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=5>&nbsp;&nbsp;</td>
+    <td><strong>a-type</strong> &nbsp; This is the root of a leaf part. 
+	This node should be translated into English.</td></tr>
+<tr></tr>
+<tr><td><strong>b-type</strong> &nbsp; This is a part of the trunk part.
+	This node should not be translated into English, but is translated
+	directly as a part of the template.</td></tr>
+<tr></tr>
+<tr><td><strong>c-type</strong> &nbsp; This is a part of a leaf part,
+	but not the root. This node should be connected to an upper node.</td></tr>
+</table>
+</p>
+<p>
+For a-type nodes, the system invokes the relevant semantic analyzer
+which is described in the parse tree pattern (Figure 4,5). B-type
+nodes are discarded. For all other elements in the input sentence
+(those that directly correspond to c-type nodes and any additional
+elements), the following sequence is performed.
+</p>
+<p>
+<ul>
+<li> Follow the parse tree toward the root until the root itself, an
+	a-type node, or a b-type node is reached.
+<li> If an a-type node is reached, the element is a part of that node.
+<li> It a b-type node or the root is reached, the element is treated as a free element.
+</ul>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td><img src="c06/c06-fig4a.gif" width=325 height=307></td>
+    <td><img src="c06/c06-fig4b.gif" width=327 height=237></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 4: Node categorized pattern for sentence (1) and the result of identification of the node's value
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td><img src="c06/c06-fig5a.gif" width=314 height=312></td>
+    <td><img src="c06/c06-fig5b.gif" width=252 height=231></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 5: Node categorized pattern for sentence (2) and the result of identification of the node's value
+</strong></div>
+</p>
+
+<p>
+In the case of sentence (1), the nodes should be categorized as
+follows: X and Y are a-type and Z and W are b-type. X and Y are
+translated by semantic analysis-based translator, and Z and W are
+discarded. The sequence shown above is performed for one additional
+node <i>nan </i>in the example sentence. Following the tree will stop
+at the node <i>shitteiru,</i> which directly corresponds to a-type
+node Y. Therefore, the node <i>nan </i>is connected to
+<i>shitteiru</i> and the system determines that X consists of
+<i>kare</i> and Y consists of <i>nandemo-shitteiru</i> (see Figure 4).
+</p>
+<p>
+In the case of sentence (2), the nodes should be categorized as
+follows: X and Y are a-type, Z is c-type and W is b-type. The node
+<i>isu</i> which corresponds to c-type node Z is treated by the above
+sequence and connected to <i>ashi.</i> The system determines that X
+consists of <i>kare</i> and Y consists of <i>isu-no-ashi</i> (see
+Figure 5).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>Combining the 'trunk' and the 'leaves'</font></h2></a>
+
+<p>
+The English template dictionary contains the templates of English
+structures corresponding to the trunk parts. The template has one
+variable for each a-type node. The role of each variable such as SUBJ
+in SENTENCE or MODIFIER in NP is also described in the template. The
+part determined as the value of an a-type node is analyzed
+semantically by the relevant analyzer and is transferred by the
+relevant transfer process. Each result of the transfer process is
+connected to the template according to the role of the variable in
+order to build a complete English sentence. Figure 6 shows the English
+template used with the example pattern in figure 5.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><img src="c06/c06-fig6.gif" width=246 height=158></td></tr>
+</table>
+<div align=center><strong>
+Figure 6: Example of English template
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>How to treat free elements</font></h2></a>
+
+<p>
+The pattern matching part sometimes produces free elements. They need
+to be correctly translated into English using the semantic analyzer
+and the transfer process, and the result of the transfer process
+should be properly connected to the English structure. Our current
+system can treat free elements if the following two conditions apply.
+</p>
+<p>
+<ol>
+<li> the resulting English structure has a predicate in its top level
+<li> the free element is an adverbial phrase or a case element
+</ol>
+</p>
+<p>
+When both these conditions are satisfied, the free element is
+translated as an adverbial phrase or a prepositional phrase connected
+to the predicate. Otherwise, the direct parse tree translation fails
+and the whole sentence is translated normally using semantic analysis.
+</p>
+<p>
+For example, sentence (3) has the free element <i>isoide</i> &quot;in
+a hurry&quot;. Because <i>isoide</i> is an adverbial phrase and there
+is a predicate in the sentence, the translation of <i>isoide</i> can
+be connected to the predicate. This gives sentence (3-b).
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>(3-a)</td><td rowspan=3>&nbsp;</td>
+    <td><i>kare-ha</i></td><td><i>isu-no</i></td><td><i>ashi-wo</i></td>
+    <td><i>isoide</i></td><td><i>kunda</i></td></tr>
+<tr><td></td><td>he</td><td>chair</td><td>leg</td><td>hurry</td><td>combined</td></tr>
+<tr><td>(3-b)</td><td colspan=5>He assembled chair legs in a hurry.</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>Applicability</font></h2></a>
+
+<p>
+We examined the translation of <i>naru</i> in a functional test set
+(<a href="c06.html#ref3">Ikehara, 1992</a>) of about 3,700 sentences. Although
+ALT-J/E translates the verb naru with many valence patterns, it is
+difficult to translate. One of the reasons is that <i>naru</i> is
+sometimes translated into a phrase without a verb. The solution is to
+capture the structure around <i>naru</i> with an upper structure
+including another verb or to use a mechanism to convert a clause into
+a phrase. Both are impossible with simple valence patterns for unit
+sentences which cannot refer to external information. Another reason
+is that information distant from the verb is required to select the
+English structure. For example, to translate <i>’¡Ásuru jidai-ni
+naru</i> into &quot;the age will come when ’¡Á&quot;, <i>’¡Ásuru</i>
+should be treated together with <i>naru</i><a name="rfn4"
+href="c06.html#fn4"><sup>4</sup></a>. But the division process in the transfer
+method would send <i>’¡Ásuru jidai</i> to the noun phrase analyzer on
+its own.
+</p>
+<p>
+The test set has 146 sentences which include naru, of which about 60
+sentences can be translated into acceptable English by ALT-J/E without
+direct parse tree translation. We have obtained key expressions to
+capture the structure around naru for about 40 more sentences, rules
+using these are currently being refined and implemented.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-7"><h2><font color=#ff0000>Conclusion</font></h2></a>
+
+<p>
+We have combined direct parse tree translation with translation based
+on semantic analysis. This method has been implemented on the
+Japanese-to-English machine translation system ALT-J/E. This method is
+especially effective for translating Japanese native verbs such as
+<i>naru</i> or <i>suru</i> which are difficult to translate with
+valence patterns.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+The authors wish to thank the other members of the MT research group
+for several valuable discussions. They also wish to thank Miki
+Nakamura, Tomiko Hyoudou and Hiroko Inoue for their suggestions and
+valuable discussions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Furuse, O. and Iida, H. (1992).</a>
+<dd>Transfer-Driven Machine Translation.
+	In <i>Proceedings of In-tematinal Workshop on Fundamental Research for
+	the Future Generation of Natural Language Processing(FGNLP)</i> , Manchester.
+	<br><br>
+<dt><a name="ref2">Ikehara, S. (1989).</a>
+<dd>Multi-level Machine Translation Method.
+	<i>Future Computing Systems</i> , 2(3).
+	<br><br>
+<dt><a name="ref3">Ikehara, S. (1992).</a>
+<dd>Criteria for Evaluating the Linguistic Quality of Japanese to English MT System.
+	In <i>Proceedings of MT Evaluation Workshop</i> , San Diego.
+	<br><br>
+<dt><a name="ref4">Katoh, N. and Uratani, N. (1992).</a>
+<dd>Extraction and machine translation of news sentences with fixed patterns
+	(in Japanese).
+	In <i>Proceedings of 44th Annual Convention IPS Japan</i> .
+	<br><br>
+<dt><a name="ref5">Maruyama, H. (1993).</a>
+<dd>Pattern-Based Translation: Context-Free Transducer and Its Applications to
+	Practical NLP.
+	In <i>Proceedings of Natural Language Processing Pacific Rim Symposium</i> ,
+	Fukuoka.
+	<br><br>
+<dt><a name="ref6">Nagao, M. (1992).</a>
+<dd>Some Rationales and Methodologies for Example-based Approach.
+	In <i>Proceedings of Internatinal Workshop on Fundamental Research for
+	the Future Generation of Natural Language Processing(FGNLP)</i> , Manchester.
+	<br><br>
+<dt><a name="ref7">Nirenburg, S. and Levin, L. (1991).</a>
+<dd>Syntax-Driven and Ontology-Driven Lexical Semantics.
+	In <i>Proceedings of the 1st SIGLEX Workshop</i> , Berkeley.
+	<br><br>
+<dt><a name="ref8">Tsujii, J. and Ananiadou, S. (1993).</a>
+<dd>Knowledge-based Processing in MT.
+	In <i>Proceedings of Japan-US Workshop on Machine Aided Translation</i> ,
+	Washington.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+A unit sentence is made up of a verb and case elements. (<a href="c06.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+The first level rules translate idiomatic expressions (about 3,000
+rules). The second level rules are valence patterns (about 10,000
+rules) which are described as relations between a verb and cases
+categorized. by about 3,000 semantic attributes. The third level rules
+are the default translation rules for verbs. (<a href="c06.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+For translating the verb <i>kumu</i>, ALT-J/E has several
+valence-patterns. One of them is such that if the direct object has
+the semantic attribute [<small>LEG</small>] then the verb should be
+translated as "cross" , while another says that if the direct object
+has the semantic attribute [<small>CONCRETE THING</small>] then the verb
+should be translated as "assemble" . Since the semantic attribute of
+<i>ashi</i> is [<small>LEG</small>], the system without the direct parse
+tree translation produces the incorrect translation (2-c). (<a href="c06.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>4</sup></a>
+With simple valence patterns, it will be translated into &quot;It
+becomes the age that ’¡Á&quot;. (<a href="c06.html#rfn4">Return</a>)

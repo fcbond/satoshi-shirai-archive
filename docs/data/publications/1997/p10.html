@@ -1,0 +1,1617 @@
+<html>
+<head>
+<title>Hiromi Nakaiwa, Satoshi Shirai &amp; Satoru Ikehara, Transaction of Information Processing Society of Japan, November 11, 1997, Vol.38, No.11, pp.2167-2178. </title>
+<meta http-equiv="content-type" content="text/html; charset=euc-jp">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>日英機械翻訳における語用論的・意味論的制約を用いたゼロ代名詞の文章外照応解析</font>
+<br><br>
+
+<font size=+2>中岩浩巳<sup>+</sup> 白井諭<sup>+</sup> 池原悟<sup>++</sup></font>
+</div>
+<br><br>
+
+<p>
+日英機械翻訳システムでの実現を考慮した,
+指示対象が文章中に現れない日本語ゼロ代名詞に対する,
+語用論的・意味論的制約を用いた照応解析枝術について提案する.
+本手法は, 格の意味的制約, 様相表現, 用言意味属性,
+接続語の4 種類の語用論的・意味論的制約に着目して,
+文章中に指示対象 を持たないゼロ代名詞指示対象を決定し,
+適切な英語表現に変換するものである.
+本手法を日英翻訳システムALT-J/E上に実現して,
+日英翻訳システム評価用例文(3,718文)中に含まれる文章外照応のゼロ代名詞を対象に
+本手法の解析精度の評価実験を行った.
+まず, この文章外照応ゼロ代名詞中, 出現頻度の高い5 種類193 件を人手で分析し
+解析ルールを整備し, 解析精度の評価実験を行った結果,
+上記4 種類の制約条件でそのすべてのゼロ代名語の指示対象が正しく決定された.
+その結果を詳細に分析すると, 用言意味属性は, 様相表現と同等以上の効果を持つことが分かった.
+また, 比較的簡単なルールだけでも, 高い精度で指示対象が決定できることが分かった.
+さらに, 上記例文中のすベての文章外照応ゼロ代名詞371 件から自動的に照応解析ルールを作成し,
+ウィンドウテスト, ブラインドテストで解析精度を評価した場合,
+それぞれ99.2%, 87.6% という高い割合で正しく解析できることが分かった.
+以上の結果, 提案した方式の有効性が実証された.
+今後, さらに多くの文を対象に解析ルールの整備を進めることにより,
+文章外指示対象を持つゼロ代名詞の大半を復元し, 補完できる見通しとなった.
+</p>
+
+<br><br>
+<br><br>
+
+<div align=center>
+<font size=+3>Extrasentential Resolution of Japanese Zero Pronouns in Japanese-to-English Machine Translation Using Pragmatic and Semantic Constraints</font>
+<br><br>
+
+<font size=+2>H<small>IROMI</small> N<small>AKAIWA</small>,<sup>+</sup> S<small>ATOSHI</small> S<small>HIRAI</small><sup>+</sup> and S<small>ATORU</small> I<small>KEHARA</small><sup>++</sup></font>
+</div>
+<br><br>
+
+<p>
+This paper proposes a method to resolve extrasentential references or
+Japanese zero pronouns suitable for application in generally
+applicable machine translation systems.  This method focuses on
+semantic and pragmatic constraints such as semantic constraints on the
+cases, modal expressions, verbal semantic attributes and conjunctions
+to determine extrasentential antecedents of Japanese zero
+pronouns. This method is highly effective because the volume of
+knowledge that must be prepared beforehand is reasonable and its
+precision of resolution is good. This method was implemented in the
+Japanese-to-English machine translation system, ALT-J/E. To evaluate
+the performance of our method, we conducted a window test for 5 types
+of zero pronouns with extrasentential antecedents (193 instances) in a
+sentence set for the evaluation of the performance of Japanese to
+English machine translation systems (3718 sentences). According to the
+evaluation, extrasentential antecedents could be resolved correctly
+for all of the zero pronouns examined. By examining the accuracy for
+various conditions, we found that the verbal semantic attributes were
+comparatively as effective as modal expressions. By examining the
+accuracy for rule complexity, we found that this method can achieve
+high accuracy using relatively simple rules. Furthermore, by testing
+on an unknown text for all types of zero pronouns with extrasentential
+antecedents (371 instances) in the sentence set, we found that 87.6%
+of zero pronouns could be correctly resolved.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>情報処理学会論文誌</i>, Vol.38, No.11, pp.2167-2178 (1997.11). ]<br>
+[ <i>Transaction of Information Processing Society of Japan</i>, Vol.38, No.11, pp.2167-2178 (November, 1997). ]
+</font>
+</div>
+
+<br><br>
+
+<hr width=20% align=left>
+<font size=-1>
+
+<sup>+</sup> NTT コミュニケーション科学研究所<br>
+NTT Communication Science Laboratories<br>
+<sup>++</sup> 鳥取大学工学部知能情報工学科<br>
+Department of Information and Knowledge Engineering, Faculty of Engineering, Tottori University
+</font>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=22>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p10.html#chap-1.">1. はじめに</a></td></tr>
+<tr><td><a href="p10.html#chap-2.">2. 日英機械翻訳システム評価用例文でのゼロ代名詞の出現傾向</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-2.1">2.1 調査対象文</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-2.2">2.2 出現傾向</a></td></tr>
+<tr><td><a href="p10.html#chap-3.">3. ゼロ代名詞の文章外照応解析</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-3.1">3.1 格への意味的制約を用いた文章外照応解析</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-3.2">3.2 論用論的・意味論的制約を用いた文章外照応解析</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-3.2.1">3.2.1 様相表現による制約</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-3.2.2">3.2.2 用言意味属性による制約</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-3.2.3">3.2.3 接続語による制約</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-3.3">3.3 アルゴリズム</a></td></tr>
+<tr><td><a href="p10.html#chap-4.">4. 評価</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-4.1">4.1 評価方法</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-4.1.1">4.1.1 人手作成ルールの評価実験条件</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-4.1.2">4.1.2 自動作成ルールの計価実験条件</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#chap-4.2">4.2 評価結果</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-4.2.1">4.2.1 人手作成ルールの評価実験結果</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p10.html#chap-4.2.2">4.2.2 自動作成ルールの評価実験結果</a></td></tr>
+<tr><td><a href="p10.html#chap-5.">5. まとめ</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#ack">謝辞</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p10.html#ref">参考文献</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. はじめに</font></h2></a>
+
+<p>
+自然言語において話者や筆者が伝えたい内容は, 時
+間的, 空間的にさまざまな事象が立体的に絡み合って
+いることが多い. これに対して, 言語は一次元的な表
+現形式を持つ表現媒体であるため, 伝えたい内容を単
+一の表現や文などで一度に表現することは難しい場合
+がある. このような場合, いくつかの表現や文に分け
+て内容が表現されるため, 言語理解においては, 複数
+の表現や文の表す内容の対応関係を理解することが重
+要となる.
+</p>
+<p>
+このような表現対象の対応関係を記述するための代
+表的な表現として代名詞による照応表現がある. この
+</p>
+<p>
+表現は頻繁に使用されるが, また, 同時に, 言語表現
+では相手に誤解を生じない場合, 既知の要素は省略さ
+れる傾向をも持つため, 省略されることも多い. 省略
+された代名詞表現は通常ゼロ代名詞と呼ばれ, 計算機
+言語理解では, 明示された代名詞と同様, その照応関
+係を解析することが重要である.
+</p>
+<p>
+ところで, このゼロ代名詞の定義に従えば, 話者や
+筆者が伝えたい内容のうち, 文中に明示されない照応
+表現はすべてゼロ代名詞であることになるから, 計算
+機処理において, ゼロ代名詞を含むすべての代名詞に
+ついてその照応関係を調べることは事実上困難である.
+このため, 目的に応じて対象を絞ることが必要となる
+が, 現実に照応解析が必要となる照応表現は, 解析対
+象言語の種類やシステムの種類によって異なる. たと
+えば, 英語では, 代名詞や定冠詞をともなう定表現な
+ど, 明示された照応表現が頻繁に現れるのに対して,
+日本語では, 文脈や常識などによって相手が容易に推
+測できる要素は文章上表現しない傾向が強く, ゼロ代
+名詞として省略された表現が多い. そのため, 英語解
+析では明示された照応表現の解析技術が特に重要であ
+るのに対して, 日本語解析では, ゼロ代名詞として省
+略された照応表現の解析技術がより重要となる. 特に
+日英機械翻訳システムにおいては, 日本語表現で省略
+された格要素を英語で明示的に訳出する必要がある場
+合が多いため, 日本語ゼロ代名詞の照応解析枝術は特
+に重要であるといえる.
+</p>
+<p>
+日本語ゼロ代名詞の照応解析に関しては, 従来
+からさまざまな手法が提案されている. たとえば,
+Kameyama<sup><a href="p10.html#ref1">1)</a></sup>やWalkerf<sup><a href="p10.html#ref2">2)</a></sup>らは, 中心化アルゴリズム
+に基づき助詞の種類や共感動詞の有無により文章中
+に現れる指示対象を決定する手法を提案した. また,
+Yoshimoto<sup><a href="p10.html#ref3">3)</a></sup>は, 対話文に対して, 文章中に現れる指
+示対象については, 主題をベースとして指示対象を同
+定し, 文章中に現れない指示対象については, 敬語表
+現や speech act に基づき指示対象を同定する手法を
+提案した. 堂坂<sup><a href="p10.html#ref4">4)</a></sup>は, 日本語対話における対話登場人
+物間の待遇関係, 話者の視点, 情報のなわばりにかか
+わる言語外情報の発話環境を用いて, ゼロ代名詞が照
+応する対話登場人物を同定するモデルを提案した.
+</p>
+<p>
+これらの従来の手法は, 機械翻訳に適用するうえで,
+いくつかの問題を残している. 第1 の問題は, 汎用性
+を重視した方法であるため, 誤った照応関係の判定を
+おさえるのが因難である点である. すなわち, 機械翻
+訳では, 照応解析に失敗し, 誤った要素をゼロ代名詞
+の指示対象として補完した場合, 日本文で伝えたい情
+報とは異なる内容の英文が生成されるが, このような
+誤りは致命的である. このような訳文を生成するより
+も, そのようなゼロ代名詞は, むしろ無視して訳出す
+る方が良い. 再現率よりも適合率が重視される. 第2
+の問題は, 従来の手法の一部は, 照応解析に常識など
+の大量な知識を必要とすることである. 翻訳対象分野
+を狭い範囲に限定したとしても, これらの方式を実現
+するのに必要な量の知識を準備することは容易でない.
+第3 の問題は, 肌応関係の確定したゼロ代名詞を表現
+上再生する方法の問題である. 機械翻訳システムにお
+いては, ゼロ代名詞の照応先が決まった後は, それを
+いかに自然な目的言語の表現に翻訳するかという点が
+重要となるが, この問題は検討されていない.
+</p>
+<p>
+ところで, 日英機械翻訳で照応解析が必要となるゼ
+ロ代名詞は, 指示対象の種類に着目して, 次の3 種類
+に分類することができる.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=6>&nbsp;</td>
+    <td>(a)</td><td>指示対象が同一文内に存在するゼロ代名詞</td></tr>
+<tr><td></td><td>(文内照応)</td></tr>
+<tr><td>(b)</td><td>指示対象が文章中の他の文に存在するゼロ代名詞</td></tr>
+<tr><td></td><td>(文間照応)</td></tr>
+<tr><td>(c)</td><td>指示対象が文章中に存在しないゼロ代名詞</td></tr>
+<tr><td></td><td>(文章外照応)</td></tr>
+</table>
+</p>
+<p>
+これらのゼロ代名詞のうち, (a) 文内照応と(b) 文
+間照応のゼロ代名詞の翻訳の問題については, 最近,
+実用的な手法が提案された. まず, (b) では, 用言の
+持つ意味を分類し, その語の持つ代表的な意味属性値
+により, 語と語や文と文の意味的関係を決定して, 文
+章中の他の文内に現れた指示対象を特定する手法が提
+案されている<sup><a href="p10.html#ref5">5)</a></sup>. また(a) では, 接続語, 用言の意味,
+様相表現の3 種類の語用論的・意味論的制約を用いて,
+同一文内に存在する指示対象を決定する手法が提案さ
+れている<sup><a href="p10.html#ref6">6)</a></sup>. これらの方法は, 一般常識などの世界知
+識を前提とせず, 使用される情報が言語知識に限定さ
+れるため, 実用的といえる.
+</p>
+<p>
+ところで, これらの2 種類のゼロ代名詞は, 文章中
+に指示対象が存在する. このため, それを英文に訳出
+する際は, 指示対象として特定された表現の持つ情報
+を参照し, 訳出すべきゼロ代名詞が置かれる英訳文の
+構造上の位置に考慮すれば, 適切な訳語を選択するこ
+とができる、 これに対して, (c) の文章外照応ゼロ代
+名詞は, 文中でその代名詞が単に省略されているだけ
+でなく, それに対応する指示対象が文書中のどこにも
+現れていない表現である、 指示対象は, 文章を構成す
+る談話の構造や常識等の知識に基づく世界モデルの中
+に求めることになる. このように, (c) のゼロ代名詞
+の照応関係を決定することは容易でなく, 従来, 機械
+翻訳への応用に適した方法はなかった.
+</p>
+<p>
+ここで, 英語表現の特徴を考えると, 英語表現では,
+文法上の要請によって省略できない主語や目的語など
+に対して, これらの対象を必ずしも具体的に示さず,
+抽象的な概念としてとらえて, I, it, they, you など
+で表現することがある. 日英機械翻訳では, (c) のタ
+イプのゼロ代名詞は, このような表現に相当すること
+が多い. また, このような表現では, 一般の名詞は使
+用されず, 使用される表現は, 数種類の代名詞による
+表現に限定される. したがって, 機械翻訳においても,
+(c) タイプのゼロ代名詞の場合は, 必ずしも, その指
+示対象を特定する必要はなく, 訳出にあたっては, 英
+語側の文法的要請に応じて, 数種類の代名詞の中から
+文法的, 意味的に適切な代名詞が選択できればよいと
+考えられる.
+</p>
+<p>
+この点に着目して, 本論文では, 英文側からの文法
+的な要求条件から訳出する必要のある文章外照応のゼ
+ロ代名詞(c) に対して, 格要素, 様相表現, 用言意味
+属性および接続語の4 種の語用論的・意味論的制約に
+基づいてその種類を決定する方法を提案する.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. 日英機械翻訳システム評価用例文でのゼロ代名詞の出現傾向</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 調査対象文</font></h2></a>
+
+<p>
+指示対象が文章中にないゼロ代名詞の傾向をつかむ
+ために, 本章では独立した文(文間文脈情報が得られ
+ない文) におけるゼロ代名詞を調査した. 調査対象は,
+日英機械翻訳システム評価用例文3,718 文<sup><a href="p10.html#ref7">7)</a></sup>である.
+この評価用例文は, 日本語の性質と表現の種類, およ
+び日本語と英語との相違に基づき体系化された約500
+種類の試験項目を評価するために, 実用文中の表現を
+抽出して作成された日本語例文である. 個々の文には
+模範となる英訳が付与されており, そのほとんどの文
+は文脈の情報なしに(一文単独で) 翻訳が可能である
+(3,718 文中3,704 文) ため, 個々の文を日英機械翻訳
+システムで翻訳し, あらかじめ用意された英訳と比較
+することでシステムの翻訳機能の評価が行える. また,
+個々の例文は自然な日本語文であり広範囲な表現が含
+まれているため, これらの例文におけるゼロ代名詞と
+その指示対象の出現傾向を調査することによって, 同
+一文内に指示対象がある場合や, 文中に現れない指示
+対象の傾向を把握することが可能と期待できる. さら
+に, 日本語ゼロ代名詞が英語表現にいかに翻訳されて
+いるかの情報も得ることができるので, 日英機械翻訳
+システム中での実現を目指した日本語ゼロ代名詞照応
+解析技術の検討に適した分析が可能となる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 出現傾向</font></h2></a>
+
+<p>
+上記の試験文に対して照応解析が必要となるゼロ代
+名詞とその指示対象の出現傾向を調査した結果を<strong>表1</strong>
+に示す. 指示対象は出現場所から見て, 同一文内に存
+在する場合と, 同一文内に存在しない場合に分かれる.
+このうち照応要素が同一文内に存在しない場合におけ
+るゼロ代名詞は, 英語への訳し方から見て, 以下のよ
+うに分類することができる.
+</p>
+<p>
+<ul>
+<li> 受動態に変換しゼロ代名詞となる要素を訳出させない場合
+<li> “I” や“we” のように筆者や話者本人(I) 
+	もしくは本人を含む集団 (we) が照応要素となる場合
+<li> “you” のように読者や聞き手が指示対象となる場合
+<li> だれかは特定できないが人間が指示対象となる場合
+<li> “it” を生成すべき場合
+<li> その他の特定の要素が指示対象となる場合.
+</ul>
+</p>
+
+<p>
+<div align=center><strong>
+表1 ゼロ代名詞とその指示対象の出現頻度<br>
+</strong>
+(調査対象文: 日英機械翻訳システム評価用例文3,718文,<br>
+照応解析を要するゼロ代名詞が現れる文は484 文)
+<br>
+<strong>
+Table 1 Distribution of zero pronouns and their referential elements<br>
+</strong>
+(Source of sample sentences: Test sentences to evaluate Japanese to English MT <br>
+system (3,718 sentences). Of the test sentences, 484 contained zero pronoun(s)).
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=3>ゼロ代名詞化<br>された格要素</td>
+    <td colspan=13>指示対象の出現場所</td>
+    <td rowspan=3>小計<br>[件]</td></tr>
+<tr align=center>
+    <td colspan=7>同一文内</td>
+    <td colspan=6>同一文内になし</td></tr>
+<tr align=center>
+    <td colspan=2>は<div align=right><font size=-2>&nbsp;&nbsp;(引用<br>文内)</font></div></td>
+    <td colspan=2>が<div align=right><font size=-2>&nbsp;&nbsp;(埋込<br>文内)</font></div></td>
+    <td>を</td><td>に</td><td>他</td>
+    <td>受身</td><td>Iかwe</td><td>you</td>
+    <td>人間</td><td>it</td><td>他</td></tr>
+<tr align=center><td>は</td>
+    <td width=30>1</td><td width=30>0</td><td width=30>0</td><td width=30>0</td><td width=30>0</td><td width=30>0</td><td width=30>0</td>
+    <td width=30>4</td><td width=30>0</td><td width=30>2</td><td width=30>0</td><td width=30>0</td><td width=30>0</td><td width=30>7</td></tr>
+<tr align=center valign=bottom><td rowspan=3>が<div align=right><font size=-2>(埋込文内)<br><br>(引用文内)</font></div></td>
+    <td>110</td><td>2</td><td>9</td><td>2</td><td>0</td><td>2</td><td>8</td>
+    <td>144</td><td>82</td><td>24</td><td>28</td><td>51</td><td>0</td><td>462</td></tr>
+<tr align=center>
+    <td>3</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>6</td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>13</td></tr>
+<tr align=center>
+    <td>4</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>6</td></tr>
+<tr align=center valign=bottom><td rowspan=2>を<div align=right><font size=-2>(埋込文内)</font></div></td>
+    <td>3</td><td>0</td><td>0</td><td>0</td><td>5</td><td>1</td><td>0</td>
+    <td>0</td><td>0</td><td>0</td><td>1</td><td>7</td><td>0</td><td>17</td></tr>
+<tr align=center>
+    <td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+<tr align=center>
+    <td>に</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    <td>0</td><td>2</td><td>3</td><td>8</td><td>0</td><td>0</td><td>1</td><td>15</td></tr>
+<tr align=center><td>の</td>
+    <td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td>
+    <td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>4</td></tr>
+<tr align=center><td>小計 [件]</td>
+    <td colspan=7>154</td><td colspan=6>371</td><td>525</td></tr>
+</table>
+</p>
+
+<p>
+調査結果によれば, 全ゼロ代名詞525 件に対して指
+示対象が文中に現れないゼロ代名詞が371 件(71%)
+で最も多い. そのうち, 受動態に変換することによっ
+てゼロ代名詞の指示対象を認定せずに生成することが
+可能となるものは156 件(30%) にとどまる. よって
+残りの215 件(41%) のゼロ代名詞は, なんらかの手
+段で文章中には現れない指示対象を認定する必要があ
+る. また, 指示対象が文中に現れないゼロ代名詞を翻
+訳する際に, 指示対象を決定し明示しで翻訳すべきか,
+受動態に変換することで指示対象を明示せず翻訳すべ
+きかの判断をする必要がある.
+</p>
+<p>
+これら371 件のゼロ代名詞を詳細に分析するため
+に, これらゼロ代名詞のうち出現頻度が特に多いガ格
+のゼロ代名詞329 件を調査対象に, これらを含む単文
+の特徴を指示対象の種類別に分類した結果を<strong>表2</strong>に示
+す. 本表に示すとおり, ゼロ代名詞を含む単文の特徴
+としては, その単文がともなう様相表現<a name="rfn1" href="p10.html#fn1"><sup>☆</sup></a>, 用言の意
+味<a name="rfn2" href="p10.html#fn2"><sup>☆☆</sup></a>および接続語<a name="rfn3" href="p10.html#fn3"><sup>☆☆☆</sup></a>の種類を用いた. たとえば, 「運
+動会で一等になったときは嬉しくてならなかった」 と
+いう文では, 動詞「なる」のガ格および動詞「嬉しい」
+のガ格がゼロ代名詞となっており, この文の英訳によ
+ると, ともに“I” が指示対象として翻訳されている.
+この文の場合, まず前者のゼロ代名詞を含む単文表現
+「運動会で一等になったときは」 からは, “過去” の様
+相表現「た」, 動詞「なる」 の用言の意味“ガ格の属
+性変化” および“同時” の接続語「ときは」 の特徴が
+得られ, 後者のゼロ代名詞を含む単文表現「嬉しくて
+ならなかった」からは, “過度” の様相表現「てならな
+い」 と“過去” の様相表現「かった」, 動詞「嬉しい」
+の用言の意味“ガ格( 人) の感情状態” および“複文
+の主文” の特徴が得られる. 本表によると, 指示対象
+にかかわらず出現する過去や否定の様相表現などの単
+文の特徴を除くと, “I” または“we” が指示対象とな
+る場合82 件(16%) は, 「〜 したい」 のような希望の
+様相表現(8 件) や, 「思う」のような思考動作を示す
+用言(15 件) を多くともなっているのに対し, “you”
+が指示対象となる場合24 件(5%) は, 「〜 ざるをえな
+い」のような不可避の様相(3 件) や, 「〜 してはなら
+ない」のような禁止の様相(3 件), 「〜ば」のような順
+説仮定の接続語(6 件) をともなう表現が多く存在す
+る. また, “it” が指示対象となる場合51 件(10%) で
+は, 用言が状態(10 件) や特質(8 件) を示す場合が
+多い. さらに, 受動態に変換する場合144 件(27%)
+は, 単文となる割合が多い (144 件中107 件).
+</p>
+
+<p>
+<div align=center><strong>
+表2 文章外照応ゼロ代名詞を含む単文の特徴の分布<br>
+Table 2 Distribution of characteristics of simple sentence <br>
+with zero pronouns which refer fo extrasentential antecedents.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=3>ゼロ代名詞化<br>格要素</td><td rowspan=3>指示対象</td>
+    <td></td><td colspan=7>ゼロ代名詞を含む単文の特徴</td></tr>
+<tr align=center><td rowspan=2>件数</td><td rowspan=2>頻度順</td>
+    <td colspan=2>様相表現</td><td colspan=2>用言の意味</td><td colspan=2>接続語</td></tr>
+<tr align=center>
+    <td>種類</td><td>件数</td><td>種類</td><td>件数</td><td>種類</td><td>件数</td></tr>
+<tr align=center><td rowspan=20>ガ格</td>
+    <td rowspan=4>受動態</td><td rowspan=4>144</td>
+    <td>1</td><td>過去<br>( た)</td><td>14</td>
+    <td>ガ格がヲ格を<br>属性変化</td><td>30</td>
+    <td>単文</td><td>107</td></tr>
+<tr align=center>
+    <td>2</td><td>可能<br>(できる)</td><td>13</td>
+    <td>ガ格が<br>思考動作</td><td>27</td>
+    <td>複文主文</td><td>16</td></tr>
+<tr align=center>
+    <td>3</td><td>断定<br>(だ)</td><td>13</td>
+    <td>ガ格がヲ格をニ格に<br>精神的移動</td><td>16</td>
+    <td>連用中止</td><td>4</td></tr>
+<tr align=center>
+    <td>4</td><td>否定<br>( ない)</td><td>8</td>
+    <td>ガ格(主体)が<br>身体動作</td><td>15</td>
+    <td>同時<br>(と)</td><td>4</td></tr>
+<tr align=center><td rowspan=4>筆者/話者(I)<br>または<br>筆者/話者を<br>含む集合(we)</td><td rowspan=4>82</td>
+    <td>1</td><td>過去<br>(た)</td><td>21</td>
+    <td>ガ格(主体) が<br>思考動作</td>
+    <td>15</td><td>単文</td><td>37</td></tr>
+<tr align=center><td>2</td><td>否定<br>( ない)</td><td>11</td>
+    <td>ガ格がカラ格からニヘ格へ<br>物理的移動</td>
+    <td>10</td><td>複文主文</td><td>26</td></tr>
+<tr align=center>
+    <td>3</td><td>可能<br>(できる)</td><td>9</td>
+    <td>ガ格(主体)<br>が身体動作</td><td>8</td>
+    <td>連用中止</td><td>4</td></tr>
+<tr align=center>
+    <td>4</td><td>希望<br>(たい)</td><td>8</td>
+    <td>ガ格が<br>感情動作</td><td>7</td>
+    <td>逆接仮定<br>(ても)</td><td>3</td></tr>
+<tr align=center><td rowspan=4>読者または<br>聴者(you)</td><td rowspan=4>24</td>
+    <td>1</td><td>否定<br>(ない)</td><td>5</td>
+    <td>ガ格(人/動物)が<br>身体動作</td><td>5</td>
+    <td>単文</td><td>9</td></tr>
+<tr align=center>
+    <td>2</td><td>不可避<br>(ざるをえない)</td>
+    <td>3</td><td>ガ格が<br>感情動作</td><td>3</td>
+    <td>順接仮定<br>(ば)</td><td>6</td></tr>
+<tr align=center>
+    <td>3</td><td>禁止<br>(ならない)</td><td>3</td>
+    <td>ガ格(主体)が<br>身体動作</td><td>2</td>
+    <td>複文主文</td><td>5</td></tr>
+<tr align=center>
+    <td>4</td><td>断定<br>(だ)</td><td>3</td>
+    <td>ガ格(主体)が<br>思考動作</td><td>2</td>
+    <td>・・・・・</td><td>・・・</td></tr>
+<tr align=center><td rowspan=4>人間</td><td rowspan=4>28</td>
+    <td>1</td><td>否定<br>(ない)</td>
+    <td>8</td><td>ガ格がヲ格をニ格に<br>精神的移動</td>
+    <td>3</td><td>複文主文</td><td>11</td></tr>
+<tr align=center>
+    <td>2</td><td>断定<br>(だ)</td><td>5</td>
+    <td>ガ格がカラ格からニヘ格へ<br>物理的移動</td><td>3</td>
+    <td>単文</td><td>7</td></tr>
+<tr align=center>
+    <td>3</td><td>義務<br>(ベき)</td><td>3</td>
+    <td>ガ格が思考動作<br>(検討する)</td><td>3</td>
+    <td>継続中<br>(つつ)</td><td>2</td></tr>
+<tr align=center>
+    <td>4</td><td>可能<br>(できる)</td><td>3</td>
+    <td>・・・・・</td><td>・・・</td>
+    <td>逆接仮定<br>(ても)</td><td>2</td></tr>
+<tr align=center><td rowspan=4>それ(it)</td><td rowspan=4>51</td>
+    <td>1</td><td>断定<br>(だ)</td><td>23</td>
+    <td>ガ格の状態<br>(奇麗だ)</td><td>10</td>
+    <td>単文</td><td>21</td></tr></td></tr>
+<tr align=center>
+    <td>2</td><td>過去<br>(た)</td><td>7</td>
+    <td>ガ格(主体以外) の特質<br>(安い)</td><td>8</td>
+    <td>複文主文</td><td>16</td></tr>
+<tr align=center>
+    <td>3</td><td>丁寧<br>(です)</td><td>6</td>
+    <td>時刻<br>(時間だ)</td><td>6</td>
+    <td>譲歩<br>(のに)</td><td>5</td></tr>
+<tr align=center>
+    <td>4</td><td>推量<br>(だろう)</td>
+    <td>6</td><td>ガ格( 人/動物)の<br>知覚状態</td><td>5</td>
+    <td>同時<br>(と)</td><td>3</td></tr>
+</table>
+</p>
+
+<p>
+このように, 指示対象の種類に応じてゼロ代名詞を
+含む単文の用言の意味属性やその単文にともなう様相
+表現, 接続語が異なるので, 指示対象が文章中に現れ
+ないゼロ代名詞を解析するのに, 様相表現や用言の意
+味, 接続語の種類を用いることが有効だと推定できる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. ゼロ代名詞の文章外照応解析</font></h2></a>
+
+<p>
+2 章で得られた結果を基に, 指示対象が文章中にな
+いゼロ代名詞の解析手法について提案する.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 格への意味的制約を用いた文章外照応解析</font></h2></a>
+
+<p>
+指示対象が文章中に現れないゼロ代名詞を解析する
+手法としては, 格要素への意味的制約条件を用いて,
+制約となる意味属性に応じて補完要素を推定する手法
+が考えられる. しかし, 格要素の意味的制約は広がり
+を持つ場合が多くあり, それだけでは, 指示対象は特
+定できない. たとえば, <strong>図1</strong>に示すような日本語動詞
+「行きます」 に対する日英翻訳システムで用いられる
+日英構造変換辞書の例を見てみる. この例では, 「N1
+( 主体or 乗り物or 動物) が行きます」 という日本語
+表現に対応する適切な英語表現が“N1 go” であるこ
+とを示す. この動詞「行きます」のN1 が省略された
+場合には, 意味的制約である“主体”, “乗り物”, “動
+物” のカテゴリに応じた指示対象を決定しようとする.
+しかしこの例の場合は, ガ格であるN1 に複数の意味
+的制約が存在するため, 指示対象を一意に決定するこ
+とはできない.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>N1(主体or 乗り物or 動物)が 行きます.</td></tr>
+<tr><td>＝＞ N1 go.</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+図1 日英構造変換辞書<br>
+Fig. 1 Japanese to English transfer pattern dictionary.
+</strong></div>
+</p>
+
+<p>
+図1 のパターンのような日英構造変換辞書におけ
+る格に対する制約条件は, あくまでもそれが日本語表
+現を英語表現に変換する際の訳し分けに用いられるた
+め, 格要素となる語の意味によって用言の訳語がこま
+かく変化する場合には, 格要素に対して詳細な意味属
+性が制約として付与されているが, その多くは抽象的
+な意味情報が付与されている. したがって, 格に対す
+る意味的な制約条件を用いて, ゼロ代名詞の文章中に
+現れない指示対象を推測する場合には, その要素が一
+意に決まらない場合が多い. また, たとえ意味的制約
+により指示対象の意味が一意に決まる場合でも, 具体
+的な指示対象が一意に決まらない場合もある. たとえ
+ば, ある格要素への意味的制約が“人” の場合, 指示
+対象の意味は一意に決まるが, 具体的に指示対象が話
+者や筆者(I) なのか読者や聴者(you) なのかそれ以
+外の“人” なのかが決まらない.
+</p>
+<p>
+そこで, 2 章での調査結果を検討すると, 格への意
+味的制約だけでなく, 用言の意味や様相表現, 接続語
+のタイプもゼロ代名詞の文章外指示対象推定に用いれ
+ば, より正確に補完要素を推測できると予想される.
+たとえば, 図1 の日本語表現においても, 用言「行き
+ます」の用言の意味属性は“N1 の移動” を示し, 動詞
+「行きます」 は動詞「行く」の丁寧表現であることか
+ら, 話者もしくは筆者が行くことをだれかに伝えよう
+とする表現であることが推測され, ゼロ代名詞N1 の
+指示対象は話者もしくは筆者である“I” と解析できる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 論用論的・意味論的制約を用いた文章外照応解析</font></h2></a>
+
+<p>
+2 章の調査結果の分析によると, 様相表現や用言意
+味属性, 接続語のタイプがゼロ代名詞の文章外指示対
+象を決定するのに有効であることが期待できる. 本節
+では, 2 章で調査した例文を詳細に検討することによ
+り得られた, 様相表現や用言意味属性, 接続語の3 種
+類による文章外指示対象を決定するための語用論的・
+意味論的制約について述べる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.1"><h2><font color=#ff0000>3.2.1 様相表現による制約</font></h2></a>
+
+<p>
+ある種の様相表現をともなう文では, 様相表現がゼ
+ロ代名詞の文章外指示対象を決定するうえで最も強力
+な制約となると期待される. たとえば, ガ格(格助詞
+ガをともなう格要素) がゼロ代名詞化している場合に
+は, 様相表現「〜 したい (φ want to 〜 )」 (希望) や
+「〜 してほしい (φ want φto 〜 ) 」 ( 三人称希望・使
+役) をともなうと, 指示対象は“I” になり, 様相表現
+「〜 してはいけない(φ must not 〜 )」(禁止) や「〜
+するべきだ(φ should)」(義務) をともなうと, 指示
+対象は“you” になるといえる. このように, 文脈によ
+り文章内の要素が指示対象となる場合以外で様相表現
+を持つ文では, これらのゼロ代名詞はそれによって一
+意に指示対象が推定できる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.2"><h2><font color=#ff0000>3.2.2 用言意味属性による制約</font></h2></a>
+
+<p>
+用言意味属性による制約は大きく以下の2 種類に分
+かれる.
+</p>
+<p>
+<strong>(1) 用言の種類による制約</strong>
+</p>
+<p>
+用言「 もらう (get)」「やる (give)」のような受給表
+現, 「行く (go)」や「来る(come)」のような移動表現
+等は, ゼロ代名詞が存在する場合には様相表現がとも
+なわなくても文章外指示対象が決まる. たとえば, ガ
+格がゼロ代名詞化された場合には, 「もらう (get)」の
+指示対象は“I” になり, 「来る (come)」の指示対象は
+“I” 以外( たとえば“you” ) となるといえる. これら
+用言は, 箪者や話者とガ格となる要素との相対的関係
+( たとえば共感度<sup><a href="p10.html#ref8">8)</a></sup>や筆者の純張りの内側か外側か<sup><a href="p10.html#ref9">9)</a></sup> )
+を暗に示しており, これらの性質により文章外指示対
+象が推定できる.
+</p>
+<p>
+<strong>(2) 用言の種類と様相表現による制約</strong>
+</p>
+<p>
+用言の種類のみや様相表現の種類のみでは指示対象が
+決まらなくても, 用言の種類と様相表現の双方から指
+示対象が決まる場合がある. たとえば, 「本を読んだ」
+という表現では, ガ格がゼロ代名詞化しているが, 指
+示対象が同一文内にも他の文内にも存在しないとする
+と<a name="rfn4" href="p10.html#fn4"><sup>☆</sup></a>, この表現は話者または筆者の経験を述べたもの
+と考えられるので, 指示対象としては“I” が適切であ
+る. このように動作を示す動詞+ 「〜 た (過去) 」の
+ガ格がゼロ代名詞化された場合, その指示対象は“I”
+と推定される. また同様に, 動作を示す動詞+ 「〜 だ
+ろう (断定+推量) 」のガ格がゼロ代名詞化された表
+現では, 話者/筆者が聴者/読者の行為を推量する表現
+であると考えられるので, その指示対象は“you” と推
+定される. このように, 用言の種類と様相表現の種類
+によっても文章外指示対象が決められる場合がある.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.3"><h2><font color=#ff0000>3.2.3 接続語による制約</font></h2></a>
+
+<p>
+接続語の種類によっても, ゼロ代名詞の文章外指示
+対象が決まる場合がある. この接続語の種類による制
+約は大きく以下の2 種類に分かれる、
+</p>
+<p>
+<strong>(1) 接続語のタイプによる格の共有による制約</strong>
+</p>
+<p>
+南<sup><a href="p10.html#ref12">12)</a></sup>や田窪<sup><a href="p10.html#ref13">13)</a></sup>らが提案しているとおり, 日本語の接
+続語には, 接続語を挟んだ前後の単文において, 1 つ
+の格要素を両方の単文の格要素として共有することを
+強制するものがある. たとえば, 南は, 日本語接続語
+をA, B, C の3 種類に分類し, 主題ハ格も助詞ガ格
+も共有するような「つつ」や「ながら」のような継続
+を示す接続語をA類, ハ格は共有するが, ガ格は共有
+しないような「ので」や「たら」のような条件を示す
+接続語をB類, ハ格もガ格も共有しないような「し」
+や「て」のような接続語をC類と呼んだ. この分類に
+よるとA 類の接続語をともなう複文において, この
+接続語をはさんだ2 種類の単文のガ格がともにゼロ代
+名詞化されている場合には, 3.2.1 項や3.2.2 項の制
+約によって片方のガ格の指示対象が決まった場合, 他
+方の指示対象もそれと同一であると推定できる. この
+ような, 接続語の種類による格要素の特徴を, 指示対
+象の決定に活用することができる.
+</p>
+<p>
+<strong>(2) 接続語と用言意味属性, 様相表現による制約</strong>
+</p>
+<p>
+ゼロ代名詞を含む文中の接続語の種類と用言意味属性,
+様相表現の種類によって, 文が表現する意味が特定で
+き, それによって指示対象が決められる場合がある.
+たとえば, 「床屋に行かないと髪がぼうぼうになる」で
+は用言「行かない」のガ格がゼロ代名詞化されている
+が, 文内文間肌応解析終了後で指示対象が同一文内に
+も文章中の他の文内にも存在しないことが判明してい
+る時点では, 指示対象は“you” となる. これは, 「あ
+なたがしないとある状態になる」 と話者/筆者が忠告
+するタイプの表現である. このタイプの表現は, 接続
+語は「と」であること, 従文はガ格がゼロ代名詞化さ
+れ, 動作動詞で否定表現をともなうこと, 主文は属性
+を示す表現で状態変化を示す様相表現「になる」 をと
+もなうことを条件に特定することができ, 指示対象が
+決定できる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 アルゴリズム</font></h2></a>
+
+<p>
+3.1 節や3.2 節で示した議論を基に, 文章外に指
+示対象を持つゼロ代名詞の解析アルゴリズムについて
+提案する. ただし, ここでは, 日本文を英訳するうえ
+で必須要素となるゼロ代名詞のみを対象とする. 処理
+アルゴリズムは, 以下のとおりである. 以下に示した
+とおり, 3.2 節で提案した手法は, 指示対象が同一文
+内および文章中の他の文に存在するゼロ代名詞の照応
+解析が終了した時点で適用される. よって, 文章外照
+応解析用ルールは, 文章外に指示対象を持つゼロ代名
+詞のみが現れることを前提に作成する.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3><strong>ス</strong></td>
+    <td><strong>テップ1</strong> &nbsp; ゼロ代名詞を検出する.
+	(たとえば, 文献<a href="p10.html#ref5">5)</a>の手法で検出する)</td></tr>
+<tr><td>もし検出されれば, 同一文内および他の文に指示対象が存在するか調査する (たとえば,
+	<a href="p10.html#ref5">5)</a>や<a href="p10.html#ref6">6)</a>の手法で調査する).</td></tr>
+<tr><td>存在し, 照応解析が終了すれば解析終了.</td></tr>
+<tr valign=top><td rowspan=4><strong>ス</strong></td>
+    <td><strong>テップ2</strong> &nbsp; 同一文内および他の文に指示対象が存在しなければ, 
+	ゼロ代名詞が支配する用言の用言意味属性, 様相表現および接続語の種類によって,
+	文章外照応解析を行う.</td></tr>
+<tr><td>照応解析の条件は<strong>表3</strong>に示すとおりである.
+	ここに示した条件は, 2 章での調査対象文のうち,
+	英語表現として訳出することが必要なため文章外照応解析が必要で,
+	出現頻度の高い5 種類のゼロ代名詞193件(ガ格のすべておよび指示対象が
+	“you”となるニ格) を分析して, 人手で作成したものである.</td></tr>
+<tr><td>文章外指示対象を決定する際には, この条件のみではなく,
+	用言がゼロ代名詞に課す意味的制約をも満たすかも検証する.</td></tr>
+<tr><td>指示対象が決定すれば解析終了.</td></tr>
+<tr valign=top><td rowspan=2><strong>ス</strong></td>
+    <td><strong>テップ3</strong> &nbsp; 指示対象が決定できない場合, 
+	用言がゼロ代名詞に課す意味的制約により指示対象を推測.</td></tr>
+<tr><td>また, 受動態に変換可能な場合は受動態に変換し, 解析終了.</td></tr>
+</table>
+</p>
+<p>
+本アルゴリズムで照応解析条件として用いる様相表
+現, 用言意味属性および接続語のタイプは, 個々の様
+相表現, 用言, 接続語そのものを用いず, それらを意
+味に応じて分類した属性体系の中の属性値を用いてい
+る (様相表現: 134 種類, 用言: 107 種類, 接続語:
+56 種類). このように, 個々の表現の持つ意味を分類
+して, 表現の持つ代表的属性値を照応解析条件として
+利用することによって, 個々の表現レベルでルールを
+記述した場合に起こる知識量の爆発を避けることがで
+きると期待される. また, 個々の表現をルールに記述
+した場合には, そのルールが有効となる範囲はその表
+現に限られるが, 表現の持つ代表的属性値で記述した
+場合には, 同じ属性値を持つ他の表現に対しても有効
+になるため, 解析条件に代表的属性値を用いることに
+よって, 守備範囲が広く汎用的なルールが書けること
+が期待される.
+</p>
+
+<p>
+<div align=center><strong>
+表3 文章外指示対象の推測条件<br>
+Table 3 Resolution conditions of extrasentential antecedents.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td>ゼロ代名詞出現場所</td>
+    <td>条件</td>
+    <td>指示対象</td>
+    <td>考察</td></tr>
+<tr valign=top><td rowspan=13 align=center>が格</td>
+    <td>様相: 希望(〜したい)</td>
+    <td rowspan=5 align=center>I or we</td>
+    <td>話/著者が希望する</td></tr>
+<tr valign=top><td>様相: 三人称希望, 使役(〜してほしい)</td>
+    <td>話/著者が聴/読者に希望する</td></tr>
+<tr valign=top><td>様相: 勧誘(〜しましょう)</td><td>動誘するのは話/著者</td></tr>
+<tr valign=top><td>用言: Action 配下の属性+様相: 丁寧(〜します)</td>
+    <td>発話者の待遇関係による</td></tr>
+<tr valign=top><td>・・・・・・・・・・・・・・</td>
+    <td>・・・・・・・・・・・・・・</td></tr>
+<tr valign=top><td>様相: 禁止(〜してはいけない)</td>
+    <td rowspan=3 align=center>you</td>
+    <td>話/著者が聴/読者の行動を禁止する</td></tr>
+<tr valign=top><td>用言: Action 配下の属性+様相: 義務(〜ベき)</td>
+    <td>話/著者が聴/読者の活動を義格化</td></tr>
+<tr valign=top><td>・・・・・・・・・・・・・・</td>
+    <td>・・・・・・・・・・・・・・</td></tr>
+<tr valign=top><td>用言: Bodily Action<br>Thinking Action <br>Ernotive Action <br>
+	Emotive State<br>Bodily Transfer</td>
+    <td rowspan=2 align=center>人 (I, we, you, ...)</td>
+    <td>人しか動作しえない用言, 感情をしめす用言が出現すると
+	文脈がないと人の解釈がもっともらしくい</td></tr>
+<tr valign=top><td>・・・・・・・・・・・・・・</td>
+    <td>・・・・・・・・・・・・・・</td></tr>
+<tr valign=top><td>用言: 名詞述語文で名詞の意味が抽象</td>
+    <td rowspan=3 align=center>it</td>
+    <td>抽象概念の代名詞はit が適切</td></tr>
+<tr valign=top><td>用言: Attribute Persceptual State</td>
+    <td>寒い, 暑いなど気候を示す語</td></tr>
+<tr valign=top><td>・・・・・・・・・・・・・・</td>
+    <td>・・・・・・・・・・・・・・</td></tr>
+<tr valign=top><td rowspan=2 align=center>に格</td>
+    <td>様相: 三人称希望, 使役(〜してほしい)</td>
+    <td rowspan=2 align=center>you</td>
+    <td>話/著者が聴/読者に希望する</td></tr>
+<tr valign=top><td>・・・・・・・・・・・・・・</td>
+    <td>・・・・・・・・・・・・・・</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. 評価</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 評価方法</font></h2></a>
+
+<p>
+3 章で提案した文章外照応解析の方法を, 日英機械翻
+訳システムALT-J/E の上に実現し, 作成したルール
+が整合性を保ちつつ正しい解析結果を与えるか, ルー
+ルは作成のための労力は少なく済むかの観点から, 次
+の2 種類の評価実験を行った.
+</p>
+<p>
+<ul>
+<li> 人手作成ルールの評価実験
+<li> 自動作成ルールの評価実験
+</ul>
+</p>
+<p>
+個々の実験条件は以下のとおりである.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.1"><h2><font color=#ff0000>4.1.1 人手作成ルールの評価実験条件</font></h2></a>
+
+<p>
+<strong>(1) 評価の対象</strong>
+</p>
+<p>
+日英機械翻訳システム評価用例文3,718 文中のゼロ代
+名詞525 件のうち, 文章外照応解析の必要で, 人手に
+よる照応解析ルールの作成できるほどの件数が出現し
+た以下の5 種類のゼロ代名詞193 件を評価の対象と
+した.
+</p>
+<p>
+<ul>
+<li> ガ格- I or we
+<li> ガ格- you
+<li> ガ格- 人
+<li> ガ格- it
+<li> ニ格- you
+</ul>
+</p>
+<p>
+<strong>(2) 照応解析ルール</strong>
+</p>
+<p>
+上記193 件のゼロ代名詞に対して, 3 章の方法で, 人
+間が分析することにより, 様相表現, 用言意味属性,
+接続語の属性値を用いて作成した表3 に示す53 件の
+規則を使用した<a name="rfn5" href="p10.html#fn5"><sup>☆1</sup></a>.
+</p>
+<p>
+<strong>(3) 用言意味属性の体系</strong>
+</p>
+<p>
+<strong>図2</strong>に示すような用言の意味属性(107 分類) を, 日
+英翻訳システムALT-J/E の日英構造変換辞書(約
+15,000 パターン) に対して付与し, それを使用し
+た<sup><a href="p10.html#ref10">10)</a>,<a href="p10.html#ref11">11)</a></sup>.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p10/p10-fig2.gif" width=324 height=477>
+</td></tr>
+</table>
+<div align=center><strong>
+図2 用言意味属性体系<br>
+Fig. 2 System of verbal semantic attirbutes.
+</strong></div>
+</p>
+
+<p>
+<strong>(4) 評価項目</strong>
+</p>
+<p>
+解析規則の種類と解析精度の関係を調べるため, 以下
+の2 項目に分けて評価した.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2 valign=top><strong>(a)</strong></td><td rowspan=4>&nbsp;</td>
+    <td><strong>照応解析のための制約条件と解析精度の関係</strong></td></tr>
+<tr><td>格, 様相表現, 用言意味属性, 接続語に関する4種類の制約条件と解析精度の関係を評価した. 本調査により, 人間がルールを作成した場合には, どの条件が照応解析に有効に働くかを評価した.</td></tr>
+<tr><td rowspan=2 valign=top><strong>(b)</strong></td>
+    <td><strong>照応解析ルールの複雑さと解析精度の関係</strong></td></tr>
+<tr><td>照応解析ルールの複雑さを定式化し, それと解析精度の関係を求めた. 
+	本調査により, ルールの単純さとルールのカバー範囲の広さ, 
+	すなわち汎用性の関係を評価した<a name="rfn6" href="p10.html#fn6"><sup>☆2</sup></a>.</td></tr>
+</table>
+</p>
+<p>
+<strong>(5) 解析成功の条件</strong>
+</p>
+<p>
+本評価では, ゼロ代名詞の指示対象としてただ1 つの
+適切な英訳語が特定できた場合を正解とした<a name="rfn7" href="p10.html#fn7"><sup>☆3</sup></a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.2"><h2><font color=#ff0000>4.1.2 自動作成ルールの計価実験条件</font></h2></a>
+
+<p>
+<strong>(1) 評価の対象</strong>
+</p>
+<p>
+日英機械翻訳システム評価用例文3,718 文中のゼロ代
+名詞525 文のうち, 指示対象が文内に存在しないすべ
+てのゼロ代名詞371 件を評価の対象とした.
+</p>
+<p>
+<strong>(2) 照応解析ルール</strong>
+</p>
+<p>
+上記371 件のゼロ代名詞に対して, 3 章で論じた様相
+表現, 用言意味属性, 接続語の3 種類の属性値を, 2.2
+の特徴分析と同様に, そのゼロ代名詞を含む日本語単
+文の解析結果より自動抽出して, それらを解析条件と
+した. 同じ属性からなる解析条件に複数の指示対象が
+現れた場合は, 同じ条件中最も頻度の高い指示対象を
+その解析条件で決める指示対象としてルール化した.
+たとえば, 解析条件として“A” という様相属性をと
+もなう単文が含むガ格のゼロ代名詞のうちで, “I”が
+指示対象となる場合が5 件, “you” が指示対象となる
+場合が3 件存在した場合, “A” の様相属性が現れる
+とガ格のゼロ代名詞の指示対象に“I” を選択する照応
+解析ルールが作成される. なお, 本評価実験において
+は, 用言による格への意味的制約の条件は利用せず評
+価した<a name="rfn8" href="p10.html#fn8"><sup>☆4</sup></a>.
+</p>
+<p>
+<strong>(3) 評価項目</strong>
+</p>
+<p>
+解析規則の種類と解析精度の関係を調べるため, 様相
+表現, 用言意味属性, 接続語それぞれを単独で照応解
+析ルールを自動作成した場合, 上記3 種類のうち2 種
+類の条件を組み合わせて照応解析ルールを自動作成し
+た場合, 3 種類すべての条件を組み合わせて照応解析
+ルールを自動作成した場合の計7 種類のルールによる
+評価実験を行った. また, 解析精度の絶対評価を行う
+ために, 上記の条件はまったく用いず, 1 種類の格に
+出現するゼロ代名詞において, 単に頻度の最も高いも
+のを指示対象とした場合の解析精度も調査した. また,
+これと同様に, 上記を条件はまったく用いず, 1 種類の
+格に出現するゼロ代名詞における指示対象の頻度をも
+とに重み付けして, 無作為に指示対象を決定した場合
+の解析精度も調査した. この評価では, たとえばある
+格のゼロ代名詞の指示対象として“I” が3 件, “you”
+が2 件出現した場合, 頻度の最も高いものを指示対
+象に決定した場合に正解率は60% (＝ 3/5) になるの
+に対し, “I” を3/5 の確率で, “you” を2/5 の確率で
+無作為に指示対象を決定した場合の正解率は52% (＝
+3/5 * 3/5 +2/5 * 2/5) となる.
+</p>
+<p>
+なお, 個々の評価実験では, 以下の2 種類の方法で解
+析精度を計算した.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td><strong>(a)</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>ウィンドウテスト</strong> 371 件すべてのゼロ代名詞と
+	そのゼロ代名詞を含む単文の解析結果をルール自
+	動作成のためのデータとして活用して, 解析精度
+	を評価した. これにより, 本手法の条件を用いた
+	場合の限界的性能の評価を試みた.</td></tr>
+<tr valign=top><td><strong>(b)</strong></td>
+    <td><strong>ブラインドテスト</strong> 371 件のゼロ代名詞のうち, 1
+	件を取り除きそれをルール自動作成のためのデー
+	タとして活用し, そのルールを用いて取り除かれ
+	た1 件のゼロ代名詞の指示対象が正しく決まるか
+	を調査した. この実験を371 件すべてのゼロ代名
+	詞について繰り返し, 正しい指示対象が決まった
+	ゼロ代名詞の割合を解析精度とした. これにより,
+	本手法の条件を用いた場合の現実的性能および作
+	成されたルールの汎用性の評価を試みた.</td></tr>
+</table>
+</p>
+<p>
+<strong>(4) 解析成功の条件</strong>
+</p>
+<p>
+自動作成したルール中に指示対象を正しく決定する
+ルールが存在した場合を正解とした<a name="rfn9" href="p10.html#fn9"><sup>☆</sup></a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 評価結果</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.1"><h2><font color=#ff0000>4.2.1 人手作成ルールの評価実験結果</font></h2></a>
+
+<p>
+<strong>(1) 照応解析の条件と解析精度の関係</strong>
+</p>
+<p>
+照応解析条件と解析精度の関係を調べるために, 3 章
+で提案した手法の解析精度を次の4 種類の条件で評価
+した.
+</p>
+<p>
+<ul>
+<li> 格への意味的制約のみを用いた場合
+<li> 格への意味的制約と様相表現による制約を用いた場合
+<li> 格への意味的制約と様相表現および用言意味属性による制約を用いた場合
+<li> 格への意味的制約と様相表現, 用言意味属性および接続語による制約を用いた場合
+</ul>
+</p>
+<p>
+<strong>表4</strong>に照応解析条件と解析精度の関係を示す. この表
+から, 3 章に示す条件をすべて用いることにより, 個々
+のルールが解析対象としたゼロ代名詞のみに適合し,
+193 件すべてのゼロ代名詞の文章外照応解析がルール
+の不整合なしに正しく行われたことが分かる. また,
+格への意味的制約に加えて, 様相表現, 用言意味属性
+の制約条件を順に追加したとき, 様相属性を追加した
+場合よりも用言意味属性の制約条件を追加した場合の
+方が解析精度が向上する割合が大きい( それぞれ41
+件, 21% と49 件, 20%) ことから, 本論文の手法で
+新たに導入した用言意味属性が, 様相表現の使用以上
+の効果を持つことが分かる. さらに, 接続語以外の単
+文内で記述できる解析条件だけを用いても, 82%の解
+析精度が得られることが分かる.
+</p>
+
+<p>
+<div align=center><strong>
+表4 人手作成ルールにおける照応解析条件と解析精度の関係<br>
+Table 4 Resolution accuracy for conditions of resolution in rules created by human.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>ゼロ代名詞出現場所</td>
+    <td rowspan=2 colspan=2>指示対象</td><td colspan=4>解析条件</td></tr>
+<tr align=center>
+    <td>格への意味制約</td><td>+様相表現</td><td>+用言意味属性</td><td>+接続語</td></tr>
+<tr align=center valign=top><td rowspan=7>が格</td><td colspan=2>I or we</td>
+    <td>21%<br>(17)</td><td>50% (+29%)<br>(41 (+24))</td>
+    <td>88% (+38%)<br>(72 (+31))</td><td>100% (+12%)<br>(82 (+10))</td></tr>
+<tr align=center valign=top><td colspan=2>you</td>
+    <td>0%<br>(0)</td><td>50% (+50%)<br>(12 (+12))</td>
+    <td>67% (+17%)<br>(16 (+4))</td><td>100% (+33%)<br>(24 (+8))</td></tr>
+<tr align=center valign=top><td rowspan=4 valign=middle>人</td><td>I</td>
+    <td>0%<br>(0)</td><td>0%<br>(0)</td>
+    <td>67% (+67%)<br>(8 (+8))</td><td>100% (+33%)<br>(12 (+4))</td></tr>
+<tr align=center valign=top><td>you</td>
+    <td>0%<br>(0)</td><td>0%<br>(0)</td>
+    <td>46% (+46%)<br>(6 (+6))</td><td>100% (+54%)<br>(13 (+7))</td></tr>
+<tr align=center valign=top><td>one</td>
+    <td>0%<br>(0)</td><td>0%<br>(0)</td>
+    <td>0%<br>(0)</td><td>100% (+100%)<br>(3 (+3))</td></tr>
+<tr align=center valign=top><td>小計</td>
+    <td>0%<br>(0)</td><td>0%<br>(0)</td>
+    <td>50% (+50%)<br>(14 (+14))</td><td>100% (+5O%)<br>(28 (+14))</td></tr>
+<tr align=center valign=top><td colspan=2>it</td>
+    <td>100%<br>(51)</td><td>100% (+0%)<br>(51 (+0))</td>
+    <td>100% (+0%)<br>(51 (+0))</td><td>100%(+0%)<br>(51 (+0))</td></tr>
+<tr align=center valign=top><td>に格</td><td colspan=2>you</td>
+    <td>0%<br>(0)</td><td>62% (+62%)<br>(5 (+5))</td>
+    <td>62% (+0%)<br>(5 (+0))</td><td>100% (+38%)<br>(8 (+3))</td></tr>
+<tr align=center valign=top><td colspan=3>計</td>
+    <td>35%<br>(68)</td><td>56% (+21%)<br>(109 (+41))</td>
+    <td>82%(+26%)<br>(158 (+49))</td><td>100% (+18%)<br>(193 (+35))</td></tr>
+</table>
+</p>
+
+<p>
+<strong>(2) 照応解析ルールの複雑さと解析精度の関係</strong>
+</p>
+<p>
+照応解析ルールの複雑さに対する解析精度を検討する
+ために, 3 章で提案した手法の解析精度をルールの複
+雑さに応じて評価した. ここで, 照応解析ルールの複
+雑さC は, 用いた制約の数に応じて次の式のように
+様相表現, 用言意味属性に対する条件があるとそれぞ
+れ1 点, 接続語に対する条件があると2 点とし, その
+積算を複雑さとした.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>C ＝</td><td>様相表現による制約の数*1</td></tr>
+<tr><td></td><td>+ 用言意味属性による制約の数*1</td></tr>
+<tr><td></td><td>+ 接続語による制約の数*2</td></tr>
+</table>
+</p>
+<p>
+接続語の複雑さを2 点としたのは, 接続語は2 つの単
+文両方に対する制約として機能するためである. この
+計算によると, たとえば, 接続語の条件があり, 主文
+に用言意味属性, 従文に対して様相表現と用言意味属
+性の条件がある場合には, 様相表現1点*1 + 用言意
+味属性1点*2 + 接続語2点*1 の計算により複雑さ
+は5となる.
+</p>
+<p>
+<strong>表5</strong>に照応解析ルールの複雑さと解析精度の関係を示
+す. この結果によると, 193 種類のゼロ代名詞を照応
+解析するために用いられたルール数は53 種類であっ
+た. また, 複雑さが3 以下のルール(37 種類) のみを
+用いた場合の解析精度は170 件88%, 4 以下のルール
+(43 種類) のみを用いた場合は182 件94% と, 簡単な
+ルールだけでも, 個々のルールが解析対象としたゼロ
+代名詞のみに適合してルール間の不整合を起こさずに
+高い精度が得られることが分かった. この結果から,
+様相表現, 用言意味属性, 接続語の属性値を用いて文
+章外照応解析を行うことにより, 比較的単純なルール
+だけでも広範囲なゼロ代名詞解析することができ, 汎
+用的なルールが作成できることが分かった.
+</p>
+
+<p>
+<div align=center><strong>
+表5 人手作成ルールにおける照応解析ルールの複雑さと解析精度の関係<br>
+Table 5 Resolution accuracy for complexities of rules created by human.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td colspan=3>解析条件</td><td rowspan=2>ルールの複雑さ</td>
+    <td rowspan=2>ルール数</td><td rowspan=2>解析精度</td></tr>
+<tr align=center><td>様相表現</td><td>用 言意味属性</td><td>接統語</td></tr>
+<tr align=center><td>0</td><td>0</td><td>0</td>
+    <td>0 (格への意味制約のみ)</td><td>0</td><td>35% (68)</td></tr>
+<tr align=center><td>1</td><td>0</td><td>0</td>
+    <td>1</td><td>11 (+11)</td><td>56% (+21%) (109 (+41))</td></tr>
+<tr align=center><td>0</td><td>1</td><td>0</td>
+    <td>1</td><td>13 (+2)</td><td>58% (+2%) (111 (+2))</td></tr>
+<tr align=center><td>1</td><td>1</td><td>0</td>
+    <td>2</td><td>30 (+17)</td><td>82% (+24%) (158 (+47))</td></tr>
+<tr align=center><td>0</td><td>0</td><td>1</td>
+    <td>2</td><td>31 (+1)</td><td>82% (+0%) (159 (+1))</td></tr>
+<tr align=center><td>1</td><td>0</td><td>1</td>
+    <td>3</td><td>32 (+1)</td><td>83% (+1%) (101 (+2))</td></tr>
+<tr align=center><td>0</td><td>1</td><td>1</td>
+    <td>3</td><td>37 (+5)</td><td>88% (+5%) (170 (+9))</td></tr>
+<tr align=center><td>1</td><td>1</td><td>1</td>
+    <td>4</td><td>38 (+1)</td><td>90% (+2%) (174 (+4))</td></tr>
+<tr align=center><td>0</td><td>2</td><td>1</td>
+    <td>4</td><td>43 (+5)</td><td>94% (+4%) (182 (+8))</td></tr>
+<tr align=center><td>2</td><td>1</td><td>1</td>
+    <td>5</td><td>44 (+1)</td><td>95% (+1%) (183 (+1))</td></tr>
+<tr align=center><td>1</td><td>2</td><td>I</td>
+    <td>5</td><td>51 (+7)</td><td>99% (+4%) (191 (+8))</td></tr>
+<tr align=center><td>2</td><td>2</td><td>1</td>
+    <td>6</td><td>53 (+2)</td><td>100% (+1%) (193 (+2))</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.2"><h2><font color=#ff0000>4.2.2 自動作成ルールの評価実験結果</font></h2></a>
+
+<p>
+指示対象が文内に存在しないすべてのゼロ代名詞
+371 件を調査対象に, これらゼロ代名詞を含む単文を
+解析した結果得られる様相表現, 用言意味属性および
+接続語の属性値を解析条件として照応解析ルールを
+自動作成し, 解析精度を評価した. 照応解析ルールの
+自動作成に用いる解析条件の種類と解析精度の関係を
+<strong>表6</strong>に示す. この表から, 3 章に示す条件をすべて用
+いて照応解析ルールを自動生成した場合, ウィンドウ
+テストで99.2%, ブラインドテストで87.6% と高い解
+析精度が得られることが分かった. また, 個々の条件
+を単独で用いた場合は, 様相表現, 用言意味属性, 接
+続語の順で, 文章外に指示対象を持つゼロ代名詞の照
+応解析に有効になることが分かった. さらに, 様相表
+現と用言意味属性だけを条件に用いた場合でも, ウィ
+ンドウテストで95.2%, ブラインドテストで81.7% と
+高い解析精度が得られることから, 4.2.1 項の人手作
+成ルールの評価結果と同様に, 2 種類の条件を利用す
+ることが文章外照応ゼロ代名詞の照応解析に最も有効
+であることが分かった.
+</p>
+
+<p>
+<div align=center><strong>
+表6 自動作成ルールにおける照応解析条件と解析精度の関係<br>
+Table 6 Resolution accuracy for conditions of resolution in automatically created rules.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>解析条件</td><td colspan=2>解析精度</td></tr>
+<tr align=center><td>ウィンドウテスト</td><td>ブラインドテスト</td></tr>
+<tr align=center><td>様相表現のみ</td><td>74.9%<br>278件</td><td>64.2%<br>238件</td></tr>
+<tr align=center><td>用言意味属性のみ</td><td>70.9%<br>263件</td><td>52.6%<br>195件</td></tr>
+<tr align=center><td>接統語のみ</td><td>55.0%<br>204件</td><td>48.8%<br>181件</td></tr>
+<tr align=center><td>様相表現と用言意味属性</td><td>95.2%<br>353件</td><td>81.7%<br>303件</td></tr>
+<tr align=center><td>様相表現と接続語</td><td>90.3%<br>335件</td><td>79.5%<br>295件</td></tr>
+<tr align=center><td>用言意味属性と接続語</td><td>87.9%<br>326件</td><td>68.2%<br>253件</td></tr>
+<tr align=center><td>様相表現, 用言意味属性と接続語</td><td>99.2%<br>368件</td><td>87.6%<br>325件</td></tr>
+<tr align=center><td>頻度情報のみ(最高頻度条件)</td><td>46.4%<br>172件</td><td>46.1%<br>171件</td></tr>
+<tr align=center><td>頻度情報のみ(頻度重み付け無作為方式)</td><td>31.8%<br>117.9件</td><td>30.6%<br>113.5件</td></tr>
+</table>
+</p>
+
+<p>
+以上の結果から, ブラインドテストにおいても3 章
+に示す条件が文章外照応ゼロ代名詞の照応解析に有効
+であることが示された. これにより, 本論文で提案し
+た照応解析条件を用いて照応解析ルールを蓄積するこ
+とによって, ルール作成に利用しなかった文中のゼロ
+代名詞の大半が解析できる見通しを得た.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. まとめ</font></h2></a>
+
+<p>
+本論文では, 日英機械翻訳システムでの実現を考慮
+した, 語用論的・意味論的制約を用いた日本語ゼロ代
+名詞の文章外照応解析手法を提案した. 本手法は, 格
+の意味的制約, 様相表現のタイプ, 用言意味属性, 接
+続語のタイプによりゼロ代名詞の文章中に現れない指
+示対象が決まるという語用論的・意味論的な制約に着
+目し, 文の表現のタイプに応じて文の意味を決定し,
+指示対象を決定するものである. 本手法を日英翻訳シ
+ステムALT-J/E 上に実現して, 日英翻訳システム評
+価用例文(3,718 文) 中のゼロ代名詞を有する文を対象
+に, 肌応解析ルールを人手で整備した状態で性能評価
+を行った. 本標本実験によると, 英語表現で訳出が必
+要で頻度の高い5 種類の文章外照応ゼロ代名詞 (193
+件) のすべてが正しく照応解析されることが分かった.
+本評価実験の照応解析条件と解析精度との関係の分析
+によると, 用言意味属性の制約は, 様相表現と同等以
+上の効果(21%向上に対して26%向上) を持つことか
+ら, 用言意味属性の導入は有効であることが分かった.
+また, 照応解析ルールの複雑さと解析精度との関係の
+分析によると, 比較的簡単なルールだけでも, ルール
+間の不整合を起こさずに高い解析精度(複雑さ3 以下
+のルールで88%) が得られることが分かった. さらに,
+上記例文中のすべての文章外照応ゼロ代名詞371 件か
+ら自動的に照応解析ルールを作成し, ウィンドウテス
+ト, ブラインドテストで解析精度を評価した場合, そ
+れぞれ99.2%, 87.6% という高い割合で正しく解析で
+きることが分かった. 以上の結果, 語用論的. 意味論
+的制約を用いた本手法の有効性が実証され, これらの
+制約を用いたルールを蓄積することによって, 補完す
+べき要素が文中に現れない省略格要素の大半が復元で
+きるという見通しを得た.
+</p>
+<p>
+今回の実験では, 日英機械翻訳システム評価用例文
+を対象に評価したが, 今後は, 本手法で提案した4 種
+類の制約を用いた照応解析ルールをより多く蓄積し,
+さまざまな文種の例文を用いてブラインドテストによ
+る評価を行っていきたい. また, 本論文の評価で行っ
+た照応解析ルールの自動作成手法をより発展させると
+ことにより, 精度が高く有効な照応解析ルールを自動
+的に獲得する手法の検討も行っていく予定である.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>謝辞</font></h2></a>
+
+<p>
+本研究を進めるにあたりご指導いただいた河
+岡司同志社大学教授, 松田晃一NTT コミュニケーショ
+ン科学研究所所長に感謝いたします. また, 日頃熱心
+に討論していただくNTT コミュニケーション科学研
+究所知識処理研究部翻訳処理研究G の皆様に感謝い
+たします. 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>参考文献</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>1)</strong></a>
+<dd>Kameyama, M.:
+	A Property-sharing Constraint in Centering,
+	<i>Proc. ACL</i>, pp.200-206 (1986).
+	<br><br>
+<dt><a name="ref2"><strong>2)</strong></a>
+<dd>Walker, M. et al.:
+	Centering in Japanese Discourse, 
+	<i>Proc. COLING '90</i> (1990).
+	<br><br>
+<dt><a name="ref3"><strong>3)</strong></a>
+<dd>Yoshimoto, K.:
+	Identifying Zero Pronouns in Japanese Dialogue,
+	<i>Proc. COLING '88</i>, pp.779-784 (1988)、
+	<br><br>
+<dt><a name="ref4"><strong>4)</strong></a>
+<dd>堂坂: 
+	語用論的条件の解釈に基づく日本語ゼロ代名詞の指示対象同定,
+	情報処理学会論文誌, Vol.35, No.5, pp.768-778 (1994).
+	<br><br>
+<dt><a name="ref5"><strong>5)</strong></a>
+<dd>中岩, 池原:
+	日英翻訳システムにおける用言意味属性を用いたゼロ代名詞照応解析,
+	情報処埋学会論文誌, Vol.34, No.8, pp.1705-1715 (1993).
+	<br><br>
+<dt><a name="ref6"><strong>6)</strong></a>
+<dd>中岩, 池原:
+	語用論的・意味論的制約を用いた日本語ゼロ代名詞の文内照応解析,
+	自然言語処理, Vol.3, No.4, pp.49-65 (1996).
+	<br><br>
+<dt><a name="ref7"><strong>7)</strong></a>
+<dd>池原, 白井, 小倉:
+	言語表現体系の違いに着目した日英機械翻訳機能試験項目の構成,
+	人工知能学会誌論文, Vol.9, No.4, pp.569-579 (1994).
+	<br><br>
+<dt><a name="ref8"><strong>8)</strong></a>
+<dd>久野: 談話の文法,
+	大修館書店(1978).
+	<br><br>
+<dt><a name="ref9"><strong>9)</strong></a>
+<dd>神尾: 談話における視点,
+	日本語学, Vol.4, No.12, pp.10-21 (1985).
+	<br><br>
+<dt><a name="ref10"><strong>10)</strong></a>
+<dd>Nakaiwa, H., et al.:
+	A System of Verbal Semantic Attributes Focused on the Syntactic Correspondence
+	between Japanese and English,
+	<i>Proc. COLING '94</i>, pp.672-678 (1994).
+	<br><br>
+<dt><a name="ref11"><strong>11)</strong></a>
+<dd>中岩, 池原:
+	日英の構文的対応関係に着目した日本語用言意味属性の分類,
+	情報処理学会論文誌, Vol.38, No、2, pp.215-225 (1997).
+	<br><br>
+<dt><a name="ref12"><strong>12)</strong></a>
+<dd>南: 現代日本語の構造,
+	大修館書店(1974).
+	<br><br>
+<dt><a name="ref13"><strong>13)</strong></a>
+<dd>田窪: 統語構造と文脈情報,
+	日本語学, Vol.6, No.5, pp.37-47 (1987).
+	<br><br>
+<dt><a name="ref14"><strong>14)</strong></a>
+<dd>河合: 日英翻訳システムALT-J/E における様相, 時制の処理,
+	情報処理学会第34 回全国大会, p.1245 (1987).
+	<br><br>
+<dt><a name="ref15"><strong>15)</strong></a>
+<dd>Nakaiwa, H., et al.:
+	Anaphoqa Resolution of Japanese Zero Pronouns with Deictic Reference.
+	<i>Proc. COLING '96</i>, pp.812-817 (1996).
+</dl>
+
+<div align=right>
+(平成7 年9 月13 日受付)<br>
+(平成9 年9 月10 日採録)
+</div>
+
+<br>
+
+<hr size=2 width=40% align=left>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p10/p10-a1.gif" width=95 height=119></td>
+    <td><strong>中岩 浩巳</strong> (正会員)<br>
+	1985 年法政大学工学部電気工学科卒業.
+	1987 年名古屋大学大学院工学研究科電気系専攻博士前期課程修了.
+	同年日本電信電話(株) 入社.
+	1995 年から1996 年にかけて英国マンチェスタ理工科大学(UMlST) 客員研究員.
+	現在日本電信電話(株) コミュニケーション科学研究所主任研究員.
+	日英機械翻訳技術, 特に機械翻訳における文脈処理技術の研究に従事.
+	著書「日本語語彙大系」(岩波書店, 共編).
+	人工知能学会, 言語処理学会, ACL各会員.</td>
+</tr>
+</table>
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p10/p10-a2.gif" width=93 height=120></td>
+    <td><strong>白井 諭</strong> (正会員)<br>
+	1978 年大阪大学工学部通信工学科卒業.
+	1980 年同大学院博士前期課程修了.
+	同年日本電信電話公社入社.
+	以来, 日英機械翻訳を中心とする自然言語処理システムの研究開発に従事.
+	現在, NTT コミュニケーション科学研究所主幹研究員.
+	1995 年日本科学技術情報センタ賞(学術賞), 同年人工知能学会論文賞受賞.
+	著書「日本語語彙大系」(岩波書店, 共編).
+	電子情報通信学会, 言語処理学会各会員.</td>
+</tr>
+</table>
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p10/p10-a3.gif" width=93 height=121></td>
+    <td><strong>池原 悟</strong> (正会員)<br>
+	1967 年大阪大学基礎工学部電気工学科卒業.
+	1969 年同大学院修士課程修了.
+	同年日本電信電話公社に入社.
+	数式処理, トラフィック理論, 自然言語処理の研究に従事.
+	1996 年スタンフォード大学客員教授.
+	現在, 鳥取大学工学部教授.
+	工学博士.
+	1982 年情報処理学会論文賞, 1993年同研究賞,
+	1995 年日本科学技術情報センタ賞(学術賞), 同年人工知能学会論文賞受賞.
+	著書「日本語語彙大系」(岩波書店, 共編).
+	電子情報通信学会, 人工知能学会, 言語処理学会各会員.</td>
+</tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>☆</sup></a>
+ここの分析では, 様相表現をその意味に応じて分類した134 種
+類の属性値を用いた. この様相表現の属性体系の詳細について
+は文献<a href="p10.html#ref14">14)</a>を参照のこと. (<a href="p10.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>☆☆</sup></a>
+ここでの用言の意味とは, 日本語用言を, 用言の表す動的属性の
+種類および用言の持つ結合価の析造の2 種類の観点から107 種
+類に分類した属性値のことをいう. 個々の属性値は日英機械翻訳
+用 の日英構造変換辞書の各パターンに付与されている. この用言
+の意味属性体系の昨細については文献<a href="p10.html#ref10">10)</a>,<a href="p10.html#ref11">11)</a>を参照のこと. (<a href="p10.html#rfn2">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>☆☆☆</sup></a>
+ここでの接続語とは, 接続詞, 接続助詞およびこれらに準じた
+働きを持つ語句 (「ため」, 「とともに」, 「のに続き」等) のことを
+いう. ここの分析では, 接続語 をその意味に応じて分類した56
+種類の属性値を用いた. (<a href="p10.html#rfn3">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>☆</sup></a>
+文内照応解析<sup><a href="p10.html#ref5">5)</a></sup>および文間照応解析<sup><a href="p10.html#ref6">6)</a></sup>終丁後の指示対象が同一
+文内にも文章中の他の文内にも存在しないことが判明している
+時点での文章外照応解析を想定している. (<a href="p10.html#rfn4">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>☆1</sup></a>
+現状では, 構文解析等の段階で失敗する文を本技術の評価に使
+用するのは困難である. そこで, ここでは, 提案した手法の技術
+的限界を見極めるため, ルールの整合性の検証を評価の第1 の
+目標とし, ルール作成に使用した標本(デバッグされた文) を,
+評価に使用 ( ウィンドウテストと) した. (<a href="p10.html#rfn5">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn6"><sup>☆2</sup></a>
+守備範囲の広いルールのみで高い解析精度が得られる場合, こ
+の解析精度を得るために必要なルール数は少なく済むため, 結
+果的に, ルール作成のための負荷は少なくなるといえる. (<a href="p10.html#rfn6">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn7"><sup>☆3</sup></a>
+よって, 本解析では, 訳語を特定できれば正解としており, そ
+れ以上の深い解析( たとえば指示対象が“you” と決定された場
+合, その“you” が具体的にだれを指示するかまでの解析) は行
+わない. (<a href="p10.html#rfn7">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn8"><sup>☆4</sup></a>
+用言による格への意味的制約も本評価の条件として利用すると,
+解析精度はより良くなると思われるが, 日英構造変換辞書中の
+個々のパターンに応じた制約情報も計算に考慮する必要がある
+とともに, 辞書に記述された意味的制約が本当に適切であるか
+の点も考慮する必要が出てくるため, 今回の評価実験では利用
+しなかった. (<a href="p10.html#rfn8">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn9"><sup>☆</sup></a>
+本評価で用いた照応解析ルールは自動作成されたものであるた
+め, 最も適切で汎用性の高いルールのみを抽出することは, 機
+械学習の手法等を導入しない限 り困難である. よって, 最適な
+ルールのみを抽出する技術の検討は今後の課題と考え, 本論文
+では, 1 つでも正しい指示対象が決定できるルールが存在した場
+合を正解とした. (<a href="p10.html#rfn9">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

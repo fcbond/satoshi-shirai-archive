@@ -1,0 +1,768 @@
+<html>
+<head>
+<title>Satoshi Shirai, Kazuhide Yamamoto &amp; Kyonghee Paik, ICSP-2001, August 22-24, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Overlapping Constraints of Two Step Selection <br> to Generate a Transfer Dictionary</font>
+<br><br>
+<font size=+2>Satoshi Shirai, Kazuhide Yamamoto and Kyonghee Paik</font>
+<br><br>
+<font size=+1>ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>2-2-2 Hikaridai, Seika-cho, Soraku-gun, Kyoto, 619-0288, JAPAN</font>
+<br>
+<font size=+1>E-mail: <tt> {shirai,yamamoto,kpaik}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+
+<p>
+Any machine translation system requires a transfer dictionary between
+the source and target languages.  Typically, since the construction of
+such a dictionary is done by hand, a lot of time is taken and the cost
+is enormous. Considering this, we attempted the construction of a
+bilingual dictionary through the re-generation of already-existing
+language resources.  Aiming at the generation of a Korean-Japanese
+dictionary, we extracted candidates of Korean and Japanese equivalent
+pairs by a two-step process of searching through a
+Korean-English dictionary first and then searching through an
+English-Japanese dictionary.  We also attempted the narrowing down of
+Korean-Japanese equivalent pairs by the overlapping of obtained
+Japanese translations. According to a trial experiment using 100
+Korean words randomly taken, 61 correct Japanese translations were
+obtained.  Among the correct translations, we took 25 translations for
+which a search of the English-Japanese dictionary successfully
+produced two or more translations for the English words obtained in
+the search results of the Korean-English dictionary. Of the 25
+translations, 21 (84%) could be automatically narrowed down by taking
+the overlapped words from the Japanese translation sets for the
+individual English words. With the above two-step dictionary
+extraction, moreover, nine cases out of ten were correct when only one
+Japanese translation was obtained. These results show the possibility
+that Korean-Japanese translation pairs can be generated at an expected
+correctness rate of 44 out of 100 words when using the already
+proposed method that combines a Korean-English dictionary and a
+Japanese-English dictionary.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>[ In <i>Proceedings of ICSP-2001</i>, pp.731-736 (August, 2001). ]</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c31.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c31.html#chap-2">2 Conventional Method and Problems</a></td></tr>
+<tr><td><a href="c31.html#chap-3">3 Improved Method</a></td></tr>
+<tr><td><a href="c31.html#chap-4">4 Trial Experiment</a></td></tr>
+<tr><td><a href="c31.html#chap-5">5 Discussions</a></td></tr>
+<tr><td><a href="c31.html#chap-6">6 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c31.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In the development of a machine translation system, it is necessary to
+create a bilingual dictionary comprising pairs of the source
+language (SL) and the target language (TL). However, this requires
+large costs in terms of labor and time. In particular, when one of the
+languages is not familiar at all, the following two realistic problems
+are unavoidable. 
+
+<p>
+<dl compact>
+<dt>(1)
+<dd>It is difficult to secure development personnel familiar with both languages. 
+    <br>
+<dt>(2)
+<dd>There may be no available resources such as off-the-shelf bilingual dictionaries. 
+    <br>
+</dl>
+</p>
+
+<p>
+Therefore, it is
+necessary for multi-language translation to discuss achievability
+under such conditions. In this paper, our focus is on the latter
+problem.
+</p>
+
+<p>
+Even if a bilingual dictionary does not exist between SL and TL,
+the possibility is high that there is a bilingual dictionary of 
+SL and English and that of TL and
+English. In other words, the generation of a bilingual dictionary with
+English playing the role as an intermediary is a highly possible
+alternative.<a name="rfn1" href="c31.html#fn1"><sup>1</sup></a>
+By the effective utilization of existent language
+resources, we can expect the establishment of methods able to create
+bilingual dictionaries involving a number of translation pairs.
+</p>
+
+<p>
+Tanaka et al. proposed a method to create a bilingual dictionary by a
+third language[<a href="c31.html#ref7">7</a>,<a href="c31.html#ref8">8</a>]. In their papers, however,
+they only went so far as to state the following effect: useful for
+reconsidering and compensating for the vocabulary of existing
+dictionaries.  Bond et al. improved the method of Tanaka et al. by
+introducing semantic classes and two third languages, and improved
+the accuracy of the resulting dictionary[<a href="c31.html#ref2">2</a>]. This attempt was valid
+but depended on the existence of special
+linguistic resources.  On the other hand, GETA CLIPS constructed a
+multi-language dictionary by combining a number of English translation
+dictionaries[<a href="c31.html#ref1">1</a>,<a href="c31.html#ref4">4</a>]. This attempt presupposed
+work support in dictionary creation by humans.
+</p>
+
+<p>
+We also improved the method of Tanaka et al. and attempted the
+generation of a Korean-Japanese dictionary[<a href="c31.html#ref5">5</a>]. However, the
+extraction rate of translation pairs was only about
+20%.  Therefore, we investigated how to improve the extraction
+rate of equivalent pairs by the utilization of language resources, in
+a manner different from [<a href="c31.html#ref5">5</a>].  In the following,
+assuming English to be the third language, we investigate a method
+that generates a bilingual dictionary by using a bilingual dictionary
+of SL to English and a bilingual dictionary of English to TL. Here, we do
+not use lexical information of either SL or TL. This is to ensure the
+practicality of the method. In addition, based on the fact that it is
+not easy to investigate the correctness of outputs, we aim at
+achieving a method that guarantees the correctness rate of extracted
+equivalent pairs rather than the extraction rate of the equivalent
+pairs. As a concrete application, we present a trial experiment
+of generating a Korean-Japanese dictionary using a Korean-English
+dictionary and an English-Japanese dictionary.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Conventional Method and Problems</font></h2></a>
+
+<p>
+The method of generating a bilingual dictionary of SL and TL via a
+third language was first proposed by Tanaka et
+al.[<a href="c31.html#ref7">7</a>,<a href="c31.html#ref8">8</a>].  An outline of their method is given below, 
+using the example of generating a Japanese-French dictionary
+via English. They reported that the approach is "useful for
+reconsidering and compensating for the vocabulary of existing
+dictionaries."
+</p>
+
+<p>
+<dl compact>
+<dt>1.
+<dd>Create a Japanese-English "harmonized dictionary" that
+    integrates a Japanese-English dictionary and an English-Japanese
+    dictionary, and an English-French "harmonized dictionary" that
+    integrates an English-French dictionary and a French-English
+    dictionary.
+    <br><br>
+<dt>2.
+<dd>By using the "harmonized dictionaries," place English
+    translation sets corresponding to Japanese words and English
+    translation sets corresponding to French words in a "selection area,"
+    and judge results having a lot of matching translated words as being
+    in a bilingual relationship ("one time inverse consultation").
+    <br><br>
+<dt>3.
+<dd>By using the "harmonized dictionaries," carry out a second-stage
+    dictionary selection of Japanese<img src="c31/j0000.gif">English<img src="c31/j0000.gif">French or French<img src="c31/j0000.gif">English<img src="c31/j0000.gif">
+    Japanese, place the last translated sets of French words or Japanese
+    words in a "selection area," and judge the results having a lot of
+    common morphemes as being in a bilingual relationship ("two times
+    inverse consultation").
+    <br><br>
+</dl>
+</p>
+
+<p>
+We indicate the five problems below ((a) to (e)) when applying the
+method of Tanaka et al. to the automatic generation of a
+Korean-Japanese dictionary, since the linguistic nature 
+between Japanese and English largely differs[<a href="c31.html#ref5">5</a>]. 
+</p>
+
+<p>
+<dl compact>
+<dt>(a)
+<dd>Problem of "harmonized dictionaries": 
+    <br> 
+    For example, a lot of explanatory translations are also included in
+    the English-Japanese dictionaries targeting Japanese readers, and so
+    the effect of obtaining natural translations is small even if we
+    combine a reverse Japanese-English dictionary.<a name="rfn2" href="c31.html#fn2"><sup>2</sup></a>
+    <br><br>
+<dt>(b)
+<dd>Problem when translations are not single words: 
+    <br>
+    Since language characteristics largely differ, a lot of translations
+    may be expressed with multiple words. However, Tanaka et al. limit
+    their English translations to one word translations.
+    <br><br>
+<dt>(c)
+<dd>Problem of the two times inverse consultation: 
+    <br>
+    With more fractions in a bilingual dictionary, more correct candidates
+    are output, and the selection process becomes more difficult.
+    <br><br>
+<dt>(d)
+<dd>Problem of the utilization of lexical information of SL and TL: 
+    <br>
+    Unlike (c), an effective procedure is to perform narrowing down using
+    morphemes and radicals, but it is not easy to investigate the
+    influence of any SL and TL. This is a large factor obstructing the
+    practical use of the procedure.
+    <br><br>
+<dt>(e)
+<dd>Problem of language characteristics: 
+    <br>
+    In the connection of Japanese<img src="c31/j0000.gif">English<img src="c31/j0000.gif">French as tested by Tanaka et
+    al., the Japanese and English languages largely differ and the English
+    and French languages are comparatively closer. In contrast, in the
+    connection of Korean<img src="c31/j0000.gif">English<img src="c31/j0000.gif">Japanese, both the Korean and English
+    languages and the English and Japanese languages largely differ,
+    although the finally obtained Korean and Japanese languages are very
+    similar. To date, no investigation has been made on the influence of
+    the relationship among SL, third language, and TL.
+    <br><br>
+</dl>
+</p>
+
+<p>
+In addition, we set the four
+conditions below ((C1) to (C4)) when applying the method to the
+generation of an unspecified bilingual dictionary. 
+</p>
+
+<p>
+<u><strong>Conditions for application of the method to an unspecified language pair</strong></u>
+</p>
+
+<p>
+<dl compact>
+<dt>(C1)
+<dd>Two bilingual dictionaries exist from SL to English and from TL to English (absolutely necessary).
+    <br>
+<dt>(C2)
+<dd>Either SL or TL is not well understood; computer processing is possible (necessary).
+    <br>
+<dt>(C3)
+<dd>It is possible to use various types of language information of English, the third language (optional).
+    <br>
+<dt>(C4)
+<dd>It is permissible to use various types of language information limited to either TL or SL
+    (the opposite of (C2) above) (additional optional).
+    <br>
+</dl>
+</p>
+
+<p>
+As a result of
+avoiding the use of harmonized dictionaries (thereby preventing the
+extraction of explanatory expressions), using a
+Korean-English dictionary and a Japanese-English dictionary, and using
+the one time inverse consultation of Tanaka et al., we could achieve a
+translation extraction rate of about 20%[<a href="c31.html#ref5">5</a>].
+</p>
+
+<p>
+The method of Tanaka et al. using harmonized dictionaries can be
+thought of as basically focusing on the extraction rate of
+translations and aiming at achieving a practical method. However, it
+does not provide a sufficient effectiveness. It
+is also difficult to say that our previous method using a Korean-English
+dictionary and a Japanese-English dictionary achieves a sufficient
+extraction rate.  Accordingly, we attempt the generation of a
+Korean-Japanese dictionary through the utilization of a Korean-English
+dictionary and an English-Japanese dictionary. In addition, we
+re-investigate the problem of harmonized dictionaries with the results
+of [<a href="c31.html#ref5">5</a>].
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Improved Method</font></h2></a>
+
+<p>
+We set the following four conditions based on [<a href="c31.html#ref5">5</a>].
+</p>
+
+<p>
+<dl compact>
+<dt>(1)
+<dd>Two bilingual dictionaries exist from SL to English and from English to TL.
+    <br><br>
+<dt>(2)
+<dd>Either SL or TL is not well understood; computer processing is possible.
+    <br><br>
+<dt>(3)
+<dd>It is possible to use various types of language information of English, the third language.
+    <br><br>
+<dt>(4)
+<dd>It is permissible to use various types of language information limited to either TL or SL (the opposite of (2) above).
+    <br><br>
+</dl>
+</p>
+
+<p>
+Condition (1) is an absolutely necessary condition. Condition (2) may
+not be considered a necessary condition, but we consider it to be in
+this investigation since our aim is to apply the method to unfamiliar
+languages. This condition, we think, greatly improves the practical
+use of the method. 
+Condition (3) is an optional condition, but the
+practicality of the method is not lost even if the condition is added
+since the condition does not depend on the characteristics of SL
+and TL and since English functions as a de facto common language in
+human-to-human communications. Condition (4) is a realistic
+possibility, but it is necessary to discuss the condition separate
+from conditions (1), (2), and (3), since problems are conceivable in
+the practicality of the method. We do nothing more than propose
+conditions (3) and (4) in this paper.
+</p>
+
+<p>
+Under the above conditions, we test the following method aiming at the
+generation of a Korean-Japanese dictionary.
+</p>
+
+<p>
+We use the "two times inverse consultation" of Tanaka et al. as a
+method that forms correspondences between Korean and Japanese
+words. In other words, we take English sets corresponding to Korean
+words from a Korean-English dictionary, and take Japanese translation
+sets from an English-Japanese dictionary for each English word.  After
+that, we test the narrowing down of translation pairs by the
+extraction of overlapped words in the Japanese translation sets.
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Trial Experiment</font></h2></a>
+
+<p>
+We used an online dictionary[<a href="c31.html#ref9">9</a>], which "Yahoo! Korea"
+offers, as our Korean-English dictionary. The size of this dictionary
+is about 50,000 words. In addition, we used the "Super Anchor Japanese
+English Dictionary"[<a href="c31.html#ref10">10</a>] of Gakken as our
+English-Japanese dictionary. The size of this dictionary is 65,000
+words.
+</p>
+
+<p>
+In order to simplify the evaluation, we randomly extracted 100 Korean
+words from a Korean-Japanese dictionary[<a href="c31.html#ref6">6</a>].  We searched the
+Korean-English dictionary for these 100 words, and then simply took
+the English words included in the search results.  With the
+Korean-English dictionary we used, the divisions of the word meanings
+are specified, but we considered top divisions in
+the current experiment.
+</p>
+
+<p>
+The experimental results are shown in Table 1.
+As a result of the two-step dictionary extraction for the 100 Korean
+words, the correct Japanese were contained in 61 of them.
+</p>
+
+<p>
+<div align=center>
+<strong><i>Table 1: Extraction results of Korean-Japanese equivalent pairs.</i></strong>
+</div>
+
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td rowspan=2>1st step: K-E Extraction</td>
+    <td>Success Rate</td>
+    <td align=right>62.0%</td>
+    <td align=right>62 / 100</tr>
+<tr><td align=right>(Total of E translations)</td>
+    <td align=right colspan=2>( 225 )</tr>
+<tr><td rowspan=3>2nd step: E-J Extraction</td>
+    <td>Success Rate</td>
+    <td align=right>100.0%</td>
+    <td align=right>62 /  62</tr>
+<tr><td align=right>(Corresponding E Equivalents)</td>
+    <td align=right colspan=2>( 113 )</tr>
+<tr><td align=right>(Total of J Translations)</td>
+    <td align=right colspan=2>( 1015 )</tr>
+<tr><td rowspan=3>Result: K-J Extraction</td>
+    <td>Accuracy</td>
+    <td align=right>98.4%</td>
+    <td align=right>61 /  62</tr>
+<tr><td align=right>(Correct J Translations)</td>
+    <td align=right colspan=2>( 291 )</tr>
+<tr><td align=right>(Extracted J Translations)</td>
+    <td align=right colspan=2>( 1005 )</tr>
+</table>
+
+<br>
+
+<table border=0 align=center>
+<tr><td>
+    <table border=3 cellpadding=1 cellspacing=1 align=center>
+    <tr><td colspan=3 align=center>Narrowing Down by Overlaps</td></tr>
+    <tr align=center><td>Target</td><td>Correct</td><td>(Accuracy)</td></tr>
+    <tr align=right><td>25</td><td>21</td><td>(84.0%)</td></tr>
+    </table>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>
+    <table border=3 cellpadding=1 cellspacing=1 align=center>
+    <tr><td colspan=3 align=center>Only One Word Case</td></tr>
+    <tr align=center><td>Target</td><td>Correct</td><td>(Accuracy)</td></tr>
+    <tr align=right><td>10</td><td>9</td><td>(90.0%)</td></tr>
+    </table>
+    </td>
+</table>
+</p>
+
+<p>
+Among the 61 correct cases, there were 25 cases in which the
+English-Japanese extraction was successful with two words or more
+among the English words obtained from the results of the
+Korean-English dictionary extraction.  21 cases among the 25
+were correct when we took out the overlapped words (as translation
+candidates) that appeared the most in the Japanese translation sets
+obtained from each English word.  Figure 1 shows an example.
+</p>
+
+<p>
+<table border=3 align=center>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr align=center><td>Korean                           </td><td>    </td><td>English                                  </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td>    </td><td>    </td><td>Japanese                               </td><td>Overlaps &nbsp;    </td></tr>
+<tr align><td colspan=11><hr size=4></td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td><img src="c31/j0001.gif"></td>           <td><img src="c31/j0002.gif"></td><td><img src="c31/j0000.gif"></td><td><img src="c31/j0003.gif"></td><td><img src="c31/j0001.gif"></td><td><img src="c31/j0003.gif"></td><td align=left>&nbsp; <img src="c31/j0004.gif">           </td><td align=left>3 <img src="c31/j0005.gif">    </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td><img src="c31/j0006.gif"></td>           <td><img src="c31/j0007.gif"></td><td><img src="c31/j0000.gif"></td><td><img src="c31/j0003.gif"></td><td><img src="c31/j0008.gif"></td><td><img src="c31/j0003.gif"></td><td align=left>&nbsp; <img src="c31/j0009.gif">           </td><td align=left>2       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td><img src="c31/j0006.gif"></td>           <td><img src="c31/j0010.gif"></td><td><img src="c31/j0011.gif"></td><td><img src="c31/j0003.gif"></td><td><img src="c31/j0008.gif"></td><td><img src="c31/j0001.gif"></td><td align=left>&nbsp; <img src="c31/j0012.gif">               </td><td align=left>2       </td></tr>
+<tr align=right><td>                                  </td><td><img src="c31/j0001.gif"></td><td align=center>worthless &nbsp;            </td><td><img src="c31/j0013.gif"></td>           <td><img src="c31/j0010.gif"></td><td><img src="c31/j0011.gif"></td><td><img src="c31/j0003.gif"></td><td><img src="c31/j0008.gif"></td><td><img src="c31/j0006.gif"></td><td align=left>&nbsp; <img src="c31/j0014.gif">         </td><td align=left>2       </td></tr>
+<tr align=right><td>                                  </td><td><img src="c31/j0006.gif"></td><td align=center>valueless &nbsp;            </td><td><img src="c31/j0015.gif"></td>           <td><img src="c31/j0016.gif"></td><td>  </td><td><img src="c31/j0001.gif"></td><td><img src="c31/j0008.gif"></td><td><img src="c31/j0008.gif"></td><td align=left>&nbsp; <img src="c31/j0017.gif">             </td><td align=left>1       </td></tr>
+<tr align=right><td><img src="c31/pojalk.gif">&nbsp;</td><td><img src="c31/j0018.gif"></td><td align=center>trifling &nbsp;             </td><td><img src="c31/j0015.gif"></td>           <td><img src="c31/j0019.gif"></td><td><img src="c31/j0019.gif"></td><td><img src="c31/j0018.gif"></td><td><img src="c31/j0006.gif"></td><td><img src="c31/j0008.gif"></td><td align=left>&nbsp; <img src="c31/j0020.gif">             </td><td align=left>2       </td></tr>
+<tr align=right><td>                                  </td><td><img src="c31/j0006.gif"></td><td align=center>&nbsp; beneath notice &nbsp;</td><td align=left><img src="c31/j0021.gif">  </td><td>  </td><td>  </td><td><img src="c31/j0006.gif"></td><td><img src="c31/j0008.gif"></td><td><img src="c31/j0008.gif"></td><td align=left>&nbsp; <img src="c31/j0022.gif">               </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td><img src="c31/j0006.gif"></td><td align=center>trivial &nbsp;              </td><td><img src="c31/j0015.gif"></td>           <td><img src="c31/j0019.gif"></td><td><img src="c31/j0019.gif"></td><td><img src="c31/j0006.gif"></td><td><img src="c31/j0023.gif"></td><td><img src="c31/j0008.gif"></td><td align=left>&nbsp; <img src="c31/j0024.gif">               </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td><img src="c31/j0025.gif"></td><td align=center>useless &nbsp;              </td><td><img src="c31/j0015.gif"></td>           <td><img src="c31/j0019.gif"></td><td><img src="c31/j0019.gif"></td><td><img src="c31/j0025.gif"></td><td><img src="c31/j0006.gif"></td><td><img src="c31/j0023.gif"></td><td align=left>&nbsp; <img src="c31/j0026.gif"> &nbsp;</td><td align=left>2       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td><img src="c31/j0025.gif"></td><td><img src="c31/j0008.gif"></td><td align=left>&nbsp; <img src="c31/j0027.gif">               </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td>    </td><td><img src="c31/j0006.gif"></td><td align=left>&nbsp; <img src="c31/j0028.gif">               </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td>    </td><td><img src="c31/j0006.gif"></td><td align=left>&nbsp; <img src="c31/j0029.gif">               </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td>    </td><td><img src="c31/j0006.gif"></td><td align=left>&nbsp; <img src="c31/j0030.gif">             </td><td align=left>1       </td></tr>
+<tr align=right><td>                                  </td><td>    </td><td>                                         </td><td>    </td>           <td>  </td><td>  </td><td>    </td><td>    </td><td><img src="c31/j0025.gif"></td><td align=left>&nbsp; <img src="c31/j0031.gif">               </td><td align=left>1       </td></tr>
+</table>
+</td></tr>
+</table>
+
+<div align=center>
+<strong><i>Figure 1: Example of narrowing down of overlapping translations.</i></strong>
+</div>
+</p>
+
+
+<p>
+Besides these, there were ten cases in which the Japanese translation
+was extracted as only one word, and nine of them were the correct
+answers. Figure 2 shows an example.
+</p>
+
+<p>
+<table border=3 align=center>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr align=center><td></td><td align=right>Korean                              </td><td>                </td><td>English                      </td><td>                </td><td align=left>Japanese    </td></tr>
+<tr><td colspan=6><hr size=4></td></tr>
+<tr><td>Success</td><td align=right>&nbsp; <img src="c31/sikmul.gif"> &nbsp;</td><td align=right><img src="c31/j0032.gif"></td><td align=center>botany          </td><td align=right><img src="c31/j0033.gif"></td><td>&nbsp; <img src="c31/j0034.gif">          </td></tr>
+<tr><td>       </td><td>                                                      </td><td align=right><img src="c31/j0025.gif"></td><td align=center>&nbsp; phytology</td><td>                </td><td>                       </td></tr>
+<tr><td colspan=6><hr size=4></td></tr>
+<tr><td>Failure</td><td align=right><img src="c31/chosae.gif"> &nbsp;       </td><td align=right><img src="c31/j0033.gif"></td><td align=center>newborn         </td><td align=right><img src="c31/j0033.gif"></td><td>&nbsp; <img src="c31/j0035.gif"></td></tr>
+<tr><td>       </td><td align=right>(noun) &nbsp;                             </td><td>                </td><td>                             </td><td>                </td><td>&nbsp; (adnominal)     </td></tr>
+</table>
+</td></tr>
+</table>
+
+<div align=center>
+<strong><i>Figure 2: Example of one English and one Japanese correspondence.
+</i></strong>
+</div>
+</p>
+
+
+<p>
+If we merge these findings, translations can be automatically
+extracted at an extraction rate of 35% (25+10/100) and a correctness
+rate of 85.7% (21+9/25+10).
+</p>
+
+<p>
+One of our fears was that a lot of explanatory Japanese
+translations would be extracted
+since we used an English-Japanese
+dictionary with the proposed method.  However, from the narrowing
+down process, this did not exceed one case.<a name="rfn3" href="c31.html#fn3"><sup>3</sup></a>
+As a reason for this, the following items are
+conceivable:
+</p>
+
+<p>
+<ul>
+<li>When a corresponding idea can be expressed with one word, that
+    word can easily be referenced. In contract, there can be several
+    different expressions in an explanation translation, the possibility
+    is low that the same expression can be shown since the degree of
+    freedom of the expression is high.
+    <br><br>
+<li>Because the concepts of Korean and Japanese resemble each other,
+    English words that cannot help but be expressed explanatorily in
+    Japanese are not shown in the search results of the Korean-English
+    dictionary.
+    <br><br>
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Discussions</font></h2></a>
+
+<p>
+When we applied the method in [<a href="c31.html#ref5">5</a>] to 100 words (i.e., those
+in the previous section), the correct Japanese
+translations were obtained for 24.  The
+contribution in [<a href="c31.html#ref5">5</a>] investigated the maximum number of
+extractable cases since it did not refer to an automatic narrowing
+down method. Table 2 shows a comparison with the extraction results in
+this paper. It illustrates no correlation can be recognized between both
+results. Accordingly, we can expect an increase in the extraction rate
+of translations up to 44% by using both methods in combination.
+</p>
+
+<p>
+<div align=center>
+<strong><i>Table 2: Correlation between proposed method and previous method[<a href="c31.html#ref5">5</a>].</i></strong></caption>
+</div>
+
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=2 rowspan=3 valign=bottom>Previous Method[<a href="c31.html#ref5">5</a>]</td>
+    <td rowspan=11></td>
+    <td colspan=3>Proposed Method</td>
+    <td rowspan=11></td>
+    <td rowspan=3 valign=bottom>Total</td></tr>
+<tr align=center>
+    <td colspan=2>Extracted</td>
+    <td rowspan=2 valign=top>Not Extracted</td></tr>
+<tr align=center>
+    <td>Correct</td><td>Erroneous</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td align=left rowspan=2>Extracted</td>
+    <td align=left>Correct</td>
+    <td>10</td><td>10</td><td> 4</td><td>24</td></tr>
+<tr align=right>
+    <td>Erroneous</td>
+    <td> 7</td><td> 7</td><td> 2</td><td>16</td></tr>
+<tr align=right>
+    <td colspan=2 align=left>Not Extracted</td>
+    <td>13</td><td>14</td><td>33</td><td>60</tr></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right>
+    <td colspan=2>Total</td>
+    <td>30</td><td>32</td><td>38</td><td>100</td></tr>
+</table>
+</p>
+
+<p>
+The case of using both methods seems to be very similar to the case of using
+harmonized dictionaries from the viewpoint of the usage of dictionary
+infomation.  However, a Japanese-English harmonized dictionary,
+for example, is a dictionary in which all of the translation information included in the Japanese-English
+dictionary and English-Japanese dictionary are once separated into one-to-one word
+relationships and then merged.  This means both the one-to-<i>n</i> Japanese-English
+relationships described in the Japanese-English dictionary and the one-to-<i>m</i> English-Japanese
+relationships described in the English-Japanese dictionary are lost in the harmonized dictionary.  
+We finally insist that an effective
+strategy is to consider the constraints using the Japanese-English dictionary
+and English-Japanese dictionary independently.  This enables using both
+one-to-<i>n</i> and one-to-<i>m</i> relationships unlike creating the
+corresponding harmonized dictionaries, from the standpoint of the
+possibility of narrowing down translations, and so on.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Conclusion</font></h2></a>
+
+<p>
+We investigated an improved approach to the generation of a bilingual
+dictionary by the use of already-existing dictionaries, aiming at 
+cost reductions in bilingual dictionary generation. We searched
+through a Korean-English dictionary and an English-Japanese dictionary
+in this order, aiming at the generation of a Korean-Japanese dictionary,
+and estimated the Japanese translations corresponding to the Korean by
+looking at the overlaps of the obtained Japanese translations.
+According to a trial experiment using 100 Korean words, the correct
+Japanese translations were obtained for 61 of them. Among the correct
+translations, we took 25 translations for which a search of the
+English-Japanese dictionary successfully produced two or more
+translations for the English words obtained in the search results of
+the Korean-English dictionary. Of the 25 translations, 21 (84%) could
+be automatically narrowed down by taking the overlapped words from the
+Japanese translation sets for the individual English words. With the
+above two-step dictionary extraction, moreover, nine cases out of ten
+were correct when only one Japanese translation was obtained.
+</p>
+
+<p>
+Next, we considered the combination of the above-mentioned method
+using the Korean-English dictionary and Japanese-English dictionary
+with the previous method, and obtained the possibility of generating
+Korean-Japanese equivalent pairs at an expected correctness rate of 44
+words out of 100 by the combined use. In comparison with the case of
+using harmonized dictionaries, we found this option to be superior
+from the standpoint that the information of the original bilingual
+dictionaries could be utilized to the maximum extent possible
+according to the characteristics of each dictionary.
+</p>
+
+<p>
+In the experiment in this paper, we estimated the equivalent
+relationships of the Korean and Japanese by string agreements using a
+Korean-English dictionary and an English-Japanese dictionary. In other
+words, we did not use any linguistic information about Korean or
+Japanese. Consequently, the proposed method can perhaps be easily
+utilized when generating a bilingual dictionary of an optional pair
+using English translation dictionaries.
+</p>
+
+<p>
+In the future, we want to improve the accuracy of the proposed method
+by the introduction of English linguistic information. Because such
+English information has no influence on the language pair, there is no
+loss of generality. We also want to investigate the ideal combination
+with the method in [<a href="c31.html#ref5">5</a>]. A further plan is to investigate
+the applicability of the method to other language pairs.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Boitet, Christian (2001). "GETA's current research activities and possible contribution to the MMA project".
+    In <i>Proceedings of MMA-2001</i>, Session 4 (NLP 3).
+    <br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>Bond, Francis, Ruhaida Binti Sulong, Takefumi Yamazaki &amp; Kentaro Ogura (2001).
+    "Design and construction of a machine-tractable Japanese-Malay dictionary".
+    Machine Translation Summit VIII (forthcoming).
+    <br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>Hartmann, Reinhard Rudolf Karl (1983). "Lexicography: principles and practice".
+    Academic Press.
+<br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>Lafourcade, Mathieu (1997). "Multilingual dictionary construction and services case study with the Fe* projects".
+    In <i>Proceedings of PACLING-97</i>, pp.173-181.
+<br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>Shirai, Satoshi &amp; Kazuhide Yamamoto (2001). 
+    "Linking English words in two bilingual dictionaries to generate another language pair dictionary".
+    In <i>Proceedings of ICCPOL-2001</i>, pp.174-179.
+<br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>Shogakukan &amp; Kumsung Publishing (1993). "Korean-Japanese Dictionary". 
+    Shogakukan (in Japanese).
+<br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>Tanaka, Kumiko &amp; Kyoji Umemura (1994). "Construction of a bilingual dictionary intermediated by a third language". 
+    In <i>Proceedings of COLING-94</i>, pp.293-303.
+<br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>Tanaka, Kumiko, Kyoji Umemura &amp; Hidetoshi Iwasaki (1998).
+    "Construction of a bilingual dictionary intermediated by a third language".
+    <i>Transactions of Information Processing Society of Japan</i>, Vol.39, No.6, pp.1915-1924 (in Japanese).
+<br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>URL=http://kr.engdic.yahoo.com/.
+<br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>Yamagishi, Katsuei, Tokumi Kodama &amp; Chiaki Kaise (1997). "The Super Anchor English-Japanese Dictionary".
+    Gakken (in Japanese).
+    <br><br>
+</dl>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+For example, at URL = http://www.yourdictionary.com, there are
+a number of languages, and you can use bilingual dictionaries
+with English for tens of languages. (<a href="c31.html#rfn1">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+
+A bilingual dictionary from a foreign language to one's mother tongue
+is created so as to cover all of the vocabularies of the
+foreign language, while foreign words not corresponding to
+one's mother tongue are not recorded in a bilingual dictionary
+from one's mother tongue to the foreign
+language[<a href="c31.html#ref3">3</a>]. (<a href="c31.html#rfn2">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+In the experiment, we counted this as an error. (<a href="c31.html#rfn3">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

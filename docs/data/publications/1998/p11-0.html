@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Masahiko Haruno, Satoshi Shirai &amp; Yoshifumi Ooyama, Transaction of Information Processing Society of Japan, Vol.39, No.12, pp.3177-3186, December 12, 1998. </title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>A Japanese Dependency Parser Based on a Decision Tree</font>
+<br><br>
+
+<font size=+2>MASAHIKO HARUNO,<sup>+</sup> SATOSHI SHIRAl<sup>++</sup> and YOSHIFUMI OOYAMA<sup>++</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup>ATR Human Information Processing Research Laboratories <sup>++</sup>NTT Communication Science Laboratories</font>
+<br>
+</div>
+
+<br><br>
+
+<p>
+This paper describes a Japanese dependency parser that uses a decision tree.
+Japanese dependency parser generally prepares a modification matrix,
+each value of which represents how a phrase tends to modify the other.
+The parser determines the best dependency structure by totally optimizing the values
+in a sentence under several constraints.
+Therefore, our main task is to precisely evaluate the modification matrix from corpora.
+Conventional stochastic dependency parsers define a set of learning features
+and apply all of them regardless of phrase types.
+On the contrary, our decision tree based method automatically selects significant
+and enough number of features according to the phrase types.
+We can make use of large number of features that may have contribution
+to parsing accuracy.
+The proposed method was tested with EDR corpus and yielded significantly better (4%)
+performance over a conventional statistical dependency parser.
+In addition, we tested the following 4 properties of the system;
+<i>1</i>. relation between parsing accuracy and pruning of decision tree,
+<i>2</i>. relation between parsing accuracy and amount of training data,
+<i>3</i>. relation between types of features and parsing accuracy
+and <i>4</i>. parsing accuracy when additionally using frequent open class words
+and thesaurus categories.
+The results were <i>1</i>. weak pruning yielded better performance,
+<i>2</i>. the decision tree learning for dependency parsing required
+fifty thousands Japanese sentences,
+<i>3</i>. the type of modifier and the modification distance are
+particularly effective for parsing accuracy
+and <i>4</i>. open class words and thesaurus categories
+do not always improve the accuracy.
+These findings may offer the important clues to Japanese parser developments
+and corpus constructions in the future.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>Transaction of Information Processing Society of Japan</i>, Vol.39, No.12, pp.3177-3186 (December, 1998). ]
+</font>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<html>
+<head>
+<title>Satoru Ikehara, Satoshi Shirai, Akio Yokoo, Francis Bond &amp; Yoshie Omi, ANLP '94, October 13-15, 1994</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Automatic Aquisition of Semantic Attributes for User Defined Words in Japanese to English Machine Translation</font>
+<br><br>
+
+<font size=+2>Satoru Ikehara <sup>*</sup>, Satoshi Shirai <sup>*</sup>, Akio Yokoo<sup>*</sup>, Francis Bond<sup>*</sup> and Yoshie Omi <sup>**</sup></font>
+<br><br>
+
+<font size=+1><sup>*</sup> NTT Communication Science Laboratories, 1-2356 Take, Yokosuka-shi, Kanagawa, Japan</font>
+<br>
+
+<font size=+1><sup>**</sup> NTT Advanced Technology Corporation, 90-6 Kawakami-cho, Totsuka-ku Yokohama-shi, Kanagawa, Japan</font>
+<br><br>
+
+<font size=+1>Email: <tt> ikehara{shirai,ayokoo,bond}@nttkb.ntt.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper proposes a method that automatically acquires the SAs
+(semantic attributes) of user defined words. Applying this method to
+the compilation of a user dictionary targeting newspaper article
+sentences and sentences of software design documents has revealed that
+the automatically determined SAs include 50 to 80% of the correct
+attributes. Translation experiments confirmed that the automatically
+acquired SAs improved translation quality by 6-13%.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of ANLP '94</i>, pp.184-185 (October, 1994). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=9>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c07.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="c07.html#chap-2.">2. System Dictionaries and User Dictionaries</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c07.html#chap-2.1">2.1 Semantic Dictionaries in ALT-J/E</a></td></tr>
+<tr><td><a href="c07.html#chap-3.">3. Determination of Semantic Attributes</a></td></tr>
+<tr><td><a href="c07.html#chap-4.">4. Evaluation</a></td></tr>
+<tr><td><a href="c07.html#chap-5.">5. Improvements in Translation Quality (Table 4)</a></td></tr>
+<tr><td><a href="c07.html#chap-6.">6. Summary</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c07.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+When working with a MT(machine translation) system, users compile user
+dictionaries for the words which are not registered in the system
+dictionaries or for those with inappropriate translations [<a
+href="c07.html#ref1">1</a>]. But when registering new words in a dictionary,
+there is a need to give not just the index word and translated word,
+but also syntactic, semantic and various other information. Systems
+aiming at higher levels of translation quality require more detailed
+and accurate information [<a href="c07.html#ref2">2</a>,<a
+href="c07.html#ref3">3</a>], and it is no simple task for laymen to give such
+information. In particular, semantic information usually requires the
+skill of professionals.
+</p>
+<p>
+In this paper, attention has been focused on the characteristics of
+user defined words. A method is proposed where for index words (noun
+words or compound nouns) in the original language that users seek to
+register, one need give only the translation in the target language to
+permit the system apply the knowledge held in the system dictionaries,
+automatically judge the type of noun and determine the SAs of the word
+for the noun types.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. System Dictionaries and User Dictionaries</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Semantic Dictionaries in ALT-J/E</font></h2></a>
+
+<p>
+Here, we shall refer to the dictionary prepared in advance by the MT
+system as a system dictionary and the dictionary prepared and used by
+users as a user dictionary.
+</p>
+<p>
+For the case of the Japanese to English MT system ALT-J/E[<a
+href="c07.html#ref4">4</a>], the relationship between the system dictionaries,
+the user dictionaries and word SAs are shown in Figure 1. In the
+semantic dictionaries, semantic information is written using SAs.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c07/c07-fig1.gif" width=775 height=187>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.1 Semantic Attribute Systems and Semantic Dictionaries in ALT-J/E
+</strong></div>
+</p>
+
+<p>
+Common nouns in the semantic word dictionary are given common noun SAs
+(generally more than one). For proper nouns, both common noun SAs and
+proper noun SAs (both more than one) are given. Verbal SAs are given
+to sentence patterns registered in the semantic structure dictionary
+[<a href="c07.html#ref5">5</a>].
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Determination of Semantic Attributes</font></h2></a>
+
+<p>
+A method of determining the SAs of user defined words is shown in
+Figure 2. This method works using the information held in the system
+dictionaries when index words (Japanese expressions) of user defined
+words and their translations(English) have been provided by the user.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c07/c07-fig2.gif" width=361 height=217>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.2 Method of Automatically Determining Semantic Attributes
+</strong></div>
+</p>
+
+<p>
+The procedures consist of determining the head noun, noun type (proper
+and/or common noun), proper noun SAs (for proper nouns) and common
+noun SAs (for both common and proper nouns).
+</p>
+<p>
+SAs are determined using information from index words, their English
+translations, head nouns, and the contents of the system dictionaries.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Evaluation</font></h2></a>
+
+<p>
+The proposed method was used to determine the SAs to create user
+dictionaries for translating newspaper articles and software design
+documents shown in Tabe 3. The following 3 methods were examined.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>‡@</td><td>Automatic Determination (Proposed Method)</td></tr>
+<tr><td>‡A</td><td>Manual Determination (Manual Method)</td></tr>
+<tr><td>‡B</td><td>Experimental Determination (Correct Attributes)</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 1. Characteristics of the Source Text</strong>
+(c.f. UDW = User Defined Word )
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Characteristics</td>
+    <td>Newspaper</td><td>Specification</td></tr>
+<tr align=center><td>Total Number of Sentences (Sentences include UDW)</td>
+    <td>102 (53) Sentences</td><td>105 (90) Sentences</td></tr>
+<tr align=center><td>Average Number of Characters or Words / Sentence</td>
+    <td>43.8 Chr. 21.2 Wds</td><td>40.3 Chr. 16.0 Wds</td></tr>
+<tr align=center><td>Number of UDW, Common Noun + Proper Noun</td>
+    <td>26+51= 77 Wds</td><td>98 + 7 = 105 Wds</td></tr>
+</table>
+</p>
+
+<p>
+<strong>(1) Accuracy of Noun Type (Table 2)</strong>
+</p>
+<p>
+In the case of newspaper articles, the method's accuracy in determining the noun type was 93.5%. Manual determination achieved an accuracy rate of 94.8%. Similar results were obtained for the software specification documents.
+</p>
+
+<p>
+<div align=center><strong>
+Table 2. Determination of the Noun Type
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Document</td><td>Methods</td><td>Accuracy</td></tr>
+<tr valign=top>
+    <td rowspan=2>Newspaper Articles</td><td>Proposed Method</td><td>93.5%</td></tr>
+<tr><td>Manual Method</td><td>94.8%</td></tr>
+<tr valign=top>
+    <td rowspan=2>Software Specification</td><td>Proposed Method</td><td>89.5%</td></tr>
+<tr><td>Manual Method</td><td>97.1%</td></tr>
+</table>
+<div align=center>
+Noun Types = Common and Proper Noun
+</div>
+</p>
+
+<p>
+<strong>(2) Accuracy of Semantic Attributes (Table 3)</strong>
+</p>
+
+<p>
+<div align=center><strong>
+Table 3. Relevance Factor and Recall Factor of the SAs
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Documents</td><td>Accuracy</td><td>Proposed Method</td><td>Manual Method</td></tr>
+<tr><td rowspan=2>Newspaper Article</td>
+    <td>Relevance Factor</td><td>48.3% (57.5%)</td><td>75.8% (86.0%)</td></tr>
+<tr><td>Recall Factor</td><td>66.3% (78.9%)</td><td>77.1% (87.4%)</td></tr>
+<tr><td rowspan=2>Software Specification</td>
+    <td>Relevance Factor</td><td>19.5% (25.2%)</td><td>54.7% (68.6%)</td></tr>
+<tr><td>Recall Factor</td><td>34.8% (44.9%)</td><td>37.9% (47.5%)</td></tr>
+</table>
+<div align=center>
+(nn): Attributes near by correct attributes are included.
+</div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Improvements in Translation Quality (Table 4)</font></h2></a>
+
+<p>
+<div align=center><strong>
+Table 4. Comparison of the Translation Quality
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2 valign=bottom colspan=3>Method</td>
+    <td align=right>Text</td>
+    <td colspan=2>Newspaper Article</td><td colspan=2>Software Specification</td></tr>
+<tr align=center>
+    <td align=right>Translation<br>Quality</td>
+    <td>Translation<br>Success Rate</td>
+    <td>Sentences where<br>Quality Improved<sup>*</sup></td>
+    <td>Translation<br>Success Rate</td>
+    <td>Sentences where<br>Quality Improved<sup>*</sup></td></tr>
+<tr></tr>
+<tr><td colspan=2>Case 1</td><td colspan=2>Without Attributes</td>
+    <td>56.7 %</td><td>&plusmn; 0.0 %</td><td>65.7 %</td><td>&plusmn; 0.0 %</td></tr>
+<tr><td colspan=2>Case 2</td><td colspan=2>Proposed Method</td>
+    <td>69.6 %</td><td>+ 16.7 %</td><td>71.4 %</td><td>+ 10.5 %</td></tr>
+<tr><td colspan=2>Case 3</td><td colspan=2>Manual Method</td>
+    <td>71.6 %</td><td>+ 21.6 %</td><td>71.4 %</td><td>+ 15.2 %</td></tr>
+<tr><td colspan=2>Case 4</td><td colspan=2>Correct Attributes</td>
+    <td>72.5 %</td><td>+ 25.5 %</td><td>73.3 %</td><td>+ 23.8 %</td></tr>
+</table>
+<div align=center>
+<sup>*</sup> The ratio of translations whose quality was improved by
+one or more points in a zero to ten point evaluation scale.
+</div>
+</p>
+
+<p>
+Translation experiments were conducted for the 4 cases (3 cases shown in the section 4 plus the case without SAs)
+using the same texts used in the above section.
+</p>
+<p>
+It can be seen in table 4 that using the automatically determined SAs improved the translation quality by 6-13%. This improvement is almost the same as that achieved with manually determined SAs. The translation success rate is 2-3% lower than that achieved with the correct attributes. This is, however, satisfactory if we consider the high cost needed to obtain the correct attribute by repeatedly tuning them.
+</p>
+<p>
+Thus, automatic determination makes it possible to acquire useful sets of SAs; a task which normally requires the most labor in creating user dictionaries.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. Summary</font></h2></a>
+
+<p>
+A method that automatically determines the SAs of user defined words was proposed. The method was applied to create the dictionaries needed to translate several newspaper articles and some software specifications. The results show that the automatically determined SAs include 50 to 80% of the correct attributes. This value is 5-10% smaller than that achieved with manual determination (50`90%), but is still high enough to improve translation quality. Translation experiments confirmed that using the automatically determined SAs improved translation quality by 6-13%.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>(1)</strong></a>
+<dd>J. Carbonell et al.:
+	JTEC Report on Machine Translation in Japan, Japanese Technology
+	Evaluation Center,
+	Loyora College in Maryland (January 1992)
+	<br><br>
+<dt><a name="ref2"><strong>(2)</strong></a>
+<dd>S. Ikehara, M. Miyazaki and A. Yokoo:
+	Classification of Language Knoeledge for Meaning Analysis in Machine Translation,
+	Transactions of Information Processing Society of Japan,
+	Vol.34, No.8, pps.1692-1704 (1993)
+	<br><br>
+<dt><a name="ref3"><strong>(3)</strong></a>
+<dd>T. Utsuro, Y. Matsumoto and M. Nagao:
+	Lexical Knowledge Acquisition from Bilingual Corpora,
+	Proc. of the 14th International Conference on Computational Linguistics,
+	pps.581-587(1992)
+	<br><br>
+<dt><a name="ref4"><strong>(4)</strong></a>
+<dd>S. Ikehara:
+	Multi-Level Machine Translation System,
+	Future Computer Systems, Vol.1, No.3, pp.261-274 (1989)
+	<br><br>
+<dt><a name="ref5"><strong>(5)</strong></a>
+<dd>H. Nakaiwa and S. Ikehara:
+	Zero Pronoun Resolution in a Japanese to English Machine Translation System
+	using Verbal Semantic Attributes,
+	3rd Conference on Applied Natunal Language Processing, pps.201-208 (1992)
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

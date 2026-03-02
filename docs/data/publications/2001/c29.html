@@ -1,0 +1,1383 @@
+<html>
+<head>
+<title>Satoshi Shirai &amp; Kazuhide Yamamoto, ICCPOL-2001, May 14-16, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Linking English Words in Two Bilingual Dictionaries <br> to Generate Another Language Pair Dictionary</font>
+<br><br>
+<font size=+2>Satoshi Shirai and Kazuhide Yamamoto</font>
+<br><br>
+<font size=+1>ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>2-2-2 Hikaridai, Seika-cho, Soraku-gun, Kyoto, 619-0288, JAPAN</font>
+<br>
+<font size=+1>E-mail: <tt> {shirai,yamamoto}@slt.atr.co.jp </tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+
+<p>
+In developing a machine translation system, one of the difficult tasks is how to build a transfer
+dictionary.  It has been built by human labor from scratch in most cases. This approach, however, is very ineffective
+from the viewpoint of cost and time.  To avoid this problem, we generate a Korean to Japanese
+dictionary as a sample, taking advantage of existing linguistic resources, which consist of a Japanese to English
+dictionary and a Korean to English dictionary for the present goal. First, we extract some sets of
+English words corresponding to Korean words from a Korean to English dictionary.  Second, we search
+for Japanese words having English equivalents that are similar to Korean counterparts in meaning.
+Finally, we link the Korean words to Japanese ones.  The degree of similarity is determined
+according to how many translated words are shared between Korean and Japanese. We test 1,000 Korean
+words extracted at random and get 365 appropriate Japanese words.  The result shows that 72% are
+accurate for a degree of similarity of 0.8 and above.
+</p>
+
+<h3>keywords:</h3>
+
+<p>
+bilingual dictionary, dictionary generation, intermediate language, similarity of translation
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>[ In <i>Proceedings of ICCPOL-2001</i>, pp.174-179 (May, 2001). ]</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c29.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c29.html#chap-2">2 Problems of the Conventional Method</a></td></tr>
+<tr><td><a href="c29.html#chap-3">3 Improved Method</a></td></tr>
+<tr><td><a href="c29.html#chap-4">4 Trial Test</a></td></tr>
+<tr><td><a href="c29.html#chap-5">5 Discussions</a></td></tr>
+<tr><td><a href="c29.html#chap-6">6 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c29.html#ack">Acknowledgement</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c29.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In the development of a machine translation system, it is necessary to create a bilingual dictionary
+of the source language and the target language according to the linguistic pair being dealt with,
+but for such a task, the costs are enormous from the viewpoints of labor and time.  In particular,
+when one of the languages is not that familiar, in other words, when the number of users is
+comparatively small, it is difficult to secure development personnel familiar with both languages.
+Sometimes there may exist no bilingual dictionaries usable for humans as reference material.
+</p>
+
+<p>
+However, even if bilingual dictionaries do not directly exist for a source language and a target
+language, the possibility is high that bilingual dictionaries of both the source and target exist in
+an identical third language, particularly English.  In other words, it is conceivable that the
+generation of a bilingual dictionary through English can be
+effective<a name="rfn1" href="c29.html#fn1"><sup>1</sup></a>.  By effectively using such
+linguistic resources, the establishment of methods of generating bilingual dictionaries between
+various languages can be expected.
+</p>
+
+<p>
+A method of generating a bilingual dictionary of a source language and
+a target language through a third language was proposed by Tanaka et
+al. [<a href="c29.html#ref2">2</a>,<a href="c29.html#ref3">3</a>].  However, this effort was confined to the effect of being
+"useful for revising and supplementing for the vocabulary of existing
+dictionaries."  Although the basic elemental technologies in the
+method of Tanaka et al. were comprehensively proposed, we believe that
+there are problems in the usage of these technologies, and we
+instead attempt the reconstruction of the method towards a method
+involving engineering usability.
+</p>
+
+<p>
+Below, we assume English as our third language, and we investigate a
+method of generating a bilingual dictionary of a source language and a
+target language by using a bilingual dictionary of the source language
+to English and that of the target language to English.  In addition,
+we do not use lexical information of the source and/or target
+languages in order to verify the practical nature of the method.
+Based on the fact that the verification of the validity of translation
+pairs is not easy, we aim at achieving a method of verifying the
+accuracy of the output translation pair rather than the recall of the
+translation pair.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Problems of the Conventional Method</font></h2></a>
+
+<p>
+A method of generating a bilingual dictionary of a source language and
+a target language through an "intermediate" language was proposed by
+Tanaka et al. [<a href="c29.html#ref2">2</a>,<a href="c29.html#ref3">3</a>].  The outline of their method is as follows (an
+attempt is made to generate a Japanese-French dictionary with English
+assumed to be the "intermediate" language).
+</p>
+
+<p>
+<dl compact>
+<dt>1.
+<dd>Create a Japanese-English "harmonized dictionary" that
+      integrates a Japanese-English dictionary and an English-Japanese
+      dictionary, and an English-French "harmonized dictionary" that
+      integrates an English-French dictionary and a French-English
+      dictionary.
+    <br><br>
+<dt>2.
+<dd>By using the "harmonized dictionaries," place English translation
+      sets corresponding to Japanese words and English translation
+      sets corresponding to French words in a "selection area," and
+      judge results having a lot of matching translated words as being
+      in a bilingual relationship ("one time inverse consultation").
+    <br><br>
+<dt>3.
+<dd>By using the "harmonized dictionaries," carry out a second-stage
+      dictionary selection of "Japanese<img src="c29/j0000.gif">English<img src="c29/j0000.gif">French" or "French<img src="c29/j0000.gif">
+      English<img src="c29/j0000.gif">Japanese", place the last translated sets of French
+      words or Japanese words in a "selection area," and judge the
+      results having a lot of common morphemes as being in a bilingual
+      relationship ("two times inverse consultation").
+    <br><br>
+</dl>
+</p>
+
+<p>
+They report that "Comparing the resulting dictionary with published
+dictionaries showed that data obtained are useful for <i>revising and
+supplementing</i> the vocaburary of existing dictionaries," as a result of
+the above procedure.
+</p>
+
+<p>
+We considered that the following problems would appear in the method
+of Tanaka et al. considering the automatic generation of a bilingual
+dictionary of Japanese and Korean.
+</p>
+
+<p>
+<dl compact>
+<dt>(a)
+<dd>"Harmonized dictionary" problem. 
+    <br>
+    In order to increase the coverage, an appropriate solution might seenn to be the use of
+    "harmonized dictionaries" that combine dictionaries differing in terms
+    of directivity.<a name="rfn2" href="c29.html#fn2"><sup>2</sup></a>
+    However, because the
+    linguistic nature of Japanese and that of English largely differ, 
+    expository translations would appear in
+    large numbers and would be hard to use
+    with the method of Tanaka et al., even if an EJ dictionary were
+    inverted and made into a JE dictionary.  The same problem would appear with
+    Korean and English.  In other words, "harmonized dictionaries" are perhaps
+    effective in improving the extraction of translation pairs, but there
+    is doubt in their effectiveness towards the accuracy of extracted results.
+    <br><br>
+<dt>(b)
+<dd>Multiple word translation problem. 
+    <br>
+    If the English translation of a word of a source language came to be
+    multiple words, a bilingual dictionary from English to the target
+    language would generally be powerless.  In other words, effective
+    translation is best achieved only if
+    the English translation is one word.  We also believe that this
+    problem cannot be clarified easily with the correspondences between
+    English and French.
+    <br><br>
+<dt>(c)
+<dd>"Two times inverse consultation" problem. 
+    <br>
+    The description of a bilingual dictionary would perhaps be effective
+    for the improvement of the recall, but we think that it would further
+    reduce the accuracy with increasing fineness.  In addition, not much
+    labor-savings could be expected by automatic generation since the
+    need would arise for people to investigate all outputs.
+    <br><br>
+<dt>(d)
+<dd>Source language or target language vocabulary information use problem. 
+    <br>
+    As long as a target language does not involve the contributions of words of a number
+    of users, we believe it is not easy to investigate the
+    correspondences of the source language and target language.  This conceivably can largely obstruct
+    the practical use of the method.
+    <br><br>
+<dt>(e)
+<dd>Linguistic characteristics problem. 
+    <br>
+    French and English have closer linguistic characteristics compared
+    with Japanese and English.  Considering the generation of a bilingual
+    dictionary of Japanese and Korean, the source language and target
+    language would be in a close relationship and the "intermediate
+    language" would be in a distant relationship.  In contrast, if we were
+    to focus on a bilingual dictionary of Chinese and Japanese, the source
+    language, intermediate language, and target language would all be in a
+    distant relationship.  Whether it would be proper to handle these at
+    the same level has not been verified.
+    <br><br>
+</dl>
+</p>
+
+<p>
+Although the method of Tanaka et al. can be considered to basically
+emphasize the generation of translations and aims at the realization
+of a practical method, it is difficult to say that it functions
+effectively in the report.  Accordingly, we have decided to aim at the
+establishment of a method involving engineering usability, by
+reconsidering the method of Tanaka et al.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Improved Method</font></h2></a>
+
+<p>
+We decided to set the following presuppositions for our investigation
+on an alternative method.
+</p>
+
+<p>
+<dl compact>
+<dt>(1)
+<dd>Both a bilingual dictionary from the source language to English
+    and a bilingual dictionary from the target language to English
+    exist.
+    <br><br>
+<dt>(2)
+<dd>Either the source language or the target language cannot be
+    understood (text processing is possible).<a name="rfn3" href="c29.html#fn3"><sup>3</sup></a>
+    <br><br>
+<dt>(3)
+<dd>It is possible to use various lexical information of English.
+    <br><br>
+<dt>(4)
+<dd>It is acceptable to use various lexical information of the
+    target language or source language (not (2) above).
+    <br><br>
+</dl>
+</p>
+
+<p>
+(1) and (2) are necessary conditions.  (3) is an optional condition,
+but it does not rely on the characteristics of the source language and
+target language.  Moreover, the generality of the method is never lost
+even if this condition is added, since English functions as an actual
+intermediate language in communications among humans.
+</p>
+
+<p>
+In contrast, (4) is realistically possible, but it is necessary to
+discuss this by separating (1), (2), and (3), since a problem arises
+in the practical use of the method.  
+</p>
+
+<p>
+In this paper, however, (3) and (4) hold in the proposal.
+</p>
+
+<p>
+On the above assumptions, we attempt to test the following method by
+concentrating on the generation of a Korean-Japanese dictionary.
+</p>
+
+<p>
+First, we assume that harmonized dictionaries are not employed for the
+reasons in the previous subsection.  The linguistic characteristics in
+Japanese and English largely differ, and so it can be considered that
+the editing policies of Japanese-English dictionaries and
+English-Japanese dictionaries (for Japanese use) largely differ.  
+The same can also be said for Korean and English.
+Accordingly, as a first step, we use only a Korean-English dictionary
+and a Japanese-English dictionary, with the aim of providing natural
+Japanese for natural Korean.  We use the "one time inverse consultation
+method" of Tanaka et al. as a method to judge the word correspondences
+of Korean and Japanese.  In other words, we extract English
+translation word sets corresponding to Korean words from a
+Korean-English dictionary, and moreover, extract English translation
+word sets corresponding to Japanese words from a Japanese-English
+dictionary.  Then, we judge those pairs having more common words (from
+among both English word sets) to be in a bilingual relationship.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Trial Test</font></h2></a>
+
+<p>
+We used an online dictionary [<a href="c29.html#ref5">5</a>] that "Yahoo! Korea" provides, as our
+Korean-English dictionary.  The scale of this dictionary is 
+100,000 words.  In addition, we used the "The New Anchor
+Japanese-English Dictionary" [<a href="c29.html#ref6">6</a>] of "Gakken" as
+our Japanese-English dictionary.  The scale of this dictionary is
+21,170 key words.
+</p>
+
+<p>
+To simplify the evaluation, we randomly extracted 1,000 Korean words
+from a Korean-Japanese dictionary [<a href="c29.html#ref">7</a>] and assumed them to be the words
+for the evaluation.  We searched for a Korean-English dictionary
+assuming these 1,000 words and obtained English translation word sets
+by simply extracting English translations included in the search
+results.  The semantic classification was specified with the employed
+Korean-English dictionary, but a large classification was taken into
+consideration in the test this time.  In addition, for the
+Japanese-English dictionary, we simply extracted an English
+translation word set for each key word without considering the
+semantic classification.  We extracted words with a high similarity from
+these English translation word sets, and we extracted Korean words and
+Japanese words (giving the English translation word sets) as
+translation pairs.  The following equation was used to define
+the degree of similarity, (Here, the matching of the English translations was simply
+tested by the complete matching of character series.)
+</p>
+
+<p>
+<table border=0 cellspacing=0 cellpadding=0>
+<tr><td rowspan=5 width=20></td>
+    <td align=center><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Num. of common E translations in A and B <img src="c29/j0001.gif"> 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></td></tr>
+<tr><td align=center>Num. of E translations in A + Num. of E translations in B</td></tr>
+</table>
+</p>
+
+<p>
+where 
+<br>
+&nbsp;&nbsp; A: E translation word set corresponding to a K word
+according to a KE dictionary, 
+<br>
+&nbsp;&nbsp; B: E translation word set corresponding to a J word
+    according to a JE dictionary.
+</p>
+
+<p>
+The judgment of correct or incorrect dealt with pairs with a degree of similarity of 0.5 or
+more.  We got 925 Korean and Japanese word pairs including 409 correct ones.  Tables 1 and 2 show
+the accuracy of pairs with a degree of similarity of 0.5 or more.  In Tables 1 and 2, "Mixed"
+means results including "OK" and "NG (no good)".  Some of the "NG" cases were mismatched only in
+their parts-of-speech, for instance (Example 2) in the following chapter.  If parts-of-speech
+mismatches were to be accepted, the precision would have gone to about 10%.  We handled "mixed" as
+similar to "NG," from the viewpoint that our focus was on the precision of our method, not on
+the recall.  
+</p>
+
+<p>
+<div align=center><strong><i>Table 1: Extraction accuracy of KJ translation pairs.</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=right rowspan=2>Degree of <br> Similarity</td>
+    <td align=center colspan=5>Number of Pairs</td>
+    <td align=left colspan=2 rowspan=2>Precision limited to <br> two or more word matches</td>
+</tr>
+<tr><td align=right>Total</td>
+    <td align=right>OK</td>
+    <td align=right>(Precision)</td>
+    <td align=right>Mixed</td>
+    <td align=right>NG</td>
+</tr>
+<tr></tr>
+<tr><td align=right>1.0</td>
+    <td align=right>89</td>
+    <td align=right>66</td>
+    <td align=right>(74.1%)</td>
+    <td align=right>11</td>
+    <td align=right>12</td>
+    <td align=right>82.6%</td>
+    <td align=right>(19/ 23)</td>
+</tr>               
+<tr><td align=right><img src="c29/j0002.gif"> 0.9</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+</tr>               
+<tr><td align=right><img src="c29/j0002.gif"> 0.8</td>
+    <td align=right>20</td>
+    <td align=right>13</td>
+    <td align=right>(65.0%)</td>
+    <td align=right>2</td>
+    <td align=right>5</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+</tr>               
+<tr><td align=right><img src="c29/j0002.gif"> 0.7</td>
+    <td align=right>1</td>
+    <td align=right>0</td>
+    <td align=right>( 0.0%)</td>
+    <td align=right>0</td>
+    <td align=right>1</td>
+    <td align=right>0.0%</td>
+    <td align=right>( 0/  1)</td>
+</tr>               
+<tr><td align=right><img src="c29/j0002.gif"> 0.6</td>
+    <td align=right>118</td>
+    <td align=right>64</td>
+    <td align=right>(54.2%)</td>
+    <td align=right>15</td>
+    <td align=right>39</td>
+    <td align=right>70.3%</td>
+    <td align=right>(19/ 27)</td>
+</tr>               
+<tr><td align=right><img src="c29/j0002.gif"> 0.5</td>
+    <td align=right>137</td>
+    <td align=right>64</td>
+    <td align=right>(46.8%)</td>
+    <td align=right>28</td>
+    <td align=right>45</td>
+    <td align=right>57.1%</td>
+    <td align=right>(28/ 49)</td>
+</tr>               
+<tr></tr>
+<tr><td align=right>Total</td>
+    <td align=right>365</td>
+    <td align=right>207</td>
+    <td align=right>(56.7%)</td>
+    <td align=right>56</td>
+    <td align=right>102</td>
+    <td align=right>66.0%</td>
+    <td align=right>(66/100)</td>
+</tr>               
+</table>
+</p>
+
+<p>
+<div align=center><strong><i>Table 2: Relation between extraction precision and number of matchings.</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=right rowspan=2>Number of <br> Matchings</td>
+    <td align=center colspan=5>Number of Pairs</td>
+</tr>
+<tr><td align=right>Total</td>
+    <td align=right>OK</td>
+    <td align=right>(Precision)</td>
+    <td align=right>Mixed</td>
+    <td align=right>NG</td>
+</tr>
+<tr></tr>
+<tr><td align=right>5</td>
+    <td align=right>1</td>
+    <td align=right>1</td>
+    <td align=right>(100.0%)</td>
+    <td align=right>0</td>
+    <td align=right>0</td>
+</tr>
+<tr><td align=right>4</td>
+    <td align=right>1</td>
+    <td align=right>1</td>
+    <td align=right>(100.0%)</td>
+    <td align=right>0</td>
+    <td align=right>0</td>
+</tr>
+<tr><td align=right>3</td>
+    <td align=right>25</td>
+    <td align=right>15</td>
+    <td align=right>( 60.0%)</td>
+    <td align=right>5</td>
+    <td align=right>5</td>
+</tr>
+<tr><td align=right>2</td>
+    <td align=right>97</td>
+    <td align=right>66</td>
+    <td align=right>( 68.0%)</td>
+    <td align=right>11</td>
+    <td align=right>20</td>
+</tr>
+<tr><td align=right>1</td>
+    <td align=right>241</td>
+    <td align=right>124</td>
+    <td align=right>( 51.4%)</td>
+    <td align=right>40</td>
+    <td align=right>77</td>
+</tr>
+<tr></tr>
+<tr><td align=right>Total</td>
+    <td align=right>365</td>
+    <td align=right>207</td>
+    <td align=right>( 56.7%)</td>
+    <td align=right>56</td>
+    <td align=right>102</td>
+</tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Discussions</font></h2></a>
+
+<p>
+There were cases where mistakes were made on correct or incorrect judgments by merely viewing the
+degree of similarity.  First, we decided to examine the degree of similarity after giving priority
+to pairs of a large number of matching English translations.  From this, some order changes occurred
+like in the following example (Example 0).  In the following example, the number of matching English
+translations is shown by "mat", the degree of similarity is shown by "sim" and an evaluation by a
+translator is shown by "ev" (<img src="c29/j0003.gif">: matched, <img src="c29/j0004.gif">: meaning is matched but illegal part-of-speech, and <img src="c29/j0001.gif">: mismatched).
+</p>
+
+<p>
+<div align=center><strong>(Example 0) Considering the number of matchings</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=right colspan=5>(Korean or Japanese words)</td>
+    <td align=left>(English translation words)</td>
+</tr>
+<tr></tr>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: maseutheo (<img src="c29/maseut.gif">)</td>
+    <td align=left>master<img src="c29/j0005.gif">proprietor</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>2</td>
+    <td align=right>0.57</td>
+    <td align=center><img src="c29/j0006.gif"></td>
+    <td align=right>masutâ (<img src="c29/j0007.gif">)</td>
+    <td align=left>manager<img src="c29/j0005.gif">owner<img src="c29/j0005.gif">proprietor<img src="c29/j0005.gif">master</td>
+</tr>
+<tr></tr>
+<tr>
+    <td align=right>J2:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>mi-ni tsukeru (<img src="c29/j0008.gif">)</td>
+    <td align=left>master</td>
+</tr>
+<tr>
+    <td align=right>J3:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>ichigê (<img src="c29/j0009.gif">)</td>
+    <td align=left>master</td>
+</tr>
+<tr>
+    <td align=right>J4:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0004.gif"></td>
+    <td align=right>danna (<img src="c29/j0010.gif">)</td>
+    <td align=left>master<img src="c29/j0005.gif">hubby</td>
+</tr>
+<tr>
+    <td align=right>J5:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0004.gif"></td>
+    <td align=right>oyakata (<img src="c29/j0011.gif">)</td>
+    <td align=left>master<img src="c29/j0005.gif">boss</td>
+</tr>
+<tr>
+    <td align=right>J6:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>jukutatsu (<img src="c29/j0012.gif">)</td>
+    <td align=left>master<img src="c29/j0005.gif">become proficient in</td>
+</tr>
+</table>
+</p>
+
+<p>
+Next, handling comes to be a problem when the degree of similarity is
+the same across pairs.  Tanaka et al. carried out the exclusion of
+polysemy by making a graph of the correspondence relations of words
+among three languages [<a href="c29.html#ref3">3</a>].  They analyzed the relationship between
+correspondence relations and accuracy, while referring to the above
+classification.
+</p>
+
+<p>
+As a result, we decided on the following five classifications: 
+depending on the condition of the matching of English translation word
+sets, the existence/non-existence of English translations not employed
+for the correspondences of Korean and Japanese, and whether the
+obtained Japanese word was one word or multiple words.  Table 3 shows
+the number of conditions corresponding to each of the five classifications.
+</p>
+
+<p>
+<div align=center><strong><i>Table 3: Types of word correspondences of Korean-English and Japanese-English.</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=center rowspan=2>Type</td>
+    <td align=center rowspan=2>Classification</td>
+    <td align=center colspan=5>Number of Pairs</td>
+    <td align=left colspan=2 rowspan=2>Precision limited to<br>two or more matchings</td>
+</tr>
+<tr><td align=right>Total</td>
+    <td align=right>OK</td>
+    <td align=right>(Precision)</td>
+    <td align=right>Mixed</td>
+    <td align=right>NG</td>
+</tr>
+<tr><td align=center>(a)</td>
+    <td align=center>
+        <table border=0 cellpadding=0 cellspacing=0 align=left>
+        <tr><td><img src="c29/j0013.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0017.gif"></td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0021.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0023.gif"></td><td>  </td><td>  </td><td>  </td></tr>
+        </table>
+    </td>
+    <td align=right>89</td>
+    <td align=right>66</td>
+    <td align=right>(74.1%)</td>
+    <td align=right>11</td>
+    <td align=right>12</td>
+    <td align=right>82.6%</td>
+    <td align=right>(19/ 23)</td>
+</tr>
+<tr><td align=center>(b)</td>
+    <td align=center>
+        <table border=0 cellpadding=0 cellspacing=0 align=left>
+        <tr><td><img src="c29/j0013.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0017.gif"></td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0024.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0025.gif"></td><td>  </td><td>  </td><td>  </td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0021.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0026.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0001.gif"></td><td>  </td><td>  </td><td><img src="c29/j0027.gif"></td><td>  </td><td>  </td><td>  </td></tr>
+        <tr><td>  </td><td>  </td><td>  </td><td>  </td><td>  </td><td><img src="c29/j0001.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0028.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0023.gif"></td><td>  </td><td>  </td><td>  </td></tr>
+        </table>
+    </td>
+    <td align=right>199</td>
+    <td align=right>127</td>
+    <td align=right>(63.8%)</td>
+    <td align=right>16</td>
+    <td align=right>56</td>
+    <td align=right>63.4%</td>
+    <td align=right>(64/101)</td>
+</tr>
+<tr><td align=center>(c)
+    <td align=center>
+        <table border=0 cellpadding=0 cellspacing=0 align=left>
+        <tr><td><img src="c29/j0013.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0017.gif"></td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0021.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0001.gif"></td><td>  </td><td>  </td><td><img src="c29/j0027.gif"></td><td><img src="c29/j0027.gif"></td><td>  </td><td>  </td></tr>
+        <tr><td>  </td><td>  </td><td>  </td><td>  </td><td>  </td><td><img src="c29/j0001.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0026.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0023.gif"></td><td>  </td><td>  </td></tr>          
+        <tr><td>  </td><td>  </td><td>  </td><td>  </td><td>  </td><td><img src="c29/j0001.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0028.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0029.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0022.gif"></td></tr>          
+        </table>
+    </td>
+    <td align=right>53</td>
+    <td align=right>12</td>
+    <td align=right>(22.6%)</td>
+    <td align=right>18</td>
+    <td align=right>23</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td align=center>(d)
+    <td align=center>
+        <table border=0 cellpadding=0 cellspacing=0 align=left>
+        <tr><td><img src="c29/j0013.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0017.gif"></td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0021.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0018.gif"></td>
+		<td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0019.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0020.gif"></td><td><img src="c29/j0022.gif"></td></tr>
+        </table>
+    </td>
+    <td align=right>24</td>
+    <td align=right>2</td>
+    <td align=right>( 8.3%)</td>
+    <td align=right>11</td>
+    <td align=right>11</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td align=center>(e)
+    <td align=center>
+        <table border=0 cellpadding=0 cellspacing=0 align=left>
+        <tr><td><img src="c29/j0013.gif"></td><td><img src="c29/j0014.gif"></td><td><img src="c29/j0015.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0017.gif"></td><td><img src="c29/j0018.gif"></td><td><img src="c29/j0001.gif"></td></tr>
+        <tr><td>  </td><td>  </td><td><img src="c29/j0021.gif"></td><td><img src="c29/j0000.gif"></td><td><img src="c29/j0016.gif"></td><td><img src="c29/j0022.gif"></td><td><img src="c29/j0018.gif"></td><td><img src="c29/j0001.gif"></td></tr>
+        </table>
+    </td>
+    <td align=right>635</td>
+    <td align=right>0</td>
+    <td align=right>( 0.0%)</td>
+    <td align=right>0</td>
+    <td align=right>635</td>
+    <td></td>
+    <td></td>
+</table>
+</p>
+
+<br><br>
+
+<p>
+<strong>(a) A case of complete matching in the English translation
+word sets of KE &amp; JE.</strong> (Examples 1 &amp; 2)
+</p>
+
+<p>
+The precision of the extracted translation pairs is high regardless of
+whether the obtained Japanese word candidate is one or more.  When
+there is only one English translation word set, the possibility of
+being able to eliminate errors is high, considering the abundance
+of polysemy of English words.<a name="rfn4" href="c29.html#fn4"><sup>4</sup></a>
+</p>
+
+<p>
+<div align=center><strong>(Example 1) Success -- Type (a)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+    <td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: teurama (<img src="c29/teuram.gif">)</td>
+    <td align=left>drama<img src="c29/j0005.gif">play</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>shibai (<img src="c29/j0030.gif">)</td>
+    <td align=left>play<img src="c29/j0005.gif">drama</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>geki (<img src="c29/j0031.gif">)</td>
+    <td align=left>drama<img src="c29/j0005.gif">play</td>
+</tr>
+<tr><td align=right>J3:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>gikyoku (<img src="c29/j0032.gif">)</td>
+    <td align=left>drama<img src="c29/j0005.gif">play</td>
+</tr>
+<tr><td align=right>J4:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>engeki (<img src="c29/j0033.gif">)</td>
+    <td align=left>drama<img src="c29/j0005.gif">play</td>
+</tr>
+<tr><td align=right>J5:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>dorama (<img src="c29/j0034.gif">)</td>
+    <td align=left>drama<img src="c29/j0005.gif">play</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J6:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>asobaseru (<img src="c29/j0035.gif">)</td>
+    <td align=left>play</td>
+</tr>
+<tr><td align=right>J7:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>hiku (<img src="c29/j0036.gif">)</td>
+    <td align=left>play</td>
+</tr>
+<tr><td align=right>J8:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>ensô-suru (<img src="c29/j0037.gif">)</td>
+    <td align=left>play</td>
+</tr>
+<tr><td align=right>J9:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>hane-o nobasu (<img src="c29/j0038.gif">)</td>
+    <td align=left>play</td>
+</tr>
+<tr><td align=right>Ja:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>gokko (<img src="c29/j0039.gif">)</td>
+    <td align=left>play</td>
+</tr>
+<tr><td align=right>Jb:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>yûgi (<img src="c29/j0040.gif">)</td>
+    <td align=left>play<img src="c29/j0005.gif">game</td>
+</tr>
+<tr><td align=right>Jc:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>enjiru (<img src="c29/j0041.gif">)</td>
+    <td align=left>play<img src="c29/j0005.gif">perform</td>
+</tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>(Example 2) Problematic -- Type (a)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: piyak (<img src="c29/piyak.gif">)</td>
+    <td align=left>jump<img src="c29/j0005.gif">leap</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>2</td>
+    <td align=right>1.00</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>jampu-suru (<img src="c29/j0042.gif">)</td>
+    <td align=left>jump<img src="c29/j0005.gif">leap</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J2:</td>
+    <td align=right>2</td>
+    <td align=right>0.80</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>tobu (<img src="c29/j0043.gif">)</td>
+    <td align=left>jump<img src="c29/j0005.gif">leap<img src="c29/j0005.gif">hop</td>
+</tr>
+<tr><td align=right>J3:</td>
+    <td align=right>2</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>hiyaku (<img src="c29/j0044.gif">)</td>
+    <td align=left>rapid<img src="c29/j0005.gif">great<img src="c29/j0005.gif">jump<img src="c29/j0005.gif">leap</td>
+</tr>
+<tr><td align=right>J4:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>chôyaku-suru (<img src="c29/j0045.gif">)</td>
+    <td align=left>jump</td>
+</tr>
+<tr><td align=right>J5:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>tobikomu (<img src="c29/j0046.gif">)</td>
+    <td align=left>jump into<img src="c29/j0005.gif">jump</td>
+</tr>
+<tr><td align=right>J6:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>tobikakaru (<img src="c29/j0047.gif">)</td>
+    <td align=left>leap at<img src="c29/j0005.gif">leap</td>
+</tr>
+<tr><td align=right>J7:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>chôyaku (<img src="c29/j0048.gif">)</td>
+    <td align=left>jumping<img src="c29/j0005.gif">jump</td>
+</tr>
+<tr><td align=right>J8:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0004.gif"></td>
+    <td align=right>jampu (<img src="c29/j0049.gif">)</td>
+    <td align=left>jump<img src="c29/j0005.gif">ski jump</td>
+</tr>
+</table>
+<div align=center>(Note: K is a noun, J1 and J2 are verbs, and J3 is a noun.)</div>
+</p>
+
+<br><br>
+
+<p>
+<strong>(b) A case of the English translation word corresponding to one word
+  or more and the obtained Japanese word being limited to one word in
+  principle.<a name="rfn5" href="c29.html#fn5"><sup>5</sup></a></strong>(Examples 3 &amp; 4)
+</p>
+
+<p>
+The accuracy of the extracted translation pairs is quite high when two
+or more English translations agree, but it is suspect when there is
+only one.  From the threshold of the degree of similarity (e.g.,
+assuming a threshold of 0.8 or more), it is possible to raise the
+accuracy.  Then again, creating English translation word sets by
+performing classification for each accepted word and considering the
+stated order of the English translations (according to the
+descriptions of KE and JE dictionaries) may be effective in improving
+the accuracy.
+</p>
+
+<p>
+<div align=center></strong>(Example 3) Success -- Type (b)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: kwanjeom (<img src="c29/kwanje.gif">)</td>
+    <td align=left>point of view<img src="c29/j0005.gif">viewpoint<img src="c29/j0005.gif">standpoint<img src="c29/j0005.gif">angle</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>3</td>
+    <td align=right>0.86</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>mikata (<img src="c29/j0050.gif">)</td>
+    <td align=left>point of view<img src="c29/j0005.gif">viewpoint<img src="c29/j0005.gif">angle</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>3</td>
+    <td align=right>0.86</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>kanten (<img src="c29/j0051.gif">)</td>
+    <td align=left>point of view<img src="c29/j0005.gif">viewpoint<img src="c29/j0005.gif">angle</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J3:</td>
+    <td align=right>3</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0004.gif"></td>
+    <td align=right>kakudo (<img src="c29/j0052.gif">)</td>
+    <td align=left>angle<img src="c29/j0005.gif">point of view</td>
+</tr>
+<tr><td align=right>J4:</td>
+    <td align=right>2</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>shiten (<img src="c29/j0053.gif">)</td>
+    <td align=left>point of view<img src="c29/j0005.gif">viewpoint</td>
+</tr>
+<tr><td align=right>J5:</td>
+    <td align=right>2</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>kenchi (<img src="c29/j0054.gif">)</td>
+    <td align=left>standpoint<img src="c29/j0005.gif">point of view</td>
+</tr>
+<tr><td align=right>J6:</td>
+    <td align=right>2</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>tachiba (<img src="c29/j0055.gif">)</td>
+    <td align=left>position<img src="c29/j0005.gif">stand<img src="c29/j0005.gif">standpoint<img src="c29/j0005.gif">point of view</td>
+</tr>
+</table>
+</p>
+
+<p>
+<div align=center></strong>(Example 4) Problematic -- Type (b)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: kkoburida(<img src="c29/kkopur.gif">)</td>
+    <td align=left>stoop<img src="c29/j0005.gif">blow<img src="c29/j0005.gif">bend<img src="c29/j0005.gif">crook<img src="c29/j0005.gif">curve<img src="c29/j0005.gif">inflect</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>3</td>
+    <td align=right>0.60</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>kâbu (<img src="c29/j0056.gif">)</td>
+    <td align=left>curve<img src="c29/j0005.gif">bend<img src="c29/j0005.gif">curve<img src="c29/j0005.gif">curveball</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J2:</td>
+    <td align=right>2</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>kagameru (<img src="c29/j0057.gif">)</td>
+    <td align=left>bend<img src="c29/j0005.gif">stoop</td>
+</tr>
+</table>
+<div align=center>(Note: K is a verb, J1 is a noun, and J2 is a verb.)</div>
+</p>
+
+<br><br>
+
+<p>
+<strong>(c) A case of multiple Japanese words pointing to one
+matching English translation.</strong> (Examples 5 &amp; 6)
+</p>
+
+<p>
+If there are non-corresponding English translations between both KE
+and JE, there is the possibility that the accuracy of translation
+pairs may be improved by considering synonymous relationships in KE
+and JE.  There are a number of cases where multiple selected Japanese
+words are in a synonymous relationship, when there is only one
+obtained English translation from the KE dictionary.  Considering the
+abundance of polesemy of English words may be effective.
+</p>
+
+<p>
+<div align=center></strong>(Example 5) Success -- Type (c)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: salbuthi (<img src="c29/salput.gif">)</td>
+    <td align=left>ones kith and kin<img src="c29/j0005.gif">relative<img src="c29/j0005.gif">kinsfolk</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>miuchi (<img src="c29/j0058.gif">)</td>
+    <td align=left>relative</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>miyori (<img src="c29/j0059.gif">)</td>
+    <td align=left>relative</td>
+</tr>
+</table>
+</p>
+
+<p>
+<div align=center></strong>(Example 6) Problematic -- Type (c)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: pabwang (<img src="c29/peopwa.gif">)</td>
+    <td align=left>tathagata<img src="c29/j0005.gif">buddha</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>hotoke-no (<img src="c29/j0060.gif">)</td>
+    <td align=left>buddha-like<img src="c29/j0005.gif">buddha</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>hotoke (<img src="c29/j0061.gif">)</td>
+    <td align=left>the buddha<img src="c29/j0005.gif">buddha</td>
+</tr>
+</table>
+<div align=center>(Note: There is also the meaning of "Pope" in K.)</div>
+</p>
+
+<br><br>
+
+<p>
+<strong>(d) A case of two or more English translations of KE and
+Japanese words corresponding to each in a one-to-one manner.</strong> (Examples 7 &amp; 8)
+</p>
+
+<p>
+It might not be possible to judge, etc., the
+relevance only with the utilized dictionary information.
+</p>
+
+<p>
+<div align=center></strong>(Example 7) Non-deterministic -- Type (d)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: kambang (<img src="c29/kampan.gif">)</td>
+    <td align=left>cell<img src="c29/j0005.gif">ward</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>byôtô (<img src="c29/j0062.gif">)</td>
+    <td align=left>ward</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>1</td>
+    <td align=right>0.67</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>saibô (<img src="c29/j0063.gif">)</td>
+    <td align=left>cell</td>
+</tr>
+<tr></tr>
+<tr></td>
+    <td align=right>J3:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>denchi (<img src="c29/j0064.gif">)</td>
+    <td align=left>battery<img src="c29/j0005.gif">cell
+</tr>
+</table>
+<div align=center>(Note: K denotes a room of convicts, J1 a ward at a hospital, and J2 the cells of a living entity.)</div>
+</p>
+
+<p>
+<div align=center></strong>(Example 8) Differing parts-of-speech -- Type (d)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: peomgwa (<img src="c29/peomkw.gif">)</td>
+    <td align=left>fault<img src="c29/j0005.gif">wrong<img src="c29/j0005.gif">wrongdoing</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J1:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0003.gif"></td>
+    <td align=right>ochido (<img src="c29/j0065.gif">)</td>
+    <td align=left>fault</td>
+</tr>
+<tr><td align=right>J2:</td>
+    <td align=right>1</td>
+    <td align=right>0.50</td>
+    <td align=center><img src="c29/j0001.gif"></td>
+    <td align=right>itaranu (<img src="c29/j0066.gif">)</td>
+    <td align=left>wrong</td>
+</tr>
+</table>
+<div align=center>(Note: K is a noun, J1 is a noun, and J2 is an adjective.)</div>
+</p>
+
+<br><br>
+
+<p>
+<strong>(e) A case of English translations unable to be found
+that include English given in the KE dictionary.</strong> (Examples 9 &amp; 10)
+</p>
+
+<p>
+Here, extraction within the range of the utilized dictionaries is
+difficult.  However, because there are examples like Example 9, there
+is the possibility of being able to improve the recall of translation
+pairs by finding correspondences of the English translations
+considering the polysemy of English words, like with (c). 
+</p>
+
+<p>
+<div align=center></strong>(Example 9) With synonymous expressions -- Type (e)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: kaeop (<img src="c29/kaeop.gif">)</td>
+    <td align=left>family occupation<img src="c29/j0005.gif">ones trade</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J :</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=center></td>
+    <td align=right>(No correspondences)</td>
+    <td align=left></td>
+</tr>
+<tr></tr>
+<tr><td align=right colspan=4>cf. (J:)</td>
+    <td align=right>kagyô (<img src="c29/j0067.gif">)</td>
+    <td align=left>family business<img src="c29/j0005.gif">job</td>
+</tr>
+</table>
+</p>
+
+<p>
+<div align=center></strong>(Example 10) Without Japanese corresponding to Korean words -- Type (e)</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td align=right>mat</td>
+    <td align=right>sim</td>
+    <td align=center>ev</td>
+    <td align=right>K: yeom (<img src="c29/yeom.gif">)</td>
+    <td align=left>small stony island<img src="c29/j0005.gif">rocky islet</td>
+</tr>
+<tr></tr>
+<tr><td align=right>J :</td>
+    <td align=right>---</td>
+    <td align=right>---</td>
+    <td align=center></td>
+    <td align=right>(No correspondences)</td>
+    <td align=left></td>
+</tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Conclusion</font></h2></a>
+
+<p>
+By utilizing English as an intermediate language, we reported a method
+of automatically generating translation pairs of a source language and
+a target language with a high accuracy.  As a case study, we
+attempted the extraction of translation pairs of Korean and Japanese
+by using a KE dictionary and a JE dictionary.  According to a trial
+test using 1,000 Korean words randomly extracted from an online KE
+dictionary offered by "Yahoo! Korea," the method succeeded in connecting
+365 words to Japanese words of the "The New Anchor Japanese-English
+Dictionary" of "Gakken" and an accuracy of 72%
+was obtained when the degree of similarity was 0.8 or more.
+</p>
+
+<p>
+In this paper, we extracted English translations by string processing
+with a KE dictionary and a JE dictionary, and evaluated the similarity
+by string agreement.  In other words, we used no linguistic
+information of Korean, English, and Japanese.  Consequently, the
+results in this paper can be considered to be applicable to cases of
+generating bilingual dictionaries among languages similar to Japanese
+or Korean through English.
+</p>
+
+<p>
+In the future, we plan on improving the recall of
+translation pairs while maintaining the accuracy of the translation
+pairs, by the semantic classification of the vocabulary described in such
+bilingual dictionaries, as well taking linguistic information of
+English (i.e., intermediary language as explained in section 3), e.g.,
+synonymous relationships in English and polysemy of English words,
+into consideration.
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgement</font></h2></a>
+
+<p>
+We are grateful to Mr. Masahiko Kotani, a translator who largely
+contributed in the evaluation of the test results.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>URL=http://www.yourdictionary.com/.
+    <br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>Tanaka, K. &amp; K. Umemura (1994).  "Construction of a bilingual dictionary intermediated by a third language".
+    <i>COLING-94</i>, pp.293-303.
+    <br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>Tanaka, K., K. Umemura &amp; H. Iwasaki (1998).  "Construction of a
+	bilingual dictionary intermediated by a third language".
+    <i>Trans. of Information Processing Society of Japan</i>, Vol.39, No.6, pp.1915-1924 (in Japanese).
+    <br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>Hartmann, R. (1983).  "Lexicography: principles and practice". Academic Press.
+    <br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>URL=http://kr.engdic.yahoo.com/.
+    <br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>Yamagishi, K &amp; T. Gunji (1991).  "The New Anchor Japanese-English Dictionary".  Gakken.
+    <br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>Shogakukan &amp; Kumsung Publishing (1993).  "Korean-Japanese Dictionary".  Shogakukan.
+    <br><br>
+</dl>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+For example, by accessing the site of [<a href="c29.html#ref1">1</a>], although overwhelming, it can be understood
+that bilingual dictionaries with English can be used for tens of languages. (<a href="c29.html#rfn1">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+A foreign language corresponding to a mother
+    tongue is recorded in a bilingual dictionary from a mother tongue to a
+    foreign language, as opposed to the creation of a bilingual dictionary
+    from a foreign language to a mother tongue so as to cover the entire
+    vocabulary of the foreign language [<a href="c29.html#ref4">4</a>].  If that were the main reason,
+    however, perhaps it would be better to combine a JE dictionary for
+    personal use assuming English as the mother tongue with an EJ
+    dictionary for Japanese personal use. (<a href="c29.html#rfn2">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+Condition (2)
+    might not be said to be a necessary condition, but it is possible
+    to remarkably improve the practical use of the method by assuming
+    (2) to be a necessary condition. (<a href="c29.html#rfn3">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>4</sup></a>
+For example, words of Latin
+origin feature a low polysemy. (<a href="c29.html#rfn4">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>5</sup></a>
+This includes the case multiple Japanese words
+  are obtained that match two or more English translations.
+(<a href="c29.html#rfn5">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

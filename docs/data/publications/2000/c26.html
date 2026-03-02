@@ -1,0 +1,860 @@
+<html>
+<head>
+<title>Yasuhiro Akiba, Hiromi Nakaiwa, Satoshi Shirai &amp; Yoshifumi Ooyama, ICTAI00, November 13-15, 2000</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Interactive Generalization of a Translation Example Using Queries Based on a Semantic Hierarchy</font>
+<br><br>
+
+<font size=+2>Yasuhiro Akiba &nbsp;&nbsp; Hiromi Nakaiwa &nbsp;&nbsp; Satoshi Shirai<sup>+</sup> &nbsp;&nbsp; Yoshifumi Ooyama</font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>2-4, Hikaridai, Seika-cho, Soraku-gun, Kyoto, 619-0237, JAPAN</font>
+<br>
+<font size=+1><tt> {akiba,nakaiwa,shirai,ooyama} @cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+
+<h2>Abstract</h2>
+<p>
+<i>This paper addresses the issue of acquiring translation rules 
+for machine translation (MT) systems that adopt a transfer approach. 
+These rules are semantic pattern pairs (SPPs) of source and target languages. 
+Practical MT systems must additionally contain a huge number of SPPs 
+corresponding to rarely-used predicates and predicate usages. 
+Such SPPs are difficult to automatically acquire with corpus-based methods [1,2,10,11]. 
+To solve this difficulty, this paper proposes a method to acquire SPPs 
+by using queries based on a semantic hierarchy. 
+The proposed method asks the lexicographer for the necessary information 
+in order to generalize the conditions of SPPs and then gradually generalizes these conditions. 
+Experimental results show that the proposed method allows the acquisition of more plausible conditions 
+within almost the same time spent for manual generalization.</i>
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of ICTAI00</i>, pp.326-332 (November, 2000). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<font size=-1>
+<sup>+</sup> He affiliates with ATR Spoken Language Translation Research Labs.
+Adress: 2-4, Hikaridai, Seika-cho, Soraku-gun, Kyoto, 619-0237, JAPAN.
+E-mail: shirai@itl.atr.co.jp
+</font>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c26.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c26.html#chap-2">2 Acquisition Task</a></td></tr>
+<tr><td><a href="c26.html#chap-3">3 Proposed Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c26.html#chap-3.1">3.1 Generating Sentences for Queries</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c26.html#chap-3.2">3.2 Presenting Queries and Getting Answers</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c26.html#chap-3.3">3.3 Approaches for searching for an appropriate category</a></td></tr>
+<tr><td><a href="c26.html#chap-4">4 Experimental Work</a></td></tr>
+<tr><td><a href="c26.html#chap-5">5 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c26.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+The World Wide Web (WWW) has become very popular throughout the world. 
+Due to this popularity, more and more people have come to realize 
+that the opportunity is growing for them to read documents written in unfamiliar languages. 
+Accordingly, there are higher hopes for more efficient machine translation (MT) systems.
+</p>
+<p>
+One attempt to achieve MT systems is the use of a semantic-based transfer approach [6,4,12]. 
+This approach focuses on the collocation between verbs and nouns. 
+Semantic-based transfer MT systems provide if-then rules 
+(called <strong>semantic pattern pairs</strong> or <strong>SPPs</strong>), 
+whose if-parts and then-parts are collocation patterns 
+in the source language (SL) and the target language (TL), respectively.
+</p>
+<p>
+Figure 1 shows a simplified example [5] of an SPP in a Japanese-English MT system, ALT-J/E [6]. 
+The if-part is a Japanese pattern, and the then-part is an English equivalent. 
+This SPP indicates that if the Japanese verb is <i>yaku</i>, 
+its subjective noun is categorized as <tt>People</tt> 
+and its objective noun is categorized as <tt>Bread</tt> or <tt>Confectionery</tt>; 
+accordingly, the corresponding English verb is <i>bake</i> 
+and its subject and object are the translation into English of the Japanese subject and object, respectively. 
+Each slot such as J-S<small>UBJ</small> or J-O<small>BJ</small> contains the meanings of nouns 
+(<strong>semantic categories</strong>) like <tt>People</tt>, <tt>Bread</tt>, 
+or <tt>Confectionery</tt><a name="rfn1" href="c26.html#fn1"><sup>1</sup></a>.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td rowspan=3 valign=top>IF</td>  <td rowspan=3>&nbsp;&nbsp;</td>
+	    <td>J-V<small>ERB</small></td>    <td>= &nbsp;<i>yaku</i></td></tr>
+	<tr><td>J-S<small>UBJ</small></td>    <td>= &nbsp;<i>N</i><sub>1</sub>:[<tt>People</tt>]</td></tr>
+	<tr><td>J-O<small>BJ</small></td>
+				<td>= &nbsp;<i>N</i><sub>2</sub>:[<tt>Bread</tt> or <tt>Confectionery</tt>]</td></tr>
+	<tr></tr>
+	<tr><td rowspan=3 valign=top>THEN</td><td rowspan=3>&nbsp;&nbsp;</td>
+	    <td>E-S<small>UBJ</small></td>    <td>= &nbsp;<i>N</i><sub>1</sub></td></tr>
+	<tr><td>E-V<small>ERB</small></td>    <td>= &nbsp;<i>bake</i></td></tr>
+	<tr><td>E-O<small>BJ</small></td>    <td>= &nbsp;<i>N</i><sub>2</sub></td></tr>
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1. SPP for Japanese verb yaku.
+</i></strong></div>
+</p>
+
+<p>
+ALT-J/E has about 2,800 semantic categories [5], which constitute a hierarchy with a maximum depth of 12 (Figure 2). 
+Each of about 400,000 nouns in the ALT-J/E lexicon has one or more semantic categories as its meanings.
+</p>
+<p>
+Practical MT systems based on a semantic-based transfer approach must additionally contain a huge number of SPPs 
+corresponding to rarely-used predicates and predicate usages. 
+In the case of ALT-J/E, Shiral et al. [9] reported that about 10,000 SPPs, 
+corresponding to rarely-used predicates and predicate usages, 
+have to be generated for ALT-J/E to cover nearly all of the predicates in Japanese.
+</p>
+<p>
+The existing approaches to acquire SPPs include corpus-based approaches [1,2,10,11]. 
+As Church indicates in [3], many possible co-occurrences cannot be observed even in a very large corpus. 
+That is, a sufficient number of illustrative sentences cannot be prepared for the above kinds of SPPs. 
+These approaches are, therefore, of limited applicability.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c26/c26-fig2.gif" width=517 height=321>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2. Upper levels of the semantic hierarchy in ALT-J/E.
+</i></strong></div>
+</p>
+
+<p>
+To date, the above kinds of SPPs have been acquired by manual approaches like those in [9]. 
+The task of generating SPPs involves inputting the appropriate 
+(not over-general and not over-specific) semantic categories into each slot. 
+It is, however, difficult for lexicographers to manually generate SPPs due to the following reasons.
+</p>
+<p>
+<dl compact>
+<dt><strong>Large number of candidates:</strong> 
+<dd>Searching for appropriate categories requires a lot of effort on the part of lexicographers. 
+	This is because the number of candidates for appropriate categories ranges 
+	from several thousands [5] to several tens of thousands [7], depending on the semantic hierarchy used.
+	<br><br>
+<dt><strong>Necessity of experience:</strong> 
+<dd>To specify appropriate semantic categories, lexicographers must be very familiar 
+	with all of the semantic categories and the lexicon on an MT system.
+	<br><br>
+<dt><strong>Difrerent quality of generalization:</strong> 
+<dd>Lexicographers treat minor translation examples differently according to their own generalization standards. 
+	Some lexicographers specify more general semantic categories so as to be met by minor examples. 
+	Other lexicographers ignore minor examples.
+</dl>
+<p>
+To overcome the difficulty of generating SPPs and the sheer quantity of SPPs, 
+methods to support lexicographers are required.
+</p>
+<p>
+This paper proposes a new method that searches for appropriate semantic categories 
+to be inputted into each slot by using queries based on a semantic hierarchy. 
+The proposed method adopts three different approaches to searching for appropriate semantic categories. 
+The approaches for the searching generate translation examples at each search point 
+and ask whether the noun corresponding to the target slot can be semantically collocated 
+with the verb of the SL side in the acquired SPP and whether that noun can also give a context 
+where the most plausible equivalent for the verb of the SL side is the verb of the TL side. 
+The only task that lexicographers have to do is to answer each query. 
+Consequently, the resulting categories follow a specific generalization standard.
+</p>
+<p>
+The authors experimentally evaluated the proposed method 
+by acquiring the semantic categories for ten SPPs [5] with ALT-J/E. 
+Experimental resuIts showed that the proposed method was able to acquire, 
+in five cases, the same categories as, or in the other cases, more plausible categories than, 
+those specified manually within almost the same time spent for the manual generalization.
+</p>
+<p>
+The next section describes the acquisition task in this study. 
+The proposed method is presented in Section 3. 
+Experimental results are shown and a discussion is provided in Section 4. 
+Finally, our conclusions are presented in Section 5.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Acquisition Task</font></h2></a>
+
+<p>
+This section characterizes the appropriate semantic categories 
+that the proposed method should input into each slot in SPPs and describes the acquisition task 
+that the proposed method handles.
+</p>
+<p>
+Let us assume that lexicographers attempt to acquire the appropriate semantic categories 
+for the slots of the SPP shown in Figure 1 while they derive (1) as a sample sentence 
+that meets the conditions of the acquired SPP.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3 valign=top>(1) &nbsp;</td>
+    <td><i>Taro-ga</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>ppurupai-wo</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>yaku</i></td></tr>
+<tr><td>taro-<small>SUBJ</small></td>
+    <td>apple pies-<small>OBJ</small></td>
+    <td>bake-<small>PRESENT</small></td></tr>
+<tr><td colspan=5>'Taro bakes apple pies'</td></tr>
+</table>
+</p>
+<p>
+where the nouns such as <i>Taro</i> "a typical first name of Japanese males" for the J-S<small>UBJ</small> slot 
+or <i>appurupai</i> "apple pies" for the J-O<small>BJ</small> slot are called <strong>the sample nouns</strong>, 
+and the semantic categories of the sample nouns are called <strong>the sample categories</strong>. 
+Let the sample categories of <i>Taro</i> and <i>appurupai</i> be <tt>Male</tt> and <tt>Confectionery</tt>, respectively.
+</p>
+<p>
+When specifying different semantic categories from sample categories into slots 
+so that we can investigate what kinds of linguistic phenomena can be observed, 
+let us replace one ofthe sample nouns with another noun as follows.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3 valign=top>(2) &nbsp;</td>
+    <td><i><u>Meari</u>-ga</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>appurupai-wo</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>yaku</i></td></tr>
+<tr><td>mary-<small>SUBJ</small></td>
+    <td>apple pies-<small>OBJ</small></td>
+    <td>bake-<small>PRESENT</small>
+<tr><td colspan=5>'Mary bakes apple pies'
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3 valign=top>(3) &nbsp;</td>
+    <td><i><u>Mangetsu</u>-ga</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>appurupai-wo</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>yaku</i></td></tr>
+<tr><td>a foll moon-<small>SUBJ</small></td>
+    <td>apple pies-<small>OBJ</small></td>
+    <td>bake-<small>PRBSENT</small></td></tr>
+<tr><td colspan=5>'A full moon bakes apple pies'</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3 valign=top>(4) &nbsp;</td>
+    <td><i>Taro-ga</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i><u>sake</u>-wo</i></td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td><i>yaku</i></i></td></tr>
+<tr><td>taro-<small>SUBJ</small></td>
+    <td>a salmon-<small>OBJ</small></td>
+    <td>grill-<small>PRESENT</small></td></tr>
+<tr><td colspan=5>'Taro grills a salmon'</td></tr>
+</table>
+</p>
+<p>
+In the case of (2), the sentence is natural as a Japanese
+sentence, so the substituted noun <i>Meari</i> "Mary" can be semantically collocated with <i>Yaku</i> "bake". In the case of (3),
+the description of the sentence <i>Mangetsu-ga appurupai-wo yaku</i> is not realistic and cannot happen normally. 
+In such a sense, <i>Mangetsu</i> "a full moon" cannot be semantically collocated with <i>yaku</i>. 
+In the case of (4), the sentence is natural as a Japanese sentence 
+so the substituted noun <i>sake</i> "a salmon" can be semantically collocated with <i>Yaku</i>. 
+On the other hand, the most plausible equivalent for Japanese verb <i>yaku</i> is <i>grill</i> rather than <i>bake</i>. 
+This is because, although the source sentence does not describe definite clues in order to select the English equivalent, 
+the most plausible situation of the source is <i>Taro grills a salmon</i> 
+as long as one takes account of the culture of SL; in this case, Japanese culture.
+</p>
+<p>
+As seen above, the following linguistic phenomena can be observed through the replacement of nouns,
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td valign=top><strong>(P1)</strong></td><td>&nbsp;</td>
+    <td>Some nouns (or semantic categories) can be semantically collocated 
+	with the verb of the SL side in the acquired SPP.</td></tr>
+<tr></tr>
+<tr><td valign=top><strong><strong>(P2)</strong></td><td></td>
+    <td>Out of all of the semantically collocated nouns (or semantic categories), 
+	some nouns (or semantic categories) can give a context 
+	where the most plausible equivalent for the verb of the SL side is the target verb of the TL side.</td></tr>
+</table>
+</p>
+<p>
+The phenomena is a good indicator for finding the appropriate categories.
+</p>
+<p>
+As a semantic category specified to a slot processed by lexicographers (<strong>the target slot</strong>) 
+can change from the sample category for the target slot to the root of the semantic hierarchy step by step, 
+the number of nouns able to meet an acquired SPP can increase gradually. 
+When <i>C<sub>i</sub></i> denotes the i-th semantic category on the path 
+from the root of the semantic hierarchy to the sample category for the target slot (Figure 3), 
+and when <i>C<sub>i</sub></i> is specified to the target slot instead of <i>C</i><sub><i>i</i>+1</sub>, 
+the ratio of the collocated nouns in (P1), to the additionally covered nouns, 
+is called <strong>the acceptable rate</strong> of <i>C<sub>i</sub></i> , 
+which is related to the occurrence probabilities of the SL sentences generated by the replacement. 
+The ratio of the nouns that can give the context in (P2), to all collocated nouns in (P1), 
+is called <strong>the translatable rate</strong> of <i>C<sub>i</sub></i> (Figure 4), 
+which is related to the probabilities that such substituted nouns can give the context in (P2). 
+Because both rates of the appropriate semantic categories specified to the target slot should be sufficiently large, 
+let us focus on the lower thresholds of both rates and call them 
+<strong>the minimal acceptable rate</strong> and <strong>the minimal translatable rate</strong>, respectively. 
+A semantic category whose acceptable rate is the minimal acceptable rate or greater 
+and whose translatable rate is the minimal translatable rate or greater is called an <strong>ok-category</strong>. 
+On the other hand, a category that is not an ok-category is called an <strong>ng-category</strong>.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c26/c26-fig3.gif" width=709 height=393>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 3. Proposed method: M denotes the depth of the sample category for the target slot.
+</i></strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c26/c26-fig4.gif" width=326 height=395>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 4. Acceptable rate and translatable rate of <i>C<sub>i</sub></i>
+</i></strong></div>
+</p>
+
+<p>
+This paper characterizes each appropriate semantic category as an ok-category 
+that is located at the highest level on the semantic hierarchy 
+when the minimal acceptable rate and the minimal translatable rate are given.
+</p>
+<p>
+Consequently, given the minimal acceptable rate and the minimal translatable rate, 
+the acquisition task that the proposed method handles is to search for the highest ok-category 
+for the target slot of the SPP acquired by the method (Figure 5).
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td rowspan=3 valign=top>Input: </td><td rowspan=6>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	    <td valign=top>(A)</td><td rowspan=3>&nbsp;</td>
+	    <td>the skeleton of a sentence that meets the acquired SPP,</td></tr>
+	<tr><td valign=top>(B)</td>
+	    <td>a combination of nouns such that, for each slot in the if-part of the SPP, one of the
+		nouns should meet the condition of the slot (<strong>the sample nouns</strong>),</td></tr>
+	<tr><td valign=top>(C)</td>
+	    <td>the semantic category for each sample noun (<strong>the sample categories</strong>).</td></tr>
+	<tr></tr>
+	<tr><td valign=top>Output:	</td>
+	    <td colspan=3>the highest ok-category in the semantic categories on the path between the root in
+		the semantic hierarchy and the sample category for the target slot.</td></tr>
+
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 5. Acquisition task
+</i></strong></div>
+</p>
+
+<p>
+For example, to make the proposed method acquire the appropriate semantic category 
+for the J-S<small>UBJ</small> slot of the SPP shown in Figure 1, 
+the inputted skeleton of the sentence that meets the acquired SPP is 
+<i>N</i><sub>1</sub>-<i>ga</i> <i>N</i><sub>2</sub>-<i>wo</i> <i>yaku</i> 
+"<i>N</i><sub>1</sub> bake <i>N</i><sub>2</sub>", where <i>N<sub>i</sub></i> is a variable. 
+<i>Taro</i> and <tt>Male</tt> are inputted 
+as the sample noun for the J-S<small>UBJ</small> slot and the semantic category, respectively. 
+At the same time, <i>appurupai</i> and <tt>Confectionery</tt> are inputted 
+as the sample noun for the J-O<small>BJ</small> slot and the semantic category, respectively. 
+Lexicographers can easily input this information. 
+The output is the highest ok-category in the eight semantic categories on the path between the root in Figure 2, 
+<tt>Anything</tt> (<i>C</i><sub>1</sub>), and the leaf, <tt>Male</tt> (<i>C</i><sub>8</sub>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Proposed Method</font></h2></a>
+
+<p>
+This section describes the proposed method that adopts three approaches 
+to search for the highest ok-category described in Section 2. 
+The approaches use the same strategy for generating queries and presenting them to lexicographers 
+in order to estimate the acceptable rate and the translatable rate of the current search point.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Generating Sentences for Queries</font></h2></a>
+
+<p>
+When the current search point is <i>C<sub>i</sub></i> , 
+the approaches for the searching generate sentences in the following way: 
+(i) initially generate a sentence by filling each variable <i>N<sub>i</sub></i> 
+in the skeleton with the corresponding sample noun; 
+(ii) then, generate some sentences by replacing the sample noun for the target slot with other nouns 
+in <strong>Cluster</strong><i><sub>i</sub></i> , which hereafter denotes the set of nouns categorized 
+as <i>C<sub>i</sub></i> or descendants of <i>C<sub>i</sub></i> 
+but not categorized as <i>C</i><sub><i>i</i>+i</sub> or descendants of <i>C</i><sub><i>i</i>+1</sub>. 
+For example, assume that, in order to acquire the SPP shown in Figure 1, 
+the input to the proposed method is the same as presented at the end of Section 2: 
+<i>N</i><sub>1</sub>-<i>ga</i> <i>N</i><sub>2</sub>-<i>wo</i> <i>yaku</i> as the skeleton, 
+<i>Taro</i> and <i>appurupai</i> as the sample nouns, 
+and <tt>Male</tt> and <tt>Confectionery</tt> as the semantic categories; 
+that the target slot is the J-S<small>UBJ</small> one; 
+and that the current search point is <i>C</i><sub>2</sub> (<tt>concrete</tt> in Figure 2), 
+then the substituted nouns are categorized as either <tt>Palaces</tt> or <tt>Object</tt> or descendants of them.
+</p>
+<p>
+The approaches use the generated sentences 
+for estimating the acceptable rate and the translatable rate of the current search point <i>C<sub>i</sub></i>. 
+The main issues are that, in order to estimate both rates within significantly small errors 
+by using only the limited number of generated sentences, 
+how do the approaches select the nouns substituted for the sample noun and how do the approaches estimate both rates.
+</p>
+<p>
+To resolve the two issues, the approaches employ stratified sampling [8], 
+a sampling survey technique in statistics, in the following. 
+<strong>Cluster</strong><i>i</i> is separated into subsets of nouns, from which some substituted nouns are collected, 
+where the number of substituted nouns from each subset is decided 
+according to the total number of nouns in the subset as will be seen later. 
+Then, the acceptable rate of <i>C<sub>i</sub></i> is estimated 
+as the weighted average of the acceptable rates for the subsets, 
+where the weight for each subset is the number of substituted nouns. 
+For example, assume that <i>C<sub>i</sub></i> is separated into two subsets, 
+that the ratio of the substituted nouns for the subsets is 3:1, 
+and that the acceptable rates for the subsets are 100% and 50%, respectively. 
+Then, the acceptable rate of <i>C<sub>i</sub></i> is estimated as (100*3+50*1)/ (3+1). 
+The translatable rate of <i>C<sub>i</sub></i> is also estimated in the same way.
+</p>
+<p>
+Stratified sampling does not provide a way to separate <strong>Cluster</strong><sub><i>i</i></sub> the proposed method, 
+therefore, adopts an original technique separating <strong>Cluster</strong><sub>i</sub> into subsets, 
+which is decided step by step as follows. 
+For example, when the total number of substituted nouns in <strong>Cluster</strong><sub>2</sub> is 40 
+under the same input as seen at the beginning of this section, 
+at first, allocate the number of substituted nouns (<strong>the sample size</strong>) 
+in <strong>Cluster</strong><sub>2</sub> among all of the siblings of <i>C</i><sub>3</sub> 
+(<tt>Agents</tt> in Figure 2) according to the ratio of the number<a name="rfn2" href="c26.html#fn2"><sup>2</sup></a> of leave 
+that are descendants of each sibling of <i>C</i><sub>3</sub>, for example, 3:1. 
+In this example, the sample sizes for <tt>Palaces</tt> and <tt>Object</tt> become 30 and 10, respectively. 
+For each sibling, allocate the sample size of the sibling among all of the children in the same way, 
+until the sample size is too small, for example, equal to or less than 15. 
+If the ratio of the number of leaf-level descendants of <tt>Natural</tt>, 
+<tt>Regions</tt> and <tt>Facilities</tt> is 2:1:3, 
+then the sample sizes<a name="rfn3" href="c26.html#fn3"><sup>3</sup></a> 
+for <tt>Natural</tt>, <tt>Regions</tt>, and <tt>Facilities</tt> become 10, 5, and 15. 
+Since the sample size of <tt>Object</tt> is less than 15, 
+the sample size of <tt>Object</tt> is not allocated among the children: <tt>Animate</tt> and <tt>Inanimate</tt>. 
+After this, for each child, allocate the sample size of the child among all of the children of the child recursively, 
+until the sample size is too small. 
+Let <i>S</i> (<i>i</i>,<i>i</i> ), (1 &lt;= <i>j</i> &lt;= <i>L<sub>i</sub></i> ), 
+hereafter, denote the semantic categories whose sample sizes are not allocated to their children. 
+In the example, <i>L</i><sub>2</sub> = 4 and <i>S</i> (2, <i>j</i> ) 
+(1 &lt;= <i>j</i> &lt;= <i>L</i><sub>2</sub>) correspond to <tt>Natural</tt>, 
+<tt>Regions</tt>, <tt>Facilities</tt>, and <tt>Object</tt>.
+</p>
+<p>
+<i>S</i> (<i>i</i>, <i>j</i> ), (1 &lt;= <i>j</i> &lt;= <i>L<sub>i</sub></i> ) are used 
+as the subsets used by the stratified sampling. 
+The substituted nouns are selected from <i>S</i> (<i>i</i>, <i>j</i> ) or descendants of <i>S</i> (<i>i</i>, <i>j</i> ) 
+in the order of frequency in use. 
+The number of selected nouns is the sample size for <i>S</i> (<i>i</i>, <i>j</i> ).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Presenting Queries and Getting Answers</font></h2></a>
+
+<p>
+For each <i>S</i> (<i>i</i>, <i>j</i> ), (1 &lt;= <i>j</i> &lt;= <i>L<sub>i</sub></i> ), 
+the approaches for searching simultaneously present the generated sentences to lexicographers. 
+This simultaneous presentation prevents the lexicographers from misunderstanding the meanings of the substituted nouns. 
+Since all of the substituted nouns in the presented sentences are categorized in a certain semantic category, 
+the lexicographers can easily guess the correct meaning of a substituted noun.
+</p>
+<p>
+The lexicographers judge whether each substituted noun can be semantically collocated 
+with the verb of the SL side in the acquired SPP (Q1). 
+If and only if this answer is positive, they also judge whether the substituted noun can give a context 
+where the most plausible equivalent for the verb of the SL side is the verb of the TL side (Q2). 
+The lexicographers make their determinations by answering queries: (Q1) and (Q2). 
+For example, as explained in detail in Section 2, 
+they answer positive to both (Q1) and (Q2) for (2) and negative to (Q1) for (3). 
+Moreover, they answer positive to (Q1) and negative to (Q2) for (4).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Approaches for searching for an appropriate category</font></h2></a>
+
+<p>
+The three approaches for searching differ in the order 
+in which they search for an appropriate semantic category (Figure 3). 
+The first two approaches, the Bottom-up approach and the Top-down approach, are the same as a linear search. 
+The last approach, the Dichotomy approach, is the same as a binary search. 
+For convenience in the following explanation, let us define 
+that <i>L<sub>M</sub></i> = 1 and <i>S</i> (<i>M</i>,1) = <i>C<sub>M</sub></i>.
+</p>
+<p>
+The Bottom-up approach applies the above query strategy to each semantic category in reverse order of depth, 
+<i>C<sub>M</sub></i> , <i>C</i><sub><i>M</i>-1</sub>, ... . 
+When an ng-category is found, this approach stops searching and outputs the latest ok-category.
+</p>
+<p>
+The Top-down approach applies the above query strategy to each semantic category in order of depth, 
+<i>C</i><sub>1</sub>, <i>C</i><sub>2</sub>, ... . 
+When an ok-category is found, this approach stops searching and outputs that ok-category.
+</p>
+<p>
+The Dichotomy approach initially applies the above query strategy to the leaf and the root in order. 
+Next, this approach prepares a candidate list, 
+(<i>C</i><sub>1</sub>, <i>C</i><sub>2</sub>, ... , <i>C<sub>i</sub></i> , ... , <i>C<sub>M</sub></i> ) 
+and applies the above query strategy to the semantic category in the middle of the candidate list 
+or to the lower semantic category closest to the middle if a precisely central semantic category does not exist. 
+According to whether the semantic category is an ok-category or not, 
+the approach revises the candidate list in the same way as a binary search does. 
+Then the above procedure by using the updated candidate list is repeated. 
+Consequently, the first and last elements of the candidate list are always an ng-category and an ok-category, 
+respectively, after the root and leaf semantic categories are processed. 
+When the length of the candidate list becomes 2, the approach stops searching and outputs the last element.
+</p>
+<p>
+As mentioned above, the only task that lexicographers have to do is to answer each query. 
+Consequently, the resuIting categories follow a specific generalization standard. 
+After repeatedly applying one of the approaches for searching to each corresponding input, 
+the proposed method can specify all of the appropriate semantic categories for each slot in the SPP.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Experimental Work</font></h2></a>
+
+<p>
+The authors evaluated the proposed method on the three following points.
+</p>
+<p>
+<ul>
+<li> How different are the semantic categories acquired 
+	by the proposed method from those manually specified by lexicographers?
+	<br><br>
+<li> Are the semantic categories acquired by the proposed method better than those manually specified by lexicographers?
+	<br><br>
+<li> How is the proposed method able to contribute to the acquisition of SPPs?
+</ul>
+</p>
+<p>
+In order to evaluate the above points, the authors attempted to acquire semantic categories for SPPs 
+whose if-parts corresponded to the skeletons in Table 1. 
+The sample nouns inputted to the proposed method are shown under the skeletons. 
+The target of the generalization is indicated by underline. 
+The semantic hierarchy used was that of ALT-J/E as shown in Figure 2. 
+The minimal acceptable rate and the minimal transIatable rate were fixed at 2% and 80%, respectively. 
+The sample size for <i>C<sub>i</sub></i> and the lower threshold of the sample sizes were 50 and l0, respectively.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1. Skeletons and sample sentences for interactive generalization
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>No</td>
+    <td>Skeleton <br>
+	Sample Sentence</td>
+    <td>Category <br> specified manually</td></tr>
+<tr><td align=right>1</td>
+    <td><i><u>N1</u>-ga N2-wo yomu</i> "N1 read N2" <br>
+	<i><u>Chichi</u>-ga hon-wo yomu</i> "My father reads a book"</td>
+    <td valign=top><tt>Agents</tt></td></tr>
+<tr><td align=right>2</td>
+    <td><i>N1-ga <u>N2</u>-wo yomu</i> "N1 read N2" <br>
+	<i>Chichi-ga <u>hon</u>-wo yomu</i> "My father reads a book"
+    <td valign=top><tt>Abstract Thing</tt> (<tt>Idea</tt>)</td></tr>
+<tr><td align=right>3</td>
+    <td><i>N1-ga <u>N2</u>-wo yomu</i> "N1 read N2" <br>
+	<i>Chichi-ga <u>houkokusho</u>-wo yomu</i> "My father reads a report"
+    <td valign=top><tt>Spirit/Soul/Mind</tt></td></tr>
+<tr><td align=right>4</td>
+    <td><i>N1-ga N2-wo <u>N3</u>-ni erabu</i> "N1 elect N2 N3" <br>
+	<i>Juhmin-ga kare-wo <u>kaichou</u>-ni erabu</i> "Residents elect him their head"
+    <td valign=top><tt>Chief/President/Manager</tt></td></tr>
+<tr><td align=right>5</td>
+    <td><i>N1-ga <u>N2</u>-de nyushou-suru</i> "N1 win a prize in N2" <br>
+	<i>Kare-ga <u>Konkuhru</u>-de nyushou-suru</i> "He wins a prize in the contest"
+    <td valign=top><tt>Abstract Thing</tt> (<tt>Behavior</tt>)</td></tr>
+<tr><td align=right>6</td>
+    <td><i>N1-ga <u>N2</u>-wo tatamu</i> "N1 close N2" <br>
+	<i>Chichi-ga <u>mise</u>-wo tatamu</i> "My father closes his shop"
+    <td valign=top><tt>Facilities</tt></td></tr>
+<tr><td align=right>7</td>
+    <td><i>N1-ga <u>N2</u>-wo unten-suru "N1 run N2"</i> <br>
+	<i>Chichi-ga <u>hatsudouki</u>-wo unten-suru</i> "My father runs an electric dynamo"
+    <td valign=top><tt>Machinery</tt></td></tr>
+<tr><td align=right>8</td>
+    <td><i>N1-ga <u>N2-wo</u> nageru</i> "N1 throw N2" <br>
+	<i>Chichi-ga <u>bohru</u>-wo nageru</i> "My father throws a ball"
+    <td valign=top><tt>Objects</tt></td></tr>
+<tr><td align=right>9</td>
+    <td><i><u>N1</u>-ga hanpatsu-suru</i> "N1 rebound" <br>
+	<i><u>Kabusiki</u>-ga hanpatsu-suru</i> "Shares rebound"
+    <td valign=top><tt>Economic system</tt></td></tr>
+<tr><td align=right>10</td>
+    <td><i>N1-ga <u>N2</u>-ni tassuru</i> "N1 rise to N2" <br>
+	<i>Doru-ga <u>saitakane</u>-ni tassuru</i> "The dollar rises to the highest level"
+    <td valign=top><tt>Price/Cost</tt></td></tr>
+</table>
+</p>
+
+<p>
+Two lexicographers, who generated SPPs of ALT-J/E, participated in the experiments. 
+Each semantic category in the 3rd column indicates a semantic category specified manually 
+for the SPP corresponding to the skeleton in the 2nd column.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2. Experimental results: the relative position of the acquired semantic category to that specified manually, 
+the number of paired queries: (Q1) and (Q2) (See Section 3.2) and the time spent
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>No</td><td colspan=3>Difference</td>
+	<td colspan=3># of paired Queries</td><td colspan=3>Time (M.)</td></tr>
+<tr align=center><td>&nbsp;B&nbsp;</td><td>&nbsp;T&nbsp;</td><td>&nbsp;D&nbsp;</td>
+	<td>B</td><td>T</td><td>D</td><td>B</td><td>T</td><td>D</td></tr>
+<tr></tr>
+<tr align=right><td>1</td><td>0</td><td>0</td><td>0</td>
+	<td>259</td><td>53</td><td>53</td><td>23</td><td>6</td><td>5</td></tr>
+<tr align=right><td>2</td><td>0</td><td>0</td><td>0</td>
+	<td>158</td><td>155</td><td>155</td><td>17</td><td>16</td><td>18</td></tr>
+<tr align=right><td>3</td><td>-1</td><td>+3</td><td>+3</td>
+	<td>119</td><td>51</td><td>51</td><td>24</td><td>10</td><td>5</td></tr>
+<tr align=right><td>4</td><td>0</td><td>0</td><td>0</td>
+	<td>55</td><td>262</td><td>158</td><td>9</td><td>34</td><td>15</td></tr>
+<tr align=right><td>5</td><td>-2</td><td>-2</td><td>-2</td>
+	<td>153</td><td>259</td><td>204</td><td>8</td><td>21</td><td>11</td></tr>
+<tr align=right><td>6</td><td>-1</td><td>-1</td><td>-1</td>
+	<td>147</td><td>208</td><td>157</td><td>10</td><td>13</td><td>12</td></tr>
+<tr align=right><td>7</td><td>-1</td><td>-1</td><td>-1</td>
+	<td>104</td><td>310</td><td>208</td><td>10</td><td>54</td><td>8</td></tr>
+<tr align=right><td>8</td><td>-2</td><td>-2</td><td>-2</td>
+	<td>208</td><td>207</td><td>156</td><td>55</td><td>75</td><td>13</td></tr>
+<tr align=right><td>9</td><td>0</td><td>0</td><td>0</td>
+	<td>158</td><td>212</td><td>160</td><td>7</td><td>12</td><td>8</td></tr>
+<tr align=right><td>10</td><td>0</td><td>0</td><td>0</td>
+	<td>50</td><td>316</td><td>155</td><td>16</td><td>4</td><td>10</td></tr>
+<tr></tr>
+<tr align=right><td>Ave.</td><td>--</td><td>--</td><td>--</td>
+	<td>141.1</td><td>203.3</td><td>145.7</td><td>17.9</td><td>24.5</td><td>10.5</td></tr>
+</table>
+</p>
+
+<p>
+Table 2 reports experimental results. 
+The 2nd to 4th columns show the relative position of an acquired semantic category 
+in comparison to a semantic category manually specified. 
+For example, +1 or -1 indicates that the acquired semantic category is one semantic category 
+above the semantic category manually specified or below it, respectively. 
+Each number in the 5th to 7th columns shows the number of paired queries, 
+i.e., (Q1) and (Q2) in Section 3.2, presented to the lexicographers. 
+Each number in the 8th to 10th columns shows the time spent for generalization of the sample noun to the target slot. 
+B, T, and D on the 2nd line indicate 
+that the approach for the searching is, Bottom-up, Top-down, and Dichotomy, respectively. 
+Through this experiment, the following things could be found:
+</p>
+<p>
+<ul>
+<li> Although the proposed method acquired different semantic categories in five rows out of ten, 
+	the required semantic categories whose relative positions were one or two 
+	below were judged by the lexicographers to be better than those specified manually. 
+	This is because manual specification to a translation example in their minds is very sensitive, 
+	even if the example belongs to a minority of translation examples, 
+	accordingly, semantic categories specified manually tend to become over general.
+	<br><br>
+<li> The above consideration tells us that the Bottom-up approach is the best approach for searching. 
+The average time spent was 17.9 minute. 
+On the other hand, the lexicographers reported 
+that the time spent by manual specification was 15 to 20 minutes on average. 
+The efficiency of the proposed method is, 
+therefore, almost equal to that of manual specification as far as one compares the time spent. 
+Note that, although the trials using each approach were done in the following order: Top-down, Bottom-up, and Dichotomy, 
+the ratio of the number of paired queries between Top-down and Bottom-up 
+was almost equal to that of the time spent between them. 
+The lexicographers, therefore, did not remember the Q&A in the previous trial: 
+the Top-down approach, at lease when they moved to the next trial: the Bottom-up approach.
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Conclusion</font></h2></a>
+
+<p>
+This paper proposed a method to acquire appropriate semantic categories 
+to be inputted into each slot of an SPP by using queries based on a semantic hierarchy. 
+The queries ask whether the noun corresponding to the target slot in presented sentences 
+can be semantically collocated with the verb in SL and ask whether the noun can also give a context 
+where the most plausible equivalent for the verb in SL is the verb of the TL side in the acquired SPP.
+</p>
+<p>
+The method allows lexicographers to acquire more plausibIe semantic categories for SPPs 
+by simply answering the queries presented by the method.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Y. Akiba, M. Ishii, H. Almuallim, and S. Kaneda. 
+	Learning English verb selection rules from hand-made rules and translation examples. 
+	In <i>Proc. TMI-95</i>, pages 206-220, 1995.
+	<br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>H. Almuallim, Y. Akiba, and S. Kaneda. 
+	On handing tree-strtictured attributes in decision tree learning. 
+	In <i>Proc. ICML-95</i>, pages 12-20, 1995.
+	<br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>K. W. Church and R. L. Mercer. 
+	Introduction to the special issue on computational linguistics using large corpora.
+	<i>Computational Linguistics</i>, 19:1-24, 1993.
+	<br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>M. Dorna and M. C. Emele. 
+	Efficient implementation of a semantic-based transfer approach. 
+	In <i>Proc. ECAI-96</i>, pages 567-571, 1996.
+	<br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>S. Ikehara, M. Miyazaki, S. Shirai, A. Yokoo, H. Nakaiwa, K. Ogura, Y. Ooyama, and Y. Hayashi. 
+	<i>Goi-Taikei: A Japanese Lexicon (in Japanese)</i>. 
+	Iwanami Shoten Publisher, Tokyo, 1997.
+	<br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>S. Ikehara, S. Shirai, A. Yokoo, and H. Nakaiwa. 
+	Toward an MT system without pre-editing -effects of new methods in ALT-J/E. 
+	In <i>Proc. MT Summit-3</i>, pages 10l-106, 1991.
+	<br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>G. A, Miller. 
+	Wordnet: a lexical database for English. 
+	<i>Communications of the ACM</i>, 38(11):39-41, 1995.
+	<br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>R. L. Scheaffer, W. I. Mendenhall, and R. L. Ott. 
+	<i>Elementary Survey Sampling (5th ed.)</i>. 
+	Duxbury Press, California, 1996.
+	<br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>S. Shirai, S. Ikehara, A. Yokoo, and H. Inoue. 
+	The quantity of valency pattern pairs required for Japanese to English MT and their compilation. 
+	In <i>Proc. NLPPS-95</i>, pages 443-448, 1995.
+	<br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>H. Tanaka. 
+	Decision tree learning algorithm with structured application to verbal case-frame acquisition. 
+	In <i>Proc. Coling-96</i>, pages 943-948, 1996.
+	<br><br>
+<dt><a name="ref11"><strong>[11]</strong></a>
+<dd>T. Utsuro. 
+	Sense classincation of verbal polysemy based on bilingual class/class association. 
+	In <i>Proc. COLING-96</i>, pages 968-973, 1996.
+	<br><br>
+<dt><a name="ref12"><strong>[12]</strong></a>
+<dd>J. Yang. 
+	Towards the automatic acquisition of lexical selection rules. 
+	In <i>Proc. MT Summit-7</i>, pages 397-403, 1999.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+Some nouns like <i>Zeri</i> "jelly" are categorized as <tt>Confectionery</tt>;
+consequently, semantically strarige sentences as <i>watasi-wa zeri-wo, yaku</i>
+"I bake jelly" can meet the SPP shown in Figure 1. 
+It does not matter that sentences line this meet an SPP since they are not inputted into MT systems. 
+(<a href="c26.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+There numbers are used as convenient indicators of semantic diversity under each sibling. 
+(<a href="c26.html#rfn2">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+When the sample size becomes a decimal as 13.3 (= 20*2/3), the decimal is rounded up. 
+(<a href="c26.html#rfn3">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

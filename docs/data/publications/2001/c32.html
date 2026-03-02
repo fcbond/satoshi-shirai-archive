@@ -1,0 +1,851 @@
+<html>
+<head>
+<title>Kyonghee Paik &amp; Satoshi Shirai (ATR), ICSP 2001, August 22-24, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Exploiting Linguistic Similarities for Machine Translation: A Case Study of Japanese-to-Korean</font>
+<br><br>
+
+<font size=+2>Kyonghee Paik and Satoshi Shirai</font>
+<br><br>
+
+<font size=+1>ATR Spoken Language Translation Research Lab</font>
+<br>
+<font size=+1>2-2-2 Hikari-dai, Seika-cho, Kyoto 619-0288, JAPAN</font>
+<br>
+<font size=+1><tt>{kpaik, shirai}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+
+<p>
+This paper examines how far it is possible to do Japanese-to-Korean machine translation with minimal transfer knowledge. 
+Although Japanese and Korean are very similar, 
+there are no JK translation systems that explicitly take advantage of the similarities. 
+Conventional approaches to machine translation require many linguistic resources 
+either as transfer rules or parallel corpora. 
+We are attempting to measure how little knowledge can be used for automatic translation between similar languages, 
+starting off with only a transfer lexicon and a target language corpus. 
+The proposed method of machine translation exploits the linguistic similarities 
+to achieve acceptable translation with low cost.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>[ In <i>Proceedings of ICSP 2001</i>, pp.737-742 (August, 2001). ]</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c32.html#chap-1">1 Introduction</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-1.1">1.1 Background</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-1.2">1.2 Linguistic Similarity</a></td></tr>
+<tr><td><a href="c32.html#chap-2">2 Linguistic Similarities of Korean and Japanese</a></td></tr>
+<tr><td><a href="c32.html#chap-3">3 Structure of Japanese-to-Korean Machine Translation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-3.1">3.1 Algorithm</a></td></tr>
+<tr><td><a href="c32.html#chap-4">4 Experiment</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-4.1">4.1 Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-4.2">4.2 Example</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#chap-4.3">4.3 Results</a></td></tr>
+<tr><td><a href="c32.html#chap-5">5 Discussion</a></td></tr>
+<tr><td><a href="c32.html#chap-6">6 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c32.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.1"><h2><font color=#ff0000>1.1 Background</font></h2></a>
+
+<p>
+In general, machine translation systems consist of three major
+components: parsing, transfer and generation. Accordingly, it is true
+that we can improve the quality of machine translation by improving
+the quality of each component. The quality of the transfer component
+itself depends on the number of entries in the transfer dictionaries
+and the number of transfer rules. These resources in turn depend on
+the knowledge provided by bilinguals who are able to describe the
+similarities and differences of the two languages and extract rules
+from them. The success of the machine translation system depends on
+whether we can secure these resources or not.
+</p>
+<p>
+Research has focused on the improvement of quality of translation ever
+since machine translation has come into being in the world. However,
+there are other factors we have to take into account in order to
+develop machine translation systems with new language pairs. That is,
+the cost of development of machine translation and the relation
+between the quality of machine transIation and the cost invested. Some
+people think whether the cost is high or low is a trivial issue for
+machine translation research itself. However, it is a very important
+factor when developing new machine translation systems with limited
+time, money, and human resources who know language X as well as
+language Y.
+</p>
+<p>
+In a transfer-based system, many transfer rules are required,
+especially for language pairs with very different syntax. Furthermore,
+when we deal with speech translation, we have to consider factors
+which cannot be solved with rules such as slips of the tongue and
+sentence fragments. These factors complicate the parsing process even
+more.
+</p>
+<p>
+Only a small number of transfer rules are needed for similar language
+pairs (Narita, 1996). Since a transfer-based system faces the
+difficulty of dealing with spoken language, it is reasonable to get
+rid of rules from the beginning. So far the relationship between the
+number of rules needed and the linguistic similarity has not been
+shown clearly. The motivation of the present research is to discover
+what level of translation can be achieved using what level of rules
+among linguistically similar language groups. We begin with
+J.apaneseesto-Korean machine translation, since these are very similar
+languages, and are easy to evaluate at the moment. Then, we will work
+on other similar language pairs such as Hungarian, Turkish, and so on.
+</p>
+<p>
+This paper is structured as follows: Section 1.2 and Section 2
+describe some linguistic similarities we are focusing on and some
+specific similarities between Japanese and Korean in detail. Then, we
+will explain our algorithm for thorough direct translation in Section
+3. In Section 4, we will show our results of the direct translation,
+and discussion in Section 5 and conclusion in Section 6.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.2"><h2><font color=#ff0000>1.2 Linguistic Similarity</font></h2></a>
+
+<p>
+In this paper we focus on similarities which are related to word order
+(Greenberg, 1978), The following are the related points we will
+consider:
+</p>
+<p>
+<ul>
+<li>the order of Adpositions and Nouns: Prepositions or postpositions <br>
+	K:<i>gae<sub>noun</sub>-ga<sub>postposition</sub></i> <br>
+	J:<i>inu<sub>nou</sub>n-ga<sub>postposition</sub></i> <br>
+	E:<i>for<sub>preposition</sub> dogs<sub>noun</sub></i> <br>
+<li>the order of Adjective (A) and Noun (N) <br>
+	K:<i>deoun<sub>adjective</sub> nal<sub>noun</sub></i> <br>
+	J:<i>atsui<sub>adjective</sub> hi<sub>noun</sub></i> <br>
+	E:<i>a hot<sub>adjective</sub> day<sub>noun</sub></i> <br>
+<li>the order of Subject, Object, and Predicate (SVO or SOV) <br>
+	K:<i>John-i<sub>subj</sub> chaek-ul<sub>obj</sub> sassta<sub>verb</sub></i>. <br>
+	J:<i>John-gasubj hon-oobj kattaverb</i>. <br>
+	E:<i>John<sub>subj</sub> bought<sub>verb</sub> a book<sub>obj</sub>.</i> <br>
+</ul>
+</p>
+<p>
+Table 1<a name="rfn1" href="c32.html#fn1"><sup>1</sup></a> shows how languages group according to these
+distinctions. For example, Arabic, Hebrew and Samoan
+are similar in terms of these three word order matters. The
+aim of the paper, then, will be to investigate the relation
+between the number of transfer rules and the quality of
+machine translation using these similarities. In addition,
+we want to propose a method of building machine translation systems using similar language pairs and suggest how
+to build such systems cost-effectively.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1 : Word-Order-based Typological Classification
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td rowspan=3>post</td><td rowspan=2>AN</td><td>SOV</td>
+    <td>Bashkir Bengali Buriat Burmese Gujarati Hungarian Huichol <strong>Japanese</strong> Kannada Konkow 
+	<strong>Korean</strong> Kurku Mongolian Ossetic Panjabi Piro Quechua Telugu Turkish Uzbek Vogul Yakut</td></tr>
+<tr>						<td>SVO</td> <td>Finnish Guaarani Ojibwa</td></tr>
+<tr>			   <td>NA</td>		<td>SOV</td><td>Basque Chitimacha etc.</td></tr>
+<tr><td rowspan=8>pre</td> <td rowspan=4>AN</td><td>SOV </td><td>Amharic</td></tr>
+<tr>						<td>SVO </td><td>Chinese English Russian etc.</td></tr>
+<tr>						<td>VSO </td><td>Chontal Squaamish</td></tr>
+<tr>						<td>VOS </td><td>Tagalog</td></tr>
+<tr>			   <td rowspan=4>NA</td><td>SOV </td><td>Persian Tajik etc.</td></tr>
+<tr>						<td>SVO </td><td>French Thai Vietnamese etc.</td></tr>
+<tr>						<td>VOS </td><td>Malagasy</td></tr>
+<tr>						<td>VSO </td><td>Arabic Hebrew Samoan etc.</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Linguistic Similarities of Korean and Japanese</font></h2></a>
+
+<p>
+Korean and Japanese have many similarities. First, the
+word order of the two languages is largely the same:
+both are SOV (Subject-Object-Verb) languages, modifying words prepose nouns and case markers comes after
+the nouns. Consider (1) where Japanese and Korean share
+the same word order.
+</p>
+<p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(1) &nbsp; </td>
+    <td><img src="c32/j0000.gif">-<img src="c32/j0001.gif">&nbsp;&nbsp;</td><td><img src="c32/j0002.gif">-<img src="c32/j0003.gif">&nbsp;&nbsp;</td><td><img src="c32/j0004.gif">&nbsp;&nbsp;</td><td><img src="c32/j0005.gif"></td></tr>
+<tr><td><img src="c32/kaepal.gif">&nbsp;&nbsp;</td><td><img src="c32/peonye.gif">&nbsp;&nbsp;</td><td><img src="c32/kwanky.gif">&nbsp;&nbsp;</td><td><img src="c32/keomth.gif">. </td></tr>
+<tr><td>development-cost-<sub>COM</sub>&nbsp;&nbsp;</td><td>translation-quality-<sub>ADN</sub>&nbsp;&nbsp;</td><td>relation-<sub>ACC</sub>&nbsp;&nbsp;</td><td>examine-<sub>VERB</sub></td></tr>
+</table>
+</p>
+
+<p>
+As we can see from (1), it iS possible to translate word
+to word without any consideration of word order. Because
+of this, Japanese-to-Korean translation is said to be comparatively easy.
+</p>
+<p>
+Second, the vocabularies of both languages have many
+words borrowed from Chinese. Around 60% of Korean
+words are based on Chinese (Sohn, 1999) as are 60% of
+Japanese words (Shibatani, 1990, ppl42-I43) and it is
+said that roughly 70% of the Korean Chinese characters
+(<i>Hanja</i>) are shared with the Japanese Chinese characters
+(<i>Kanji</i>). Watanabe and Suzuki ( 1981) describe the similarities of the two languages. Similarities arise for the
+following reasons: sharing many Chinese characters and
+introduction of Japanese-made Chinese words during the
+colonized period.
+</p>
+<p>
+A lot of Japanese-to-Korean translation systems have
+adopted direct translation methods taking advantage of
+the similarities. However, there is no explicit measurement showing how much we can translate between similar language groups and no explicit explanation of the
+correlation between introduced rules and translation results. Many papers mention that case markers and verb-endings are the main problems for Japanese-to-Korean
+machine translation (Kim and Okoma, 1996). This is a
+well-expected problem because the stem and ending of
+inflected words can not be automatically extracted by the
+method of crossing two dictionaries mediated by English.
+In order to solve this problem, we may want to use translation tables which includes inflecting words following Kim
+and Okoma (1996) and Kim et al. (1998). For the present
+goal, we will set aside this problem, because making a system which is extendible and applicable to other language
+pairs, is more important than trying to build a perfect system, which may be impossible to make, at least quickly.
+</p>
+<p>
+Our method is only applicable to language pairs which
+belong to the same language family. This is a small subset
+of the world's languages, but we expect that many similar
+languages are in contiguous areas, and so there will be a
+demand for translation. Further, there is still a real need
+for translation of languages that do not have a developed
+infrastructure: for example, lack of researchers who can
+understand both source languages and target languages in
+order to make rules and evaluate the results, insufficient
+bilingual corpora and so on. Comparing to this situation,
+all we need for the present goal is a monolingual corpus
+and a transfer dictionary. As for a transfer dictionary, we
+can automatically build transfer dictionaries by crossing
+any other novel language pairs, so long as there is a dictionary mediated by English.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Structure of Japanese-to-Korean Machine Translation</font></h2></a>
+
+<p>
+In this section, we will show our method of simpIe and direct Japanese-to-Korean machine translation. So long as
+we seek for a realistic method, it necessarily requires that
+we should get the necessary resources with ease. Henceforth, we will use relevant resources which already exist as
+possible as we can. As for a transfer dictionary, however,
+if there is no such a dictionary as, for instance, Vogul-to-Burmese or Hungarian-to-Mongolian, we need to build
+them from scratch. Moreover, if time and money are limited, we have to build them with information and knowledge at hand. It is because that we choose the method
+to build transfer dictionaries by crossing two English-mediated dictionaries, which are more likely to exist. We
+will adopt Tanaka and Umemura's method ( 1994) to build
+a Japanese-to-Korean dictionary. This method is applicable to many other language pairs. Since the detail of building a Korean-to-Japanese transfer dictionary reusing existing resources is shown in Shirai and Yamamoto (2001),
+we will not go into the details in this paper. Briefly speaking, their Korean-to-Japanese transfer dictionary is automatically created by crossing a Japanese <==> English dictionary with a Korean <==> English one. It is theoretically
+possible to build any transfer dictionary without the help
+of bilingual speakers of source and target language, so
+long as we can use language similarities and knowledge
+of native language. In Section 3.1, we examine the corresponding machine translation processes, assuming that
+the Japanese-to-Korean transfer dictionary exists and the
+source language and the target language are similar.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Algorithm</font></h2></a>
+
+<p>
+Most machine translation adopts the following processes.
+First comes the morphological analysis process. Its major
+role is to identify the words in the source language text.
+To do that, it has to find out any possible words out of
+the expression, while looking up to a word dictionary and
+then make a graph of the word candidates. Also, there
+must be statistical information to judge the suitability of
+whether a word is relevant or not. Using this information,
+the suitability of the word segmentation can be checked.
+This method is commonly used nowadays in the machine
+translation field.
+</p>
+<p>
+We exploit the fact that the languages are similar, by
+directly using the transfer dictionary in the morphological analysis, as shown below. The most important advantage of using linguistic similarities is that we can make the
+analyses of syntax and semantics lighter.
+</p>
+<p>
+<ol>
+<li>For each segment in the source language, look up any
+	possible words in the transfer dictionary, and make a
+	graph of the target language translation equivalents.
+	<br><br>
+<li>Use a (monolingual) target language corpus to find
+	the best path through the graph, considering the frequency of any n-grams.
+</ol>
+</p>
+<p>
+We show an example of this, for sentence (2) in Figure 1 . Words from the best path are boxed. We give a
+fuller explanation of this example in Section 4.2.
+</p>
+
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td></td><td rowspan=20></td><td colspan=7>BOS</td></tr>
+<tr><td>
+<tr align=center><td><img src="c32/j0006.gif"></td><td rowspan=2 bgcolor=#ffff00><img src="c32/kajang.gif"></td><td><img src="c32/maen.gif"></td><td><img src="c32/il.gif"></td><td><img src="c32/hana.gif"></td><td><img src="c32/katheu.gif"></td><td><img src="c32/jeil.gif"></td></tr>
+<tr align=center><td><img src="c32/j0007.gif"></td><td><img src="c32/peon.gif"></td></tr>
+<tr align=center><td><img src="c32/j0008.gif"></td><td rowspan=2><img src="c32/ssa.gif"></td><td rowspan=2 bgcolor=#ffff00><img src="c32/jeorye.gif"></td></tr>
+<tr align=center><td><img src="c32/j0009.gif"></td></tr>
+<tr align=center><td><img src="c32/j0010.gif"></td><td rowspan=4 bgcolor=#ffff00><img src="c32/singke.gif"></td></tr>
+<tr align=center><td><img src="c32/j0011.gif"></td></tr>
+<tr align=center><td><img src="c32/j0012.gif"></td></tr>
+<tr align=center><td><img src="c32/j0013.gif"></td></tr>
+<tr align=center><td><img src="c32/j0014.gif"></td><td bgcolor=#ffff00><img src="c32/neun.gif"></td></tr>
+<tr align=center><td><img src="c32/j0015.gif"></td><td rowspan=2><img src="c32/eoi.gif"></td><td bgcolor=#ffff00><img src="c32/eo.gif"></td></tr>
+<tr align=center><td><img src="c32/j0009.gif"></td><td rowspan=3 bgcolor=#ffff00><img src="c32/eolma.gif"></td><td rowspan=2><img src="c32/ka.gif"></td></tr>
+<tr align=center><td><img src="c32/j0016.gif"></td></tr>
+<tr align=center><td><img src="c32/j0017.gif"></td></tr>
+<tr align=center><td><img src="c32/j0018.gif"></td><td rowspan=3><img src="c32/pnikka.gif"></td><td rowspan=2 bgcolor=#ffff00><img src="c32/ipnita.gif"></td><td rowspan=2><img src="c32/malipn.gif"></td><td><img src="c32/eseo.gif"></td><td><img src="c32/euro.gif"></td><td><img src="c32/keurae.gif"></td><td><img src="c32/j0019.gif"></td></tr>
+<tr align=center><td><img src="c32/j0020.gif"></td></tr>
+<tr align=center><td><img src="c32/j0021.gif"></td><td bgcolor=#ffff00><img src="c32/haneun.gif"></td><td><img src="c32/neunka.gif"></td><td><img src="c32/moki.gif"></td><td><img src="c32/nji.gif"></td><td><img src="c32/pnikka.gif"></td><td>?</td></tr>
+<tr></tr>
+<tr align=center><td></td><td colspan=7>EOS</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1 : Example of the Algorithm
+</i></strong></div>
+</p>
+
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=4 valign=top>(2) &nbsp;</td>
+    <td><img src="c32/j0022.gif">&nbsp;&nbsp;</td><td><img src="c32/j0023.gif">&nbsp;&nbsp;</td><td><img src="c32/j0024.gif">&nbsp;&nbsp;</td><td><img src="c32/j0025.gif">&nbsp;&nbsp;</td><td><img src="c32/j0026.gif">&nbsp;&nbsp;</td></tr>
+<tr><td>ichiban&nbsp;&nbsp;</td><td>yasui&nbsp;&nbsp;</td><td>shinguru-wa&nbsp;&nbsp;</td><td>o-ikura&nbsp;&nbsp;</td><td>desu-ka&nbsp;&nbsp;</td></tr>
+<tr><td>most&nbsp;&nbsp;</td><td>cheap&nbsp;&nbsp;</td><td>single-<sub>TOP</sub>&nbsp;&nbsp;</td><td><sub>HON</sub>-how_much&nbsp;&nbsp;</td><td>is-<sub>Q</sub>&nbsp;&nbsp;</td></tr>
+<tr><td colspan=5>How much is the cheapest single [room]?</td></tr>
+</table>
+</p>
+<p>
+In addition to this, we need at least two more processes
+for Japanese-to-Korean translation. One is to take verb inflections into consideration, since Japanese verbs and adjectives are heavily inflected. As mentioned before, for
+high performance we would want to use rules and tables.
+However, we will focus on how low or high a level we
+can reach using this simple method and how different it is
+according to different language pairs. At the moment, we
+do not add any rules or use tables to solve the inflecting
+words. The other is target language morphological irregularities, such as the fact that the form of the topic marker
+differs depending on whether it follows a vowel or consonant.
+</p>
+<p>
+Let us briefly explain how our system will deal with the
+inflection problem. Again, we are interested in making
+a machine translation system which can be extendible to
+a system involving other languages, not just for Japanese
+and Korean. Simply, we put as many candidates as possible into the transfer dictionary. Suppose that there is
+a language X and there are five forms of inflections for
+a verb <i>aauu</i>: <i>aa</i>, <i>aabb</i>, <i>aabbcc</i>, <i>aabbccdd</i>, <i>aabbccddee</i>.
+And suppose that its target language has more than ten
+inflections for its correspondent (Language Y). The following is the sentence that we want to translate.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>*** Sentence :</td><td>.. xx aabbcc, &nbsp;&nbsp;</td><td>xxxx ....</td></tr>
+<tr><td>base form :</td><td>aauu</td><td>kapata</td></tr>
+<tr><td>inflection :</td><td>aab</td><td>kkp</td></tr>
+<tr><td></td><td>aabb</td><td>kkbb</td></tr>
+<tr><td></td><td>aabbcc</td><td>kkppmm</td></tr>
+<tr><td></td><td>aabbccdd</td><td>kkppnnoo</td></tr>
+<tr><td></td><td>aabbccddee</td><td>kkpadade</td></tr>
+<tr><td></td><td></td><td>kkppammnn</td></tr>
+<tr align=center><td></td><td></td><td>.</td></tr>
+<tr align=center><td></td><td></td><td>.</td></table>
+</p>
+<p>
+We do not know which form goes along with a form
+of the other language. Hence, there are ten possibilities
+for each verb. For example, language X's <i>aabbcc</i> can be
+translated as <i>kkp</i>, <i>kkbb</i>, <i>kkppddee</i>, .... Among these combination, <i>kkp</i>,<i>kkppadde</i>, <i>kkppbb</i> can be used as words in
+language Y. Then, the frequently used words will be translated. Of course, there is a lot of room for improvement,
+but it is not urgent concern in this paper.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Experiment</font></h2></a>
+
+<p>
+In this section we will describe our method for Japanese-to-Korean translation and discuss the result of our preliminary experiment.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Method</font></h2></a>
+
+<p>
+The size of our Japanese-to-Korean transfer dictionary is
+about 35,000 words. More than one Korean translation
+match one Japanese word. Also, we use Korean monoIingual corpus which contains 20,000 sentences.
+</p>
+<p>
+The following example was taken out from ATR
+Japanese and Korean Travel Conversation Corpus. The
+corpus is an aligned Japanese-Korean bilingual corpus.
+We consider the translated Korean sentences as correct translations and compare our translated results to
+this translation, For instance, the corpus contains the
+followil1g example:
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(3) &nbsp;</td>
+    <td><strong>J:</strong>&nbsp;&nbsp;</td><td>ichiban&nbsp;&nbsp;</td><td>yasui&nbsp;&nbsp;</td><td>shinguru-wa&nbsp;&nbsp;</td><td>oikura&nbsp;&nbsp;</td><td>desuka?</td></tr>
+<tr><td><strong>K:</strong>&nbsp;&nbsp;</td><td>kajang&nbsp;&nbsp;</td><td>ssan&nbsp;&nbsp;</td><td>singgeul-eun&nbsp;&nbsp;</td><td>eolma&nbsp;&nbsp;</td><td>ibnikka?</td></tr>
+<tr><td colspan=6>"How much is the cheapest single room?"</td></tr>
+</table>
+</p>
+<p>
+For the Japanese input sentence, the system will look
+up all the possible Korean words for the Japanese word
+candidates, as described below.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign=top>(1)&nbsp;</td>
+    <td>find out all possible word candidates, starting from <i>ichi</i>. e.g. Korean translated words such as "il" , "hana", "katteum", "jeil"</td></tr>
+<tr><td valign=top>(2)</td>
+    <td>find out all possible Korean word candidates for <i>ban</i> and <i>ichiban</i></td></tr>
+<tr><td valign=top>(3)</td>
+    <td>then, look up <i>yasu</i>, <i>i</i>, and <i>yasui</i></td></tr>
+<tr><td valign=top>(4)</td>
+    <td>for shinguru, since <i>si</i>, <i>sin</i>, <i>shingu</i> are not appropriate candidates in Japanese, start looking up shinguru.</td></tr>
+<tr><td valign=top>(5)</td>
+    <td>...</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Example</font></h2></a>
+
+<p>
+Look-up process will proceed until no more possible
+words are found. We obtain the following search results.
+The pronunciation for each word is in brackets.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td><img src="c32/j0006.gif"> &nbsp;</td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0022.gif">" <i>ichiban</i> (cn) ==> &nbsp;</td><td>"<img src="c32/kajang.gif">" <i>kajang</i> (adv)</td></tr>
+	<tr><td></td><td>"<img src="c32/maen.gif">" <i>maen</i> (adv)</td></tr>
+	</table>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0006.gif">" <i>ichi</i> (cn) ==> &nbsp;</td><td>"<img src="c32/il.gif">" <i>il</i> (cn)</td></tr>
+	<tr><td></td><td>"<img src="c32/hana.gif">" <i>hana</i> (cn)</td></tr>
+	<tr><td></td><td>"<img src="c32/katheu.gif">" <i>katteum</i> (cn)</td></tr>
+	<tr><td></td><td>"<img src="c32/jeil.gif">" <i>jeil</i> (cn)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td><img src="c32/j0007.gif"> &nbsp;</td>
+	<td>"<img src="c32/j0007.gif">" <i>ba</i>n (cn) ==> "<img src="c32/peon.gif">" <i>beon</i> (cn)</td></tr>
+<tr valign=top><td><img src="c32/j0008.gif"> &nbsp;</td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0023.gif">" <i>yasui</i> (adj) ==> &nbsp;</td><td>"<img src="c32/ssa.gif">" <i>ssa</i> (adj)</td></tr>
+	<tr><td></td><td>"<img src="c32/jeorye.gif">" <i>jeoryeom</i> (adj)</td></tr>
+    </table></td></tr>
+<tr valign=top><td><img src="c32/j0009.gif"> &nbsp;</td>
+	<td>i - ==> -</td></tr>
+<tr valign=top><td><img src="c32/j0010.gif"> &nbsp;</td>
+	<td>"<img src="c32/j0027.gif">" <i>shinguru</i> (cn)  ==> "<img src="c32/singke.gif">" <i>singgeul</i></td></tr>
+<tr valign=top><td><img src="c32/j0011.gif"> &nbsp;</td>
+	<td>n	- 	==>	-</td></tr>
+<tr valign=top><td><img src="c32/j0012.gif"> &nbsp;</td>
+	<td>gu -	==>	-</td></tr>
+<tr valign=top><td><img src="c32/j0013.gif"> &nbsp;</td>
+	<td>ru -	==>	-</td></tr>
+<tr valign=top><td><img src="c32/j0014.gif"> &nbsp;</td>
+	<td>"<img src="c32/j0014.gif">" <i>wa</i> top	==>	"<img src="c32/neun.gif">" <i>neun</i> top</td></tr>
+<tr valign=top><td><img src="c32/j0015.gif"> &nbsp;</td>
+	<td>"<img src="c32/j0028.gif">" <i>oi</i> (intj) ==> "<img src="c32/eoi.gif">" <i>eoi</i> (intj)<br>
+	    "<img src="c32/j0015.gif">" <i>o</i> (intj) ==> "<img src="c32/eo.gif">" <i>eo</i> (intj) </td></tr>
+<tr valign=top><td><img src="c32/j0009.gif"> &nbsp;</td>
+	<td>"<img src="c32/j0029.gif">" <i>ikura</i> (cn) 	==>	"<img src="c32/eolma.gif">" <i>eolma</i> (cn)<br>
+	    "<img src="c32/j0030.gif">" <i>iku</i> (verb) 	==>	"<img src="c32/ka.gif">" <i>ka</i> (verb)</td></tr>
+<tr valign=top><td><img src="c32/j0016.gif"> &nbsp;</td>
+	<td>ku - 	==>	-</td></tr>
+<tr valign=top><td><img src="c32/j0017.gif"> &nbsp;</td>
+	<td>ra- 	==>	-</td></tr>
+<tr valign=top><td><img src="c32/j0018.gif"> &nbsp;</td>
+    <td>"<img src="c32/j0026.gif">" <i>desuka</i> (aux) 	==>	"<img src="c32/pnikka.gif">" <i>bnikka</i> (aux)<br>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0031.gif">" <i>desu</i> (verb) 	==> &nbsp;</td><td>"<img src="c32/ipnita.gif">" <i>ibnida</i> (misc)</td></tr>
+	<tr><td></td><td>"<img src="c32/malipn.gif">" <i>malibnida</i> (misc)</td></tr>
+	</table>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0018.gif">" <i>de</i> (post)	==> &nbsp;</td><td>"<img src="c32/eseo.gif"> <i>eso</i> (post)</td></tr>
+	<tr><td></td><td>"<img src="c32/ro.gif"> <i>ro</i> (post)</td></tr>
+	<tr><td></td><td>"<img src="c32/euro.gif"> <i>euro</i> (post)</td></tr>
+	</table>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0018.gif">" <i>de</i> (cn) 	==> &nbsp;</td><td>"<img src="c32/keurae.gif"> <i>kuraeseo</i> (conj)</td></tr>
+	<tr><td></td><td>"<img src="c32/keureo.gif">" <i>kureonikka</i> (conj)</td></tr>
+	</table>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0018.gif">" <i>de</i> (conj) 	==> &nbsp;</td><td>"<img src="c32/keunte.gif">" <i>keunde</i> (conj)</td></tr>
+	<tr><td></td><td>"<img src="c32/keurae.gif"> <i>keuraeseo</i> (conj)</td></tr>
+	<tr><td></td><td>"<img src="c32/keurik.gif">" <i>keuriko</i> (conj)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td><img src="c32/j0020.gif"> &nbsp;</td>
+	<td>su ==> -</td></tr>
+<tr valign=top><td><img src="c32/j0021.gif"> &nbsp;</td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td>"<img src="c32/j0021.gif">" <i>ka</i> (post) 	==> &nbsp;</td><td>"<img src="c32/haneun.gif">" <i>haneunga</i> (post)</td></tr>
+	<tr><td></td><td>"<img src="c32/neunka.gif">" <i>neunga</i> (post)</td></tr>
+	</table>
+	"<img src="c32/j0021.gif">" <i>ka</i> (cn) 	==>	"<img src="c32/moki.gif"> <i>mogi</i> (cn) <br>
+	"<img src="c32/j0021.gif">" <i>ka</i> (misc) 	==>	"<img src="c32/nji.gif">" <i>nji</i> (misc) <br>
+	"<img src="c32/j0021.gif">" <i>ka</i> (misc) 	==>	"<img src="c32/pnikka.gif">" <i>bnikka</i> (aux)
+    </td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 Results</font></h2></a>
+
+<p>
+We randomly selected 100 sentences from the Japanese-to-Korean Travel Conversation Corpus for evaluation.
+Then, the process described in Section 4.2 is applied. For
+example, for the sentence such as <i>ichiban yasui shinguru
+wa oikura desuka?</i>, meaning <i>how much is the cheapest
+single room?</i>, we get various Korean sentence candidates
+as follows:
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(4) &nbsp;</td>
+    <td><img src="c32/kajang.gif"> &nbsp;&nbsp;</td><td><img src="c32/jeorye.gif">/<img src="c32/singke.gif">/<img src="c32/neun.gif"> &nbsp;&nbsp;</td><td><img src="c32/eo.gif">/<img src="c32/eolma.gif"> &nbsp;&nbsp;</td><td><img src="c32/ipnita.gif"> &nbsp;&nbsp;</td><td><img border=1 src="c32/haneun.gif">.</td></tr>
+<tr><td>kajang &nbsp;&nbsp;</td><td>jeoryeom/singgeul/neun &nbsp;&nbsp;</td><td>eo/eolma &nbsp;&nbsp;</td><td>ibnida &nbsp;&nbsp;</td><td><u>haneunga</u></td></tr>
+<tr><td>most &nbsp;&nbsp;</td><td>cheap/single/top &nbsp;&nbsp;</td><td>intj/how_much &nbsp;&nbsp;</td><td>is &nbsp;&nbsp;</td><td>Q</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(5) &nbsp;</td>
+    <td><img src="c32/kajang.gif"> &nbsp;&nbsp;</td><td><img src="c32/jeorye.gif">/<img src="c32/singke.gif">/<img src="c32/neun.gif"> &nbsp;&nbsp;</td><td><img src="c32/eo.gif">/<img src="c32/eolma.gif"> &nbsp;&nbsp;</td><td><img src="c32/ipnita.gif"> &nbsp;&nbsp;</td><td><img border=1 src="c32/neunta.gif">?</td></tr>
+<tr><td>kajang &nbsp;&nbsp;</td><td>jeoryeom/singgeul/neun &nbsp;&nbsp;</td><td>eo/eolma &nbsp;&nbsp;</td><td>ibnida &nbsp;&nbsp;</td><td><i>neunga</i></td></tr>
+<tr><td>most &nbsp;&nbsp;</td><td>cheap/single/top &nbsp;&nbsp;</td><td>intj/how_much &nbsp;&nbsp;</td><td>is &nbsp;&nbsp;</td><td>Q</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(6) &nbsp;</td>
+    <td><img src="c32/kajang.gif"> &nbsp;&nbsp;</td><td><img src="c32/jeorye.gif">/<img src="c32/singke.gif">/<img src="c32/neun.gif"> &nbsp;&nbsp;</td><td><img src="c32/eoeolm.gif"> &nbsp;&nbsp;</td><td><img src="c32/ipnita.gif"> &nbsp;&nbsp;</td><td><img border=1 src="c32/moki.gif">?</td></tr>
+<tr><td>kajang &nbsp;&nbsp;</td><td>jeoryeom/singgeul/neun &nbsp;&nbsp;</td><td>eo/eolma &nbsp;&nbsp;</td><td>ibnida &nbsp;&nbsp;</td><td><i>mogi</i></td></tr>
+<tr><td>most &nbsp;&nbsp;</td><td>cheap/singel/top &nbsp;&nbsp;</td><td>intj/how-much &nbsp;&nbsp;</td><td>is &nbsp;&nbsp;</td><td>mosquito</td></tr>
+</table>
+</p>
+<p>
+We evaluate 100 sentences with five ranking scores in
+the following.
+</p>
+<p>
+<ul>
+<li>Type A: Understandable, Stylistically Correct <br>
+	- <img src="c32/j0032.gif"> ==> <img src="c32/keonkw.gif"> <img src="c32/keumji.gif">. <br>
+	Taking photos are prohibited in the entire hall.
+<li>Type B: Understandable but syntactic/morphological problem <br>
+	- <img src="c32/j0033.gif"> ==> <img src="c32/jongke.gif"> <img src="c32/naerip.gif">. <br>
+	I will get off at the end stop.
+<li>Type C: Almost Understandable <br>
+	- <img src="c32/j0034.gif">==> <img src="c32/jeohwi.gif"> <img src="c32/seoneo.gif"> <img src="c32/aewant.gif"> <img src="c32/teriko.gif"> <img src="c32/teuleo.gif"> <img src="c32/eomkeu.gif">. <br>
+	It is prohibited to bring in your pet in our building.
+<li>Type D: Completely Not Understandable <br>
+	- <img src="c32/j0035.gif">. ==> <img src="c32/eeokhe.gif"> <img src="c32/ji.gif"> <img src="c32/anhpni.gif">. <br>
+	Air conditioner is not working. ==> Air conditioner is not included.
+<li>Type E: No Entry in the dictionary <br>
+	- <img src="c32/j0036.gif"> ==> <img src="c32/nes.gif"> <img src="c32/kunte.gif"> / / <img src="c32/pnita.gif"> <br>
+	There are four (restaurants). ==> Four places /<img src="c32/j0037.gif">/ be.
+</ul>
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2: Translation Result
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Type A</td><td>Type B</td><td>Type C</td><td>Type D</td><td>Type E</td><td>Total</td></tr>
+<tr align=right><td>6 </td><td>32</td><td>12 </td><td>29 </td><td>21</td><td>100</td></tr>
+<tr align=center><td colspan=2>38</td><td colspan=3>62</td><td align=right>100</td></tr>
+</td></tr>
+</table>
+</p>
+
+<p>
+We consider the Type A and Type B as the correct translation, which is 38%. However, 13 out of 21 from Type E,
+which is categorized as "No Entry" are easily improved,
+if we add the missing nouns to our dictionary. This means
+that we get 51 sentences out of 100 correctly translated.
+This is a high result considering the very limited resources
+used: just a transfer dictionary and a monolingual corpus.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Discussion</font></h2></a>
+
+<p>
+Our result of 5 1 %, is inferior to more sophisticated translation systems, such as Kim and Okoma's (1996), who
+achieve a 87.5% success rate. This is what we expected.
+Wo have produced a solid base1ine, the percentage that can
+be translated with a complete dictionary, but no rules at
+aIL We can use this baseline to guide us in deciding which
+problem we should deal with next. One result is that we
+should have a better transfer dictionary. If we have a dictionary covers all the unregistered words, then the result
+is sure to get better.
+</p>
+<p>
+In addition, we found out the problem of case markers,
+such as Korean subject markers, <i>ga</i>, <i>i</i>, object markers <i>eul</i>,
+<i>leul</i>, and topic markers <i>eun</i>, <i>neun</i>. Consider example (7).
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 valign=top>(7) &nbsp;</td>
+    <td><img src="c32/singke.gif">-<img src="c32/eunneu.gif"> &nbsp;&nbsp;</td><td><img src="c32/eolma.gif"></td></tr>
+<tr><td>singgeul-eun/neun &nbsp;&nbsp;</td><td>eolma</td></tr>
+<tr><td>single-<sub>TOP</sub> &nbsp;&nbsp;</td><td>how-much</td></tr>
+</table>
+</p>
+<p>
+In <img border=1 src="c32/singeu.gif"><sub>single</sub> and <img border=1 src="c32/neun.gif"><sub>top</sub> for the noun <img src="c32/singke.gif">
+like <i>shinggeul</i>, which ends with a consonant, <i>l</i>. The usage
+of the above case markers depend on the pronunciation of
+the last syllable. If it ends with a consonant, the maker
+will be <i>i</i>, <i>eul</i>, <i>eun</i>, while it ends with a vowel, the maker
+will be <i>ga</i>, <i>leul</i>, <i>neun</i>. This problem can be easily solved
+employing a relevant rule. But, this can be also solved
+using a corpus. It is because there will not be a sentence
+using a wrong case marker for a noun for most of the time.
+And, it will be decided by the frequency of the usage, it
+should not cause any problem. We will examine how far
+the problem of case markers can be solved with a corpus.
+Also, verb-endings are a big problem as we expected. We
+will examine how much we can solve this problem using
+a corpus, too.
+</p>
+<p>
+Of course, we expect many other difficult problems
+such as anaphora resolution, mismatcb of numeral classifiers, and so on. For example, (8) shows an example of
+numeral classifiers. Japanese numeral classifier -hon, pon
+is polysemous in the sense that it can count such nouns
+as fax, email, phonecall, hair, banana, can, bottle and so
+forth.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=4 valign=top>(8) &nbsp;</td>
+    <td><strong>J</strong> &nbsp;</td><td>Tokyo-kara &nbsp;&nbsp;</td><td>Fakkusu-ga &nbsp;&nbsp;</td><td>ip-pon &nbsp;&nbsp;</td><td>kita.</td></tr>
+<tr><td><strong>K</strong> &nbsp;</td><td>Tokyo-eso &nbsp;&nbsp;</td><td>Faeksu-ga &nbsp;&nbsp;</td><td>il/han-??? &nbsp;&nbsp;</td><td>wassta.</td></tr>
+<tr><td></tr><td>Tokyo-from &nbsp;&nbsp;</td><td>Fax-nom &nbsp;&nbsp</td><td>one-<sub>CL</sub> &nbsp;&nbsp;</td><td>came</td></tr>
+<tr><td colspan=5>A fax came from Tokyo.</td></tr>
+</table>
+</p>
+<p>
+However, these nouns are counted with different numeral classifiers in Korean. For example, -<i>keon</i> for fax,
+email, phonecall <a name="rfn2" href="c32.html#fn2"><sup>2</sup></a>, -<i>karak</i> for hair and noodle, -<i>kae</i> for
+banana, can, etc. We think that this problem can be
+also solved with using the corpus-method to some extent.
+However, when <i>i</i>-<i>ppon</i> is used anaphorically, there will
+be no principled way to choose a right translation without
+knowing the referent. This will be hard to resolve with our
+simple method. However, there are no machine translation
+systems which solve this problem at this stage.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Conclusion</font></h2></a>
+
+<p>
+This paper examines how far it is possible to do Japanese-to-Korean machine translation with none or minimal
+transfer rules. In addition, our goal is to show the
+translation result explicitly using the similarities of
+two languages. Conventional approaches to machine
+translation have taken it granted that parsing, transfer,
+and generation rules or bilingual parallel corpora should
+be involved in machine translation system. We admit
+that machine translation system with detailed rules and
+extricate structure surpass the simple direct translation
+system in translation quaiity. However, our present
+starting-off goal is different. The proposed method of
+machine translation exploits the linguistic similarities to
+achieve acceptable translation with low cost. If we can
+show how little knowledge can be used for automatic
+translation between similar languages, with only a transfer lexicon and a target language corpus, then it will be
+easy for researchers to proceed for the better quality of the
+</p>
+<p>
+translation. This is particularly important for translating
+between language pairs that do not include English.
+While there are vast amounts of linguistic data available
+for English, including tagged and parsed corpora, this
+is not the case for most of the world's languages. It is
+also hard to find bilingual human resources for most
+language pairs. Our method requires only a bilingual
+transfer dictionary and a target language corpus. The
+dictionary itself is automatically created by crossing a
+X <==> English dictionary with a Y <==> English one. Such a
+simple approach is only possible because Japanese and
+Korean are both linguistically similar and have similar
+lexicons. In the future, we plan to extend our system
+to other similar languages, such as Turkish, Uzbek,
+Mongolian and Hungarian.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Francis Bond and Kyonghee Paik. Classifying correspondence
+in Japanese and Korean. In <i>3rd Pacific Association for Computational Linguistics Conference: PACLING-97</i>, pages 58-67. Meisei University, Tokyo, Japan, 1997.
+    <br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>Joseph H. Greenberg, editor. <i>Syntax</i>, volume 4 of <i>Universals of
+Human Language</i>. Stanford University Press, 1978.
+    <br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>Jung-in Kim, Jong-Hyeok Lee, and Geunbae Lee. Generation of
+korean predicates based on modality-feature ordering and lexicalizing table in japanese-korean machine translation. <i>Journal of Natural Language Processing</i>, 5(2):3-24, 1998. (in
+Japanese).
+    <br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>Jung-in Kim and Seiichi Okoma. A method of generating
+Korean language by using extended translation tables on
+Japanese-Korean machine translation. <i>Journal of Natural
+Language Processing</i>, 37(9). 1697-1707, 1996. (in Japanese).
+    <br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>Hajime Narita. Language type and machine translation.
+<i>IPSJ SIG Notes 96-NL-114-21</i>, 96(65): 143-50, 1996. (in
+Japanese).
+    <br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>Kyonghee Paik and Francis Bond. Multilingual generation of
+numeral classifiers using a common ontology. In <i>ICCPOL-2001</i>, 2001.
+    <br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>Masayayoshi Shibatani. <i>The languages of Japan</i>. Cambridge
+Language Surveys. Cambridge University PIess, 1990.
+    <br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>Satoshi Shirai and Kazuhide Yamamoto. Linking English words
+in two bilingual dictionaries for generating another language
+pair dictionary. In <i>ICCPOL-2001</i>, May 2001.
+    <br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>Ho-Min Sohn. <i>The Korean Language</i>. Cambridge Language
+Surveys. Cambridge University Press, 1999.
+    <br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>Kumiko Tanaka and Kyoji Umemura. Construction of a bilingual dictionary intermediated by a third language. In <i>Coling-1994</i>, pages 293-303, October 1994.
+    <br><br>
+<dt><a name="ref11"><strong>[11]</strong></a>
+<dd>Kiruyon Watanabe and Takao Suzuki. <i>Chousengo no susume
+[A Recommendayion for Korean]</i>. Koudansha, 1981 . (in
+Japanese).
+    <br><br>
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+We use the following abbreviations in this paper: acc (accusative),
+adj (adjective), adn (adnomial), adv (adverb), aux (auxiliary), cl (classifier), 
+cn (common noun), com (comitatlve), conj (conjunction), hon
+(honorific), intj (interjection), misc (miscellaueous), nom (nominative),
+post (postposition), pre (preposition), top (topic) The symbol - means
+that there is no such word. 
+(<a href="c32.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+It is normally counted with -<i>tong</i>, but -<i>keon</i> is also used for counting
+events (Bond and Paik, 1997, Paik and Bond, 2001) We put ??? since
+-<i>hon</i>, <i>pon</i> can be translated into many Korean classifiers. (<a href="c32.html#rfn2">Return</a>)
+
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

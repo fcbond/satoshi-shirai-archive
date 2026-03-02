@@ -1,0 +1,1122 @@
+<html>
+<head>
+<title>Francis Bond &amp; Satoshi Shirai, NLPRS'97 Multilingual Workshop, December 5, 1997</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Practical and Efficient Organization of a Large Valency Dictionary</font>
+<a name="rfn0" href="c19.html#fn0"><sup>*</sup></a>
+<br><br>
+
+<font size=+2>Francis B<small>OND</small> and Satoshi S<small>HIRAI</small></font>
+<br><br>
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-1 Hikari-no-oka, Yokosuka-shi, Kanagawa-ken, JAPAN 239</font>
+<br>
+<font size=+1><tt> bond@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper describes the design and ongoing construction of a large
+bilingual valency dictionary. The first half describes the existing
+dictionary of 10,000 Japanese-English patterns, how it was built, how
+it is used, and points out some shortcomings. The second half
+introduces three proposals, originally put forward by <a href="c19.html#ref19">Somers (1987)</a> to
+improve the dictionary by separating the complement/adjunct
+distinction from the use of case-roles, organizing the case roles in a
+grid, and making the English and Japanese Lexicons separate entities,
+linked by informative links.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>NLPRS'97 Multilingual Workshop</i>, pp.62-75 (December, 1997). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=18>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c19.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c19.html#chap-2">2 ALT-J/E's Valency Dictionary</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-2.1">2.1 Description</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-2.2">2.2 Construction and Maintenance</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c19.html#chap-2.2.1">2.2.1 Phase 1</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c19.html#chap-2.2.2">2.2.2 Phase 2</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c19.html#chap-2.2.3">2.2.3 Phase 3</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c19.html#chap-2.2.4">2.2.4 Phase 4</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-2.3">2.3 Use</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-2.4">2.4 Some Problems</a></td></tr>
+<tr><td><a href="c19.html#chap-3">3 A Different Approach</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-3.1">3.1 Separate Valency -from Case</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-3.2">3.2 Organize Cases in a Grid</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#chap-3.3">3.3 Separate Languages</a></td></tr>
+<tr><td><a href="c19.html#chap-4">4 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c19.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+NTT's semantic valency dictionary was built as part of research into
+Japanese-to-English Machine Translation (<a href="c19.html#ref7">Ikehara <i>et al.</i> 1991</a>),
+and a subset of the information (not including case-role and English
+syntactic information) has been published as <a href="c19.html#ref6">Ikehara <i>et al.</i> (1997b)</a>.
+</p>
+<p>
+This paper is divided into two sections. First, a description of NTT's
+semantic valency dictionary, how it was built and some of its
+uses. Second, are three proposals for extending and improving the
+dictionary by changing its structure.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 ALT-J/E's Valency Dictionary</font></h2></a>
+
+<p>
+In this section we describe the design and construction of NTT's
+semantic valency dictionary.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Description</font></h2></a>
+
+<p>
+The valency dictionary is used to describe predicates (verbs,
+adjectives and copula expressions) both for parsing Japanese and for
+transferring them into English.
+</p>
+<p>
+The dictionary entries, which we call patterns, each consist of a
+predicate, one or more case slots and modal information.
+</p>
+<p>
+In the Japanese side, case slots are marked with syntactic form
+semantic constraints.
+</p>
+<p>
+The syntactic form is given as a phrasal type: clause, noun phrase or
+adverbial. Only one clause types is allowed: quoted clauses. Noun
+phrases are listed with the possible particles<a name="rfn1" href="c19.html#fn1"><sup>1</sup></a> they may
+appear with. Adverbs can be time, quantity or other.
+</p>
+<p>
+The semantic constraInts can either be nodes in the semantic hierarchy
+(<a href="c19.html#ref5">Ikehara <i>et al.</i> 1997a</a>), or strings that match the surface
+form. The lower the constraint is in the semantic hierarchy, the
+better the match. Slots can be explicitly filled, giving idiomatic
+patterns, which are stored in a separate dictionary.
+</p>
+<p>
+Because the dictionary was designed for Japanese-to-English machine
+translation, there are no semantic constraints given for the English
+side, instead the constraints can be thought of as constraints on the
+pair of patterns. The English side gives the syntactic form of the
+translation of the predicate and each case element. The linear order
+of the English elements, grammatical case, and preposition is also
+given where applicable. There can be case-slots that have entries only
+in one language.
+</p>
+<p>
+An example entry is given in Figure 1. Each entry consists of the
+Japanese predicate, its English translation and the case-slots, Modal
+information and some of the detailed syntactic constraints are omitted
+for brevity. Each slot is labeled with a slot number
+(S<sub><i>i</i></sub>), followed by the case-markers, case-role,
+English surface form and semantic constraints (on a separate line).
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=3>Japanese</td>
+    <td>case</td><td>English</td></tr>
+<tr><td colspan=3><strong>iku</strong><sub>1</sub></td>
+    <td></td><td><strong>go</strong><sub>1</sub></td></tr>
+<tr><td>S<sub>1</sub></td><td>&nbsp;&nbsp;</td><td>ga</td>
+    <td align=center><img src="c19/j0000.gif">N1<img src="c19/j0001.gif"></td><td>NP</td></tr>
+<tr><td colspan=3><tt>agent</tt>, <tt>vehicle</tt>, <tt>animal</tt></td>
+    <td></td><td>Subj</td></tr>
+<tr><td>S<sub>2</sub></td><td></td><td>ni e made</td>
+    <td align=center><img src="c19/j0000.gif">N3<img src="c19/j0001.gif"></td><td>PP</td></tr>
+<tr><td colspan=3><tt>-road, -rail</tt>, <tt>theatre</tt>, <tt>places</tt>,
+	<tt>place</tt></td>
+    <td></td><td><i>to</i> Acc</td></tr>
+<tr><td>S<sub>3</sub></td><td></td><td>kara yori</td>
+    <td align=center><img src="c19/j0000.gif">N4<img src="c19/j0001.gif"></td><td>PP</td></tr>
+<tr><td colspan=3><tt>-road</tt>, <tt>-rail</tt>, <tt>places</tt>, <tt>place</tt></td>
+    <td></td><td><i>from</i> Acc</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=3><strong>iku</strong><sub>2</sub></td>
+    <td></td><td><strong>go</strong><sub>2</sub></td></tr>
+<tr><td>S<sub>1</sub></td><td></td><td>ga</td>
+    <td align=center><img src="c19/j0000.gif">N1<img src="c19/j0001.gif"></td><td>NP</td></tr>
+<tr><td colspan=3><tt>agent</tt>, <tt>vehicle</tt>, <tt>animal</tt></td>
+    <td></td><td>Subj</td></tr>
+<tr><td>S<sub>2</sub></td><td></td><td>o</td>
+    <td align=center><img src="c19/j0000.gif">N8<img src="c19/j0001.gif"></td><td>PP</td></tr>
+<tr><td colspan=3><tt>places</tt>, <tt>place</tt></td>
+    <td></td><td><i>along/around</i> Acc</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1: Entry for <i>iku</i> "go"
+</strong></div>
+</p>
+
+<p>
+The links between the two languages are marked
+with case-roles (aka deep cases or theta roles),
+which we list in Figure 2.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Label</td><td>Name</td><td>Particles</td><td>Preposition</td></tr>
+<tr><td>N1</td><td>Agent</td><td>ga (kara, towa) [ha]</td><td>Subject</td></tr>
+<tr><td>N2</td><td>Object-1</td><td>o (nituite) [ga]</td><td>Object</td></tr>
+<tr><td>N3</td><td>Object-2</td><td>ni (...)</td><td>Indirect-Obj</td></tr>
+<tr><td>N4</td><td>Source</td><td>kara, yori</td><td>from</td></tr>
+<tr><td>N5</td><td>Goal</td><td>ni, e, made</td><td>to (until)</td></tr>
+<tr><td>N6</td><td>Purpose</td><td>ni</td><td>for</td></tr>
+<tr><td>N7</td><td>Result</td><td>ni, to</td><td>as</td></tr>
+<tr><td>N8</td><td>Locative</td><td>ni, o, de, e, kara</td><td>in/at/on</td></tr>
+<tr><td>N9</td><td>Reciprocal</td><td>to</td><td>with</td></tr>
+<tr><td>N10</td><td>Quotative</td><td>to</td></tr>
+<tr><td>N11</td><td>Material</td><td>kara, yori, de</td><td>with, from</td></tr>
+<tr><td>N12</td><td>Cause</td><td>kara, yori, de</td><td>for</td></tr>
+<tr><td>N13</td><td>Instrument</td><td>de</td><td>with</td></tr>
+<tr><td>N14</td><td>Means</td><td>de</td><td>by</td></tr>
+<tr><td>QUANT</td><td>Quantity</td></tr>
+<tr><td>TIME</td><td>Time</td></tr>
+<tr><td>ADV</td><td>Adverb</td></tr>
+<tr><td>TN1</td><td>Time-position</td><td>ni</td><td>at/in/on</td></tr>
+<tr><td>TN2</td><td>Time-source</td><td>kara</td><td>since/from</td></tr>
+<tr><td>TN3</td><td>Time-goal</td><td>made</td><td>until</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 2: Case-roles
+</strong></div>
+</p>
+
+<p>
+There are 14 cases and 3 adverbials. The cases
+can also be used for adjuncts, along with another
+10 other more specific cases, of which we list only
+the three time cases (TN1, TN2 and TN3).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Construction and Maintenance</font></h2></a>
+
+<p>
+The construction and maintenance of the valency
+dictionary is described in this section. More detail
+can be found in <a href="c19.html#ref18">Shirai <i>et al.</i> (1996c)</a>.
+</p>
+<p>
+Creating the dictionary consists or five steps:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td>Step-1</td><td>&nbsp;</td>
+    <td>Identifying needed patterns</td></tr>
+<tr><td>Step-2</td><td></td>
+    <td>Constructing translation examples</td></tr>
+<tr><td>Step-3</td><td></td>
+    <td>Making the pattern entries</td></tr>
+<tr><td></td>
+    <td colspan=2><ul>
+	<li> Parsing the examples and linking the constituents
+	<li> Choosing which constituents should be entered
+	<li> Adding semantic constraints and caseroles
+	<li> Ordering different patterns
+	</td></tr>
+<tr><td>Step-4</td><td></td>
+    <td>Checking the pattern produces the correct translation</td></tr>
+<tr><td>Step-5</td><td></td>
+    <td>Checking the interaction with other patterns</td></tr>
+</table>
+</p>
+<p>
+In the following sections we discuss how the five
+steps were handled during different phases or the
+dictionary's construction.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.1"><h2><font color=#ff0000>2.2.1 Phase 1</font></h2></a>
+
+<p>
+The first 5,000 or so patterns were made by
+hand. The patterns were constructed by consulting Japanese-to-English dictionaries. In addition,
+patterns were added as needed whenever there was
+a problem in translating a sentence.
+</p>
+<p>
+As the number of patterns grew, it became
+harder to test them. An <strong>input support system</strong>
+was built that allowed analysts to check the format of the new entries as they were being built,
+and then run them through the transIation system. This brought the construction time down
+to 40 minutes per pattern. Using this tool, the
+system was extended to around 10,000 patterns.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.2"><h2><font color=#ff0000>2.2.2 Phase 2</font></h2></a>
+
+<p>
+With around 10,000 patterns, we needed to refine steps 1 and 3. Dictionaries for human readers
+rarely had examples of all the patterns needed for
+an NLP system so it was hard to identIfy new patterns. This was particularly a problem for native
+Japanese verbs, which tend to be more polysemous than Sino-Japanese ones, We therefore decided to systematically go through the Japanese
+Information-Technology Promotion Agency's set
+of (<a href="c19.html#ref8">IPA 1987</a>).
+</p>
+<p>
+In addition, a <strong>construction support system</strong> was built,
+which automatically made a candidate entry by parsing the Japanese
+example sentence and a specially written English equivalent (of the
+form 'X goes to Y'). This reduced the time required to make each
+pattern to around 12 minutes per pattern.
+</p>
+<p>
+In this phase, there was considerable consolidation of existing patterns, so, while the total number of patterns only increased to 11,000, we estimate that the cover was increased by more than
+10%.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.3"><h2><font color=#ff0000>2.2.3 Phase 3</font></h2></a>
+
+<p>
+The IPAL basic verb list still did not have
+enough patterns, so a new approach was taken,
+where the analysts made as many example sentences as they could for each verb, which were
+then professionally translated, as described in <a href="c19.html#ref17">Shirai <i>et al.</i> (1996b)</a>. This gave many new patterns,
+and we believe has brought us close to the practical limit of creating new patterns by introspection.
+The <strong>construction support system</strong> was extended so that English patterns could be automatically created from raw English text, using the
+skeleton-flesh approach of <a href="c19.html#ref23">Yokoo <i>et al.</i> (1994)</a>. In
+this approach, the most common syntactic structures are prepared as skeletons, which are then
+fleshed out by adding semantic constraints, caseroles and other information such as prepositions.
+</p>
+<p>
+In addition, candidate semantic constraints are
+proposed from the parse of the Japanese sentence.
+This reduced the time required to produce each
+pattern down to around 6 minutes per pattern,
+nearIy 7 times faster than the original method.
+</p>
+<p>
+Using these example sentences and tools, the
+dictionary was extended to around 16,000 patterns.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.4"><h2><font color=#ff0000>2.2.4 Phase 4</font></h2></a>
+
+<p>
+Currently, two areas of extension are being explored. The first is construction of domain specific valency dictionaries (<a href="c19.html#ref16">Shirai <i>et al.</i> 1996a</a>).
+The second is automatic construction by both the
+extraction of candidates (<a href="c19.html#ref20">Takahashi <i>et al.</i> 1997</a>,
+<a href="c19.html#ref4">Haruno and Yamazaki 1996</a>), and the induction
+of semantic constraints (<a href="c19.html#ref1">Akiba <i>et al.</i> 1995</a>). It is
+estimated that we need at least 25,000 patterns to
+cover around 80% of Japanese verbs (<a href="c19.html#ref15">Shirai <i>et al.</i>
+1995</a>). 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Use</font></h2></a>
+
+<p>
+The main use of the valency dictionary is to select
+the correct dependency structure of the Japanese
+input, and then to transfer it to an English structure, as described in <a href="c19.html#ref12">Ogura <i>et al.</i> (1993)</a>.
+</p>
+<p>
+To determine the dependency structure, Input
+sentences are first analyzed by a morphological
+analyzer, which separates the text into words,
+marked with part of speech and multiple senses.
+The output of this is then parsed to give candidate
+dependency structures. These are then matched
+with the idiomatic pattern dictionary, and then
+the general valency dictionary.
+</p>
+<p>
+When there are multiple candidates for the
+predicate, the matches are weighted using the following criteria: does an input word match an explicit entry in the dictionary (e.g. an idiom). If
+not, choose the pattern with the highest total
+score. Each matching slot is given a value according to the level of the matching semantic constraint (from 100 at a leaf level to 60 for the top
+level). This is then adjusted according to the caserole: N2 and N3 are increased the most, N1 is increased a little, N4 and N5 are unchanged, N6-N8
+are decreased slightly and the rest are decreased
+even more. This reflects the strength of the caseelement's connection to the predicate. The pattern's total score is then the sum of the scores of
+its elements.
+</p>
+<p>
+Once the highest ranking pattern has been chosen, it gives the backbone or the dependency structure. The constraints given by the predicate to the
+case-elements are then used to disambiguate the
+case-elements themselves.
+</p>
+<p>
+The main use of the case-roles is to link the
+Japanese and English patterns. They are also
+used to select prepositions for the adjunct cases,
+although the default prepositions can be overwritten for adjuncts entered in the dictionary.
+</p>
+<p>
+The case-roles (slightly augmented) are also
+used to determine the order of English adverbs
+(<a href="c19.html#ref11">Ogura <i>et al.</i> 1997:p 22</a>). Complement elements
+come closer to the predicate than adjuncts, and
+adjuncts are ordered as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>Manner &lt; Means &lt; Instrument &lt; Position &lt; Direction 
+	&lt; Time-position &lt; Time-duration &lt; Frequency</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+</p>
+<p>
+Another use of the valency dictionary is in the
+generation of articles. Temporal case elements are
+generated with special rules (<a href="c19.html#ref2">Bond <i>et al.</i> 1997</a>),
+and locative case elements are definite by default.
+</p>
+<p>
+The case-roles thus serve as useful links between
+the two languages, as well as serving as triggers for
+some general rules.
+</p>
+<p>
+There are however, some problems with the
+case-roles, which will be discussed in the next section.
+</p>
+ 
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4"><h2><font color=#ff0000>2.4 Some Problems</font></h2></a>
+
+<p>
+In practice, the major problem with using case-roles is that it is hard for analysts to assign values to entries in the lexicon. Many natural language systems use case-roles, but there is little
+agreement as to how many there should be, let
+alone what they should be. A good example of
+this problem is the LUTE system, which ended
+up with incompatible sets of cases for Japanese
+(29 case-roles in 6 groups) and English (42 case-roles). Another set is defined by <a href="c19.html#ref10">Nomura and Muraki (1996:p 645)</a> with 34 case-roles (deep cases)
+with 16 used in the dictionary.
+</p>
+<p>
+The choice of 24 case roles for ALT-J/E, with
+only 14 used in the dictionary was a pragmatic
+one, this was the number of cases that seemed
+necessary, and that could easily be distinguished
+by the analysts. As can be seen in Figure 1, the
+choice is sometimes questionable, slot-2 of <i>iku</i><sub>2</sub>
+should be N5 (Goal) rather than N3 (Object-2).
+N3 is however the default for the case-marker <i>ni</i>,
+and was assigned instead.
+</p>
+<p>
+There are also problems caused by the conflation of the degree of valency (how closely related
+the case-element is to the verb) and the case-role.
+The accusative-case (marked by <i>o</i>) in a verb such
+as <i>tazuneru</i> "visit" is obligatory, so should be
+marked with N2, but should be locative, which
+calls for N8. Due to this conflict in the definition,
+some verbs of this type are marked as N2, and
+some N8. This is a problem because such arguments should be definite by default (a rule which
+is triggered by N8), but allow floating quantification (a rule which is triggered by N2).
+</p>
+<p>
+Another problem, in practice, is the close association of case-roles with their surface markers. Some rules are written using N1 and N2
+to mean nominative and accusative surface case.
+Ideally during processing at least three levels of
+information about case are needed: the surface
+case marker or markers, the canonical case marker
+(from the lexicon) and the case-role.
+</p>
+<p>
+Finally, the direct linking of the two languages
+means that any differences in predicate meaning in English, have to be anticipated during the
+Japanese processing. There is no chance to delay
+the choice of English predicate, and the Japanese
+parse can be quite counter intuitive.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 A Different Approach</font></h2></a>
+
+<p>
+In this speculative section, I make three proposals
+to improve the structure, and ultimately simplify
+the maintenance and construction or the dictionary. The proposals are to: separate the degree of
+valency from the case role (section 3.1), recast the case-roles as a case-grid (section 3.2) and treat the Japanese
+and English lexicons as separate entries, with informative links between them. All three proposals were originally proposed by <a href="c19.html#ref19">Somers (1987)</a>, although we modify his proposals somewhat, and
+offer more justification for them, based on our own
+experiences.
+</p>
+<p>
+Each proposal could be implemented separately,
+but they all fit together.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Separate Valency -from Case</font></h2></a>
+
+<p>
+The first proposal is to add a new variable for each
+slot: the degree of variable binding, which shows
+how closely an element is connected to the predicate of the clause it appears in. <a href="c19.html#ref19">Somers (1987:p 266)</a> proposed a 6 valued variable; we propose
+adding another value for <a href="c19.html#ref14">Pustejovsky's (1995:pp
+63-67)</a> shadow arguments, bringing the number
+to 7. Note that the degree of variable binding is
+used for items marked in the lexicon (marked in
+bold) as well as those determined during parsing,
+such as adjuncts.
+</p>
+<p>
+<strong>0 Zero complement</strong> (contained in predicate)
+</p>
+<p>
+<strong>1 Integral complement</strong> (idiom dictionary)
+</p>
+<p>
+<strong>1.5 Shadow complement</strong>
+</p>
+<p>
+<strong>2 Complement</strong>
+</p>
+<p>
+<strong>3 MiddIe</strong>
+</p>
+<p>
+<strong>4</strong> Adjunct
+</p>
+<p>
+<strong>5</strong> Extra-peripheral
+</p>
+<p>
+Integral complements are obligatory parts of idioms like <i>the buckct in kick thc buckct</i>. They cannot be removed without changing the meaning of
+the verb. Shadow complements are elements that
+are only expressed if they are special in some way,
+such as <i>with butter</i> in the verb <i>butter</i>. It is strange
+to say <i>butter the bread with butter</i>, but <i>butter the
+bread with expensive butter</i> acceptable.
+</p>
+<p>
+Complements are the normal obligatory arguments of the verb, such as the subject of the verb
+<i>go</i>. Middles are elements that are strongly associated with a verb, but not obligatory, such as <i>to
+school</i> in <i>go to school</i>, or <i>with a hammer</i> in <i>break
+a glass with a hammer</i>. An independent argument for the existence or elements such as these,
+between true complements and adjuncts is given
+by <a href="c19.html#ref22">Verspoor (1996)</a> in a treatment or the semantic
+contribution of prepositional phrases, who refers
+to them as pseudo complements. The addition of a
+middle value makes the job of dictionary analysts
+much simpler, particularly for Japanese, where
+free omission of most elements makes it hard to
+decide whether they are obligatory or not.
+</p>
+<p>
+Adjuncts are optional sentence elements, corresponding to Ogura <i>et
+al.</i>'s (1997) adjuncts. Extra-peripheral elements are sentence
+modifying elements, such as <a href="c19.html#ref11">Ogura <i>et al.</i>'s (1997)</a> disjuncts and
+conjuncts. We give some examples in the next sentences:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>(1)</td><td>Fred<sub>2</sub> kicked [the bucket]<sub>1</sub></td></tr>
+<tr valign=top>
+    <td>(2)</td><td>Unexpectedly<sub>5</sub>, [the bread]<sub>2</sub> was buttered [with expensive butter]<sub>1.5</sub> [this morning]<sub>4</sub></td></tr>
+<tr valign=top>
+    <td>(3)</td><td>He<sub>2</sub> did not go [to work]<sub>3</sub> [with you]<sub>4</sub></td></tr>
+</table>
+</p>
+<p>
+As a first approximation, values in the current
+dictionary would be mapped as follows: explicit
+entries (in the idiom dictionary) map to integral
+complements, N1-N3 map to Complements, the
+rest map to Middles. Complements should be
+weighted as higher than Middles, perhaps 1.5 to
+1. Other weightings can also be made according
+to either case-role, or Japanese surface particle, as
+required.
+</p>
+<p>
+<a href="c19.html#ref19">Somers (1987:p 267)</a> speculates that when mapping from one language to another, elements
+would either map onto elements with the same degree of valency, or one more or less. Thus a middle
+maps onto a middle, complement or adjunct and
+so on. For that reason, a zero complement is proposed to account for matches such as English <i>take
+part</i> and French <i>participer</i> ; <i>part</i> matches to an
+empty zero complement in <i>participer</i>. There are
+however, many examples between Japanese and
+English where the mapping is across degrees that
+differ by more than one, such as the combination
+of a Japanese verb and manner adverbial translated as an English verb: for example <i>burabura
+aruku</i> "relaxed walk" with <i>stroll</i> (degree 4 mapping to degree 0). Therefore we need to allow links
+between elements with any degree of valency.
+</p>
+<p>
+Note that our lexicon could also be extended by
+adding a wider variety of clause types as complements, such as adjective phrases, but that would
+be a separate exercise.
+</p>
+<p>
+The different degrees of valency can be used to
+explain sentences where the same case role appears twice, breaking the one-case-per-argument
+condition of <a href="c19.html#ref3">Fillmore (1968:p 24)</a>. Consider the
+following examples, from <a href="c19.html#ref19">Somers (1987:p 192)</a>:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=6>&nbsp;&nbsp;</td>
+    <td rowspan=3>(4)</td>
+    <td>Taroo-no</td><td>otoosan-ga</td>
+    <td>shinde-shimatta</td></tr>
+<tr valign=top>
+    <td><i>Taroo</i>-<small>ADN</small></td><td><i>Father</i>-<small>NOM</small></td>
+    <td><i>dying do past</i></td></tr>
+<tr valign=top>
+    <td colspan=3>Taroo's father died</td></tr>
+<tr valign=top>
+    <td rowspan=3>(5)</td>
+    <td>Taroo-ga</td><td>otoosan-ga</td>
+    <td>shinde-shimatta</td></tr>
+<tr valign=top>
+    <td><i>Taroo</i>-<small>NOM</small></td><td><i>Father</i>-<small>NOM</small></td>
+    <td><i>dying do past</i></td></tr>
+<tr valign=top>
+    <td colspan=3>Taroo's father died on him</td></tr>
+</table>
+</p>
+<p>
+In the second sentence, Taroo can be thought of
+as the subject of the whole sentence, and should
+have a higher degree of valency than <i>otoosan</i> "father". As <i>otoosan</i> "father" is a normal complement of <i>shinu</i> "die" its degree of valency is 3.
+The external subject Taroo is a peripheral adjunct, and would have a valency of 6. This sentence could also possibly be explained as different
+case-roles: Taroo as experiencer and <i>otoosan</i> "father" as agent.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Organize Cases in a Grid</font></h2></a>
+
+<p>
+The second proposal, again closely following <a href="c19.html#ref19">Somers (1987:chapter 10)</a>,
+is to regularise the case roles in a grid, given in Figure 3. The grid
+has two major attractions. First, it puts a well defined limit on the
+number of possible cases. Second, it allows generalizations to be made
+along columns and rows. Both of these make it easier to assign case
+roles.
+</p>
+<p>
+The columns consist of the four localist values, exemplified by the
+locative row. The four values are the source, the path taken, the
+goal, and a point (possibly along the path. The rows are more guided
+by semantic criteria. Very broadly, the Active row represents actions,
+where as the Objective row represents processes. The dative row is
+used for psychological and possessive predications. The temporal and
+locative rows are self explanatory. Finally, the Ambient row is for
+more abstract cases such as reason, manner and aim.  In Figure 3, each
+cell has been given a short descriptive name as aguide (two names for
+the dative row). More detailed descriptions are given in <a href="c19.html#ref19">Somers
+(1987:pp 200-206)</a>.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td colspan=2>Source</td>
+    <td colspan=2>Path</td>
+    <td colspan=2>Goal</td>
+    <td colspan=2>Local</td></tr>
+<tr></tr><tr></tr>
+<tr><td>Active</td>
+    <td>Instigator</td><td>N1</td>
+    <td>Means</td><td>N14</td>
+    <td>Recipient</td><td>N6</td>
+    <td>Patient</td><td>N9</td></tr>
+<tr><td>Objective</td>
+    <td>Material</td><td>N11</td>
+    <td>Instrument</td><td>N13</td>
+    <td>Result</td><td>N7</td>
+    <td>Changed</td><td>N2</td></tr>
+<tr><td>Dative</td>
+    <td>Stimulus</td><td>(N1)</td>
+    <td>Medium</td><td>(N2)</td>
+    <td>Experiencer</td><td>N3</td>
+    <td>Content</td><td>N10</td></tr>
+<tr><td></td>
+    <td colspan=2>Owner</td>
+    <td colspan=2>Price</td>
+    <td colspan=2>Recipient</td>
+    <td colspan=2>Transferred</td></tr>
+<tr><td>Locative</td>
+    <td>Source</td><td>N4</td>
+    <td>Path</td><td>(N8)</td>
+    <td>Goal</td><td>N5</td>
+    <td>Point</td><td>N8</td></tr>
+<tr><td>Temporal</td>
+    <td>From</td><td>TN2</td>
+    <td>Duration</td><td>(TN1)</td>
+    <td>Until</td><td>TN3</td>
+    <td>When</td><td>TN1</td></tr>
+<tr><td>Ambient</td>
+    <td>Reason</td><td>N12</td>
+    <td>Manner</td><td>(N14)</td>
+    <td>Aim</td><td>(N7)</td>
+    <td>Condition</td><td>(N11)</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td>Particle</td>
+    <td colspan=2 align=center><strong>ga</strong>, wa, towa<br>kara, yori</td>
+    <td colspan=2 align=center><strong>de</strong>, to, o</td>
+    <td colspan=2 align=center><strong>ni</strong> e<br>made to</td>
+    <td colspan=2 align=center><strong>o</strong>, to<br>ni, de, nituite</td></tr>
+<tr valign=top>
+    <td>Preposition</td>
+    <td colspan=2 align=center><strong>from</strong><br>for</td>
+    <td colspan=2 align=center><strong>by</strong>, with<br>for, around</td>
+    <td colspan=2 align=center><strong>to</strong>, until<br>as, for</td>
+    <td colspan=2 align=center><strong>in/at/on</strong><br>with, about</td></tr>
+</table>
+<div align=center><strong>
+Figure 3: Case Grid
+</strong></div>
+</p>
+
+<p>
+As a rough guide to assigning cases to the grid, the column can be
+assigned on the basis of the preposition or case-particle, although
+obviously it is not a one-to-one mapping. The row has to be determined
+by the verb and case-element meaning. The same table can be used for
+complements (for both nouns and predicates) as well as adjuncts,
+although some extra ones may be needed for adjuncts.
+</p>
+<p>
+The grid allows easy identification of locative
+and temporal expressions for the generation of articles and prepositions.
+</p>
+<p>
+It would be worth experimenting by weighting
+the columns and rows differently for the stren1gth
+of the match, for example Objective and Dative
+increased, Temporal and Locative decreased, and
+maybe Source and Goal increased slightly. Of
+course, actual values for weights need to be obtained empirically.
+</p>
+<p>
+As an example of the ease of use of the proposal, we apply it to a
+difficnlt class of verbs, including verbs of potential: <i>wakaru</i>
+"understand", perception <i>kikoeru</i> "can hear" and desire:
+<i>hituyo-da</i> "need", which have the subject marked with <i>ni</i>
+(which is normally dative or locative) and the role equivalent to the
+English. object marked with <i>ga</i>, the nominative case. The case
+grid allows us to mark these roles reasonably intuitively. The subject
+is marked as Dative-Goal (or experiencer), where the Goal matches the
+<i>ni</i> marking, and the other role is marked as the dative source
+(or stimulus), the thing that stimulates the senses or motivates
+desire.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(6)</td><td rowspan=3>&nbsp;</td>
+    <td colspan=5>predicate:</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>wakaru</td></tr>
+<tr><td>S<sub>1</sub></td><td rowspan=2>&nbsp;</td>
+    <td>NP</td><td rowspan=2>&nbsp;</td>
+    <td>3</td>
+    <td>ni<img src="c19/j0002.gif">ga</td><td rowspan=2>&nbsp;</td>
+    <td>Dative-Goal</td></tr>
+<tr><td>S<sub>2</sub></td><td>NP</td><td>3</td><td>ga</td><td>Dative-Source</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td rowspan=7>(7)</td><td rowspan=7>&nbsp;</td>
+    <td colspan=5>predicate:</td><td rowspan=7>&nbsp;</td>
+    <td colspan=3>au</td></tr>
+<tr><td>S<sub>1</sub></td><td rowspan=6>&nbsp;</td>
+    <td>NP</td><td rowspan=6>&nbsp;</td>
+    <td>3</td>
+    <td>ga</td><td rowspan=6>&nbsp;</td>
+    <td>Active-Source</td></tr>
+<tr><td>S<sub>2</sub></td><td>NP</td><td>3</td><td>ni</td><td>Active-Local</td></tr>
+<tr><td>S<sub>2</sub></td><td>NP</td><td>3</td><td>to</td><td>Objective-Local</td></tr>
+<tr><td><img src="c19/j0002.gif"></td></tr>
+<tr><td>S<sub>1</sub></td><td>NP</td><td>3</td><td>ga</td><td>Active-Source</td></tr>
+<tr><td></td><td><tt>plural</tt></td></tr>
+</table>
+</p>
+<p>
+For these verbs the subject can also be marked with <i>ga</i> probably
+because of the normal association of the nominative case with the
+subject. We therefore mark the subject as taking either <i>ni</i> or
+<i>ga</i> with the same case-role.
+</p>
+<p>
+Ideally case-roles are the same for equivalent
+verbs across languages, and this should be the default in links. However, it is not always the case,
+particularly for languages as different as Japanese
+and English, so there must be a way of linking a
+slot marked with one case-role in one language to
+one marked with a different one in the other.
+</p>
+<p>
+The case-roles can be thought of as upper nodes
+of a hierarchy of more detailed semantic roles such
+as GIVEE, DONATEE, HANDEE (all subsumed
+by Dative-Goal), as proposed by Pollard and Sag
+(1994:pp 342-343). They are useful in two ways:
+one, to make generalizations over classes; two, as
+a first level of information until more detailed descriptions become available.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Separate Languages</font></h2></a>
+
+<p>
+The final proposal is to store English and Japanese
+patterns separately. The valency dictionary has
+been constructed this way from the beginning, but
+it has not been exploited fully.
+</p>
+<p>
+One advantage of storing the English and
+Japanese language patterns separateIy is that the
+separate lexicons can be learned from monolingual
+corpora, which are always larger and more easily
+available than bilingual corpora. Another advantage is that it should become easier to to make generalizations within each language, as well as
+easier to eliminate inconsistencies.
+</p>
+<p>
+A potential disadvantage is that it reduces the
+savings that can be made by simplifying the target language dictionary in a one way transfer system. As generation becomes more sophisticated,
+however, more information is wanted in the target
+dictionary anyway, and for a two way system, this
+information would be necessary in the first place.
+</p>
+<p>
+The links between the two dictionaries have to
+be informative, not just matching one predicate
+with another. By judicious use of defaults, the
+links can be quite small: by default, the same case-roles should link to each other +- 1 up and down
+the valency binding. There has to be a provision
+to explicitly link slots, and even add constraints
+on the linked slots, to handle mismatches between
+the languages. The links can be thought of as
+bilexical rules, along the lines of those proposed
+by <a href="c19.html#ref21">Trujillo (1995)</a>.
+</p>
+<p>
+If the two monolingual dictionaries exist already, then linking them can start off as a simple progress of linking predicates that match in
+a bilingual corpus, and analysts only have to examine those that don't fit the default match parameters. By considering links along rows and
+columns, candidate links can be suggested even
+for those that do not match well, and of course
+much more could be done if the bilingual information was richer.
+</p>
+<p>
+Similarly, if a monolingual dictionary with case-roles and some bilingual data exist, they can be
+used to boot strap a dictionary in another language.
+</p>
+<p>
+The combination of two monolingual dictionaries and links can either be precompiled into a single transfer dictionary, or treated as three separate entities. The advantage of precompilation is
+that it gives a dictionary equivalent to the existing
+one, so that the changeover could be made seamlessly. In the compiled dictionary, the constraints
+on each element would be a combination of the
+strictest from the two patterns and link.
+More advantages could be gained by keeping the
+dietionaries separate. In this case the target predicate does not have to be chosen until later in the
+transfer/generation stage making it easier to apply purely target language constraints such as collocational constraints.
+</p>
+<p>
+Finally, the process or construction may become
+simpler, and will definitely be more consistent if
+two monolingual dictionaries and links are used. 
+Assuming that the pattern to be entered has been
+identified, step-3 of the construction process can
+proceed as follows:
+</p>
+<p>
+<ol>
+<li> If there is no Japanese pattern, make one (possibly automatically)
+<li> If the candidate translation is known, create potential links for analyst to select.
+<li> If the translation is unknown, suggest candidates with similar case-roles and 
+	valency bindings, ordered from exact match down.
+<li> If no suitable English pattern exists, make one (possibly automatically),
+	or modify an existing one
+<li> If a new English pattern has been made, suggest candidate translations from the
+	Japanese patterns
+</ol>
+</p>
+<p>
+This procedure takes advantage of existing
+knowledge, if a suitable entry exists, in either
+language, then it can be used directly, and just
+linked. The links add information ror disambiguation, but only when it is needed. For example,
+<i>warau</i> "laugh/smile" does not need to be disambiguated in Japanese analysis, only in translation.
+In addition, as potential links are checked for new
+patterns in both directions, the coverage should
+be better than only checking one way. Verb sense
+hierarchies, such as that proposed by (<a href="c19.html#ref9">Nakaiwa
+<i>et al.</i> 1994</a>), could be used to constrain possible
+candidates for linking.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Conclusion</font></h2></a>
+
+<p>
+We have a large and very useful bilingual valency
+dictionary. It was hard to build, is sometimes inconsistent, and is quite hard to extend. To improve the quality of translation, we need to extend it in at least two ways: size and complexity
+of information. We propose that we can make it
+both more useful, and easier to build, by extending case-roles, separating case from valency binding, and treating different languages separately in
+the lexicon. 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+The authors would like to thank the designers and
+maintainers of the pattern dictionary. Much of
+the work of designing the dictionary was done by
+Akio Yokoo and Satoru Ikehara. The actual construction of patterns has been done by analysts
+including Satsuki Abe, Hiroko Inoue and Izumi
+Watanabe. We would also like to thank Tim Baldwin, Osamu Furuse, Yoshihiro Matsuo, Kyonghee
+Paik and Kentaro Ogura for their comments and
+discussion.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">A<small>KIBA</small>, Y<small>ASUHIRO</small>, M<small>EGUMI</small> I<small>SHII</small>, H<small>USSEIN</small> A<small>LMUALLIM</small>, and S<small>HIGEO</small> K<small>ANEDA</small>. 1995.</a>
+<dd>Learning English verb selection rules from hand-made rules and translation
+	examples.
+	In <i>Sixth International Conference on Theoretical and Methodological Issues
+	in Machine Translation: TMI-95</i> , 206-220, Leuven.
+	<br><br>
+<dt><a name="ref2">B<small>OND</small>, F<small>RANCIS</small>, K<small>ENTARO</small> O<small>GURA</small>, and H<small>AJIME</small> U<small>CHINO</small>. 1997.</a>
+<dd>Temporal expressions in Japanese-to-English machine translation.
+	In <i>Seventh Internat1bonal Conference on Theoretical and Methodological
+	Issues in Machine Translation: TMI-97</i> , 55-62, Santa-Fe.
+	<br><br>
+<dt><a name="ref3">F<small>ILLMORE</small>, C<small>HARLES</small> J. 1968.</a>
+<dd>The case for case.
+	In <i>Universals in Linguistic Theory</i> , ed. by Emmon Bach and
+	Robert T. Harms, 1-88. New York: Holt, Rinehart and Wilson, Inc.
+	<br><br>
+<dt><a name="ref4">H<small>ARUNO</small>, M<small>ASAHIKO</small>, and T<small>AKEFUMI</small> Y<small>AMAZAKI</small>. 1996.</a>
+<dd>High-performance bilingual text alignment using statistical and
+	dictionary information.
+	In <i>34th Annual Conference of the Association for Computational
+	Linguistics</i> , 131-138.
+	<br><br>
+<dt><a name="ref5">I<small>KEHARA</small>, S<small>ATORU</small>, M<small>ASAHIRO</small> M<small>IYAZAKI</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, A<small>KIO</small> Y<small>OKOO</small>, H<small>IROMI</small> N<small>AKAIWA</small>, K<small>ENTARO</small> O<small>GURA</small>, Y<small>OSHIFUMI</small> O<small>OYAMA</small>, and Y<small>OSHIHIKO</small> H<small>AYASHI</small>. 1997a.</a>
+<dd><i>The Semantic System</i> , volume 1 of <i>Goi-Taikei - A Japanese Lexicon</i>.
+	Tokyo: Iwanami Shoten.
+	<br><br>
+<dt><a name="ref6">-, -, -, -, -, -, -, and -. 1997b.</a>
+<dd><i>The Valency Dictionary</i> , volume 5 of <i>Goi-Toikei - A Japanese
+	Lexicon</i>.
+	Tokyo: lwanami Shoten.
+	<br><br>
+<dt><a name="ref7">I<small>KEHARA</small>, S<small>ATORU</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, A<small>KIO</small> Y<small>OKOO</small>, and H<small>IROMI</small> N<small>AKAIWA</small>. 1991.</a>
+<dd>Toward an MT system without pre-editing - effects of new methods in
+	<strong>ALT-J/E</strong>-.
+	In <i>Third Machine Translation Summit: MT Summit III</i> ,
+	101-106, Washington DC. (cmp-lg/9510008).
+	<br><br>
+<dt><a name="ref8">IPA. 1987.</a>
+<dd>IPAL (basic verbs). Lexicon,
+	Information-Technology Promotion Agency, Tokyo, Japan.
+	(ftp://ftp.mgt.ipa go.jp/pub/ipal).
+	<br><br>
+<dt><a name="ref9">N<small>AKAIWA,</small> H<small>IROMI</small>, A<small>KIO</small> Y<small>OKOO</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1994.</a>
+<dd>A system of verbal semantic attributes focused on the syntactic correspondence
+	between Japanese and English.
+	In <i>15th International Conference on Computational Liuguistics: COLING-94</i> ,
+	672-678, Kyoto.
+	<br><br>
+<dt><a name="ref10">N<small>OMURA</small>, N<small>AOYUKI</small>, and K<small>AZUNORI</small> M<small>URAKI</small>. 1996</a>
+<dd>An empirical architecture for verb subcategorization frame.
+	In <i>16th, International Conference on Computational Linguistics: COLING-96</i> ,
+	640-645.
+	<br><br>
+<dt><a name="ref11">O<small>GURA</small>, K<small>ENTARO</small>, F<small>RANCIS</small> B<small>OND</small>, and S<small>ATORU</small> I<small>KEHARA</small>, 1997.</a>
+<dd>A method of ordering English adverbials - as exemplified in Japanese-to-English
+	machine transIation -.
+	<i>Journal of Natural Language Processing</i> 4.17-39.
+	<br><br>
+<dt><a name="ref12">O<small>GURA</small>, K<small>ENTARO</small>, A<small>KIO</small> Y<small>OKOO</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1993.</a>
+<dd>Japanese to English machine translation and dictionaries.
+	In <i>44th Congress of the International Astronautical Federation</i> ,
+	Graz, Austria.
+	<br><br>
+<dt><a name="ref13">P<small>OLLARD</small>, C<small>ARL</small>, and I<small>VAN</small> A. S<small>AG</small>. 1994.</a>
+<dd><i>Head Driven Phrase Structure Grammar</i> .
+	Chicago: University of Chicago Press.
+	<br><br>
+<dt><a name="ref14">P<small>USTEJOVSKY</small>, J<small>AMES</small>. 1995.</a>
+<dd><i>The Generative Lexicon</i> .
+	MIT Press.
+	<br><br>
+<dt><a name="ref15">S<small>HIRAI</small>, S<small>ATOSHI</small>, S<small>ATORU</small> I<small>KEHARA</small>, A<small>KIO</small> Y<small>OKOO</small>, and H<small>IROKO</small> I<small>NOUE</small>. 1995.</a>
+<dd>The quantity of valency pattern pairs required for Japanese to English machine
+	translation and their compilation,
+	In <i>Natural Language Processing Pacific Rim Symposium '95: NLPRS-95</i>,
+	443-448.
+	<br><br>
+<dt><a name="ref16">S<small>HIRAI</small>, S<small>ATOSHI</small>, H<small>IROKO</small> I<small>NOUE</small>, N<small>ORIKO</small> I<small>TAKURA</small>, S<small>ATORU</small> I<small>KEHARA</small>, and A<small>KIO</small> Y<small>OKOO</small>. 1996a.</a>
+<dd>A semantic valency dictionary for technical domains.
+	In <i>2nd Annual Meeting of the Association for Natural Language Process1bng</i>,
+	13-16. (in Japanese).
+	<br><br>
+<dt><a name="ref17">S<small>HIRAI</small>, S<small>ATOSHI</small>, H<small>IROKO</small> I<small>NOUE</small>, <s>O<small>DE</small>???</s> H<small>ITOMI</small> K<small>OIDE</small>, N<small>ORIKO</small> I<small>TAKURA</small>, and A<small>KIO</small> Y<small>OKOO</small>. 1996b.</a>
+<dd>Compiling valency pattern pairs for Japanese-to-English machine translation
+	based on the IPAL basic verb examples.
+	In <i>53rd Annual Convention of the IPSJ</i> ,
+	volume 4L-4, 2:59-60. (in Japanese).
+	<br><br>
+<dt><a name="ref18">S<small>HIRAI</small>, S<small>ATOSHI</small>, H<small>IROMI</small> U<small>EDA</small>, T<small>OMIKO</small> H<small>YODO</small>, A<small>KIO</small> Y<small>OKOO</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1996c.</a>
+<dd>Computer aided design of valency pattern pairs for Japanese-to-English
+	machine translation.
+	In <i>IEICE Technical Report NLC96-34</i>, 25-30. IEICE. (in Japanese).
+	<br><br>
+<dt><a name="ref19">S<small>OMERS</small>, H<small>AROLD</small>. 1987.</a>
+<dd><i>Valency and Case in Computational Linguistics</i> .
+	Edinburgh University Press.
+	<br><br>
+<dt><a name="ref20">T<small>AKAHASHI</small>, Y<small>AMATO</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and F<small>RANCIS</small> B<small>OND</small>. 1997.</a>
+<dd>A method of automatically aligning Japanese and English newspaper articles.
+	In <i>Natural Language Processing Pacific Rim Symposium '97: NLPRS-97</i>,
+	657-660.
+	<br><br>
+<dt><a name="ref21">T<small>RUJILLO</small>, A<small>RTURO</small>. 1995.</a>
+<dd>Bi-lexical rules for multi-lexeme translation in lexicalist MT.
+	In <i>Sixth International Conference on Theoretical and Methodological Issues
+	in Machine Translation: TMI-95</i> , 48-66.
+	<br><br>
+<dt><a name="ref22">V<small>ERSPOOR</small>, C<small>ORNELIA</small> M<small>ARIA</small>. 1996.</a>
+<dd>A perspective on PPs.
+	In <i>Edinburgh Working Papers in Cognitive Science, Vol. 12: Studies in HPSG</i>,
+	ed. by Claire Grover and Enric Vallduv.ANm, volume 12, chapter 7, 229-271.
+	Centre for Cognitive Science, University or Edinburgh.
+	<br><br>
+<dt><a name="ref23">Y<small>OKOO</small>, A<small>KIO</small>, H<small>IROMI</small> N<small>AKAIWA</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1994.</a>
+<dd>Skeleton-flesh type semantic structure dictionaries for Japanese-to-English
+	machine translation.
+	In <i>48th Annual Convention of the IPSJ</i>,
+	volume 6Q-8, 3:139-140, (In Japanese).
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn0"><sup>*</sup></a>
+This paper was presented at the workshop on Multilingual Information
+Processing as part of the 4th Natural Language Processing Pacific Rim
+Symposium 1997: NLPRS-97; Phuket, Thailand (<a href="c19.html#rfn0">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+Particles are a closed class or post-positional case markers that
+mark Japanese noun phrases. (<a href="c19.html#rfn1">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,771 @@
+<html>
+<head>
+<title>Satoshi Shirai, Kazuhide Yamamoto &amp; Kazutaka Takao, ICCPOL-2001, May 14-16, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Construction of a Dictionary for Translating <br> Japanese Phrases into One English Word</font>
+<br><br>
+<font size=+2>Satoshi Shirai, Kazuhide Yamamoto and Kazutaka Takao</font>
+<br><br>
+<font size=+1>ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>2-2-2 Hikaridai, Seika-cho, Soraku-gun, Kyoto, 619-0288, JAPAN</font>
+<br>
+<font size=+1>E-mail: <tt> {shirai,yamamoto,ktakao}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+
+<p>
+In translation between languages that have different linguistic characteristics
+like Japanese and English, there are many cases in which contents are not
+correctly transmitted in the substitution from word to word. A method known to
+be effective as a measure for this is to determine the translations of verbs and
+nouns by using valency pattern pairs, which describe the semantic co-occurrences
+of verbs and nouns as valency patterns, and to pair them in the source language
+and the target language. However, this does not eliminate the problem of
+expressions regarded as ungrammatical (from the viewpoint of translation) being
+translated literally. 
+In this research, we carried out
+analyses on expressions of compound Japanese nouns and verbs in correspondence
+with English words, by focusing on Japanese equivalent phrases to English words
+described in an English-Japanese dictionary. Consequently, there is hope that
+many cases of expressions created from one Japanese case element and verb
+corresponding to one English word can be obtained.
+</p>
+
+<h3>keywords:</h3>
+
+<p>
+Japanese-English machine translation, Collocation expression, English-Japanese dictionary, Valency pattern
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>[ In <i>Proceedings of ICCPOL-2001</i>, pp.3-8 (May, 2001). ]</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=10>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c27.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c27.html#chap-2">2 Word composition of Japanese translation expressions to an English word</a></td></tr>
+<tr><td><a href="c27.html#chap-3">3 Classification of expressions containing nouns and verbs</a></td></tr>
+<tr><td><a href="c27.html#chap-4">4 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c27.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In the semantic analysis of machine translation, there is a need to correctly
+understand the co-occurrence relationships of words. One approach known to be
+effective, especially in translation between languages that have different
+linguistic characteristics like Japanese and English, is the use of valency
+pattern pairs, which direct attention to the meaningful co-occurrences of nouns
+and verbs to form correspondences of the basic structures of expressions in the
+source language and the target language. In the collection of such pattern
+pairs, however, there are concerned with problems both the description accuracy and 
+the collection method.
+</p>
+
+<p>
+Concerning the former problem, it is known that if the
+semantic attributes of nouns used as case elements were to be classified
+according to about 2,000 (or more) types of resolution accuracies for
+Japanese-English machine translation, valency pattern pairs having properly
+translated Japanese verbs could be described, excluding idiomatic expressions or
+special expressions [<a href="c27.html#ref1">1</a>]. Concerning the latter problem, we could refer
+to examples in dictionaries for human readers or
+self-observations, but it would be necessary to eventually collect about 25,000
+examples of Japanese-English valency patterns [<a href="c27.html#ref2">2</a>]<a name="rfn1" href="c27.html#fn1"><sup>1</sup></a>.
+</p>
+
+<p>
+Basically speaking, there are limitations in improving the translation quality
+with a method making English expressions correspond to Japanese words, even if
+basic structures were changed from the viewpoint of valency. On the other hand,
+if there were many cases where the Japanese translation of an English word were
+equivalent to multiple clauses, or contrarily, if it were possible to
+effectively correspond an expression comprising multiple clauses of Japanese to
+one English word, it would be possible for natural English sentences to be
+obtained.
+</p>
+
+<p>
+Accordingly, in this paper, we aim at the construction of a dictionary that
+matches multiple clauses of Japanese with an English word, and as a part of
+this, with an English-Japanese dictionary, we carry out analyses on expressions
+where an English word and multiple clauses of Japanese correspond. In
+particular, we aggressively investigate cases where a case element and a verb in
+Japanese correspond to one English word, with the aim of enriching valency
+pattern pairs.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Word Composition of Japanese Translation Expressions to an English Word</font></h2></a>
+
+<p>
+In this work, we attempted analyses on Japanese translation expressions given by
+a key word in English, in an electronic English-Japanese dictionary (65,500 key
+words) [<a href="c27.html#ref4">4</a>]. Concretely speaking, we carried out morphological analyses on
+Japanese translations of English words, and then, we classified the
+part-of-speech sequences in those Japanese translations comprising multiple
+clauses and arranged the type and number of appearances. The total number of
+English-Japanese translation pairs recorded in the English-Japanese dictionary
+was 147,807 examples, and among them, 43,120 examples were analyzed as
+expressions of multiple clauses (Table 1).
+</p>
+
+<p>
+<div align=center><strong><i>Table 1: Number of clauses of Japanese translation expressions for an English word.</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right>
+    <td width=150 align=center>Number of Clauses</td>
+    <td width=75>1</td>
+    <td width=75>2</td>
+    <td width=75>3</td>
+    <td width=75>4</td>
+    <td width=75>5</td>
+    <td width=75>6</td>
+    <td width=75>7</td>
+    <td width=75>8</td>
+</tr>
+<tr align=right>
+    <td align=center>Number of Appearances</td>
+    <td>104,687</td>
+    <td>31,225</td>
+    <td>8,594</td>
+    <td>2,267</td>
+    <td>665</td>
+    <td>226</td>
+    <td>79</td>
+    <td>35</td>
+</tr>
+</table>
+
+<font size=1><br></font>
+
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right>
+    <td width=150 align=center>Number of Clauses</td>
+    <td width=75>9</td>
+    <td width=75>10</td>
+    <td width=75>11</td>
+    <td width=75>12</td>
+    <td width=75>13</td>
+    <td width=75>14</td>
+    <td width=75>15</td>
+    <td width=75>Sum Total</td>
+</tr>
+<tr align=right>
+    <td align=center>Number of Appearances</td>
+    <td>13</td>
+    <td>8</td>
+    <td>2</td>
+    <td>2</td>
+    <td>1</td>
+    <td>1</td>
+    <td>2</td>
+    <td>147,807</td>
+</table>
+</p>
+
+<p>
+In the classification of the part-of-speech sequences of the Japanese
+translation expressions, we decided to grasp a rough tendency first. For
+example, although the structures of word sequences differ from compound nouns and
+single nouns, it is easier to understand the tendency if we treat them equally
+in terms of whole nouns. Accordingly, when the same part-of-speech continued, it
+was collectively considered as one. However, we used the input declarations
+without modification, since features are lost when abstraction is done at the
+part-of-speech level with particles or auxiliary verbs. In the
+morphological analyses [<a href="c27.html#ref5">5</a>], supplementary expressions [in brackets] were
+excluded.
+</p>
+
+<p>
+We sorted the obtained morphological analysis results and summed those
+part-of-speech sequences with a large number of appearances. Table 2 shows the
+summation results. The table shows a clause boundary with a "/".
+</p>
+
+<p>
+<div align=center><strong><i>Table 2: Part-of-speech sequences for higher numbers of appearances.</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>		<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</td></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N--no / N /</td>		<td align=right>3,784</td>
+	<td><img src="c27/j0000.gif">(N, aboriginal), <img src="c27/j0001.gif">(N, capsicum)</td></tr>
+<tr><td align=right>2</td>	<td>/ N--o / V /</td>		<td align=right>1,762</td>
+	<td><img src="c27/j0002.gif">(I, abut), <img src="c27/j0003.gif">(I, wake)</td></tr>
+<tr><td align=right>3</td>	<td>/ V / N /</td>		<td align=right>1,487</td>
+	<td><img src="c27/j0004.gif">(N, doublet), <img src="c27/j0005.gif">(N, elevation)</td></tr>
+<tr><td align=right>4</td>	<td>/ N--ni / V /</td>		<td align=right>1,184</td>
+	<td><img src="c27/j0006.gif">(A, aerial), <img src="c27/j0007.gif">(T, depress)</td></tr>
+<tr><td align=right>5</td>	<td>/ A / N /</td>		<td align=right>1,132</td>
+	<td><img src="c27/j0008.gif">(N, carefulness), <img src="c27/j0009.gif">(N, glare)</td></tr>
+<tr><td align=right>6</td>	<td>/ N--no / A /</td>		<td align=right>916</td>
+	<td><img src="c27/j0010.gif">(A, harmless), <img src="c27/j0011.gif">(A, lucky)</td></tr>
+<tr><td align=right>7</td>	<td>/ N--na / N /</td>		<td align=right>864</td>
+	<td><img src="c27/j0012.gif">(N, peach), <img src="c27/j0013.gif">(N, riddle)</td></tr>
+<tr><td align=right>8</td>	<td>/ F / V /</td>		<td align=right>706</td>
+	<td><img src="c27/j0014.gif">(I, peek), <img src="c27/j0015.gif">(A, certain)</td></tr>
+<tr><td align=right>9</td>	<td>/ N--no / V /</td>		<td align=right>550</td>
+	<td><img src="c27/j0016.gif">(A, dignified), <img src="c27/j0017.gif">(A, graceful)</td></tr>
+<tr><td align=right>10</td>	<td>/ N / V / N /</td>		<td align=right>486</td>
+	<td><img src="c27/j0018.gif">(N, embellishment), <img src="c27/j0019.gif">(N, globetrotter)</td></tr>
+<tr><td align=right>11</td>	<td>/ V--te / V /</td>		<td align=right>402</td>
+	<td><img src="c27/j0020.gif">(I, chafe), <img src="c27/j0021.gif">(I, emaciate)</td></tr>
+<tr><td align=right>12</td>	<td>/ N--o / V / N /</td>	<td align=right>376</td>
+	<td><img src="c27/j0022.gif">(N, influence), <img src="c27/j0023.gif">(N, lull)</td></tr>
+<tr><td align=right>13</td>	<td>/ A / V /</td>		<td align=right>336</td>
+	<td><img src="c27/j0024.gif">(T, enlarge), <img src="c27/j0025.gif">(T, hit)</td></tr>
+<tr><td align=right>14</td>	<td>/ F / V--ta /</td>		<td align=right>308</td>
+	<td><img src="c27/j0026.gif">(A, methodical), <img src="c27/j0027.gif">(A, plump)</td></tr>
+<tr><td align=right>15</td>	<td>/ N / A /</td>		<td align=right>302</td>
+	<td><img src="c27/j0028.gif">(A, jealous), <img src="c27/j0029.gif">(F, satisfactorily)</td></tr>
+<tr><td align=right>16</td>	<td>/ N--ni / V--ta /</td>	<td align=right>271</td>
+	<td><img src="c27/j0030.gif">(A, disconsolate), <img src="c27/j0031.gif">(A, fair)</td></tr>
+<tr><td align=right>17</td>	<td>/ V / A /</td>		<td align=right>244</td>
+	<td><img src="c27/j0032.gif">(T, cut), <img src="c27/j0033.gif">(A, ticklish)</td></tr>
+<tr><td align=right>18</td>	<td>/ N--ga / V /</td>		<td align=right>231</td>
+	<td><img src="c27/j0034.gif">(I, hear), <img src="c27/j0035.gif">(A, leafy)</td></tr>
+<tr><td align=right>19</td>	<td>/ N--no / N--na /</td>	<td align=right>217</td>
+	<td><img src="c27/j0036.gif">(A, dark), <img src="c27/j0037.gif">(A, flossy)</td></tr>
+<tr><td align=right>20</td>	<td>/ V--ta / N /</td>		<td align=right>215</td>
+	<td><img src="c27/j0038.gif">(N, mess), <img src="c27/j0039.gif">(N, needle)</td></tr>
+<tr><td align=right>21</td>	<td>/ N--o / V--ta /</td>	<td align=right>202</td>
+	<td><img src="c27/j0040.gif">(A, glazed), <img src="c27/j0041.gif">(A, ratty)</td></tr>
+</table>
+
+<br>
+
+<div align=center><strong><i>Table 2 (Supplement): Display of parts-of-speech.</i></strong></div>
+<table border=0 cellpadding=0 cellpadding=0 align=center>
+<tr><td>
+	<table border=3 cellpadding=1 cellspacing=1>
+	<tr><td align=center>Symbol</td>	<td align=left>POS</td></tr>
+	<tr></tr>
+	<tr><td align=center>N</td>	<td align=left>Noun</td></tr>
+	<tr><td align=center>V</td>	<td align=left>Verb</td></tr>
+	<tr><td align=center>A</td>	<td align=left>Adjective</td></tr>
+	<tr><td align=center>F</td>	<td align=left>Adverb</td></tr>
+	</table>
+    </td>
+    <td>&nbsp;</td>
+    <td>
+	<table border=3 cellpadding=1 cellspacing=1>
+	<tr><td align=center>Symbol</td>	<td align=left>POS</td></tr>
+	<tr></tr>
+	<tr><td align=center>T</td>		<td align=left>Transitive Verb</td></tr>
+	<tr><td align=center>I</td>		<td align=left>Intransitive Verb</td></tr>
+	<tr><td colspan=2>&nbsp;</td></tr>
+	<tr><td align=center>(Others)</td>	<td align=left>Particle or Auxiliary verb</td></tr>
+	</table>
+</table>
+</p>
+
+<p>
+From Table 2, we can see a tendency of parts-of-speech with a large number of
+appearances. In the next section, we look at cases including nouns and verbs
+from which highly frequent results appeared. The possibility is high that
+expressions containing nouns and verbs can be case elements and verbs respectively, which can
+potentially be considered as new valency pattern pairs.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Classification of Expressions Containing Nouns and Verbs</font></h2></a>
+
+<p>
+In this section, we take up the situation where nouns and verbs are included in
+the Japanese translations of English words. Considerations are made in the case
+where the case element modifies the verb and in the case where the verb modifies
+the noun. the former is a valency pattern itself, and the latter can be treated
+based on a valency pattern since it can generally reduce a modified noun to a
+case element. 
+</p>
+
+<p>
+Among these, we classified the results with large numbers of cases into seven 
+categories as shown in Table 3, and each tendency was explored. Then, we 
+selected the part-of-speech sequences consisting of one verb and one or more 
+nouns. Below, Tables 4 to 10 show the top results of each classification.
+</p>
+
+<p>
+<div align=center><strong><i>Table 3: Cases where nouns and verbs are included in the Japanese translations of English words.</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>
+    <td align=left>Category (Examples of J-POS Sequences)<a name="rfn2" href="c27.html#fn2"><sup>2</sup></a></td>
+    <td align=left colspan=3>Number of Cases (selected)</td>
+</tr>
+<tr></tr>
+<tr><td align=right>1</td>
+    <td align=left>Ending with a verb<br>(e.g. /N-o/V/, /N-no/N-o/v/ ; /N/V/ )</td>
+    <td align=right valign=top>16,250</td>
+    <td align=right valign=top>(8,018)</td>
+    <td align=right valign=bottom>see Table 4</td>
+</tr>
+<tr><td align=right>2</td>
+    <td align=left>Ending with a noun<br>(e.g. /V/N/, /N-ni/V/N/ ; /N-no/N/ )</td>
+    <td align=right valign=top>12,858</td>
+    <td align=right valign=top>(7,356)</td>
+    <td align=right valign=bottom>see Table 5</td>
+</tr>
+<tr><td align=right>3</td>
+    <td align=left>Ending with an adjective<br>n(e.g. /V/N-ga/A/, /N-o/V/A/ ; /N-no/A/ )</td>
+    <td align=right valign=top>2,472</td>
+    <td align=right valign=top>(263)</td>
+    <td align=right valign=bottom>see Table 6</td>
+</tr>
+<tr><td align=right>4</td>
+    <td align=left>Ending with an auxiliary verb "<i>-ta</i>(<i>-da</i>)"<br>(e.g. /N-ni/V-ta/, /N-o/V-da ; /F/V-ta/ )</td>
+    <td align=right valign=top>1,616</td>
+    <td align=right valign=top>(1,168)</td>
+    <td align=right valign=bottom>see Table 7</td>
+</tr>
+<tr><td align=right>5</td>
+    <td align=left>Ending with an auxiliary verb "<i>-nai</i>"<br>(e.g. /N-o/V-nai/ ; /F/N-de-nai/ )</td>
+    <td align=right valign=top>933</td>
+    <td align=right valign=top>(697)</td>
+    <td align=right valign=bottom>see Table 8</td>
+</tr>
+<tr><td align=right>6</td>
+    <td align=left>Ending with a particle "<i>-te</i>(<i>-de</i>)"<br>(e.g. /N-o/V-te/, /N-ni/V-te/ ; /F/V-te/ )</td>
+    <td align=right valign=top>576</td>
+    <td align=right valign=top>(476)</td>
+    <td align=right valign=bottom>see Table 9</td>
+</tr>
+<tr><td align=right>7</td>
+    <td align=left>Others<br>(e.g. /V/N-no/, /N/V-zu-ni/ ; /N-no/N-na/ )</td>
+    <td align=right valign=top>3,142</td>
+    <td align=right valign=top>(1,372)</td>
+    <td align=right valign=bottom>see Table 10</td>
+</tr>
+<tr></tr>
+<tr><td align=right colspan=2>Total</td>
+    <td align=right>37,847</td>
+    <td align=right>(19,350)</td>
+    <td></td>
+</tr>
+</table>
+</p>
+
+<p>
+In table 4, the Japanese case element and verb correspond to one English
+word. In a narrow sense --although there is a difference that when the English
+word is a verb, the Japanese verb is an inflection, and when the English word is
+an adjective, the Japanese verb is attributive-- we believe that it is important
+to effectively grasp the relationship between the case element and verb in
+either case. Basically speaking, we want to describe them as a valency pattern
+pair.  
+According to a trial describing case elements and verbs with 100 samples, 
+we found that about half of them could be described as valency patterns.
+We estimated that we could get 4,000 new valency patterns.
+</p>
+
+<p>
+<div align=center><strong><i>Table 4: Ending with a verb (frequency of 50 or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>		<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N--o / V /</td>		<td align=right>1,762</td>
+	<td><img src="c27/j0002.gif">(I, abut), <img src="c27/j0003.gif">(I, wake)</tr></tr>
+<tr><td align=right>2</td>	<td>/ N--ni / V /</td>		<td align=right>1,184</td>
+	<td><img src="c27/j0006.gif">(A, aerial), <img src="c27/j0007.gif">(T, depress)</tr></tr>
+<tr><td align=right>3</td>	<td>/ N--no / V /</td>		<td align=right>550</td>
+	<td><img src="c27/j0016.gif">(A, dignified), <img src="c27/j0017.gif">(A, graceful)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N--ga / V /</td>		<td align=right>231</td>
+	<td><img src="c27/j0034.gif">(I, hear), <img src="c27/j0035.gif">(A, leafy)</tr></tr>
+<tr><td align=right>5</td>	<td>/ N / V--te / V /</td>	<td align=right>190</td>
+	<td><img src="c27/j0042.gif">(A, leery), <img src="c27/j0043.gif">(A, positive)</tr></tr>
+<tr><td align=right>6</td>	<td>/ N--de / V /</td>		<td align=right>176</td>
+	<td><img src="c27/j0044.gif">(A, amateur), <img src="c27/j0045.gif">(T, quantify)</tr></tr>
+<tr><td align=right>7</td>	<td>/ N--o / N / V /</td>	<td align=right>153</td>
+	<td><img src="c27/j0046.gif">(A, antacid), <img src="c27/j0047.gif">(I, browse)</tr></tr>
+<tr><td align=right>8</td>	<td>/ N--ni / N / V /</td>	<td align=right>129</td>
+	<td><img src="c27/j0048.gif">(A, idolatrous), <img src="c27/j0049.gif">(I, metricize)</tr></tr>
+<tr><td align=right>9</td>	<td>/ N--to / V /</td>		<td align=right>128</td>
+	<td><img src="c27/j0050.gif">(I, mew), <img src="c27/j0051.gif">(A, prejudicial)</tr></tr>
+<tr><td align=right>10</td>	<td>/ N--no / N--o / V /</td>	<td align=right>119</td>
+	<td><img src="c27/j0052.gif">(T, backbite), <img src="c27/j0053.gif">(A, regretful)</tr></tr>
+<tr><td align=right>11</td>	<td>/ N--o / V--te / V /</td>	<td align=right>99</td>
+	<td><img src="c27/j0054.gif">(A, blushing), <img src="c27/j0055.gif">(T, drag)</tr></tr>
+<tr><td align=right>12</td>	<td>/ N--ni / V--te / V /</td>	<td align=right>82</td>
+	<td><img src="c27/j0056.gif">(A, earthbound), <img src="c27/j0057.gif">(I, flake)</tr></tr>
+<tr><td align=right>13</td>	<td>/ F / N / V /</td>		<td align=right>74</td>
+	<td><img src="c27/j0058.gif">(I, flourish), <img src="c27/j0059.gif">(T, pilfer)</tr></tr>
+<tr><td align=right>14</td>	<td>/ V / N--o / V /</td>	<td align=right>65</td>
+	<td><img src="c27/j0060.gif">(I, burgle), <img src="c27/j0061.gif">(A, restive)</tr></tr>
+<tr><td align=right>15</td>	<td>/ N--na / N--o / V /</td>	<td align=right>64</td>
+	<td><img src="c27/j0062.gif">(I, crawl), <img src="c27/j0063.gif">(I, footle)</tr></tr>
+<tr><td align=right>16</td>	<td>/ N--no / N--ni / V /</td>	<td align=right>60</td>
+	<td><img src="c27/j0064.gif">(A, go-ahead), <img src="c27/j0065.gif">(I, oblige)</tr></tr>
+<tr><td align=right>17</td>	<td>/ N--ni / N--o / V /</td>	<td align=right>60</td>
+	<td><img src="c27/j0066.gif">(I, burrow), <img src="c27/j0067.gif">(A, pestilent)</tr></tr>
+<tr><td align=right>18</td>	<td>/ F / N--o / V /</td>	<td align=right>55</td>
+	<td><img src="c27/j0068.gif">(I, clatter), <img src="c27/j0069.gif">(I, double)</tr></tr>
+</table>
+</p>
+
+<p>
+In table 5, many of the results seem to have problems in the translations of the
+English-Japanese dictionary from the viewpoint of Japanese-English
+translation. At a glance, the translations are explanation-like, and this is
+because many of the expressions do not appear in typical Japanese
+sentences. Consequently, these words would have little effect even if they were
+to be registered in a dictionary for Japanese-English translation. If they were
+registered, measures such as substitution to an expression likely to actually be
+used would be required.
+</p>
+
+<p>
+<div align=center><strong><i>Table 5: Ending with a noun (frequency of 50 or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>		<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ V / N /</td>	<td align=right>1,487</td>
+	<td><img src="c27/j0004.gif">(N, doublet), <img src="c27/j0005.gif">(N, elevation)</tr></tr>
+<tr><td align=right>2</td>	<td>/ N / V / N /</td>		<td align=right>486</td>
+	<td><img src="c27/j0018.gif">(N, embellishment), <img src="c27/j0019.gif">(N, globetrotter)</tr></tr>
+<tr><td align=right>3</td>	<td>/ N--o / V / N /</td>	<td align=right>376</td>
+	<td><img src="c27/j0022.gif">(N, influence), <img src="c27/j0023.gif">(N, lull)</tr></tr>
+<tr><td align=right>4</td>	<td>/ V--ta / N /</td>		<td align=right>215</td>
+	<td><img src="c27/j0038.gif">(N, mess), <img src="c27/j0039.gif">(N, needle)</tr></tr>
+<tr><td align=right>5</td>	<td>/ N--ni / V / N /</td>	<td align=right>175</td>
+	<td><img src="c27/j0070.gif">(N, nightwalker), <img src="c27/j0071.gif">(N, reliance)</tr></tr>
+<tr><td align=right>6</td>	<td>/ F / V / N /</td>	<td align=right>142</td>
+	<td><img src="c27/j0072.gif">(N, appanage), <img src="c27/j0073.gif">(N, smart)</tr></tr>
+<tr><td align=right>7</td>	<td>/ N / V--ta / N /</td>	<td align=right>140</td>
+	<td><img src="c27/j0074.gif">(N, inconsistency), <img src="c27/j0075.gif">(N, renovation)</tr></tr>
+<tr><td align=right>8</td>	<td>/ N--no / V / N /</td>	<td align=right>116</td>
+	<td><img src="c27/j0076.gif">(N, bowshot), <img src="c27/j0077.gif">(N, vine)</tr></tr>
+<tr><td align=right>9</td>	<td>/ N--ni / V--ta / N /</td>	<td align=right>56</td>
+	<td><img src="c27/j0078.gif">(N, improvisation), <img src="c27/j0079.gif">(N, pearl)</tr></tr>
+<tr><td align=right>10</td>	<td>/ V / A / N /</td>		<td align=right>54</td>
+	<td><img src="c27/j0080.gif">(N, inconstancy), <img src="c27/j0081.gif">(N, pushover)</tr></tr>
+<tr><td align=right>11</td>	<td>/ N--to / V / N /</td>	<td align=right>52</td>
+	<td><img src="c27/j0082.gif">(N, credit), <img src="c27/j0083.gif">(N, soul)</tr></tr>
+<tr><td align=right>12</td>	<td>/ V--no / N /</td>		<td align=right>52</td>
+	<td><img src="c27/j0084.gif">(N, interpolation), <img src="c27/j0085.gif">(N, remainder)</tr></tr>
+<tr><td align=right>13</td>	<td>/ V--te / V / N /</td>	<td align=right>52</td>
+	<td><img src="c27/j0086.gif">(N, acquaintance), <img src="c27/j0087.gif">(N, hearing)</tr></tr>
+<tr><td align=right>14</td>	<td>/ F / V--ta / N /</td>	<td align=right>51</td>
+	<td><img src="c27/j0088.gif">(N, easiness), <img src="c27/j0089.gif">(A, superior)</tr></tr>
+</table>
+</p>
+
+<p>
+In Table 6, the English part-of-speech is, on the surface, an adjective and an
+adverb, and the corresponding Japanese expression is attributive and continuous
+(particularly adverbial). 
+When a modality has been added to an expression
+comprising a case element and verb, although 
+we want to register a type where the adjective at the end is attributive
+in our valency pattern pair dictionary,
+with the present framework of pattern pairs, it is difficult to
+describe expressions accompanied by a subordinate clause. Future work
+will investigate correspondences to these.
+</p>
+
+<p>
+<div align=center><strong><i>Table 6: Ending with an adjective (frequency of ten or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>		<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N / V / A /</td>		<td align=right>45</td>
+	<td><img src="c27/j0090.gif">(A, handy), <img src="c27/j0091.gif">(A, nameless)</tr></tr>
+<tr><td align=right>2</td>	<td>/ V / N--no / A /</td>	<td align=right>44</td>
+	<td><img src="c27/j0092.gif">(A, insatiable), <img src="c27/j0093.gif">(A, only)</tr></tr>
+<tr><td align=right>3</td>	<td>/ V / N / A /</td>		<td align=right>15</td>
+	<td><img src="c27/j0094.gif">(F, cutely), <img src="c27/j0095.gif">(F, unfailingly)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N / V--no / A /</td>	<td align=right>10</td>
+	<td><img src="c27/j0096.gif">(A, beefy), <img src="c27/j0097.gif">(A, fresh)</tr></tr>
+</table>
+</p>
+
+<p>
+In Table 7, the English part-of-speech is an adjective in general, and the
+japanese verb is attributive. Like in Table 4, the Japanese case element and
+verb correspond to one English word. Basically speaking, we also want to
+describe them as a valency pattern pair.
+We estimated that we could get 600 new valency patterns.
+</p>
+
+<p>
+<div align=center><strong><i>Table 7: Ending with an auxiliary verb "-ta (-da)" (frequency of ten or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>			<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N--ni / V--ta /</td>		<td align=right>271</td>
+	<td><img src="c27/j0030.gif">(A, disconsolate), <img src="c27/j0031.gif">(A, fair)</tr></tr>
+<tr><td align=right>2</td>	<td>/ N--o / V--ta /</td>		<td align=right>202</td>
+	<td><img src="c27/j0040.gif">(A, glazed), <img src="c27/j0041.gif">(A, ratty)</tr></tr>
+<tr><td align=right>3</td>	<td>/ N--no / V--ta /</td>		<td align=right>126</td>
+	<td><img src="c27/j0098.gif">(A, soapy), <img src="c27/j0099.gif">(A, veined)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N--de / V--ta /</td>		<td align=right>57</td>
+	<td><img src="c27/j0100.gif">(A, figured), <img src="c27/j0101.gif">(A, naive)</tr></tr>
+<tr><td align=right>5</td>	<td>/ N--to / V--ta /</td>		<td align=right>39</td>
+	<td><img src="c27/j0102.gif">(A, sonorous), <img src="c27/j0103.gif">(A, emphatic)</tr></tr>
+<tr><td align=right>6</td>	<td>/ N--ga / V--ta /</td>		<td align=right>39</td>
+	<td><img src="c27/j0104.gif">(A, melodramatic), <img src="c27/j0105.gif">(A, ready)</tr></tr>
+<tr><td align=right>7</td>	<td>/ N--ni / V--da /</td>		<td align=right>28</td>
+	<td><img src="c27/j0106.gif">(A, inventive), <img src="c27/j0107.gif">(A, salty)</tr></tr>
+<tr><td align=right>8</td>	<td>/ N--ni / N / V--ta /</td>		<td align=right>19</td>
+	<td><img src="c27/j0108.gif">(A, full-grown), <img src="c27/j0109.gif">(A, opinionated)</tr></tr>
+<tr><td align=right>9</td>	<td>/ F / N / V--ta /</td>		<td align=right>17</td>
+	<td><img src="c27/j0110.gif">(A, semiformal), <img src="c27/j0111.gif">(A, firm)</tr></tr>
+<tr><td align=right>10</td>	<td>/ N--no / N--o / V--ta /</td>	<td align=right>16</td>
+	<td><img src="c27/j0112.gif">(A, incarnate), <img src="c27/j0113.gif">(A, multilateral)</tr></tr>
+<tr><td align=right>11</td>	<td>/ N--o / V--da /</td>		<td align=right>15</td>
+	<td><img src="c27/j0114.gif">(A, auriferous), <img src="c27/j0115.gif">(A, furtive)</tr></tr>
+<tr><td align=right>12</td>	<td>/ N--no / N--ni / V--ta /</td>	<td align=right>13</td>
+	<td><img src="c27/j0116.gif">(A, methodical), <img src="c27/j0117.gif">(A, posthumous)</tr></tr>
+<tr><td align=right>13</td>	<td>/ N--no / N / V--ta /</td>		<td align=right>12</td>
+	<td><img src="c27/j0118.gif">(A, muscular), <img src="c27/j0119.gif">(A, war)</tr></tr>
+<tr><td align=right>14</td>	<td>/ N-kara / V--ta /</td>		<td align=right>12</td>
+	<td><img src="c27/j0120.gif">(A, biblical), <img src="c27/j0121.gif">(A, historical)</tr></tr>
+<tr><td align=right>15</td>	<td>/ A / N / V--ta/</td>		<td align=right>11</td>
+	<td><img src="c27/j0122.gif">(A, agelong), <img src="c27/j0123.gif">(A, crisp)</tr></tr>
+<tr><td align=right>16</td>	<td>/ N--no / F / V--ta /</td>		<td align=right>10</td>
+	<td><img src="c27/j0124.gif">(A, clear-cut), <img src="c27/j0125.gif">(A, wellgroomed)</tr></tr>
+</table>
+</p>
+
+<p>
+In Table 8, similar to table 7, the English part-of-speech is an adverb, and the
+Japanese auxiliary verb "<i>-nai</i>" comes to have the form of a clause. Like in
+Tables 4 and 6, the Japanese case element and verb correspond to one English
+word. Basically speaking, we also want to describe them as a valency pattern
+pair.
+We estimated that we could get 400 new valency patterns.
+</p>
+
+<p>
+<div align=center><strong><i>Table 8: Ending with an auxiliary verb "-nai" (frequency of ten or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>	<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N--o / V--nai /</td>		<td align=right>109</td>
+	<td><img src="c27/j0126.gif">(A, confiding), <img src="c27/j0127.gif">(A, free)</tr></tr>
+<tr><td align=right>2</td>	<td>/ N--no / V--nai /</td>		<td align=right>99</td>
+	<td><img src="c27/j0128.gif">(A, impossible), <img src="c27/j0129.gif">(A, reluctant)</tr></tr>
+<tr><td align=right>3</td>	<td>/ N--ni / V--nai /</td>		<td align=right>85</td>
+	<td><img src="c27/j0130.gif">(T, sink), <img src="c27/j0131.gif">(A, unnoticed)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N / V--te / V--nai /</td>		<td align=right>46</td>
+	<td><img src="c27/j0132.gif">(A, inactive), <img src="c27/j0133.gif">(A, unskilled)</tr></tr>
+<tr><td align=right>5</td>	<td>/ N--ga / V--nai /</td>		<td align=right>26</td>
+	<td><img src="c27/j0134.gif">(A, dumb), <img src="c27/j0135.gif">(A, sightless)</tr></tr>
+<tr><td align=right>6</td>	<td>/ V / N--no / V--nai /</td>	<td align=right>16</td>
+	<td><img src="c27/j0136.gif">(A, irrepressible), <img src="c27/j0137.gif">(A, needful)</tr></tr>
+<tr><td align=right>7</td>	<td>/ N--o / V--te / V--nai /</td>	<td align=right>13</td>
+	<td><img src="c27/j0138.gif">(A, bareheaded), <img src="c27/j0139.gif">(A, untried)</tr></tr>
+<tr><td align=right>8</td>	<td>/ N--ni / N / V--nai /</td>		<td align=right>12</td>
+	<td><img src="c27/j0140.gif">(A, sluggish), <img src="c27/j0141.gif">(A, maladjusted)</tr></tr>
+<tr><td align=right>9</td>	<td>/ N--mo / V--nai /</td>		<td align=right>10</td>
+	<td><img src="c27/j0142.gif">(A, dumb), <img src="c27/j0143.gif">(A, inconceivable)</tr></tr>
+</table>
+</p>
+
+<p>
+In Table 9, the English part-of-speech is an adverb, and the Japanese expression
+comes to have the form of a clause. The description of such an expression is
+difficult since the description of a valency pattern pair is considered to be at
+the simple sentence level. For example, another framework (like [<a href="c27.html#ref6">6</a>]) might be
+required.
+</p>
+
+<p>
+<div align=center><strong><i>Table 9: Ending with a particle "-te (-de)" (frequency of ten or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>			<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ N--o / V--te /</td>		<td align=right>156</td>
+	<td><img src="c27/j0144.gif">(F, mischievously), <img src="c27/j0145.gif">(F, purposefully)</tr></tr>
+<tr><td align=right>2</td>	<td>/ N--ni / V--te /</td>		<td align=right>136</td>
+	<td><img src="c27/j0146.gif">(F, absorbedly), <img src="c27/j0147.gif">(F, seaward)</tr></tr>
+<tr><td align=right>3</td>	<td>/ N--ga / V--te /</td>		<td align=right>27</td>
+	<td><img src="c27/j0148.gif">(A, alight), <img src="c27/j0149.gif">(F, dementedly)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N--no / N--o / V--te /</td>	<td align=right>10</td>
+	<td><img src="c27/j0150.gif">(F, enterprisingly), <img src="c27/j0151.gif">(F, expensively)</tr></tr>
+</table>
+</p>
+
+<p>
+If we look at Table 10, it seems that there are a lot of cases capable of
+applying the views explained in Tables 4 to 9. 
+Nos. 2, 4, 9, 10, and 15
+are similar to the results ending with an auxiliary verb "-ta (-da)"
+in Table 7. However, because individually there are also complex word
+constructions and they are quite unnatural as Japanese expressions, future work
+will also investigate the handling of these.
+</p>
+
+<p>
+<div align=center><strong><i>Table 10: Others (frequency of ten or more).</i></strong></div>
+<table border=3 cellpassing=1 cellspacing=1 align=center>
+<tr><td align=right>No.</td>	<td>J-POS Sequence</td>		<td align=right>Freq.</td>
+	<td>Japanese Translation Example (E-POS, English Word)</tr></tr>
+<tr></tr>
+<tr><td align=right>1</td>	<td>/ V / N--ni /</td>		<td align=right>94</td>
+	<td><img src="c27/j0152.gif">(F, gluttonously), <img src="c27/j0153.gif">(F, passim)</tr></tr>
+<tr><td align=right>2</td>	<td>/ V / N--na /</td>		<td align=right>93</td>
+	<td><img src="c27/j0154.gif">(A, incredulous), <img src="c27/j0155.gif">(A, splitting)</tr></tr>
+<tr><td align=right>3</td>	<td>/ V / N--no /</td>		<td align=right>79</td>
+	<td><img src="c27/j0156.gif">(A, dirty), <img src="c27/j0157.gif">(A, would-be)</tr></tr>
+<tr><td align=right>4</td>	<td>/ N--o / V / N--na /</td>	<td align=right>32</td>
+	<td><img src="c27/j0158.gif">(A, cutting), <img src="c27/j0159.gif">(A, shrill)</tr></tr>
+<tr><td align=right>5</td>	<td>/ V / N--de--aru /</td>	<td align=right>32</td>
+	<td><img src="c27/j0160.gif">(I, prickle), <img src="c27/j0161.gif">(I, threaten)</tr></tr>
+<tr><td align=right>6</td>	<td>/ N--ni / V--ba /</td>	<td align=right>28</td>
+	<td><img src="c27/j0162.gif">(F, appropriately), <img src="c27/j0163.gif">(F, candidly)</tr></tr>
+<tr><td align=right>7</td>	<td>/ N / V / N--ni /</td>	<td align=right>26</td>
+	<td><img src="c27/j0164.gif">(F, bewitchingly), <img src="c27/j0165.gif">(F, pervasively)</tr></tr>
+<tr><td align=right>8</td>	<td>/ N / V / N--no /</td>	<td align=right>24</td>
+	<td><img src="c27/j0166.gif">(A, backward), <img src="c27/j0167.gif">(A, reformatory)</tr></tr>
+<tr><td align=right>9</td>	<td>/ F / V / N--na /</td>	<td align=right>21</td>
+	<td><img src="c27/j0168.gif">(A, creepy), <img src="c27/j0169.gif">(A, momentary)</tr></tr>
+<tr><td align=right>10</td>	<td>/ N / V / N--na /</td>	<td align=right>16</td>
+	<td><img src="c27/j0170.gif">(A, adorable), <img src="c27/j0171.gif">(A, provoking)</tr></tr>
+<tr><td align=right>11</td>	<td>/ V / N--de /</td>		<td align=right>15</td>
+	<td><img src="c27/j0172.gif">(F, deceitfully), <img src="c27/j0173.gif">(F, over)</tr></tr>
+<tr><td align=right>12</td>	<td>/ V--ta / N--ni /</td>	<td align=right>14</td>
+	<td><img src="c27/j0174.gif">(F, absurdly), <img src="c27/j0175.gif">(F, inquiringly)</tr></tr>
+<tr><td align=right>13</td>	<td>/ N--o / V--nai--de /</td>	<td align=right>11</td>
+	<td><img src="c27/j0176.gif">(F, malapropos), <img src="c27/j0177.gif">(F, rent-free)</tr></tr>
+<tr><td align=right>14</td>	<td>/ N--o / V / N--ni /</td>	<td align=right>10</td>
+	<td><img src="c27/j0178.gif">(F, suspiciously), <img src="c27/j0179.gif">(F, threateningly)</tr></tr>
+<tr><td align=right>15</td>	<td>/ N--no / V / N--na /</td>	<td align=right>10</td>
+	<td><img src="c27/j0180.gif">(A, oppressive), <img src="c27/j0181.gif">(A, spooky)</tr></tr>
+<tr><td align=right>16</td>	<td>/ N--ni--mo / V--zu /</td>	<td align=right>10</td>
+	<td><img src="c27/j0182.gif">(F, notwithstanding), <img src="c27/j0182.gif">(F, still)</tr></tr>
+<tr><td align=right>17</td>	<td>/ V--ta / N--no /</td>	<td align=right>10</td>
+	<td><img src="c27/j0183.gif">(A, unopened), <img src="c27/j0184.gif">(A, blue-black)</tr></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Conclusion</font></h2></a>
+
+<p>
+By morphologically analyzing Japanese translations of an English-Japanese
+dictionary, we observed whole tendencies. When Japanese expressions
+corresponding to an English word were constructed from multiple clauses, we
+found quite a number of expressions that included a case element and verb. By
+processing these, we can expect the generation of valency patterns. 
+According to the described trial, we will get 5,000 new valency patterns.
+In addition,
+by applying morphological analyse, we can automatically eliminate
+explanatory translations to some degree.
+</p>
+
+<p>
+In the future, we plan to proceed with investigations on these and investigate
+methods of semi-automatically obtaining effective valency pattern pairs in
+Japanese-English translation from an English-Japanese dictionary.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>Ikehara, S., M. Miyazaki &amp; A. Yokoo (1993).
+    "Classification of language knowledge for meaning analysis in machine translation".
+    <i>Trans. of Information Processing Society of Japan</i>, Vol.34, No.8, pp.1692-1704 (in Japanese).
+    <br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>Shirai, S., S. Ikehara, A. Yokoo &amp; H. Inoue (1995).
+    "The quantity of valency pattern pairs required for Japanese to English machine translation and their compilation".
+    <i>Proc. of NLPRS-95</i>, pp.443-448.
+    <br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>Ikehara, S., M. Miyazaki, S. Shirai, A. Yokoo, H. Nakaiwa, K. Ogura,
+    Y. Ooyama &amp; Y. Hayashi eds. (1997), and CD-ROM version (1999).
+    "Goi-Taikei: A Japanese Lexicon".
+    Iwanami Shoten Publisher (in Japanese).
+    <br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>Yamagishi, K., T. Kodama &amp; C. Kaise eds. (1996).
+    "The Super Anchor English-Japanese Dictionary".
+    Gakken (in Japanese).
+    <br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>Matsumoto, Y., A. Kitauchi, T. Yamashita, Y. Hirano, H. Matsuda &amp; M. Asahara (1999).
+    "Japanese Morphological Analysis System ChaSen version 2.0 Manual 2nd edition".
+    <i>NAIST-IS-TR99009</i>, Nara Institute of Science and Technology.
+    <br>
+    URL="http://chasen.aist-nara.ac.jp/". (At present, a new version is available.)
+    <br><br>
+<dt><a name="ref5"><strong>[6]</strong></a>
+<dd>Matsuo, Y., S. Shirai &amp; S. Ikehara (1995).
+    "Changing syntactic classes in transfer-based machine translation".
+    <i>Proc. of NLPRS-95</i>, pp.432-437.
+    <br><br>
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+To date, a little more than 14,000 examples have been disclosed [<a href="c27.html#ref3">3</a>]. (<a href="c27.html#rfn1">Return</a>)
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+Examples following the semicolon are examples checked off in Tables 4 to 10. (<a href="c27.html#rfn2">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

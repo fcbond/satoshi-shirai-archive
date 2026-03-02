@@ -1,0 +1,1655 @@
+<html>
+<head>
+<title>Mamiko Hatayama, Yoshihiro Matsuo &amp; Satoshi Shirai, Journal of Natural Language Processing, July 7, 2002</title>
+<meta http-equiv="content-type" content="text/html; charset=euc-jp">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>重要語句抽出による新聞記事自動要約</font>
+<br><br>
+
+<font size=+2>畑山 満美子<sup>+</sup> &nbsp;&nbsp; 松尾 義博<sup>++</sup> &nbsp;&nbsp; 白井 諭<sup>+++</sup></font>
+<br><br>
+</div>
+
+<p>
+本論文では，格フレーム辞書を用いて原文の重要語句を抽出し，
+抽出された語句を再構成することにより
+要約文を生成する新聞記事要約手法を提案する．
+この手法に基づいて新聞記事自動要約システム<font face="Times New Roman">ALTLINE</font>を試作し，
+人手要約との比較により評価を行なった．
+この結果，提案手法によって
+人間の要約に匹敵する要約文が生成できることが分かった．
+</p>
+
+<b>キーワード：</b> &nbsp;&nbsp; 自動要約，単語抽出，格フレーム
+
+<br><br>
+<br><br>
+
+<div align=center>
+<font size=+3 face="Times New Roman">Summarizing Newspaper Articles Using Extracted Informative and Functional Words</font>
+<br><br>
+
+<font size=+2 face="Times New Roman">M<small>AMIKO</small> H<small>ATAYAMA</small><sup>+</sup>, Y<small>OSHIHIRO</small> M<small>ATSUO</small><sup>++</sup> and S<small>ATOSHI</small> S<small>HIRAI</small><sup>+++</sup></font>
+<br><br>
+</div>
+
+<p><font face="Times New Roman">
+We propose a new method of summarizing newspaper articles that
+extracts using a case-frame dictionary, 
+important words and phrases from original articles 
+and generates a summary by reconstructing those
+extracted words and phrases.
+The number of sentences in the generated summary can be
+controlled by users from one to a few sentences.
+We have also developed the prototype summarization system ALTLINE
+and evaluate the system by comparing generated summaries 
+to human-produced summaries.
+This evaluation result shows that 
+the ALTLINE was ranked near middle among all the human subjects,
+proving that the system summaries obtained comparable to human summaries.
+</font></p>
+
+<font face="Times New Roman"><b>KeyWords:</b> <i>Automatic text summarization</i>, <i>extraction</i>, <i>case frame</i>.</font>
+<br><br>
+<br><br>
+
+<div align=center>
+<font size=-1 face="Times New Roman">
+[ <i>自然言語処理</i>, <font face="Times New Roman">No.4, pp.55-73 (2002.7).</font> ]<br>
+[ <font face="Times New Roman"><i>Journal of Natural Language Processing</i>, No.4, pp.55-73 (July, 2002).</font> ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2 width=40% align=left>
+<sup>+</sup><font face="Times New Roman">NTT</font>コミュニケーション科学基礎研究所，日本電信電話株式会社,
+<font face="Times New Roman">NTT Communication Science Laboratories, NTT Corporation</font> <br>
+<sup>++</sup><font face="Times New Roman">NTT</font>サイバースペース研究所，日本電信電話株式会社,
+<font face="Times New Roman">NTT Cyber Space Laboratories, NTT Corporation</font> <br>
+<sup>+++</sup>国際電気通信基礎技術研究所,
+<font face="Times New Roman">ATR Spoken Language Translation Research Laboratories</font>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=23>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p15.html#chap-1">1 はじめに</a></td></tr>
+<tr><td><a href="p15.html#chap-2">2 要約方式</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-2.1">2.1 文の重要度</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-2.2">2.2 主動詞の特定</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-2.3">2.3 重要語句の抽出</a></td></tr>
+<tr><td><a href="p15.html#chap-3">3 要約システムの実装</a></td></tr>
+<tr><td><a href="p15.html#chap-4">4 被験者を用いた要約実験</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-4.1">4.1 実験条件</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-4.2">4.2 実験データ</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-4.3">4.3 課題について</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-4.4">4.4 実験結果</a></td></tr>
+<tr><td><a href="p15.html#chap-5">5 被験者結果を用いた<font face="Times New Roman">ALTLINE</font>の評価</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-5.1">5.1 <font face="Times New Roman">ALTLINE</font>による要約</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-5.2">5.2 評価基準の設定</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#chap-5.3">5.3 評価結果</a></td></tr>
+<tr><td><a href="p15.html#chap-6">6 考察</a></td></tr>
+<tr><td><a href="p15.html#chap-7">7 おわりに</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#ref">参考文献</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#app">付録</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#app-a">A 付録: 原文(新聞記事)の例</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#app-b">B 付録: 単語リスト</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p15.html#app-c">C 付録: 被験者の要約結果</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 はじめに</font></h2></a>
+
+<p>
+近年テキスト情報が膨大になり，
+真に必要とする情報を的確に選択することが
+量的にも，質的にも困難になっている．
+また，携帯端末の普及に伴い
+情報をよりコンパクトにまとめる技術が必要とされている．
+これらのことから，文章を自動要約する技術の重要性が高まっている．
+</p>
+<p>
+これまで様々な要約研究が行なわれてきたが(<a href="p15.html#ref12">奥村,難波1999</a>)，
+原文から重要と判断される文，段落等を抜き出し，
+それを要約と見なす手法が主流である．
+これには，単語出現頻度を元にした重要度によって重要文を抽出する手法
+(<a href="p15.html#ref1"><font face="Times New Roman">Edmundson</font> 1969</a>;
+<a href="p15.html#ref6"><font face="Times New Roman">Luhn</font> 1958</a>;
+<a href="p15.html#ref13"><font face="Times New Roman">Zechner</font> 1996</a>)，
+談話構造を利用して文を抽出する方法
+(<a href="p15.html#ref8"><font face="Times New Roman">Marcu</font> 1997</a>)，
+などがあるが，
+文単位の抽出方法では余分な修飾語など不必要な情報が多く含まれるため，
+圧縮率に限界がある．
+また文を羅列した場合には，
+前後のつながりが悪いなど可読性に問題があった．
+そこで近年では，
+文単位だけでなく語句単位で重要箇所を抽出する研究
+(<a href="p15.html#ref2"><font face="Times New Roman">Hovy and Lin</font> 1997</a>;
+<a href="p15.html#ref11"><font face="Times New Roman">Oka and Ueda</font> 2000</a>)，
+ 語句単位の抽出を文法的に行なう研究
+(<a href="p15.html#ref5"><font face="Times New Roman">Knight and Marcu</font> 2000</a>;
+<a href="p15.html#ref4"><font face="Times New Roman">Jin and McKeown</font> 2000</a>)，
+可読性を高めるための研究
+(<a href="p15.html#ref7"><font face="Times New Roman">Mani, Gates and Bloedorn</font> 1999</a>;
+<a href="p15.html#ref9"><font face="Times New Roman">Nanba and Okumura</font> 2000</a>)が
+行なわれるようになってきた．
+中には，原文に現れる幾つかの概念を上位概念に置き換えるような
+<font face="Times New Roman">abstract</font> の手法も見られる
+(<a href="p15.html#ref2"><font face="Times New Roman">Hovy and Lin</font> 1997</a>)．
+しかし，重要語句を列挙するだけでは文を形成しないため，
+可読性が低くなるという問題点がある．
+また，文を形成する場合でも，
+人に近い言い替えや概念の統合を行なうには膨大な知識が必要となる．
+</p>
+<p>
+本研究では，文単位ではなく語句単位の抽出を行ない，
+本文から必要最低限の重要語句を抽出し，
+それらを用いて文生成を行なう要約手法を提案する．
+提案手法は，必要最低限の語句を抽出することで圧縮率を高めるとともに，
+抽出した語句から文を形成することで可読性を考慮した．
+また，重要語句を抽出して文を形成するためには
+少なくとも主語，述語，目的語が必要であると考え，
+格要素を特定することで重要語句を抽出した．
+これによって，端的な要約文を生成するために
+必要最低限の情報を得ることが可能となった．
+また，現在利用可能な知識で文を生成するために，
+この格要素の抽出には，日英機械翻訳システム<font face="Times New Roman">ALT-J/E</font>
+(<a href="p15.html#ref3"><font face="Times New Roman">Ikehara, Shirai, Yokoo, and Nakaiwa</font> 1991</a>) 
+の格フレーム辞書(<a href="p15.html#ref10"><font face="Times New Roman">NTT</font>コミュニケーション科学基礎研究所 1999</a>)を用いた．
+</p>
+<p>
+本論文で提案する要約モデルは以下の2点によって構成される:
+</p>
+<p>
+<ul>
+<li>語句抽出
+<li>文生成
+</ul>
+</p>
+<p>
+このうち，語句抽出には以下の2つの方法があると考える:
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2 width=20></td>
+    <td><nobr>A) &nbsp;</nobr></td><td> キーワードに着目する方法</td></tr>
+<tr valign=top>
+    <td>B)</td><td>文生成に必要な語句に着目する方法</td></tr>
+</table>
+</p>
+<p>
+キーワード A) は，内容の特徴を表す単語であり，
+高頻度語など，従来のキーワード抽出等で抽出されてきた単語列である．
+しかし，単語列を提示しただけでは文を形成しないため可読性が低く，
+誤読を起こしかねない．
+一方，文生成に必要な単語 B) とは，
+A) に加えて，文を構成するために必要な機能語や，
+高頻度語に含まれない内容語も含まれている．
+本論文では，
+要約結果は単語列ではなく文を形成していることを基本方針とするため，
+B) の語句抽出に着目して要約文を生成する．
+</p>
+<p>
+以上の方針を元に，本研究では，
+新聞記事を自動要約するシステム<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>を試作した．
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>は一文〜複数文の要約を生成することができ，
+文単位ではなく重要語句を抽出することによって
+圧縮率を高くすることが可能になった．
+また，<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の評価基準を設定し，
+人間による要約実験の結果と比較することで評価を行なった．
+</p>
+<p>
+本論文では，
+2章で提案する要約方式，
+3章で要約システムの実装について述べる．
+4章では評価の正解基準を作成するための被験者実験について説明し，
+5章では<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の評価を行なう．
+6章で考察を行ない，
+7章でまとめを行なう．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 要約方式</font></h2></a>
+
+<p>
+本章では，提案手法の要約方式について述べる．
+図1は要約手順を表す．
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p15/p15-fig1.gif" width=458 height=387>
+</td></tr>
+</table>
+<div align=center><strong>
+図1 要約手順(1)
+</strong></div>
+</p>
+
+<p>
+最初に，各文に重要度を得点付ける．
+次に，各文について主動詞を特定し，
+主動詞の格フレーム情報と，抽出ルールを用いて重要語句を抜き出す．
+次に，抜き出した重要語句を再構成し要約文を生成する．
+最後に，各文毎に生成された要約文の中から，
+ユーザーが求める要約率に応じた数の要約文を出力する．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 文の重要度</font></h2></a>
+
+<p>
+原文の形態素解析，構文解析を行なった後，
+文の位置，手がかり語，文の長さによって得点付けをし，
+その重要度によって重要文を選択する．
+</p>
+<p>
+<b>1) 文の位置</b>
+</p>
+<p>
+事前調査として，
+日本経済新聞において重要語が含まれる文の出現位置を調査し分析を行なった．
+重要語の判定を客観的に行なうため，
+同社が出している英文要約記事のヘッドラインに着目し，
+これに含まれる英単語に対応する日本語単語を含む文の出現位置を調べた．
+この結果は，
+第１段落第１文目だけでよいもの: 72%，
+第１段落第２文目以降も必要なもの: 24%，
+第２段落目も必要なもの: 2.4%，
+見出しが必要なもの: 1.3%
+であった．
+このことから，先頭位置に近い文ほど重要度が高いと判断し，
+上位置文に重要度を加点する．
+</p>
+<p>
+<b>2) 手がかり語</b>
+</p>
+<p>
+以下の手がかり語が含まれる文に重要度を加点する．<br>
+・“［代名詞］によると”，“［名詞］によると”，“［代名詞］の結果”．<br>
+・“〜A計画を発表した。A計画では〜”のように連続した文に単語の対応が
+ある場合，後文に加点する．<br>
+・｛提出する/発表する/公表する/まとめる/報告する/議論する｝の場合，
+次の文に加点する．<a name="rfn1" href="p15.html#fn1"><sup>1</sup></a><br>
+・文の引用としてではなく語句を強調するために使われる括弧「」を
+含む文に加点する．
+</p>
+<p>
+<b>3) 文の長さ</b>
+</p>
+<p>
+前述の事前調査において，
+上位置にあっても文節数が短い文は導入文である傾向があり，
+重要語句が含まれない(重要文にはならない)ことが分かった．
+このことから，上位置にあっても文節数が少ない文は重要度を減点する．
+</p>
+
+<br>
+
+<p>
+以上のルールによって各文の重要度を計算する．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 主動詞の特定</font></h2></a>
+
+<p>
+重要要素を選出するために，まず，主動詞を特定する．
+通常，一文の中には複数の動詞が含まれ複文も多く存在するが，
+ここでは原文の中で最も重要な意味をもつ動詞を選定する．
+</p>
+<p>
+日本語の新聞記事によく見られる表現として，以下のようなものがある．
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=2 width=20></td>
+    <td>「Sは〜 Vする(した)ことを<u>明らかにした</u>。」</td></tr>
+<tr><td>「Sは〜 Vする(した)と<u>発表した</u>。」</td></tr>
+</table>
+</p>
+<p>
+表層的に見た場合，下線部が述語の動詞となるが，
+文の意味を考えると主内容は「Sが〜Vする」ことである．
+この場合，文の意味を考えた実質的に意味のある動詞，つまり
+要約として残したい主動詞は「Vする(した)」の部分である．
+しかし，多くの日本語新聞記事の場合，このような直接的な表現は行なわず，
+「〜することを決定した / 発表した / 明らかにした」という
+間接的な表現が用いられる．
+このような場合に骨格文を得るためには主内容を表す動詞を特定する必要がある．
+本論文では，このような最も重要な意味を持つ動詞を“主動詞”と定義する．
+また，この場合の「明らかにした/発表した」のように，
+主動詞にならない述語動詞を広義の意味で“様相表現的動詞”と定義する．
+</p>
+<p>
+様相表現的動詞を判断して主動詞を得るルールには，
+以下のようなものがあり，現在47ルールで構成されている．
+これらの様相表現的動詞ルールから主動詞を特定する．
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0 align=center width=90%>
+<tr><td>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=100%>
+<tr><td><b>様相表現的動詞の着目語:</b></td></tr>
+<tr><td>発表する / 明らかになる / 乗り出す / 分かる / 決める / 見通し / <br>
+	方針だ / 方針を固める / 可能性が出る / 模様だ / 考える / 示す / <br>
+	合意する / 考えを示す / 着手する / 鮮明になる / <br>
+	する方向で検討を始める / 表明する / </td></tr>
+</table>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=100%>
+<tr><td colspan=2>ルール例</td></tr>
+<tr><td><b>発表した:</b></td><td></td></tr>
+<tr><td>〜［V｛する/した｝］見通しに｛なった/だ｝と発表した。</td>
+    <td>〜Vする。</td></tr>
+<tr><td>〜［V｛する/した｝］ことで合意した｛、｝と発表した。</td>
+    <td>〜Vする(した)。</td></tr>
+<tr><td>〜［V終止］｛と/ことを｝発表した。</td>
+    <td>〜Vする。</td></tr>
+<tr><td>〜［V連用］｛た/ている｝｛事/実態/全容/こと｝を発表した。</td>
+    <td>〜［V連用］｛た/ている｝。</td></tr>
+<tr><td><b>明らか:</b></td><td></td></tr>
+<tr><td>〜［V連用］｛た/ている｝｛事/実態/全容/こと｝｛が/を｝
+	明らかに｛した/なった｝。</td>
+    <td>〜［V連用］｛た/ている｝。</td></tr>
+<tr><td>〜［V｛する/した｝］｛事/実態/全容/こと｝｛が/を/と｝｛φ/、｝［数字］日｛φ/、｝
+	明らかに｛した/なった｝。</td>
+    <td>〜Vした。</td></tr>
+<tr><td>〜［V連用］｛た/ている｝｛事/事態/全容/こと｝｛が/を/と｝｛φ/、｝
+	［数字］日｛φ/、｝［?］の｛話し/話/はなし｝で明らかになった。</td>
+    <td>〜［V連用］｛た/ている｝。</td></tr>
+<tr><td>〜｛が/を/と｝明らかに｛した/なった｝。</td>
+    <td>〜｛した/なった｝。</td></tr>
+<tr><td><b>乗り出す:</b></td><td></td></tr>
+<tr><td>〜の［用言名詞サ変他動詞］に乗り出す。 
+	(例: 〜の生産に乗り出す。→ 〜を生産する。)</td>
+    <td>〜を［用言名詞］する。</td></tr>
+<tr><td>〜の［用言名詞サ変自動詞］に乗り出す。 
+	(例: 〜の普及に乗り出す。→ 〜を普及させる。)</td>
+    <td>〜を［用言名詞］させる。</td></tr>
+<tr><td>〜［固有名詞］での［用言名詞サ変他動詞］に乗り出す。 
+	(例: 中国での〜販売に乗り出す → 中国で〜販売する。)</td>
+    <td>〜［固有名詞］で［用言名詞］する。</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 重要語句の抽出</font></h2></a>
+
+<p>
+重要語句として，主動詞の格フレーム情報をもとに，
+主動詞の格要素を抽出する．
+</p>
+<p>
+前述の事前調査において，
+一文を生成するために必要な情報について調査，分析を行なった．
+その結果，一文を生成するために必要な情報は
+主動詞の必須格であることであり，
+その他の修飾要素の必要性が低いことが分かった．
+そこで本手法では，主動詞の主語，目的語を抽出し，
+その修飾語句を削除することを基本的な方針とした．
+また，この格要素を得るために，NTTの格フレーム辞書を採用した．
+この格フレーム辞書には，
+動詞とその必須格の制限ルールが大規模な(2700ノード)カテゴリーによって
+記述されているため，
+制約条件を満たすかどうかで動詞の必須格かどうかを判断することが可能である．
+</p>
+<p>
+その他の修飾語句は語句抽出ルールによって抽出する．
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=20></td>
+    <td>1) 主語を得る. <br>
+	1-1) 主動詞にかかる主語候補が1つの場合：その主語候補を取る．<br>
+	1-2) 主動詞にかかる主語候補が複数ある場合：文頭に近い主語候補を取る．<br>
+	1-3) 主動詞にかかる主語候補が無い場合： 主動詞にかかるハ格，ガ格を取る．<br>
+	1-4) 上記以外の場合：主動詞にかからないハ格，ガ格を取る．<br>
+	<br>
+	2) 目的語を得る．<br>
+	2-1) 主動詞にかかる目的語候補がある場合：その目的語を取る．<br>
+	2-2) 上記以外の場合：
+	主動詞に格関係でかかる文節たちの中でヲ格のもので文頭に近いものを取る．<br>
+	<br>
+	3) 補語を得る．<br>
+	3-1) 主動詞にかかる補語候補がある場合：その補語を取る．<br>
+	<br>
+	4) 1〜3)それぞれの修飾語句を得る．<br>
+	4-1) 必須格自立部が「会社」の場合： 修飾文節を全て採用する．<br>
+	4-2) 必須格が具体名詞の場合：
+	修飾文節のカテゴリが地域名/企業名/数詞/時詞/「場」/「組織」ならば採用する．<br>
+	4-3) 必須格が抽象名詞の場合：
+		修飾文節が具体名詞になるまで係り元を遡り採用する．</td></tr>
+</table>
+</p>
+
+<p>
+以上のルールによって語句抽出を行ない，
+抽出された語句を用いて一文を生成する．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 要約システムの実装</font></h2></a>
+
+<p>
+前節で説明した手法を元に，
+新聞記事を自動要約するシステム <font face="times new roman">ALTLINE</font>を試作した．
+<font face="times new roman">ALTLINE</font>は一文〜複数文の要約を生成することができ，
+必要最低限の重要語句を抽出することによって
+短い要約文を生成することができる．
+本システムは入力された文章の各文に対して要約文を生成し，
+各要約文の重要度に基づき順位付けを行なう．
+その後，要約率に応じて順位の高い要約文を要約結果として出力する
+(図2)．
+本論文では，一文を要約結果として出力する場合について説明する．
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p15/p15-fig2.gif" width=604 height=336>
+</td></tr>
+</table>
+<div align=center><strong>
+図2 要約手順(2)
+</strong></div>
+</p>
+
+<p>
+図3の文章を入力すると，
+<font face="times new roman">ALTLINE</font>は図4の要約文を生成し，
+その後，最も重要度の高い文を要約結果として出力する．
+原文の中で下線のある語句は要約に使用された部分であり，
+<font color="#0000ff">四角付きの語句</font>は格要素を表している．
+また，各文の後に付けられた数字は文の重要度を表す．
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr valign=top><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20>1: </td>
+    <td><font color="#0000ff">郵政省は</font>９日、
+	2000年末にＢＳ(放送衛星)デジタル放送とともに始まる <u>ＢＳデータ放送に</u> &nbsp;
+	<u>ＮＴＴグループの</u> <u><font color="#0000ff">参入を</font></u> &nbsp;
+	<u><font color="#0000ff">認める</font></u> 方針を決めた。</td></tr>
+<tr valign=top><td>2:</td>
+    <td>ＢＳデータ放送会社への３分の１未満の資本参加をＮＴＴグループ会社に認め、
+	ＮＴＴドコモなどが30％出資する<u><font color="#0000ff">新会社を</font></u>
+	<u>放送事業者に</u> &nbsp; <u><font color="#0000ff">認定する</font></u>。</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+図3 原文(新聞記事)
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=20>1:</td>
+    <td>郵政省はＢＳデータ放送にＮＴＴグループの参入を認める。 (20)</td></tr>
+<tr><td>2:</td>
+    <td>新会社を放送事業者に認定する。(10)</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+図4 システムが生成した要約文
+</strong></div>
+</p>
+
+<p>
+図3の例では，
+まず，システムは各文に対し重要度を計算して得点をつける．
+次に主動詞を特定する．
+「Sは〜を認めることを決めた」の「決めた」は
+様相的表現的動詞であるので，「認める」が主動詞に特定される．
+次に，「認める」の格フレームを用いて抽出する語句を特定する．
+「認める」の格フレームは図5のようである．
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><tt>[subject]</tt> が /  <tt>[action]</tt> を / 認める</td></tr>
+</table>
+<div align=center><strong>
+図5 「認める」の格フレーム情報
+</strong></div>
+</p>
+
+<p>
+「認める」の格要素は
+“<tt>[subject]</tt>が”と“<tt>[action]</tt>を”であるが，
+文中では「郵政省は」と「参入を」がそれぞれ主動詞に
+格関係でかかり，制約条件にも相当するため，
+重要語句として抽出される．
+その他の語句は，構文情報と単語抽出ルールによって抽出される．
+「BSデジタル放送に」は主動詞に格関係でかかる要素であるため取得され，
+「NTTグループ」は「参入」が抽象名詞のため，その修飾語句として得られる．
+</p>
+<p>
+最後に，抽出されたこれらの語句で一文を生成する
+(図4)．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 被験者を用いた要約実験</font></h2></a>
+
+<p>
+本章では，提案手法の語句抽出について評価を行なう方法を説明する．
+</p>
+<p>
+従来の要約結果の評価方法として，
+要約結果だけで原文の内容が理解できるかどうかを評価する読解評価方法や，
+要約文の文としての整合性を評価する文生成評価方法がある．
+しかし，
+人間は単語の羅列からでも文章の内容を推測することができるため，
+読解評価では抽出語句が文形成に適切であるかを評価することができない．
+一方，文生成評価では生成文の文法的正しさに着目するため，
+要約文生成における重要語句の抽出精度を評価することができない．
+</p>
+<p>
+これまで述べたように，
+本手法は原文の単語のみを用いて要約文を作成している．
+そこで語句抽出の評価を行なう際，
+公平に評価を行なうために
+被験者を本手法の語句抽出と同条件下に置き，要約を作成する実験を行った．
+そして，被験者が作成した要約文から平均的な単語集合を作成した．
+この単語集合から抽出語句の正解集合を定義し，
+使用単語を比較することによって提案手法の性能を評価する．
+(評価結果は節5)．
+</p>
+<p>
+以上の理由から，評価基準を作成するため，
+人間の要約を収集するための被験者実験を行なった．
+この節では，被験者要約実験の手法，実験条件，結果について述べ，
+次節で<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>との比較について述べる．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 実験条件</font></h2></a>
+
+<p>
+この実験では，
+原文に出現する語句だけを用いて一文の要約文を作成することを制約とした．
+</p>
+<p>
+被験者は13名で，20代から30代までの男女，
+新聞を読み慣れていることを期待し社会人とした．
+これ以降，この13名の被験者を <font face="times new roman"><i>S<sub>i</sub></i> (<i>i</i>=1,...,1)</font> と表記する．
+実験を行なう際に(機械を意識した回答を作らせないために)
+被験者に機械要約の正解を作る目的は告げなかったが，
+機械要約のための参考にすることは告げた．
+また，この実験には正解や理想解がないことを説明した．
+実験に使用した文章は100記事で，要約作業は各記事に対して行なう．
+1記事の要約作業につき10〜20分で作業を終えるよう指示し，
+記事の作業順序は被験者に委ねた．
+被験者には，
+節4.2に示す問題用新聞記事と，
+節4.2に示す回答用単語リストを提示し，
+回答用単語リストの単語のみを使って要約文を作成するように指示した．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 実験データ</font></h2></a>
+
+<p>
+<b>問題用新聞記事</b>
+</p>
+<p>
+実験に使用する原文は，
+毎日新聞1998年版<font face="times new roman">CD-ROM</font> の新聞記事の一面から，
+ランダムに 100記事を選んだ(図表の説明がある記事は除いた)．
+また，見出しは除き，段落が分からないよう一文ずつに改行した
+(付録A).
+選ばれた100記事は，平均9.64文からなり，最小で4文，最長で19文から成る．
+文節では，最少で49文節，最多で244文節，平均119.34文節である．
+</p>
+<p>
+<b>単語リスト</b>
+</p>
+<p>
+以下のように単語リストを作成した．
+原文に対し，日英機械翻訳器<font face="times new roman">ALT-J/E</font> の形態素解析部
+<font face="times new roman">ALTJAWS</font>を用いて
+形態素解析，文節区切りをしたあと，
+解析誤りを人手で修正し，助詞，助動詞に括弧をつけ，
+文節毎に番号をふった(付録B).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 課題について</font></h2></a>
+
+<p>
+元記事の要約を作るために必要な単語を，
+単語リストの中から選び，
+単語リストにある単語のみを用いて一文の要約文を作ってもらった．
+</p>
+<p>
+その際の教示は以下のようである．
+</p>
+<p>
+<ul>
+<li>この記事が最も伝えたいことを1文（最小の要約文）に要約にする．
+<li>「最小の要約文」を作るために必要な単語を選ぶ．
+<li>単語は，単語リストの中から選ぶ．
+<li>単語を選ぶ際，元記事に出現する位置や順序を考慮する必要はない．
+<li>()内の助詞・助動詞は，適当に削除，補完，活用して構わない
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.4"><h2><font color=#ff0000>4.4 実験結果</font></h2></a>
+
+<p>
+図6は，
+付録Aに示す記事の要約結果の例である．
+括弧付きの数字は，単語リストの単語番号を表している．
+単語リストは，多くの同義語を含んでいるため，
+実験後，同じ表現は一つの単語に単一化した．
+(例: 大田昌秀知事，大田知事，大田昌秀沖縄県知事 → 
+大田昌秀知事に統一する)．
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>1</sub></font>:</td>
+    <td><nobr><sub>(2)</sub> 大田昌秀知事は、/</nobr>
+	<nobr><sub>(6)</sub> 米軍海上ヘリポート建設問題に /</nobr>
+	<nobr><sub>(14)</sub> 反対を / </nobr>
+	<nobr><sub>(15)</sub> 明言した。</nobr></td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>4</sub></font>:</td>
+    <td><nobr><sub>(1)</sub> 沖縄県の /</nobr>
+	<nobr><sub>(2)</sub> 大田昌秀知事は /</nobr>
+	<nobr><sub>(6)</sub> 米軍海上ヘリポート建設問題について /</nobr>
+	<nobr><sub>(26)</sub> 代替案を /</nobr>
+	<nobr><sub>(123)</sub> 検討している。</nobr></td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>9</sub></font>:</td>
+    <td><nobr><sub>(1)</sub> 沖縄県 /</nobr>
+	<nobr><sub>(2)</sub> 大田知事は /</nobr>
+	<nobr><sub>(4)</sub> 名護市沖 /</nobr>
+	<nobr><sub>(6)</sub> 米軍海上ヘリポート建設問題 /</nobr>
+	<nobr><sub>(14)</sub> 反対を /</nobr>
+	<nobr><sub>(17)</sub> 橋本首相に /</nobr>
+	<nobr><sub>(12)</sub> 述べ、/</nobr>
+	<nobr><sub>(26)</sub> 代替案を /</nobr>
+	<nobr><sub>(30)</sub> 提言した。</nobr></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+図6 被験者による要約文
+</strong></div>
+</p>
+
+<p>
+被験者の要約文に使用した文節数は 100記事の平均で5.49文節，
+最少で 4.17文節，最多で7.6文節であった．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 被験者結果を用いた</font><font color=#ff0000 face="Times New Roman">ALTLINE</font><font color=#ff0000>の評価</font></h2></a>
+
+<p>
+この章では，被験者実験の結果と <FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の要約結果を比較し，考察する．
+本論文では，正解集合は人手要約の平均であると定義する．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1</font> <font color=#ff0000 face="Times New Roman">ALTLINE</font><font color=#ff0000>による要約</font></h2></a>
+
+<p>
+被験者実験に使用したものと同じ新聞記事
+(4.2節)を
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>に入力し，要約文を自動生成した．
+例えば，付録A，Bの記事の場合，
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の要約結果は以下のようになる．
+</p>
+<p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top>
+    <td><nobr><sub>(1)</sub> 沖縄県の / </nobr>
+	<nobr><sub>(2)</sub> 大田昌秀知事は / </nobr>
+	<nobr><sub>(14)</sub> 反対を / </nobr>
+	<nobr><sub>(15)</sub> 明言した。 </nobr></td></tr>
+</table>
+</p>
+
+<p>
+本論文では，これ以降 <FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT> を <font face="times new roman"><i>S</i><sub>0</sub></font> と呼び，
+表中では <font face="times new roman"><i>A</i></font> と表記する
+(表1,2,3)．
+100要約中，被験者<font face="times new roman"><i>S<sub>i</sub></i>(<i>i</i>=1,...,13)</font> の平均は 5.49 文節，
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の平均使用文節数は 3.62 文節であった．
+また，<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>を含めた
+<font face="times new roman"><i>S<sub>i</sub></i>(<i>i</i>=0,...,13)</font> での平均使用文節数は 5.35 文節であった．
+これらを比較すると <FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の使用文節数は被験者よりかなり小さいことが分かる．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 評価基準の設定</font></h2></a>
+
+<p>
+人手要約と<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の結果を元に，評価基準を設定した．
+</p>
+<p>
+記事 <font face="times new roman"><i>k</i> (<i>k</i>=1,...,100)</font> ，
+被験者 <font face="times new roman"><i>S<sub>i</sub></i> (i=0,...,13)</font> ，
+記事 <font face="times new roman"><i>k</i></font> の総文節数 <font face="times new roman"><i>J<sub>k</sub></i></font> ，
+記事 <font face="times new roman"><i>k</i></font> における各文節 <font face="times new roman"><i>j</i> (<i>j</i>=1,...,<i>J<sub>k</sub></i>)</font> とするとき，
+記事 <font face="times new roman"><i>k</i></font> における被験者 <font face="times new roman"><i>S<sub>i</sub></i></font> の回答使用文節を <font face="times new roman"><i>B<sub>kji</sub></i></font> で表し，
+次のような値を与える．
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=2 width=40></td>
+    <td rowspan=2><font face="times new roman"><i>B<sub>kji</sub></i> =</font></td>
+    <td rowspan=2>&nbsp; <font size="+3">{</font> &nbsp;</td>
+    <td width=20>1</td><td>(回答に使用した文節)</td></tr>
+<tr><td>0</td><td>(回答に使用しなかった文節) </td></tr>
+</table>
+</p>
+<p>
+記事 <font face="times new roman"><i>k</i></font> における被験者 <font face="times new roman"><i>S<sub>i</sub></i></font> の回答使用文節数は 
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=3 width=40></td>
+    <td rowspan=3><font face="times new roman"><i>W<sub>ki</sub></i> =</font></td>
+    <td><font size=-1><font face="times new roman"><i>J<sub>k</sub></i></font></font></td>
+    <td rowspan=3><font face="times new roman"><i>B<sub>kji</sub></i></font></td></tr>
+<tr><td><font size=+3>Σ</font></td></tr>
+<tr><td><sup><font face="times new roman"><i>j</i>=1</font></sup></td></tr>
+
+</table>
+</p>
+<p>
+で表すことができる．
+</p>
+<p>
+このとき,
+記事 <font face="Times New Roman"><i>k</i></font> の 第<font face="Times New Roman"><i>j</i></font>文節の重要度 <font face="Times New Roman"><i>SCORE<sub>kj</sub></i></font> を
+以下のように定義する.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+
+<tr align=center><td rowspan=5 width=40></td>
+    <td rowspan=5><font face="Times New Roman"><i>SCORE<sub>kj</sub></i> =</font></td>
+    <td><sub><font face="Times New Roman">13</font></sub></td>
+    <td rowspan=2 valign=bottom><font face="Times New Roman"><i>B<sub>kji</sub></i></font></td></tr>
+<tr align=center><td rowspan=3><font size="+3">Σ</font></td></tr>
+<tr align=center><td><font size="-2">------</font></td></tr>
+<tr align=center><td rowspan=2 valign=top><font face="Times New Roman"><i>W<sub>ki</sub></i></font></td></tr>
+<tr align=center><td><sup><font face="Times New Roman"><i>i</i>=0</font></sup></td></tr>
+</table>
+</p>
+<p>
+ある閾値 <font face="Times New Roman"><i>TH<sub>k</sub></i></font> を決めたとき,
+<font face="Times New Roman"><i>SCORE<sub>kj</sub></i></font> &gt; <font face="Times New Roman"><i>TH<i>k</i></i></font> を満たす文節<font face="Times New Roman"><i>j</i></font> の集合を,
+その記事 <font face="Times New Roman"><i>k</i></font> における正解集合 <font face="Times New Roman"><i>ASET<sub>k</sub></i></font> とする.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40></td>
+    <td><font face="Times New Roman"><i>ASET<sub>k</sub></i> = {<i>j</i> | <i>SCORE<sub>kj</sub></i> &gt; 
+	<i>TH<sub>k</sub></i>}</font></td></tr>
+</table>
+</p>
+<p>
+なお，閾値 <font face="Times New Roman"><i>TH<sub>k</sub></i></font> は，
+正解集合に含まれる平均文節数と
+被験者の平均使用文節数が近似する値に設定する．
+つまり，<font face="Times New Roman"><i>x</i></font> の個数を <font face="Times New Roman"><i>num</i>(<i>x</i>)</font> で表した時，以下を満たす．
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=5 width=40></td>
+    <td rowspan=5><font face="Times New Roman"><i>num</i>(<i>ASET<sub>k</sub></i>) =</font></td>
+    <td><sub><font face="Times New Roman">13</font></sub></td>
+    <td rowspan=2 valign=bottom><font face="Times New Roman"><i>W<sub>ki</sub></i></font></td></tr>
+<tr align=center><td rowspan=3><font size=+3>Σ</font></td></tr>
+<tr align=center><td><font size=-2>------</font></td></tr>
+<tr align=center><td rowspan=2 valign=top><font face="Times New Roman">13</font></td></tr>
+<tr align=center><td><sup><font face="Times New Roman"><i>i</i>=0</font></sup></td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3"><h2><font color=#ff0000>5.3 評価結果</font></h2></a>
+
+<p>
+<b>全体での評価</b>
+</p>
+<p>
+本節では，それぞれの 被験者 <font face="Times New Roman"><i>S<sub>i</sub></i></font> と <FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>について，
+再現率, 適合率, F値 の結果を示す．
+5.2節での正解集合の定義から，
+本論文では正解集合は被験者の回答の平均を意味しており，
+F値等の数値が高いほど被験者の平均的な回答に近いことを意味する．
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=3 width=40></td>
+    <td rowspan=3>再現率 <font face="Times New Roman"><i>R</i> =</font></td>
+    <td>被験者<font face="Times New Roman"><i>S<sub>i</sub></i></font>の回答 ∩ 正解集合</td></tr>
+<tr align=center><td><font size="-2">------------------------------------------</font></td></tr>
+<tr align=center><td>正解集合</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=3 width=40></td><td rowspan=3>適合率 <font face="Times New Roman"><i>P</i> =</font></td>
+    <td>被験者<font face="Times New Roman"><i>S<sub>i</sub></i></font>の回答 ∩ 正解集合</td></tr>
+<tr align=center><td><font size="-2">------------------------------------------</font></td></tr>
+<tr align=center><td>被験者<font face="Times New Roman"><i>S<sub>i</sub></i></font>の回答</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=3 width=40></td><td rowspan=3>F値 =</td>
+    <td> <font face="Times New Roman">2 <i>R P</i></font></td></tr>
+<tr align=center><td><font size="-2">------------</font></td></tr>
+<tr align=center><td><font face="Times New Roman"><i>R</i> + <i>P</i></font></td></tr>
+</table>
+</p>
+<p>
+表1は
+<font face="Times New Roman"><i>S<sub>i</sub></i> (<i>i</i>=0,...,13)</font> の結果，
+元記事の全体から文節をランダムに抽出した結果<font face="Times New Roman">(<i>B<sub>r</sub></i>)</font>,
+元記事の第１文目から文節をランダムに抽出した結果<font face="Times New Roman">(<i>B<sub>l</sub></i>)</font>,
+元記事から <font face="times new roman">idf</font> による高順位語をもつ文節を抽出した結果<font face="Times New Roman">(<i>B<sub>i</sub></i>)</font>を示している．
+それぞれ抽出した文節数は，各記事の正解集合 <font face="Times New Roman"><i>ASET<sub>k</sub></i></font> の
+文節数と同じである．
+100記事についての結果を以下の表に示す(表1)．
+</p>
+
+<p>
+<div align=center><strong>
+表1 再現率, 適合率，F値の平均 (1)
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>順位</td>
+    <td colspan=2>再現率</td>
+    <td colspan=2>適合率</td>
+    <td colspan=2>F値</td>
+    <td colspan=2>文節数</td>
+<tr></tr>
+<tr align=right><td align=center>1</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>13</sub></font></td>	<td>0.867</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>7</sub></font></td>	<td>0.779</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>13</sub></font></td>	<td>0.717</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>11</sub></font></td>	<td>7.53</td></tr>
+<tr align=right><td align=center>2</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>11</sub></font></td>	<td>0.801</td>
+    <td align=left><font face="Times New Roman"><b>A</b></font></td>		<td>0.777</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>7</sub></font></td>	<td>0.704</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>13</sub></font></td>	<td>7.39</td></tr>
+<tr align=right><td align=center>3</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>5</sub></font></td>	<td>0.760</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>1</sub></font></td>	<td>0.718</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>12</sub></font></td>	<td>0.692</td>
+    <td align=left><font face="Times New Roman"><i>S</i><sub>4</sub></font></td>	<td>6.66</td></tr>
+<tr align=right><td align=center>4</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.698</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.715</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.676</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>6.57</td></tr>
+<tr align=right><td align=center>5</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.697</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.637</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.660</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>6.25</td></tr>
+<tr align=right><td align=center>6</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.668</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.635</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.648</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>5.87</td></tr>
+<tr align=right><td align=center>7</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.626</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.635</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.622</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>5.40</td></tr>
+<tr align=right><td align=center>8</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.617</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.618</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.609</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>5.23</td></tr>
+<tr align=right><td align=center>9</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.615</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.591</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.606</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>4.70</td></tr>
+<tr align=right><td align=center>10</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.566</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.587</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.570</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>4.51</td></tr>
+<tr align=right><td align=center>11</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.544</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.565</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.557</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>4.45</td></tr>
+<tr align=right><td align=center>12</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.538</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.565</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.526</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>4.44</td></tr>
+<tr align=right><td align=center>13</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.515</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.531</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.525</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>4.16</td></tr>
+<tr align=right><td align=center>14</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.479</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.510</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.515</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>3.60</td></tr>
+<tr></tr>
+<tr align=right><td align=center>平均</td>
+    <td></td><td>0.642</td>
+    <td></td><td>0.633</td>
+    <td></td><td>0.616</td>
+    <td></td><td>5.48</td></tr>
+<tr></tr>
+<tr align=right><td align=center>15</td>
+    <td align=left><font face="times new roman"><i>B<sub>l</sub></i></font></td>	<td>0.366</td>
+    <td align=left><font face="times new roman"><i>B<sub>l</sub></i></font></td>	<td>0.364</td>
+    <td align=left><font face="times new roman"><i>B<sub>l</sub></i></font></td>	<td>0.364</td>
+    <td align=left><font face="times new roman"><i>B<sub>l</sub></i></font></td>	<td>5.18 </td></tr>
+<tr align=right><td align=center>16</td>
+    <td align=left><font face="times new roman"><i>B<sub>i</sub></i></font></td>	<td>0.141</td>
+    <td align=left><font face="times new roman"><i>B<sub>i</sub></i></font></td>	<td>0.124</td>
+    <td align=left><font face="times new roman"><i>B<sub>i</sub></i></font></td>	<td>0.131</td>
+    <td align=left><font face="times new roman"><i>B<sub>i</sub></i></font></td>	<td>5.18 </td></tr>
+<tr align=right><td align=center>17</td>
+    <td align=left><font face="times new roman"><i>B<sub>r</sub></i></font></td>	<td>0.050</td>
+    <td align=left><font face="times new roman"><i>B<sub>r</sub></i></font></td>	<td>0.050</td>
+    <td align=left><font face="times new roman"><i>B<sub>r</sub></i></font></td>	<td>0.050</td>
+    <td align=left><font face="times new roman"><i>B<sub>r</sub></i></font></td>	<td>5.18 </td></tr>
+</table>
+</p>
+
+<p>
+表から分かるように
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT> はF値で7位，再現率で11位，適合率で2位であった．
+3種類のベースライン(<font face="times new roman"><i>B<sub>l</sub></i></font>, <font face="times new roman"><i>B<sub>i</sub></i></font>, <font face="times new roman"><i>B<sub>r</sub></i></font>)と比較して
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の順位が被験者の平均に近いことから，
+人間に匹敵する結果が得られたと言える．
+</p>
+<p>
+しかし，表1において，<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力文節数(3.60文節)は
+いずれの被験者の出力数よりも小さい値となっている．
+これは，6章で述べる失敗原因が重複して発生すると
+出力が極端に少なくなる(出力数が1,2など)場合があり，
+その悪影響によって全体の平均が低下することが原因である．
+そこで，<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力数が被験者と同程度の場合を評価するため，
+100記事の中から<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が4文節以上の記事(45記事)，
+5文節以上(19記事)，6文節以上(9記事)の場合に対し，
+同様の評価を行なったところ次の結果を得た．
+</p>
+<p>
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が4文節以上の場合(A: 4.26文節，全体平均: 5.16文節)，
+再現率8位，適合率3位，F値7位．
+</p>
+<p>
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が5文節以上の場合(A: 5.57文節，全体平均: 5.73文節)，
+再現率6位，適合率5位，F値7位．(表2に詳細を示す)
+</p>
+<p>
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が6文節以上の場合(A: 6.22文節，全体平均: 6.03文節)，
+再現率6位，適合率4位，F値5位．
+</p>
+
+<p>
+<div align=center><strong>
+表2 <FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が5文節以上の記事(19記事)の平均
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>順位</td>
+    <td colspan=2>再現率</td>
+    <td colspan=2>適合率</td>
+    <td colspan=2>F値</td>
+    <td colspan=2>文節数</td></tr>
+<tr></tr>
+<tr align=right><td align=center>1</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.845</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.802</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.711</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>7.78</td></tr>
+<tr align=right><td align=center>2</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.802</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.779</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.708</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>7.73</td></tr>
+<tr align=right><td align=center>3</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.745</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.727</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.689</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>7.05</td></tr>
+<tr align=right><td align=center>4</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.676</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.679</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.686</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>6.94</td></tr>
+<tr align=right><td align=center>5</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.656</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.661</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.683</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>5.94</td></tr>
+<tr align=right><td align=center>6</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.655</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.646</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.656</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>5.94</td></tr>
+<tr align=right><td align=center>7</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.647</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.631</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.650</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>5.57</td></tr>
+<tr align=right><td align=center>8</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.635</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.628</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.642</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>5.42</td></tr>
+<tr align=right><td align=center>9</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.635</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.609</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.636</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>5.26</td></tr>
+<tr align=right><td align=center>10</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.633</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.603</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.611</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>4.73</td></tr>
+<tr align=right><td align=center>11</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.630</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.596</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.573</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>4.68</td></tr>
+<tr align=right><td align=center>12</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.465</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.581</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.512</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>4.63</td></tr>
+<tr align=right><td align=center>13</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.450</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.560</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.498</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>4.36</td></tr>
+<tr align=right><td align=center>14</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.436</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.552</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.483</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>4.21</td></tr>
+<tr></tr>
+<tr align=right><td align=center>平均</td>
+    <td></td><td>0.636</td>
+    <td></td><td>0.646</td>
+    <td></td><td>0.624</td>
+    <td></td><td>5.73</td></tr>
+</table>
+</p>
+
+<p>
+このように，
+出力文節数を被験者に近付けた場合においても，
+適合率は比較的順位が高く，
+F値では順位的にほぼ被験者中央に位置し，
+数値的にはF値平均を上回る結果が得られた．
+これらのことから，
+出力文節数が被験者に近い場合でも人間と同程度の
+精度を得ることができると言える．
+</p>
+<p>
+<b><font face="times new roman">Cross Validation</font> による評価</b>
+</p>
+<p>
+前節では，全被験者(<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>を含む)の結果によって
+正解集合を作成したが，
+ここでは被験者集団を2つに分け，
+各被験者について本人を含まない集団で正解集合を作成し，
+評価を行なった．
+表3 に100記事の結果を示す．
+閾値は正解集合の平均文節数が被験者全体の平均文節数に
+近くなるよう設定してある．
+</p>
+
+<p>
+<div align=center><strong>
+表3 再現率, 適合率，F値の平均 (2)
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>順位</td>
+    <td colspan=2>再現率</td>
+    <td colspan=2>適合率</td>
+    <td colspan=2>F値</td>
+    <td colspan=2>文節数</td></tr>
+<tr></tr>
+<tr align=right><td align=center>1</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.853</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.802</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.718</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>7.53</td></tr>
+<tr align=right><td align=center>2</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.784</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.737</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.716</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>7.39</td></tr>
+<tr align=right><td align=center>3</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.745</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.734</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.698</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>6.66</td></tr>
+<tr align=right><td align=center>4</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.693</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.729</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.675</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>6.57</td></tr>
+<tr align=right><td align=center>5</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>0.689</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.654</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.658</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>6.25</td></tr>
+<tr align=right><td align=center>6</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>0.670</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.654</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.655</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>5.87</td></tr>
+<tr align=right><td align=center>7</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.649</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>5</sub></font></td>	<td>0.639</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>0.640</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>8</sub></font></td>	<td>5.40</td></tr>
+<tr align=right><td align=center>8</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>0.613</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>13</sub></font></td>	<td>0.636</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.613</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>12</sub></font></td>	<td>5.23</td></tr>
+<tr align=right><td align=center>9</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.613</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.604</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.584</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>4.70</td></tr>
+<tr align=right><td align=center>10</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.576</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.586</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.582</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>7</sub></font></td>	<td>4.51</td></tr>
+<tr align=right><td align=center>11</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>0.538</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>11</sub></font></td>	<td>0.584</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.563</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>2</sub></font></td>	<td>4.45</td></tr>
+<tr align=right><td align=center>12</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.519</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>4</sub></font></td>	<td>0.577</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.543</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>1</sub></font></td>	<td>4.44</td></tr>
+<tr align=right><td align=center>13</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>0.506</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>9</sub></font></td>	<td>0.539</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>10</sub></font></td>	<td>0.540</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>4.16</td></tr>
+<tr align=right><td align=center>14</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.472</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>3</sub></font></td>	<td>0.527</td>
+    <td align=left><font face="times new roman"><i>S</i><sub>6</sub></font></td>	<td>0.523</td>
+    <td align=left><font face="times new roman"><b>A</b></font></td>		<td>3.60</td></tr>
+<tr></tr>
+<tr align=right><td align=center>平均</td>
+    <td></td><td>0.637</td>
+    <td></td><td>0.643</td>
+    <td></td><td>0.622</td>
+    <td></td><td>5.48</td></tr>
+</table>
+</p>
+
+<p>
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の結果は，F値で9位，再現率が13位，適合率が3位であった．
+この場合でも，再現率は低い代わりに適合率が高いという結果が得られ，
+F値でみると人間と同程度の結果を得ることができた．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 考察</font></h2></a>
+
+<p>
+5.3.1節で述べたように，
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>は被験者平均に近い文節数を出力する場合と，
+極端に小さい出力をする場合があり，
+全体の平均として出力文節数が小さくなる傾向がある．
+このような，
+<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>が不適切な要約を生成する原因として，
+1) 語句抽出ルールの不足，
+2) 主動詞特定の失敗，
+3) 解析誤りの悪影響
+の3つが考えられる．
+</p>
+<p>
+第１の原因であるが，
+全体平均において<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>の出力が小さい場合でも，
+適合率が高いことから文構成に必要最小限の要素が獲得できていると言える．
+しかし，必要最小限の要約にさらに情報を加える
+格要素以外の修飾語句が十分に獲得できていないと考えられる．
+それらの語句は語句抽出ルールにより獲得しているため，
+語句抽出ルールの不十分さが大きな原因だと考えられる．
+これは，3つの原因のなかで最も影響のある点で，
+ルールの強化が今後の課題である．
+しかし，仮に課題を「十分小さな要約を得ること」または，
+「精度の高い要約を得ること」に設定すれば，
+現在の精度でも十分有効だと考えられる．
+第２の原因であるが，
+システムが様相表現的動詞を主動詞として誤認識した場合，
+別の格要素が抽出され，観点の異なった文を生成してしまうために
+不適切な要約結果が得られてしまう．
+例えば，原文が
+「米銀行３位の銀行持ち株会社のネーションズバンクと同５位の
+バンカメリカは１３日、今年１０〜１２月に対等合併することで合意した、
+と発表した。」の場合，
+本システムでは「ネーションズバンクと同５位のバンカメリカは発表した。」
+という要約文を生成してしまう．
+これは，システムが「発表した」を主動詞と誤認識したからであり，
+これもルール不足が原因と考えられる．
+第３の原因であるが，
+解析誤りは上記の主動詞特定誤りや格要素獲得誤りを起こすという
+悪影響を及ぼす．
+また，自然言語処理において解決が必要な一般的重要課題である．
+</p>
+<p>
+ランダム抽出とidfを元にした語句抽出の評価結果が低いことから，
+従来のキーワード抽出的な語句抽出方法では
+要約文を生成するために必要な語句を取り出すには
+不十分であると言える．
+一方，本手法は語句抽出に関して正解平均に匹敵する精度を得たことから，
+要約文生成のための語句抽出に対して有効であると考えられる．
+また，5.3.1節で述べたように，
+出力文節数を被験者に近付けた場合でも，
+再現率，適合率，F値において
+被験者全体の平均を上回る結果が得られることから，
+出力文節数が被験者に近い場合でも人間と同程度の
+精度を得ることができると言える．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-7"><h2><font color=#ff0000>7 おわりに</font></h2></a>
+
+<p>
+本論文では，
+格フレーム辞書を用いて原文から重要語句を抽出し，
+抽出した語句から要約文を生成する
+新聞記事要約の手法を提案した．
+また，要約システム<FONT FACE="TIMES NEW ROMAN">ALTLINE</FONT>を試作し，
+生成した要約について人手要約を用いた評価を行なった．
+この評価結果において 本提案手法は人手要約の平均に位置し，
+人手要約に匹敵する結果を得た．
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>参考文献</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><font face="times new roman">Edmundson, H. (1969).</font></a>
+<dd>“<font face="times new roman">New Methods in Automatic Abstracting.</font>”
+	<font face="times new roman"><i>Journal of the ACM</i>, 16 (2).</font>
+	<br><br>
+<dt><a name="ref2"><font face="times new roman">Hovy, H. and Lin, C. (1997).</font></a>
+<dd>“<font face="times new roman">Automated Text Summarization in SUMMARIST.</font>”
+	<font face="times new roman">In <i>Proc. of the ACL Workshop on Intelligent
+	Scalable Text Summarization</i>.</font>
+	<br><br>
+<dt><a name="ref3"><font face="times new roman">Satoru Ikehara and Satoshi Shirai and 
+	Akio Yokoo and Hiromi Nakaiwa (1991).</font></a>
+<dd>“<font face="times new roman">Toward an MT System without Pre-Editing
+	- Effects of New Methods in ALT-J/E -.</font>”
+	<font face="times new roman">In <i>Third Machine Translation Summit: MT Summit
+	III</i>, pp.101-106 Washington DC. http://xxx.lanl.gov/abs/cmp-lg/9510008.</font>
+	<br><br>
+<dt><a name="ref4"><font face="times new roman">Jin, H. and McKeown, K. (2000).</font></a>
+<dd>“<font face="times new roman">Cut and Paste Based Text Summarization.</font>”
+	<font face="times new roman">In <i>Proceedings of NAACL-2000</i>},
+	pp.178-185.</font>
+	<br><br>
+<dt><a name="ref5"><font face="times new roman">Knight, K. and Marcu, D.
+	(2000).</font></a>
+<dd>“<font face="times new roman">Statistics-based summarization - step one:sentence
+	compression.</font>”
+	<font face="times new roman">In <i>Proceedings of AAAI-2000</i>},
+	pp.703-710.</font>
+	<br><br>
+<dt><a name="ref6"><font face="times new roman">Luhn, H. (1958).</font></a>
+<dd>“<font face="times new roman">The Automatic Creation of Literature
+	Abstracts.</font>”
+	<font face="times new roman"><i>IBM Journal of Research and Development</i>,
+	<b>2</b> (2).</font>
+	<br><br>
+<dt><a name="ref7"><font face="times new roman">Mani, I. and  Gates, B. and
+	Bloedorn, E. (1999).</font></a>
+<dd>“<font face="times new roman">Improving summaries by revising them.</font>”
+	<font face="times new roman">In <i>Proceedings of the ACL'99</i>,
+	pp.558-565.</font>
+	<br><br>
+<dt><a name="ref8"><font face="times new roman">Marcu, D. (1997).</font></a>
+<dd>“<font face="times new roman">From Discourse Structures to Text Summaries.</font>”
+	<font face="times new roman">In <i>Proc. of the ACL Workshop on Intelligent
+	Scalable Text Summarization</i>.</font>
+	<br><br>
+<dt><a name="ref9"><font face="times new roman">Nanba, H. and Okumura, M.
+	(2000).</font></a>
+<dd>“<font face="times new roman">Producing more readable extracts
+	by revising them.</font>”
+	<font face="times new roman">In <i>Proceedings of the COLING-2000</i>,
+	pp.1071-1075.</font>
+	<br><br>
+<dt><a name="ref10"><font face="times new roman">NTT</font>コミュニケーション科学
+	基礎研究所 <font face="Times New Roman">(1999).</font></a>
+<dd>日本語語彙大系.
+	岩波書店.
+	<br><br>
+<dt><a name="ref11"><font face="times new roman">Oka, M. and Ueda, Y. (2000).</font></a>
+<dd>“<font face="times new roman">Evaluation of Phrase-Representation Summarization
+	based on Information Retrieval Task.</font>”
+	<font face="times new roman">In <i>Proc. of ANLP/NAACL2000 Workshop
+	on Automatic Summarization</i>, pp.59-68.</font>
+	<br><br>
+<dt><a name="ref12">奥村学, 難波英嗣 <font face="Times New Roman">(1999)</font>.</a>
+<dd>“テキスト自動要約に関する研究動向(巻頭言に代えて).”
+	自然言語処理, <font face="Times New Roman"><b>6</b> (6), pp.1-26.</font>
+	<br><br>
+<dt><a name="ref13"><font face="times new roman">Zechner, K. (1996).</font></a>
+<dd>“<font face="times new roman">Fast Generation of Abstracts from General Domain
+	Text Corpora
+	<font face="times new roman">by Extracting Relebant Sentences.</font>”
+	In <i>Proceedings of 16th International Conference
+	on Computational Linguistics</i>,
+	pp.986-989.</font>
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app"><h2><font color=#ff0000>付録</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app-a"><h2><font color=#ff0000>A 付録: 原文(新聞記事)の例</font></h2></a>
+
+<p>
+<div align=center><strong>
+表4 原文の例(この記事の場合1記事7文)
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr><td>
+　沖縄県の大田昌秀知事は１４日、名護市沖が候補地の米軍海上ヘリポート建設問題について、
+毎日新聞記者らに「建設反対は当初から考えていたこと」と述べ、初めて反対を明言した。
+<br>
+　そのうえで「橋本首相が困るような結論は言いたくない。
+何かオプションはないかと考えている」と語り、代替案がないかどうかなどを模索し、
+橋本龍太郎首相に提言する考えを示した。
+<br>
+　正式な反対表明の時期は、現在空席の吉元政矩前副知事の後任を決めた後としており、
+早ければ今月末にも首相に表明する見通しになった。
+<br>
+　...
+</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app-b"><h2><font color=#ff0000>B 付録: 単語リスト</font></h2></a>
+
+<p>
+<div align=center><strong>
+表5 単語リストの例(この記事の場合1記事127文節)
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=center>1</td><td>沖縄県(の)</td>
+    <td align=center>2</td><td>大田昌秀知事(は)</td></tr>
+<tr><td align=center>3</td><td>１４日</td>
+    <td align=center>4</td><td>名護市沖(が)</td></tr>
+<tr><td align=center>5</td><td>候補地(の)</td>
+    <td align=center>6</td><td>米軍海上ヘリポート建設問題(について)</td></tr>
+<tr><td align=center>7</td><td>毎日新聞記者ら(に)</td>
+    <td align=center>8</td><td>建設反対(は)</td></tr>
+<tr><td align=center>9</td><td>当初(から)</td>
+    <td align=center>10</td><td>考えていた</td></tr>
+<tr><td align=center>11</td><td>こと(と)</td>
+    <td align=center>12</td><td>述べ</td></tr>
+<tr><td align=center>13</td><td>初めて</td>
+    <td align=center>14</td><td>反対(を)</td></tr>
+<tr><td align=center>15</td><td>明言した</td>
+    <td align=center>16</td><td>そのうえ(で)</td></tr>
+<tr><td align=center>17</td><td>橋本首相(が)</td>
+    <td align=center>18</td><td>困る(ような)</td></tr>
+<tr><td align=center>19</td><td>結論(は)</td>
+    <td align=center>20</td><td>言いたくない</td></tr>
+<tr><td align=center>21</td><td>何か</td>
+    <td align=center>22</td><td>オプション(は)</td></tr>
+<tr><td align=center>23</td><td>ない(かと)</td>
+    <td align=center>24</td><td>考えている(と)</td></tr>
+<tr><td align=center>25</td><td>語り</td>
+    <td align=center>26</td><td>代替案(が)</td></tr>
+<tr><td align=center>27</td><td>ない(かどうかなどを)</td>
+    <td align=center>28</td><td>模索し</td></tr>
+<tr><td align=center>29</td><td>橋本龍太郎首相(に)</td>
+    <td align=center>30</td><td>提言する</td></tr>
+<tr><td align=center>31</td><td>考え(を)</td>
+    <td align=center>32</td><td>示した</td></tr>
+<tr><td align=center>...</td><td>...</td>
+    <td align=center>...</td><td>...</td></tr>
+</table>
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="app-c"><h2><font color=#ff0000>C 付録: 被験者の要約結果</font></h2></a>
+
+<p>
+<div align=center><strong>
+表6 被験者の要約結果例
+</strong>
+(括弧内の数字は，付録Bの文節番号に対応している)
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>1</sub></font></td>
+    <td>大田昌秀知事は、米軍海上ヘリポート建設問題に反対を明言した。
+	(2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>2</sub></font></td>
+    <td>大田昌秀知事は米軍海上ヘリポート建設問題に反対を明言した。
+	(2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>3</sub></font></td>
+    <td>沖縄県の知事は米軍海上ヘリポート建設問題について反対を明言した。
+	(1,50,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>4</sub></font></td>
+    <td>沖縄県の大田昌秀知事は米軍海上ヘリポート建設問題について代替案を検討している。
+	(1,2,6,26,123)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>5</sub></font></td>
+    <td>沖縄県の大田昌秀知事は米軍海上へリポート建設問題に反対を明言した。
+	(1,2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>6</sub></font></td>
+    <td>沖縄県知事は、海上ヘリポート建設に反対を明言した。
+	(1,50,85,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>7</sub></font></td>
+    <td>沖縄県は米軍海上ヘリポート建設問題について反対を明言した。
+	(1,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>8</sub></font></td>
+    <td>大田昌秀知事は、米軍海上へリポート建設問題の反対を明言した。
+	(2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>9</sub></font></td>
+    <td>沖縄県大田知事は名護市沖米軍海上ヘリポート建設問題反対を橋本首相に述べ、
+	代替案を提言。
+	(1,2,4,6,14,12,26,30)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>10</sub></font></td>
+    <td>沖縄県の大田昌秀知事が米軍海上ヘリポート建設問題について反対を明言した。
+	(1,2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>11</sub></font></td>
+    <td>大田知事は米軍ヘリポート建設問題に反対を明言した。
+	(2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>12</sub></font></td>
+    <td>大田昌秀知事は米軍海上へリポート建設問題について反対を明言した。
+	(2,6,14,15)</td></tr>
+<tr valign=top><td><font face="times new roman"><i>S</i><sub>13</sub></font></td>
+    <td>沖縄県の大田昌秀知事は名護市沖の米軍海上ヘリポート建設問題について反対を明言した。
+	(1,2,4,6,14,15)</td></tr>
+</table>
+</p>
+
+<hr size=2 width=40% align=left>
+
+<br>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top>
+    <td rowspan=7><strong>略</strong></td><td colspan=2><strong>歴</strong><br><br></td>
+    <td rowspan=7>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+
+<tr valign=top><td><b>畑</b></td><td><b>山 満美子</b>:
+1995年北海道大学工学部情報工学科卒業．
+1997年同大学院修士課程修了．
+同年日本電信電話(株)入社．
+同年<font face="times new roman">NTT</font>コミュニケーション科学基礎研究所入所．
+自然言語処理，知識情報処理の研究に従事．
+2002年4月より<font face="times new roman">NTT</font>東日本 研究開発センタに所属．
+情報処理学会，言語処理学会会員，各会員．<br><br></td></tr>
+
+<tr valign=top><td><b>松</b></td><td><b>尾 義博</b>:
+1988年大阪大学理学部物理学科卒．
+1990年同大大学院研究科博士前期課程修了．
+同年日本電信電話(株)入社．
+機械翻訳，自然言語処理の研究に従事．
+情報処理学会，言語処理学会会員，各会員．<br><br></td></tr>
+
+<tr valign=top><td><b>白</b></td><td><b>井 諭</b>:
+1978年大阪大学工学部通信工学科卒業．
+1980年同大学院博士前期課程修了．
+同年日本電信電話公社(現,<font face="times new roman">NTT</font>)に入社．
+日英機械翻訳を中心とする自然言語処理システムの研究開発に従事．
+1998年10月から国際電気通信基礎技術研究所に出向．
+1995年第30回日本科学技術情報センター賞(学術賞)，同年人工知能学会論文賞，
+2000年<font face="times new roman">IEEE-ICTAI</font>最優秀論文賞，
+2002年第17回電気通信普及財団賞(テレコムシステム技術賞)受賞．
+著書「日本語語彙大系」(岩波書店,共編,1997,1999)．
+電子情報通信学会，情報処理学会，各会員．</td></tr>
+<tr><td colspan=2>
+<table border=0 cellpadding=0 cellspacing=0 align=right>
+<tr><td>(2001年9月28日 受付)</td><td rowspan=3 width=20></td></tr>
+<tr><td>(2001年12月28日 再受付)</td></tr>
+<tr><td>(2002年4月5日 採録)</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+これらの語が出現する場合，
+“XはA白書をまとめた。”，“XはA調査結果を発表した。”のように，
+自身は導入文になり実内容を後続文で説明する場合がある．
+記事例「クリントン米大統領は、１９９９会計年度の予算教書を議会に
+<u>提出した</u>。
+順調な経済成長や制度改革による歳出削減などで、
+財政収支は９９会計年度に３０年ぶりの黒字転換するとの見通しを示した。」 (<a href="p15.html#rfn1">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<html>
+<head>
+<title>Kazuhide Yamamoto, Satoshi Shirai, Masashi Sakamoto &amp; Yujie Zhang, ICCPOL 2001, May 14-16, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>S<small>ANDGLASS</small>: Twin Paraphrasing Spoken Language Translation</font>
+<br><br>
+<font size=+2>Kazuhide Yamamoto, Satoshi Shira1, Masashi Sakamoto, and Yujie Zhang</font>
+<br><br>
+<font size=+1>ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>E-mail: <tt> {yamamoto, Shirai, msakamo, yzhang}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper proposes a new machine translation design 
+that is the core architecture in an on-going project named S<small>ANDGLASS</small>. 
+The S<small>ANDGLASS</small> system places special emphasis on monolingual processing 
+and is designed to effectivcly deal with spoken languages. 
+The system has good portability from modularity provided 
+by a natural language protocol and monolingual processing reinforcement. 
+This paper clarifies some advantages of the system by discussing several aspects in conventional translation approaches. 
+Currently, S<small>ANDGLASS</small> is being applied to bidirectional Chinese and Japanese spoken language translation 
+involving travel conversation dialogs.
+</p>
+
+<h3>Keywords:</h3>
+
+<p>
+paraphrasing, machine translation, spoken language, Chinese, Japanese
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>[ In <i>Proceedings of ICCPOL 2001</i>, pp.154-159 (May, 2001). ]</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=12>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c28.html#chap-1">1 Motivation</a></td></tr>
+<tr><td><a href="c28.html#chap-2">2 Overall Design of S<small>ANDGLASS</small></a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c28.html#chap-2.1">2.1 Source Paraphrasing (SP)</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c28.html#chap-2.2">2.2 Transfer and Transfer Controller (TC)</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c28.html#chap-2.3">2.3 Target Paraphrasing (TP)</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c28.html#chap-2.4">2.4 Advantages by Modularity</a></td></tr>
+<tr><td><a href="c28.html#chap-3">3 Pre-/Post-Editing vs. Paraphrasing</a></td></tr>
+<tr><td><a href="c28.html#chap-4">4 Disambiguation and Re-paraphrasing</a></td></tr>
+<tr><td><a href="c28.html#chap-5">5 Bypassing Paraphrase Factors</a></td></tr>
+<tr><td><a href="c28.html#chap-6">6 Summary and Future Prospects</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c28.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Motivation</font></h2></a>
+
+<p>
+This paper illustrates a new spoken language translation (SLT) paradigm, designed from a practical point of view. 
+Our task here is to build an SLT system that ofrers task- and language-portability, 
+as well as robustness against speech noise and the variety of spoken languages, 
+within a practical development period and with practical resources. 
+To date, there has been no SLT (including machine translation, MT) system constructed with these motivations.
+</p>
+<p>
+Let's assume that we have to build a new SLT system between two languages (excluding English), 
+i.e., a source and a target, such as between Chinese and Japanese. 
+Fortunately, we can utiIize a certain amount of Japanese linguistic resources (i.e., corpora, dictionaries, thesauri) 
+and also Chinese ones. 
+We also have several language-processing tools available, such as morphological analyzers. 
+What we may not have, however, are bilingual resources such as well-aligned corpora and treebanks. 
+The situation becomes worse in an environment involving spoken language processing: at present, 
+the bilingual corpora available for spoken languages (except one case between English and a certain language) 
+are quite hopeless. 
+Under these circumstances, our resolution to the task mentioned above is summarized in the following two keywords:
+</p>
+<p>
+<dl compact>
+<dt><strong>modularity:</strong>
+<dd>We modularize the system to accommodate future improvements, replacements, and partial evaluations. 
+	Modularity enables parallel development, and the utilization of newly proposed technologies, if necessary.
+    <br><br>
+<dt><strong>monolingual processing reinforcement:</strong>
+<dd>We use monolingual knowledge as much as possible to reduce bilingual knowledge, 
+	which perhaps should be built by ourselves. 
+	This burden reduction of the transfer module improves the portability of the system 
+	and allows both new tasks and new languages to be introduced.
+    <br><br>
+</dl>
+</p>
+<p>
+In addition, another aspect that is vital for SLT but can be ignored in MT is as follows.
+</p>
+<p>
+<dl compact>
+<dt><strong>robustness:</strong>
+<dd>Speech involves a greater variety of expressions than the written Ianguage, 
+	including ungrammatical (but acceptable for human) expressions. 
+	In addition, we have to tackle some errors occurring from the speech recognizer.
+    <br><br>
+</dl>
+</p>
+<p>
+Considering these three keywords, we propose a new translation design 
+that is based on light transfer with source/target language paraphrasing. 
+This strategy of translation is similar to a beginner's transIation process; 
+if we have poor knowledge about translation into a certain language, 
+we attempt to paraphrase a source input to a sentence that we can translate. 
+Similarly, if we need to translate an unfamiliar language into our mother tongue, 
+we paraphrase the result of a literal transfer for more naturalness. 
+These observations imply that both source paraphrasing and target paraphrasing can resolve most translation problems, 
+even if we do not have sufficient bilingual knowledge.
+</p>
+<p>
+Under this policy, we have been developing a new SLT system called S<small>ANDGLASS</small>. 
+The purpose of this paper is to propose and discuss the overall design of the S<small>ANDGLASS</small> system. 
+First, the system is discussed by comparisons with other conventional translation approaches. 
+Then, other advantageous characteristics of the system are explained and discussed.
+</p>
+<p>
+In the S<small>ANDGLASS</small> project, the current objective is spoken language translation between Chinese and Japanese, 
+through travel conversation dialogs. 
+In this paper, we concentrate our discussion on the overall design of the SLT model. 
+Accordingly, the details of the paraphrasing (see section 2) are out of the scope of this paper. 
+A discussion on the source paraphrasing module in S<small>ANDGLASS</small> 
+is reported in <a href="c28.html#ref1">Zhang and Yamamoto (2001)</a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Overall Design of S<small>ANDGLASS</small></font></h2></a>
+
+<p>
+Figure 1 illustrates the overall design of S<small>ANDGLASS</small>. 
+S<small>ANDGLASS</small> can basically be classifIed as a transfer-based SLT system. 
+However, its process flow is not as simple as the typical analysis-transfer-generation process flow.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c28/c28-fig1.gif" width=629 height=542>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1 : Overall architecture of S<small>ANDGLASS</small>
+</i></strong></div>
+</p>
+
+<p>
+First, the source paraphrasing module (SP) inputs utterances from a speech recognizer 
+and passes paraphrased text(s) to the transfer controller (TC). 
+Here, both the input and output of SP are texts, 
+therefore, SP itself can have analysis and generation submodules, if necessary. 
+Second, TC feeds the source texts to the transfer module and if target texts are successfully returned, 
+then TC feeds them to the target paraphrasing module (TP). 
+If a failure occurs, TC requests SP to re-paraphrase the source into a different form. 
+TP can also be made to have analysis and generation submodules, if necessary. 
+TP finally performs text output to the speech synthesizer.
+</p>
+<p>
+The system also has a storage module linked with SP and TP, 
+allowing <i>paraphrase factors</i> to be utilized for the TP module. 
+At times, information concerning prosody can be obtained from the speech recognizer, 
+and so it is important to store this information in the storage of paraphrase factors. 
+It is also important to store extralinguistic information, 
+such as the speaker's gender and social role, and the hearer's age, together. 
+The purpose of maintaining such information is to utilize them, 
+not only for the current input but also for the forthcoming inputs. 
+It is necessary for the transfer model to bypass all of these factors, 
+because these factors are useful only in the target paraphrasing; 
+it would otherwise make the transfer much more complicated and enormous (i.e., taken together with the text(s)).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Source Paraphrasing (SP)</font></h2></a>
+
+<p>
+The first task of the source paraphrasing module (SP) is to deal with noisy inputs from the speech recognizer. 
+An input may not necessarily be a text, but a list of texts. 
+In such a case, SP has to select or combine them. 
+SP may output multiple paraphrased texts to TC. 
+If TC requests that different forms be paraphrased, SP has to re-paraphrase the inputs, 
+using information on the transferable parts of the utterances, which may be given by the transfer through TC.
+</p>
+<p>
+The mission of the source paraphrasing in S<small>ANDGLASS</small> is roughly classified into three kinds as follows:
+</p>
+<p>
+<ol>
+<li>Dealing with speech and spoken languages <br>
+	Error recovery of speech recognition results, deletion of redundant words such as lip smacking, 
+	interjections, and expression corrections.
+    <br><br>
+<li>Dealing with light (and maybe poor) transfer <br>
+	Segmentation of the input utterances into simple sentences and separation of paraphrase factors.
+    <br><br>
+<li>Disambiguation <br>
+	Making general or ambiguous words/structures into more concrete and specific ones, 
+	and anaphora / ellipsis resolution.
+</ol>
+</p>
+<p>
+In other words, the first type is a problem of SLT, the second a problem occurring only in S<small>ANDGLASS</small>, 
+and the last a problem broadly occurring in natural language processing.
+</p>
+<p>
+Currently, texts are paraphrased by simple pattern-matching rules, 
+which are manually built by analyzing collected Chinese utterances. 
+At present, we do not require Chinese segmentation and part-of-speech tagging modules, 
+because segmentation and labeling are performed by our speech recognizer (<a href="c28.html#ref2">Zhang et al. (2000)</a>). 
+The discussion of the Chinese SP module in S<small>ANDGLASS</small> 
+is reported in <a href="c28.html#ref1">Zhang and Yamamoto (2001)</a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Transfer and Transfer Controller (TC)</font></h2></a>
+
+<p>
+The transfer process is a mapping process between the source language and the target language. 
+Dealing with monolingual phenomena is sufficiently formidable, 
+and we therefore insist on the uncontrollable nature of handling 
+the different varieties of two different languages together without reducing each variation. 
+Furthermore, spoken languages are believed to have more variety than written languages. 
+That is, in SLT, there are a lot of ungrammatical (but acceptable for human) expressions 
+inputted into the speech translator. 
+Therefore, we propose an MT/SLT mechanism where the transfer engine itself can be light and simple.
+</p>
+<p>
+Under this principle of light-and-simple transfer, our transfer module does not have the following two obligations, 
+unlike the conventional transfer:
+</p>
+<p>
+<dl compact>
+<dt><strong>Obligation of producing hypotheses</strong>
+<dd>The transfer module does not necessarily have to produce
+	hypotheses against inputs.
+	<br><br>
+<dt><strong>Obligation of selecting hypotheses</strong>
+<dd>The transfer module does not necessarily have to select or rate
+	produced hypotheses.
+</dl>
+</p>
+<p>
+The former obligation indicates that the transfer module is allowed to fail in transferring inputs 
+into the target language, and in such cases, SP is obliged to generate input expressions 
+that can be transferred to the target language by paraphrasing. 
+The latter obligation indicates that the transfer module is not expected to narrow hypotheses. 
+It can, however, increase hypotheses by the transferring process. 
+We claim that these obligations, which the typical MT model imposes upon the transfer module, 
+increase the already large amounts of bilingual knowledge and bilingual processing. 
+It is therefore inappropriate to impose them in the case of non-English SLT systems.
+</p>
+<p>
+Consequently, we expect the transfer to only list up possible hypotheses against the source input. 
+The transfer module will not be responsible for the functions of spoken language variation reduction and disambiguation. 
+As a resuIt, bilingual knowledge can more easily be constructed or collected, 
+because it is sufficient for near raw and unprocessed data to be employed. 
+With bilingual knowledge, we have to concentrate our efforts on increasing the amount.
+</p>
+<p>
+Although the ideal transfer is always preferable, it is not required, 
+both the source paraphrasing and target paraphrasing are responsible for disambiguating hypotheses. 
+The task of TC is to output the transferred texts to TP if the transfer succeeds, 
+or to request another paraphrasing of the source language to SP with a hint if the transfer fails. 
+A hint is a transferable input part. 
+In our framework, any transfer approach is possible, e.g., a rule-based approach, 
+pattern-based approach, statistics-based approach, or translation memory. 
+Currently, we are using a simple pattern-based transfer approach.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Target Paraphrasing (TP)</font></h2></a>
+
+<p>
+The task of the target paraphrasing is to convert a transfered sentence 
+into a more natural and appropriate one using what we call paraphrase factors, 
+which are given by SP, the speech recognizer, and factors outside of the system.
+</p>
+<p>
+There are some similarities between the target paraphrasing in S<small>ANDGLASS</small> 
+and the generation module in the conventional model. 
+In contrast, the differences of the two can be enumerated as follows:
+</p>
+<p>
+<ul>
+<li>The task is definitely clear: 
+	the target paraphrasing inputs a langnage, i.e., not a structure nor a semantic representation. 
+	An evaluation of the generation module given a tree depends on the grammar definition, 
+	and similarly, that of the generation module given a symbolic representation (such as interlingua) 
+	depends on the quality of the symbol definition. 
+	In contrast, we do not have to discuss the definition of the language.
+	<br><br>
+<li>The use of all of the factors is not an obligation: 
+	this is because the architectures of the source paraphrasing and target paraphrasing are independent, 
+	and each language has its own history, culture, and linguistic structure. 
+	Actnally, some of the factors can not be used or are difficult to use. 
+	In such cases, the target paraphrasing can ignore them.
+	<br><br>
+<li>The input is not always only one sentence: 
+	this may occur when SP outputs more than one sentence, or when a sentence is transferred to more than one sentence. 
+	In these cases, the target paraphrasing module paraphrases the sentences using parts of the input.
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4"><h2><font color=#ff0000>2.4 Advantages by Modularity</font></h2></a>
+
+<p>
+In most of the modules of S<small>ANDGLASS</small>, the input and output communicate with a natural language. 
+This improves the modularity. 
+From the viewpoint of system management, S<small>ANDGLASS</small> has the following advantages by modularity.
+</p>
+<p>
+First, it keeps the independence between every two modules with natural language protocols, 
+this enables parallel development and independent evaluation. 
+The approaches of the individual modules are independent of each other, and moreover, 
+the part-of-speech system within the system is also independent because it has its own analysis module in SP/TP; 
+transfer does not necessarily meet the requirements of this module.
+</p>
+<p>
+Second, the modularization improves the portability to alternative tasks. 
+There is no relationship between the transfer knowledge and the other two paraphrasers, 
+and therefore, the knowledge can easily be replaced for other tasks, 
+or the parallel collection of the transfer knowledge (such as translation pair collection) is a possibility.
+</p>
+<p>
+The modularization also improves the portability of languages, similar to interlingua-based translation. 
+When a language <i>L</i> is added to interIingua translation, 
+it is necessary to build an <i>L</i>-interlingua conversion module and an interlingua-<i>L</i> conversion module. 
+In S<small>ANDGLASS</small>, similariy, building SP and TP (of a language <i>L</i>) gives a new language pair. 
+Of course, S<small>ANDGLASS</small> requires several kinds of bilingual knowledge, 
+but we also understand that it requires relatively less efrort to collect raw level bilingual knowledge, 
+such as translation pairs, rather than re-defining interIingua to adopt a new language.
+</p>
+<p>
+Finally, we are convinced that both paraphrasers can contribute towards other natural language tasks 
+such as document summarization. As described above, 
+the paraphrasers have natural language protocols at their inputs and outputs, 
+and therefore, they really can be "black boxes," i.e., general modules.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Pre-/Post-Editing vs. Paraphrasing</font></h2></a>
+
+<p>
+The necessity of automatic pre-editing 
+(such as <a href="c28.html#ref3">Shirai et al. (1993)</a>, <a href="c28.html#ref4">Yoshimi and Sata (1999)</a>) 
+and post-editing (such as <a href="c28.html#ref5">Yamamoto (1999)</a>) for MT/SLT seems to be well understood nowadays 
+and they seem to be involved in many MT systems in several ways.
+</p>
+<p>
+The essential difference between pre-/post-editing and paraphrasing in S<small>ANDGLASS</small> 
+is in the relative importance in the overall MT system. 
+In the conventional transfer-based system, 
+the transfer module dominates the system and the pre-/post-editing module is a support module of the transfer process. 
+For example, the purpose of postediting in Yamamoto's work (<a href="c28.html#ref5">Yamamoto (1999)</a>) 
+is to correct the transfer resuIt, based on the collection of erroneous transfer resuIts. 
+In all cases, both pre-editing and post-editing are regarded as supporters of the transfer module, 
+as the prefixes ,pre- and post- seem to illustrate.
+</p>
+<p>
+In contrast, both the source paraphrasing and target paraphrasing in S<small>ANDGLASS</small> 
+are the two main processes of the system. 
+Accordingly, the transfer module does not have the initiative in aIl cases. 
+This design enables us to reduce the burden of the transfer module, which is a core barrier in MT/SLT development.
+</p>
+<p>
+One advantage by shifting the burden reduction elnerges in the construction of knowledge. 
+Building bilingtlal knowledge requires an expert having the skills to speak both the source language and target language. 
+However, it is impractical to expect a lot of such experts in the case of minor language pairs. 
+In contrast, there is hope in constructing monolingual knowledge by collecting native speakers of both languages.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Disambiguation and Re-paraphrasing</font></h2></a>
+
+<p>
+The essential problems in MT can be summarized to only one word: disambiguation. 
+Considering the typical transfer model, i.e., a three-process model consisting of analysis, transfer, and generation, 
+each module has to resolve some of the ambiguities and pass the results to the following process.
+</p>
+<p>
+In S<small>ANDGLASS</small>, a translation is carried out by the cooperative work of both paraphrasing processes. 
+The transfer module is considered as a tool, or a function, of SP 
+that attempts to paraphrase each input into a sentence able to be transferred correctly in some sense. 
+Figure 2 shows a basic idea in terms of disambiguation in S<small>ANDGLASS</small>. 
+There are two important principles in the idea; 
+the possibility of an increase in the number of hypotheses as the processes continue, 
+and the irresponsibility of the disambiguation within the transfer. 
+First, SP has to disambiguate speech recognition resuIts possibly the outputs of multiple hypotheses. 
+In the transfer process, an attempt is made to transfer each hypothesis to the target language, 
+but some of the hypotheses are rejected due to the poor bilingual knowledge of the transfer. 
+If the transfer outputs multiple hypotheses, TP has to combine or select the hypotheses into one.
+</p>
+<p>
+Figure 2 also illustrates an idea: re-generating hypotheses by re-paraphrasing. 
+As the transfer is not responsible to produce an output, no hypothesis might remain after a transfer takes place. 
+In such cases, TC asks SP to re-paraphrase the input into another form. 
+Here, TC may give SP information on the transferable parts of the input, if possible, 
+in order to ease the paraphrasing in SP. 
+Moreover, although it is not implemented at present, 
+knowledge in a source language dictionary and thesaurus can be utilized to replace words 
+that are not in the bilingual dictionary, with their most similar expressions in a monoIingual dictionary or thesaurus.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c28/c28-fig2.gif" width=505 height=393>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2: Hypothesis selection and retrial in S<small>ANDGLASS</small>. <br>
+Unlike the conventional transIer, the transfer of S<small>ANDGLASS</small> is not responsible for outputting a unique target.
+</i></strong></div>
+</p>
+
+<p>
+In the JANUS-II system (<a href="c28.html#ref6">Waibel (1996)</a>), the number of hypotheses decreases as the processes continue. 
+Disambiguation is conducted mainly in the semantic parser (lattice-to-interIingua transfer) 
+and contextual disambiguator (of interlingua). 
+We adopt the same policy in the sense that multiple hypotheses are allowed until the final process. 
+The differences between JANUS-II and S<small>ANDGLASS</small> with respect to the process of disambiguation are as follows:
+</p>
+<p>
+<ul>
+<li>A module in S<small>ANDGLASS</small> may add new hypotheses, while a module in JANUS-II may not. 
+	For example, when there are two target expressions against one source expressIon, TC passes TP both of them.
+	<br><br>
+<li>It may happen in S<small>ANDGLASS</small> that no hypothesis remains temporarily after a transfer, 
+	in this case, TC asks SP to create a new hypothesis.
+</ul>
+</p>
+<p>
+Let us consider word sense disambiguation here.
+Most typically, word sense disambiguation is regarded as a transfer problem. 
+Most systems resolve this ambiguity by selecting words/phrases of the target language. 
+However, this requires knowledge tightly linking the source language knowledge and target language knowledge.
+</p>
+<p>
+In contrast, we propose a basic principle here that, in SLT, the word sense should be resolved 
+by both the source language paraphrasing and target language paraphrasing. 
+We claim that it is critical to resoIve word ambiguities all at once: 
+this problem can be separated to a source language problem and a target language problem. 
+If a word within the source language has more than one meaning, it should be solved by source paraphrasing. 
+If a word in the target language has more than one corresponding word, 
+word selection should be done in the target paraphrasing.
+</p>
+<p>
+Our mechanism indicates that there are two independent word sense disambiguation engines, 
+each of which has its own different language resources. 
+Even if a word sense cannot be narrowed down in the source language paraphrasing, 
+there is a possibility everything can be resolved in the target paraphrasing. 
+Consequently, our model is believed to generally be more robnst 
+than one-chance resolver models in terms of word sense disambiguation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Bypassing Paraphrase Factors</font></h2></a>
+
+<p>
+S<small>ANDGLASS</small> also has an another trial function not characteristic of any MT/SLT system so far: 
+bypassing paraphrase factors for natural outputs in the target paraphrasing. 
+This is achieved because S<small>ANDGLASS</small> has contrastive paraphrasing processes 
+before and after its light transfer.
+</p>
+<p>
+<a href="c28.html#ref7">Zong et al. (2000)</a> proposed paraphrasing an input utterance into a standard expression with certain criteria. 
+We have a similar architecture in terms of changing an input expression into a different one beore the transfer process. 
+However, our architecture largely difrers in the purpose of the paraphrasing: 
+as discussed in subsection 2.1, one of the purposes of the source paraphrasing 
+is the separation of paraphrase factors out of the source input, not just the simpliflcation of the input. 
+The basic policy in <a href="c28.html#ref7">Zong et al. (2000)</a> is to reduce insignificant information, 
+while that of S<small>ANDGLASS</small> is to preserve factors not necessary in the transfer process in the separate storage. 
+We may extract, by the source paraphrasing process, 
+something concerning the effect of the paraphrasing or the difrerence between before and after the paraphrasing. 
+We believe that such information can be very useful as keys for the paraphrasing in the target paraphrasing process.
+</p>
+<p>
+As a typical example, <a href="c28.html#ref8">Yamada et al. (2000)</a> proposed a method 
+to incorporate information on dialog participants into transfer rules and dictionary entries. 
+In contrast, we insist in this paper that such information should go around the transfer module in MT. 
+The reason for bypassing the transfer module is to leave information 
+such as the speaker's gender itself unchanged according to the language; 
+it is not necessary to take the information into the transfer process. 
+Of course, the information can be useful for a more natural translation; 
+however, we believe it is sufficient to utilize such paraphrase factors after the transfer process.
+</p>
+<p>
+Let us consider an example. 
+If a speaker of an utterance has a certain emotion, such as anger or sadness, 
+this emotion may be implied somewhere in the expression. 
+In this case, if the source pafaphraser can detect it and separate it into a normal (i.e., non-emotional) 
+expression and a symbol [angry] or [sad], the information should be bypassed to the target paraphraser. 
+If the speech recognizer can be made to detect such information in the future, 
+we might also be able to store the information and merge it with other paraphrase factors.
+</p>
+<p>
+For this purpose, we have prepared several kinds of paraphrase factors into the memory of S<small>ANDGLASS</small>. 
+In the current prototype, the following types of factors are assumed to be stored:
+</p>
+<p>
+<ul>
+<li>Emotional information, such as [angry], which may be given by the speech recognizer and/or source paraphraser. 
+	Note that the information is merged regardless of origin (by speech or language).
+	<br><br>
+<li>Social information, such as [clerk] or [customer], which is given out of the translator
+	<br><br>
+<li>Emphatic information of some words or phrases, which may be given by the speech and/or language.
+	<br><br>
+<li>Ironic information (this is for future work)
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Summary and Future Prospects</font></h2></a>
+
+<p>
+We illustrated and discussed the overall design and principles of S<small>ANDGLASS</small>, our new SLT system. 
+To summarize this project report, 
+we proposed the following three important paradigms implemented in S<small>ANDGLASS</small>:
+</p>
+<p>
+<ul>
+<li>Two monolingual processings achieved by paraphrasing rather than bilingual processing
+	<br><br>
+<li>Natural language protocols for modularity
+	<br><br>
+<li>Paraphrase factors bypassing the transfer module
+	<br><br>
+</ul>
+</p>
+<p>
+At the current initial stage, the transfer module of S<small>ANDGLASS</small> 
+now targets approximately 60000 utterances in translation from Chinese to Japanese, 
+which are chosen from hotel reservation and other travel conversations 
+in the ATR Spoken Language Corpus<a name="rfn1" href="c28.html#fn1"><sup>1</sup></a>. 
+The current prototype is now running on Linux, and it is programmed mainly in the Perl language.
+</p>
+<p>
+We have also started collecting paraphrase corpora of Japanese (<a href="c28.html#ref9">Shirai and Yamamoto (2001)</a>) 
+and Chinese separately, in order to acquire paraphrasing knowledge automatically. 
+For the Japanese corpus, Japanese native speakers have paraphrased approximately 29000 sentences. 
+We have observed from the collection of paraphrased sentences 
+that, on average, a sentence is paraphrased to 0.34 different sentences,
+excluding paraphrased sentences by simple phrase reordering. 
+For the Chinese corpus, Chinese native speakers have paraphrased 20000 thousands utterances of travel conversations.
+</p>
+<p>
+We are now developing the source paraphrasing module for Chinese (<a href="c28.html#ref1">Zhang and Yamamoto (2001)</a>), 
+and the target paraphrasing modules for Japanese, independently. 
+The technologies applied for both paraphrasing modules will be reported soon. 
+System evaluations will also be announced later.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>Zhang, Y. and Yamamoto, K., </strong></a> 
+<dd>Analysis of Chinese spoken language for automatic paraphrasing, 
+	in <i>19th International Confercnce on Computer Processing of Oriental Languages (ICCPOL '2001)</i>, 2001.
+	<br><br>
+<dt><a name="ref2"><strong>Zhang, S., Zhang, J., Nakamura, S. and Sagisaka, Y., </strong></a>
+<dd>A preliminary investigation of sub-syllabic modeling for Chinese speech recognition based on HMNET, 
+	in <i>Proc. of The Acoustical Society of Japan (ASJ) Fall Meeting</i>, 2000, pp.127-128.
+	<br><br>
+<dt><a name="ref3"><strong>Shirai, S., Ikehara, S. and Kawaoka, T., </strong></a>
+<dd>Efrects of automatic rewriting of source language within a Japanese to English MT system, 
+	in <i>Proc. of TMI'93</i>, 1993, pp. 226-239.
+	<br><br>
+<dt><a name="ref4"><strong>Yoshimi, T. and Sata, I., </strong></a>
+<dd>Automatic preediting of English newspaper headlines and its effects in a English-to-Japanese MT system, 
+	in <i>Proc. of Natural Language Processing Pacifrc-Rim Symposium ('NLPRS'99)</i>, 1999, pp.275-279.
+	<br><br>
+<dt><a name="ref5"><strong>Yamamoto, K., </strong></a>
+<dd>Proofreading generated outputs: Automated rule acquisition and application to Japanese-Chinese machine translation, 
+	in <i>Proc. of 1999 International Conference on Computer Pro- cessing of Oriental Languages (ICCPOL'99)</i>, 
+	1999, pp.87-92.
+	<br><br>
+<dt><a name="ref6"><strong>Waibel, A,, </strong></a>
+<dd>Interactive translation of conversational speech, <i>IEEE Computer</i>, 1996, 29(7), pp. 41-48.
+	<br><br>
+<dt><a name="ref7"><strong>Zong, C., Wakita, Y., Xu, B., Matsui, K. and Chen, Z., </strong></a>
+<dd>Japanese-to-Chinese spoken language transla- tion based on the simple expression, 
+	in <i>Proc. of 6th International Conference on Spoken Language Pro- ccssing (ICSLP 2000)</i>, vol.IV, 
+	2000, pp.418-421.
+	<br><br>
+<dt><a name="ref8"><strong>Yamada, S., Sumita, E. and Kashioka, H., </strong></a>
+<dd>Translation using information on dialogue participants, 
+	in <i>Proc. of ANLP-NAACL2000</i>, 2000, pp.37-43.
+	<br><br>
+<dt><a name="ref9"><strong>Shirai, S. and Yamamoto, K., </strong></a>
+<dd>Collection of paraphrase --saving variety in MT---, 
+	in <i>Proc. of Workshop of the 2001 Annual Meeting of NLP on Automatic Paraphrasing</i>, 
+	Association for Natural Language Processing (Japan), 7, 2001, pp, 3-8, (in Japanese).
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+Because there had been no Chinese texts in the ATR Cor-
+pus , prior to this study, we translated some of the Japanese
+and English utterances in the corpus into Chinese. (<a href="c28.html#rfn1">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

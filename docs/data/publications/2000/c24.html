@@ -1,0 +1,475 @@
+<html>
+<head>
+<title>Hideki Kashioka &amp; Satoshi Shirai (ATR), LREC'2000, May 5, 2000, Athens, Greece</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Automatically Expansion of Thesaurus Entries with a Different Thesaurus</font>
+<br><br>
+
+<font size=+2>Hideki Kashioka, Satosi Shirai</font>
+<br><br>
+
+<font size=+1>ATR Spoken Language Translation Research Laboratories</font>
+<br>
+<font size=+1>2-2-2 Hikaridai Seika-cho Soraku-gun Kyoto 619-0288 Japan</font>
+<br>
+<font size=+1><tt> {kashioka, shirai}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+We propose a method for expanding the entries in a thesaurus 
+using a different thesaurus constructed with another concept. 
+This method constructs a mapping table between the concept codes of these two different thesauri. 
+Then, almost all of the entries of the latter thesaurus 
+are assigned the concept codes of the former thesaurus 
+with the mapping table between them. 
+To confirm whether this method is effective or not, 
+we construct a mapping table between the "Kadokawa-shin-ruigo" thesaurus (hereafter, "ShinRuigo") 
+and "Nihongo-goitaikei" (hereafter, "Goitaikei"), 
+and assign about 350 thousand entries with the mapping table. 
+About 10% of the entries cannot be assigned automatically. 
+It is shown that this method can save cost in expanding a thesaurus.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of LREC'2000</i>, pp.363-366 (May, 2000). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=13>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c24.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="c24.html#chap-2.">2. Thesaurus Code Estimation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c24.html#chap-2.1.">2.1. Construction a Mapping Table</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c24.html#chap-2.2.">2.2. Estimation of codes using a mapping table</a></td></tr>
+<tr><td><a href="c24.html#chap-3.">3. Experiment</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c24.html#chap-3.1.">3.1. Using Thesauri</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c24.html#chap-3.2.">3.2. Mapping Table</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c24.html#chap-3.3.">3.3. Estimation New Entry Words</a></td></tr>
+<tr><td><a href="c24.html#chap-4.">4. Discussion</a></td></tr>
+<tr><td><a href="c24.html#chap-5.">5. Conclusion</a></td></tr>
+<tr><td><a href="c24.html#chap-6.">6. Acknowledgements</a></td></tr>
+<tr><td><a href="c24.html#chap-7.">7. References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+Many thesauri are now available. 
+This is ideal since many natural language processing system can be improved 
+by using the word meanings in a thesaurus (<a href="c24.html#ref1">Kashioka et al., 1999</a>). 
+In fact, natural language processing systems have been using thesauri 
+based on specific concepts to get suitable information. 
+Accordingly, each of these systems has required a thesaurus 
+established with a slightly (or much) different concept than others. 
+Of course, each of such thesauri has covered different entry words. 
+Consequently, the expansion of entry words or the maintenance of a thesaurus by hand 
+has been difficult and huge cost have been involved.
+</p>
+<p>
+Connections do exist between the codes of the different concepts of thesauri. 
+If it were possible to obtain these connections automatically, 
+then these connections would be useful in expanding the entry words of a thesaurus. 
+In this paper, we propose one method to expand the entries of a thesaurus 
+by code estimation involving different thesauri. 
+In the next section of this paper, we describe our method of thesaurus code estimation 
+by making a mapping table of the codes concerning the connections between two thesauri. 
+Section 3 presents an experiment for constructing the mapping table 
+and automatically expanding the entries of thesaurus. 
+In section 4, we discuss the experimental results. 
+In section 5, we state our conclusions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. Thesaurus Code Estimation</font></h2></a>
+
+<p>
+There are many thesauri for use in natural language processing systems. 
+Imaginably (some parts of) the entries in these thesauri are different. 
+More specifically, these thesauri have different categories for their objectives and their concepts. 
+Accordingly, the maintenance of a thesaurus by hand is difficult 
+because it must keep the consistency of its concepts. 
+However, if the added entries of a thesaurus have the codes of another thesaurus, 
+these codes will be useful for assigning the codes of the former thesaurus. 
+Therefore, this paper proposes a way for assigning the codes of a thesaurus by using the code of a different thesaurus.
+In this way, first, a system with a method constructs a mapping table for two thesaurus codes. 
+After that, additional entries consult with the different thesaurus, 
+and then the entries are assigned the thesaurus codes from the mapping table and the codes of the different thesaurus. 
+In this section, we show the process of assigning codes using a different thesaurus.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1."><h2><font color=#ff0000>2.1. Construction a Mapping Table</font></h2></a>
+
+<p>
+To explain the processing flow, we consider two thesauri: 
+the objective thesaurus called T1 and the different thesaurus called T2. 
+E(T1) denotes the entries of thesaurus T1. 
+Similarly E(T2) denotes the entries of thesaurus T2. 
+Then, EC(T1, T2) denotes the common entries of T1 and T2. 
+Our method constructs a mapping table between T1 and T2 using the common entries.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c24/c24-fig1.gif" width=330 height=240>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1: Relationship between two thesauri
+</i></strong></div>
+</p>
+
+<p>
+Therefore, we construct the mapping table as follows:
+</p>
+<p>
+<ol>
+<li>Select the common entries, EC(T1,T2), and look up these entries in T1 and T2.
+<li>Construct pairs of thesaurus codes with EC(T1,T2).
+<li>Select reliable code pairs considering the number of common entries and the dispersion.
+<li>Check the parts of the selected pairs at random.
+</ol>
+</p>
+<p>
+The most important part in this process involves how to select reliable code pairs. 
+The initial constructed code pairs have various patterns.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>Case-1</td><td rowspan=4>&nbsp;&nbsp;</td><td>One code of T1 connected to one code of T2.</td></tr>
+<tr><td>Case-2</td><td>One code of T1 connected to some codes of T2.</td></tr>
+<tr><td>Case-3</td><td>Some codes of T1 connected to one code of T2.</td></tr>
+<tr><td>Case-4</td><td>Some codes of T1 connected to some codes of T2.</td></tr>
+</table>
+</p>
+<p>
+In this paper, we consider the count and dispersion of the common entries. 
+Case-1 most likely includes a reliable pair. 
+An infrequent pair in Case-1 is not reliable. 
+Note that a pair constructed from only one or two entries and each thesaurus, has many entries in its codes. 
+In such a case, this palr is an unreliable pair in Case-1. 
+Case-2 and Case-3 include reliable pairs. 
+Here, the reliability depends on the purpose for which the mapping table is used. 
+If the codes change direction from code T2 to code T1, Case-2 has no problem 
+but Case-3 is unable to determine the target code of T1. 
+In Case-3, the dispersion of the entries in the target codes is considered, and then the reliable pair is judged. 
+In Case-4, it is difficult to judge reliable pairs. Currently, we ignore all code pairs of Case-4.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2."><h2><font color=#ff0000>2.2. Estimation of codes using a mapping table</font></h2></a>
+
+<p>
+In this section, we describe how to estimate the codes using a mapping table. 
+The system automatically assigns codes for new entries as follows:
+</p>
+<p>
+<ol>
+<li>The system looks up an entry in T1. 
+	If the system finds the entry, 
+	the system need not assign a thesaurus code for this entry (because T1 already has this entry).
+<li>If the system cannot find the entry in T1, the system looks it up in T2. 
+	If the system finds it, the thesaurus code for T2 is translated using the mapping table.
+<li>If the system cannot find it in T2, it looks up a partial character sequence in T1. 
+	Then, the system repeats these steps.
+</ol>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Experiment</font></h2></a>
+
+<p>
+We carried out an experiment with Japanese thesauri: the objective one was "ShinRuigo" (<a href="c24.html#ref3">Shin and
+Masato, 1981</a>), and the different one was "Goitaikei"
+(<a href="c24.html#ref2">lab, 1997</a>). In this section, we show the features of
+the two thesauri, and describe the details of this experiment,
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1."><h2><font color=#ff0000>3.1. Using Thesauri</font></h2></a>
+
+<p>
+In this experiment, we used two thesauri, i.e., "ShinRuigo" and "Goitaikei".
+</p>
+<p>
+"ShinRuigo" has 1,000 category codes, and 60,000 entries. 
+The categories construct three layers, each layer has ten categories. 
+This thesaurus can be represented as a tree structure. 
+Each leaf node of a category is assigned a three-digit number.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c24/c24-fig2.gif" width=449 height=438>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2: An example tree for "ShinRuigo"
+</i></strong></div>
+</p>
+<p>
+"Goitakei" has about 2,700 category codes and 120,000 entries for nouns. 
+The categories construct 12 layers, each layer has a different number of child nodes. 
+This thesaurus can also be represented as a tree structure, although not a balanced tree.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c24/c24-fig3.gif" width=493 height=513>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 3: An example tree for "Goitaikei"
+</i></strong></div>
+</p>
+
+<p>
+Both thesauri has some entries assigned with two or more categories in the leaf nodes.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2."><h2><font color=#ff0000>3.2. Mapping Table</font></h2></a>
+
+<p>
+In this experiment, we selected a word entry in "Goitakei", looked it up in "ShinRuigo", 
+and then constructed a code pair from "Goitalkei" to "ShinRuigo".
+</p>
+<p>
+Each common entry can make one pair. 
+However these pairs include unreliable pairs. 
+Considering the purpose of using the proposed mapping table, 
+we should throw out pairs that too law frequency of supported entries.
+</p>
+<p>
+Table 1 shows a part of an initial constructed code pair.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1: Samples of initial code pairs
+</i></strong></div>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td>"Goitaikei"</td>		<td>"ShinRuigo"</td>		<td align=right>#(Entry)</td></tr>
+	<tr><td rowspan=2 valign=top>168 (crowd)</td>
+						<td>537 (crowd)</td>		<td align=right>6 (27%)</td></tr>
+	<tr>					<td>538 (citizen)</td>		<td align=right>12 (55%)</td></tr>
+	<tr><td>224 (career)</td>		<td>--</td>			<td align=right><br></td></tr>
+	<tr><td rowspan=8 valign=top>464 (an administrative district)</td>
+						<td>051 (tree)</td>		<td align=right>53 (2%)</td></tr>
+	<tr>					<td>103 (position, in/out)</td>	<td align=right>44 (2%)</td></tr>
+	<tr>					<td>940 (house, building)</td>	<td align=right>38 (2%)</td></tr>
+	<tr>					<td>032 (mountain)</td>		<td align=right>37 (2%)</td></tr>
+	<tr>					<td>590 (God,Buddha)</td>	<td align=right>27 (1%)</td></tr>
+	<tr>					<td>105 (position, up/down)</td><td align=right>27 (1%)</td></tr>
+	<tr>					<td>052 (grass)</td>		<td align=right>25 (1%)</td></tr>
+	<tr>					<td>043 (arable country)</td>	<td align=right>24 (1%)</td></tr>
+	<tr><td>900 (furnace)</td>		<td>957 (furnace)</td>		<td align=right>11 (100%)</td></tr>
+	<tr><td>1119 (book)</td>		<td>848 (book)</td>		<td align=right>143 (63%)</td></tr>
+	<tr><td>1493 (impression)</td>		<td>337 (signature)</td>	<td align=right>14 (100%)</td></tr>
+	<tr><td>1691 (presence/absence)</td>	<td>785 (presence/absence)</td>	<td align=right>1 (100%)</td></tr>
+	<tr><td>1692 (presence)</td>		<td>785</td>			<td align=right>20 (68%)</td></tr>
+	<tr><td>1693 (absence)</td>		<td>785</td>			<td align=right>6 (85%)</td></tr>
+	</table>
+</td></tr>
+<tr><td>The column "Goitaikei" shows category codes and category words. <br>
+	The column "ShinRuigo" shows category codes and category words. <br>
+	The column #(Entry) shows numbers of entry words and the percentages of all entry words in "Goitaikei".
+</td></tr>
+</table>
+</p>
+
+<p>
+In the initial code pairs, 109 codes of "Goitaikei" cannot make code pairs like code "224", 
+and 169 codes of "Goitaikei" have too many pairs with "ShinRuigo" like code "464" in Table 1. 
+Initially, therefore, almost all of the codes of "Goitaikei" (about 90%) can make pairs with "ShinRuigo". 
+In this initial table, we need to check each mapping pair and to fix it, so that we are able to use the code estimation. 
+Accordingly we select unreliable pairs as follows:
+</p>
+<p>
+<ol>
+<li>Codes of "Goitaikei" unable to make pairs.
+<li>Codes of "Goitaikei" able to make four or more pairs.
+<li>Codes of "Goitaikei" able to make pairs but the number of reliable entries is less than 30% of the original entries.
+</ol>
+</p>
+<p>
+Then, we mark these unreliable pairs.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3."><h2><font color=#ff0000>3.3. Estimation New Entry Words</font></h2></a>
+
+<p>
+We checked about 350,000 entries from JICST's Japanese-English dictionary. 
+This dictionary covers mainly science and technology-related terms. 
+These Japanese entries were the target words to assign codes by our proposed method.
+</p>
+<p>
+Table 2 shows the percentage of source information for the code estimation. 
+In this tabIe, there are three types of source information: 
+1) "ShinRuigo" (which means that the entry word is included in the Kadokawa Shin Ruigo jiten), 
+2) Mapping table (which means that the entry word is not included in the Kadokawa Shin Ruigo jiten 
+but included in Goitaikei, and that the code is estimated with the mapping table), 
+3) Other types of estimation (which means by word construction or template matching).
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2: The rate of source information for estimation of the obiective thesaurus code
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=right><td align=center>Source information</td>	<td colspan=2 align=center>Rate</td></tr>
+<tr align=right><td align=center>"ShinRuigo"</td>		<td>68732</td>		<td>(19.6%)</td></tr>
+<tr align=right><td align=center>Mapping table</td>		<td>91184</td>		<td>(26.1%)</td></tr>
+<tr align=right><td align=center>Other type of estimation</td>	<td>180486</td>		<td>(51.6%)</td></tr>
+<tr align=right><td align=center>Unable to assign</td>		<td>9580</td>		<td>(2.7%)</td></tr>
+<tr align=right><td align=center>Total:</td>			<td>349982</td>		<td>(100.0%)</td></tr>
+</table>
+</p>
+
+<p>
+The target entries were almost all science and technology-related terms. 
+Accordingly, a large number of them had compound words with the same pattern. 
+This made it easy to estimate the codes by template matching. 
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Discussion</font></h2></a>
+
+<p>
+The experimental results show that the mapping table is useful because about 91,000 entries could be
+assigned thesaurus codes automatically. 
+However, this mapping table should be checked and should be polialled up more. 
+One of the points for improving the mapping table is to remove the minor code pairs 
+among all of the pairs in the mapping table. 
+For example, the category [bone] in "Goitaikei" has four entries: "bone," "anatomy," "basin," and "cadre". 
+Three of these entries ("bone," "anatomy," and "basin") are classified in the category [sinew] in "ShinRuigo" 
+and the last entry (" cadre") is classified in category [architecture] in "ShinRuigo". 
+In this case, we throw out the mapping pair ([bone] "Goitaikei", [architecture] "ShinRuigo") 
+because this code mapping may be minor,
+</p>
+<p>
+We need to consider the hierarclly of codes. 
+For example, the code "168 (crowd)" in "Goitaikei" is mapped to the codes "537 (crowd), 538 (citizen)" 
+in "ShinRuigo" as shown in Table 1. 
+In addition, the codes from "162" to "170" in "Goitakei" are daughter nodes of the code "161" in "Goitakei". 
+"161" means the "hierarchy of society", These codes are mapped to the code "53x" or "54x". 
+If we do not need rigid mapping, mapping in which the codes "161-170" in "Goitaikei" are mapped to "53x" or "54x", 
+is sufficient information. 
+In this case, both middle nodes have almost the same category 
+and there are slightly different classifications under the nodes. 
+In another case, a middle node of "Goitaikei" may be mapped to a leaf node of "ShinRuigo". 
+In Table 1, the codes "1691," "1692," and "1693" have this relationship. 
+Considering these points, we are able to carry out mapping 
+from the structure of a thesaurus to the structure of another thesaurus. 
+This structure mapping is useful for improving the accuracy of the code estimation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Conclusion</font></h2></a>
+
+<p>
+In this paper, we proposed a method for expanding the entries of a thesaurus 
+by constructing a mapping table between this thesaurus and a different thesaurus. 
+We experimented with two Japanese thesauri, 
+and could expand the 350,000 entries of the former thesaurus automatically using the mapping table. 
+The experimental results showed us that this method is effective in reducing cost. 
+We think it was interesting to find differences or the identities of concepts of two (or possible more) thesauri 
+by exploring the mapping table between them. 
+In the future, we want to construct structure mappings between two thesauri. 
+This will allow us to improve the mapping table. 
+These structure mappings will be useful for finding good hierarchies for large-scale thesauri 
+or for adapting the granularity of categories. 
+We are planning to make a large-scale thesaurus based on the current thesaurus as a real application.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. Acknowledgements</font></h2></a>
+
+<p>
+This research was conducted at ATR Interpreting Telecommunications Research Laboratories, Japan. 
+In particular, we would like to thank TAKAO Kazutaka for his support. 
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-7."><h2><font color=#ff0000>7. References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Kashioka, H., H. Ohta, Y. Shirokizawa, and K. Takao, 1999. </a>
+<dd>Applying tdmt to abstracts on science and technology. 
+	  In Proceedings of Machine Translation Summit VII '99.
+	<br><br>
+<dt><a name="ref2">lab, NTT CS, 1997. </a>
+<dd>Nihongo goi taikei, Iwanami shoten.
+	<br><br>
+<dt><a name="ref3">Shin, Oono and Hamanishi Masato, 1981. </a>
+<dd>Kadokawa ruigo shin jiten. Kadokawa shoten.
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

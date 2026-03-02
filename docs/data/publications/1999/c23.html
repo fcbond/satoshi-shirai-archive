@@ -1,0 +1,898 @@
+<html>
+<head>
+<title>Eiichiro Sumita, Setsuo Yamada, Kazuhide Yamamoto, Michael Paul, Hideki Kashioka, Kai Ishikawa &amp; Satoshi Shirai, MT-SUMMIT VII, September 13-17, 1999</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Solutions to Problems Inherent in Spoken-language Translation: The ATR-MATRIX Approach</font>
+<br><br>
+
+<font size=+2>Eiichiro SUMITA, Setsuo YAMADA, Kazuhide YAMAMOTO, Michael PAUL, Hideki KASHIOKA, Kai ISHIKAWA 
+	and Satoshi SHIRAI</font>
+<br><br>
+
+<font size=+1>ATR Interpreting Telecommunications Research Laboratories</font>
+<br>
+<font size=+1>2-2 Hikaridai, Seika-cho, Soraku-gun, Kyoto 619-0288, Japan</font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+ATR has built a multi-language speech translation system called ATR-MATRIX.  It
+consists of a spoken-language translation subsystem, which is the focus of this
+paper, together with a highly accurate speech recognition subsystem and a
+high-definition speech synthesis subsystem.  This paper gives a road map of
+solutions to the problems inherent in spoken-language translation.
+Spoken-language translation systems need to tackle difficult problems such as
+ungrammaticality, contextual phenomena, speech recognition errors, and the
+high-speeds required for real-time use.  We have made great strides towards
+solving these problems in recent years.  Our approach mainly uses an
+example-based translation model called TDMT.  We have added the use of
+extra-linguistic information, a decision tree learning mechanism, and methods
+dealing with recognition errors.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of MT-SUMMIT VII</i>, pp.229-235 (September, 1999). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=18>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c23.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c23.html#chap-2">2 Sketch of TDMT</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-2.1">2.1 Transfer Knowledge</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-2.2">2.2 Transfer Process</a></td></tr>
+<tr><td><a href="c23.html#chap-3">3 Contextual Processing and Extra-linguistic Information</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-3.1">3.1 Ellipsis Resolution</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-3.2">3.2 Anaphora Resolution</a></td></tr>
+<tr><td><a href="c23.html#chap-4">4 Robust Methods for Dealing with Recognition Errors</a></td></tr>
+<tr><td><a href="c23.html#chap-4.">4. 1 Partial Translation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-4.2">4.2 Recovered Translation</a></td></tr>
+<tr><td><a href="c23.html#chap-5">5 Evaluation of TDMT</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-5.1">5.1 Outline of Current TDMT system</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-5.2">5.2 The Evaluation Procedure</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#chap-5.3">5.3 Results</a></td></tr>
+<tr><td><a href="c23.html#chap-6">6 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c23.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+ATR began its study of speech translation in the mid-eighties and has developed
+a multi-language speech translation system called ATR-MATFIX (ATR's Multilingual
+Automatic Translation System for Information Exchange). The speech recognition
+subsystem of the ATR-MATRIX is highly accurate for spontaneous speech. The
+translation subsystem exploits an example-based approach in order to handle
+spoken- language. The speech synthesis subsystem has succeeded in
+high-definition synthesis using a corpus-Lased approach, This paper features the
+translation subsystem. Please refer to [<a href="c23.html#ref12">Takezawa et al.,
+1999</a>] for information on the speech recognition and synthesis subsystems.
+</p>
+<p>
+Spoken-language translation faces problems different from those of
+written-language translation. The main requirements are 1) techniques for
+handling ungrammatical expressions, 2) means for processing contextual
+expressions, 3) robust methods for specch recognition errors, and 4) real-time
+speed for smooth communication.
+</p>
+<p>
+The backbone of ATR's approach is the translation model called TDMT
+(Transfer-Driven Machine Translation) [<a href="c23.html#ref1">Furuse et al., 1995</a>],
+which was developed within an example-based paradigm. Constituent Boundary
+parsing [<a href="c23.html#ref2">Furuse and Iida, 1996</a>] provides efficiency and
+robustness. We have also explored the processing of contextual phenomena and a
+method for dealing with recognition errors and have made much progress in these
+explorations.
+</p>
+<p>
+In the next section, we give a sketch of TDMT.  Section 3 presents the
+contextual processing, section 4 describes the recognition error
+handling. section 5 explains evaluation measures and the latest performance. In
+section 6, we state our conclusions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Sketch of TDMT</font></h2></a>
+
+<p>
+In TDMT, translation is mainly performed by a transfer process that applies
+pieces of transfer knowledge of the language-pair to an input utterance. The
+transfer process is the same for each language pair, i.e., Japanese-English,
+Japanese-Korean, Japanese-German and Japanese-Chinese, whereas morphological
+analysis and generation processes are provided for each language, i.e.,
+Japanese, English, Korean, German and Chinese. Next, we briefly explain the
+transfer knowledge and transfer process.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Transfer Knowledge</font></h2></a>
+
+<p>
+Transfer knowledge describes the correspondence between source-language
+expressions and target-language expressions at various linguistic levels. Source
+and target-language expressions are expressed in patterns.  A pattern is defined
+as a sequence that consists of variables and constituent boundary markers such
+as surface functional words. A variable is substituted for a linguistic
+constituent and is expressed with a capital letter. such as an <i>X</i>. Let us
+look at the Japanese pattern "<i>X</i> <strong><img src="c23/j0000.gif"></strong> <i>Y</i>," which
+includes the frequent Japanese particle "<img src="c23/j0000.gif">." We can derive the
+Japanese-to-English transfer knowledge in sample (1) for "<i>X</i> <img src="c23/j0000.gif"> <i>Y</i>"
+by referring to sample translations such as "<img src="c23/j0001.gif"><sub>[<i>Kyoto</i>]</sub> <img src="c23/j0000.gif"> 
+<img src="c23/j0002.gif"><sub>[<i>come</i>]</sub>," which is translated to "<i>come</i>
+<strong>to</strong> <i>Kyoto</i>," or "<img src="c23/j0003.gif"><sub>[<i>accident</i>]</sub> <img src="c23/j0000.gif"> 
+<img src="c23/j0004.gif"><sub>[<i>meet</i>]</sub>," to "<i>meet</i> <strong>with</strong> <i>an
+accident</i>," etc.<a name="rfn1" href="c23.html#fn1"><sup>1</sup></a>
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=6>&nbsp;&nbsp;&nbsp;&nbsp; 
+    <td colspan=2><i>X</i> <img src="c23/j0000.gif"> <i>Y</i> ==></td>
+    <td rowspan=5>&nbsp;&nbsp;</td>
+    <td></td>
+    <td rowspan=5>&nbsp;&nbsp;</td>
+    <td></td></tr>
+<tr><td rowspan=4>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><i>Y'</i> to <i>X'</i></td>
+    <td>((<img src="c23/j0001.gif"><sub>[<i>Kyoto</i>]</sub> , <img src="c23/j0002.gif"><sub>[<i>come</i>]</sub> ), ...).</td>
+    <td></td></tr>
+<tr><td><i>Y'</i> with <i>X'</i></td>
+    <td>((<img src="c23/j0003.gif"><sub>[<i>accident</i>]</sub> ,  <img src="c23/j0004.gif"><sub>[<i>meet</i>]</sub> ),  ...),</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1)</td></tr>
+<tr><td><i>Y'</i> on <i>X'</i></td>
+    <td>((<img src="c23/j0005.gif"><sub>[<i>Sunday</i>]</sub> ,  <img src="c23/j0006.gif"><sub>[<i>go</i>]</sub> ), ...),</td>
+    <td></td></tr>
+<tr><td align=center>:</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Transfer Process</font></h2></a>
+
+<p>
+The above-mentioned transfer knowledge indicates that the source pattern
+"<i>X</i> <img src="c23/j0000.gif"> <i>Y</i>" corresponds to many possible target patterns. TDMT
+selects the semantically most similar target pattern, and then translates the
+input by using the pattern. This is enabled by measuring semantic distance
+(similarity) in terms of a thesaurus hierarchy [<a href="c23.html#ref11">Sumita and
+Iida, 1991</a>].
+</p>
+<p>
+The transfer process involves the derivation of possible source structures by a
+Constituent Boundary parser (CB-parser) [<a href="c23.html#ref2">Furuse and Iida,
+1996</a>] and a mapping to target structures. When a structural ambiguity
+occurs, the best structure is determined according to the total semantic
+distances of all possible structures.
+</p>
+<p>
+Here. we explain how the system transfers the Japanese utterance "<img src="c23/j0001.gif"> <img src="c23/j0000.gif"> <img src="c23/j0007.gif"> <img src="c23/j0008.gif">
+<img src="c23/j0009.gif">." First, the transfer process derives the source structures by
+combining such source parts of the transfer knowledge as "<i>X</i> <img src="c23/j0008.gif"> <img src="c23/j0009.gif">,"
+"<i>X</i> <img src="c23/j0000.gif"> <i>Y</i>," "<img src="c23/j0001.gif">" and "<img src="c23/j0007.gif">(<img src="c23/j0010.gif">)."  Then, based on the results of the
+distance calculations, the partial source expressions in the source structure
+are transferred to "<i>please X'</i>."  "<i>Y' to X'</i>," "<i>Kyoto</i>" and
+"<i>come</i>," respectively. The target structure is obtained, by combining
+these target expressions. The translation output, "<i>Please come to Kyoto</i>,"
+is generated from this target structure.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Contextual Processing and Extra-linguistic Information</font></h2></a>
+
+<p>
+Contextual processing is not peculiar to spoken-language, but demands for
+contextual processing are usually higher because the dialogue attendants tend to
+use many anaphoric or elliptical expressions for information that is mutually
+understood. In various areas including contextual processjng, extra-linguistic
+information is important and utilized in our approach.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Ellipsis Resolution</font></h2></a>
+
+<p>
+Parts of utterances are often omitted in languages such as Japanese, Korean, and
+Chinese. In contrast, many Western languages such as English and German do not
+generally permit these omissions. Such ellipses must be resolved in order to
+translate the former languages into the latter. We present an automated method
+of ellipsis resolution using a decision tree [<a href="c23.html#ref14">Yamamoto and
+Sumita, 1998</a>]. The method is superior to previous proposals because it is
+highly accurate and portable due to the use of an inductive learning technique.
+</p>
+<p>
+Consider the Japanese utterance in sample (2):
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><i>customer:</i> &nbsp;&nbsp</td>
+    <td><img src="c23/j0011.gif"> &nbsp; <img src="c23/j0012.gif"> &nbsp; <img src="c23/j0000.gif"> &nbsp; <img src="c23/j0013.gif"> &nbsp; <img src="c23/j0014.gif"></td>
+    <td rowspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (2)</td></tr>
+<tr><td></td>
+    <td>[I am staying at the Nara Hotel.]</td></tr>
+</table>
+</p>
+<p>
+The subject is omitted in the above utterance. i.e., it is not explicitly
+expressed who stays at the Nara Hotel. However, native speakers understand that
+it is the speaker of the utterance who stays there. In order to determine the
+subject of the utterance. it is necessary to consider various information
+surrounding the utterance, i.e.,
+</p>
+<p>
+<ul>
+<li> the utterance has auxiliary verbs "- <img src="c23/j0015.gif"> -" and "- <img src="c23/j0016.gif">,"
+<li> the utterance is declarative,
+<li> the speaker of the utterance is a customer, and
+<li> the agent of "<img src="c23/j0013.gif"><sub>[<i>stay</i>]</sub>" is a customer in most cases.
+</ul>
+</p>
+<p>
+We have to determine the subject by considering the above elements in
+parallel. A manual rule construction of ellipsis resolution is a difficult and
+time-consuming task. With this in mind, a machine-learning approach has been
+utilized. Since various elements should be considered in resolving ellipses. it
+is difficult to exactly determine their relative degrees of influence. However,
+building a decision tree using a tagged training set automatically gives weight
+to every element through the criterion of entropy.
+</p>
+<p>
+We conducted experiments on utterances that had not been subjectcd to
+decision-tree learning. The attributes used in decision tree were the
+<i>speaker's role</i> (a clerk or a customer), <i>the verb</i>, <i>the honorific
+speech pattern</i>, the <i>case markers</i> and so on, The results revealed that
+the ellipsis was correctly resolved in 80% of the cases. Having verified that
+high accuracy can be obtained, the ellipsis resolution system was then
+incorporated into the Japanese-to-English and Japanese-to-German translation
+systems. We also believe that this approach is applicable to other languages,
+such as Korean or Chinese.
+</p>
+<p>
+As mentioned above, the <i>speaker's role</i> plays a central role in ellipsis
+resolution. This provides us with evidence that <i>extra-linguistic
+information</i> including the <i>speaker's role</i>, <i>gender</i> and so on are
+important in spoken-language translation [<a href="c23.html#ref6">Mima et al.,
+1997</a>]. We have been trying to design a transfer method in dialogue
+translation according to the <i>speaker's role</i>. We have been paying
+particular attention to the "politeness" problem, because the abuse of polite
+expressions can interfere with a smooth conversation between two
+parties. especially two parties involved in business, such as a clerk and a
+customer. Our preliminary experiment has given us promising results.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Anaphora Resolution</font></h2></a>
+
+<p>
+We have proposed a corpus-based anaphora resolution method that combines a
+machine learning algorithm with a statistical preference scheme [<a
+href="c23.html#ref9">Paul et al., 1999</a>].
+</p>
+<p>
+Our training data consist of Japanese spoken-language dialogues [<a
+href="c23.html#ref13">Takezawa, 1999</a>] annotated with coreferential tags. Besides the
+anaphora type (pronominal, nominal. ellipsis). we also include morphological
+information like stem form and inflection attributes for each surface word as
+well as semantic codes for content. words [<a href="c23.html#ref7">Ohno and Hamanishi,
+1981</a>] in this corpus. Based on the corpus annotations, we extract the
+frequcncy information of coreferential anaphora-antecedent pairs and
+non-referential pairs as well as the relative distance between the anaphora and
+the candidates from the training data.
+</p>
+<p>
+This knowledge is utilized to train a decision tree on the determination of
+coreferential relationship for a given anaphora and an antecedent
+candidate. Thus.  the relevance of the respective features for the resolution
+task is automatically extracted from the training data.
+</p>
+<p>
+In our resolutlon approach. we argue for a separation of the analysis of
+coreferential relationships and the determination of the most salient candidate,
+In the first step, we apply the decision tree as a coreference filter to all
+possible anaphora-candidate pairs in the discourse. In this step, irrelevant
+candidates are filtered out to reduce noise for the preference selection
+algorithm. In the sccond step, the preference selection is achieved by taking
+into account (I) the frequency information of the coreferential and
+non-referential pairs that were tagged in the training corpus and (II) the
+distance features within the current discourse.
+</p>
+<p>
+Sample (3) contains two anaphoric expressions. i.e.  (I) the pronoun 
+<img src="c23/j0017.gif"><sub>[<i>here</i>]</sub> in utterance (iii), which refers to the proper noun 
+<img src="c23/j0012.gif"><sub>[<i>Nara hotel</i>]</sub>, and (II) the omitted direct object
+(ellipsis) <img src="c23/j0011.gif"> of utterance (iv), which refers to <img src="c23/j0018.gif"><sub>[<i>car</i>]</sub> in
+utterance (i). The underlined nominal expressions preceding the respective
+anaphora in the discourse form the set of possible candidates.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=8>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td rowspan=6 valign=top><i>customer:</i> &nbsp;&nbsp;</td>
+    <td>(i)</td>  <td><img border=1 src="c23/j0019.gif"> <img src="c23/j0020.gif"> <img border=1 src="c23/j0021.gif"> <img border=1 src="c23/j0018.gif"> <img src="c23/j0022.gif"> <img src="c23/j0023.gif"></td>
+    <td rowspan=8>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(3)</td></tr>
+<tr><td></td>     <td>[I would like to rent a car for one week from tomorrow on.] </td></tr>
+<tr><td>(ii)</td> <td><img border=1 src="c23/j0012.gif"> <img src="c23/j0000.gif"> <img src="c23/j0024.gif"></td></tr>
+<tr><td></td>     <td>[I am staying at the Nara Hotel.]</td></tr>
+<tr><td>(iii)</td><td><img border=2 src="c23/j0017.gif"> <img src="c23/j0025.gif"> <img border=1 src="c23/j0026.gif"> <img src="c23/j0025.gif"> <img border=1 src="c23/j0027.gif"> <img src="c23/j0028.gif"> <img border=1 src="c23/j0029.gif"> <img border=1 src="c23/j0030.gif"> <img src="c23/j0028.gif"> <img border=1 src="c23/j0031.gif"><img src="c23/j0032.gif"></td></tr>
+<tr><td></td>     <td>[The room number here is 407 and the telephone number is 0742-22-5515.]</td></tr>
+<tr><td rowspan=2 valign=top><i>clerk:</i>
+    <td>(iv)</td> <td><img src="c23/j0033.gif"> <img border=1 src="c23/j0012.gif"> <img src="c23/j0034.gif"> <img border=2 src="c23/j0011.gif"> <img src="c23/j0035.gif"></td></tr>
+<tr><td></td>     <td>[I see. We can bring it to the Nara Hotel.]</td></tr>
+</table>
+</p>
+<p>
+In the case of the pronominal anaphora <img src="c23/j0017.gif"><sub>[<i>here</i>]</sub> of this
+sample, it is sufficient to resolve the antecedent as the most recent candidate
+in the discourse. However, this straightforward resolution scheme has a low
+success rate due to its application to the unfiltered set of candidates
+resulting in the frequent selection of non-referential antecedents.
+</p>
+<p>
+For example, the set of possible antecedents for the ellipsis anaphora in
+utterance (iv) consists of the ten underlined nominal expressions above. The
+most recent one is <img src="c23/j0012.gif"><sub>[<i>Nara hotel</i>]</sub>, which should not be
+considered as the direct object of the transitive verb <img src="c23/j0036.gif"><sub>[<i>to
+bring</i>]</sub>, because of its semantic attributes.  In this example, the
+coreference filter successfully reduces the candidate set to two potential
+candidates, i.e. <img src="c23/j0027.gif"><sub>[<i>number</i>]</sub> and <img src="c23/j0018.gif"><sub>[<i>car</i>]</sub>.
+</p>
+<p>
+Our preference selection scheme assigns a saliency value to the remaining
+candidates. This value is based on the occurrence of similar corefercnces in the
+training data as well as the relative position of the respective candidate in
+the current discourse defining a balance between frequency statistics and
+recency constraints. Therefore, the candidate <img src="c23/j0018.gif"><sub>[<i>car</i>]</sub> is
+selected correctly in our example as the antecedent of the omitted direct object
+instead of the more recent candidate <img src="c23/j0027.gif"><sub>[<i>number</i>]</sub>.
+</p>
+<p>
+We proved the applicability of our approach to Japanese pronoun resolution,
+which achieved a resolution accuracy of around 80%. Moreover, we believe our
+<i>knowledge poor</i> approach is adaptable to other tasks, domains and even
+different languages.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Robust Methods for Dealing with Recognition Errors</font></h2></a>
+
+<p>
+Despite recent progress in speech recognition technology, recognition errors
+have still not been eradicated and remain a problem in the near future. Thus,
+several methods using <i>syntactic constraints</i> based on context-free grammar
+have already been proposed to cope with this situation and their effectiveness
+has been confirmed in [<a href="c23.html#ref4">Lavie et al., 1996</a>] [<a
+href="c23.html#ref5">Mellish, 1989</a>] [<a href="c23.html#ref10">Saitou and Tomita,
+1988</a>]. In contrast to these approaches. the ATR-MATRIX uses <i>not only
+syntactic constraints but also semantic constraints</i> given by an
+example-based approach. First, we proposed to translate only parts that are
+considered to be correct (Partial Translation). Secondl we proposed to translate
+larger portions of utterances by recovering errors (Recovered TranslatIon),
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. 1 Partial Translation</font></h2></a>
+
+<p>
+Speech recognition errors not only discontinue parsing but also generate
+erroneous translations. To overcome this problem, we have proposed a method that
+translates only parts that are decided to be correct according to semantic
+consistencies (Partial Translation) [<a href="c23.html#ref16">Wakita et al.,
+1997</a>]. In this method, the dependency structurc for the input utterances is
+obtained by using a CB-parser. The reliable sub-structures are extracted from
+the original structures according to the <i>size</i> and <i>semantic
+distances</i>. The conditions used for selecting reliable sub-structures are as
+follows, (I) The summation of all the semantic distances for the dependencies of
+the sub-structure is smaller than the threshold A. (II) The count of words in
+the structures is larger than the threshold B. A and B are 0.2 and 3,
+respectively, in the experiment.
+</p>
+<p>
+Figure 1 shows an example of Partial Translation in an English-to-Japanese (EJ)
+translation. The input sentence "He says the bus leaves Kyoto at 11 a.m."  is
+recognized as "He <u>sells though</u> the bus leaves Kyoto at 11 a.m.." The
+solid lines in Figure 1 indicate dependency structures and the real number for
+each structure denotes the corresponding semantic distance value. The dotted
+line indicates the failure. In this example. the analysis of the whole sentence
+fails due to the misrecognition "sell though." The distance value of the longest
+part, "though the bus leavcs Kyoto at 11 a.m.," is thought to include erroneous
+words because the distance value 0.4 is larger than threshold value A. Then, we
+step to the next longest part "the bus leaves Kyoto at 11 a.m.." This part is
+extracted as a correct part, because the distance 0.013 is under threshold value
+A. The isolated part "He sells" is also evaluated. The distance of the part. "He
+sells" is under threshold value A, but the part includes only two words under
+threshold B, so the part "He sells" is regarded as erroneous.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>A. Threshold value of semantic distance for correct parts = 0.2
+<tr><td>B. Threshold of word count for correct parts = 3
+<tr><td colspan=2>
+	<table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td>
+	<table border=0 cellpadding=1 cellspacing=1 align=center>
+	<tr><td align=right>Input sentence:</td><td>He says the bus leaves Kyoto at 11 a.m.</td></tr>
+	<tr><td align=right>Recognition:</td><td>He <u>sells</u> <u>though</u> the bus leaves Kyoto at 11 a.m.</td></tr>
+	<tr><td colspan=3>
+	<img src="c23/c23-fig1.gif" width=519 height=216>
+	</td></tr>
+	</table>
+	</td></tr>
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1: Example of Partial translation
+</i></strong></div>
+</p>
+
+<p>
+It has been confirmed that the proposed method can largely reduce the rate of
+misunderstanding for translations of erroneous utterances. This method enables
+users to continue a conversation without silent stand-stills even when
+recognition results are terribly erroneous.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Recovered Translation</font></h2></a>
+
+<p>
+Recently, we have proposed a method for recovering from speech recognition
+errors [<a href="c23.html#ref3">Ishikawa et al., 1999</a>].  Humans usually recover from
+misheard parts in speech by creating hypotheses about the original utterances
+based on expressions familiar to them. Likewise, we assume that a computer can
+recover from an error using text corpora. To do this, the word sequences of
+recognition results are corrected using phonetically similar examples in the
+text corpora. The reliability of each correction is decided according to its
+semantic consistency and phonetic similarity to the recognition result.
+</p>
+<p>
+The proposed method is composed of the following three steps: (i) deciding the
+necessity of correction for the input, (ii) creating correction hypotheses, and
+(iii) deciding the reliability of each hypothesis. In step (i), the recognition
+result is parsed using a CB-parser, and the necessity is decided according to
+the total value of semantic distances obtained from the parsing results. The
+correction hypotheses are created in step (ii). The correction parts are decided
+according to the dependency structure, and the hypotheses are created by
+replacing the parts with phonetically similar word sequences in the text
+corpus. In step (iii), each correction hypothesis is parsed in the same way as
+in step (i).  The correction hypotheses are thought to be reliable when their
+semantic distances and phonetic distances are under threshold values, C and D,
+which are 1.0 and 0.3. respectively, in the experiment.
+</p>
+<p>
+Figure 2 shows an example of Recovered Translation in a Japanese-to-English (JE)
+translation. The recognition result and the translation result are erroneous.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td>
+    <td colspan=2>Correction Part</td>
+    <td colspan=2>Translation</td></tr>
+<tr><td align=right>Recognition:</td>
+    <td colspan=2><img border=1 src="c23/j0037.gif"> <img src="c23/j0038.gif"></td>
+    <td><font size=+2><img src="c23/j0039.gif"></font></td>
+    <td>Is there yesterday for a room?</td></tr>
+<tr><td align=right>(Answer:</td>
+    <td colspan=2><img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0041.gif"> <img src="c23/j0028.gif">)</td>
+    <td></td>
+    <td></td>
+</tr>
+<tr><td></td>
+    <td colspan=2 align=right><br>Semantic distance: 1.30</td>
+    <td></td></tr>
+<tr><td rowspan=2 align=center valign=bottom>
+	<font font size=+1 color=#0000ff> Text Corpus </font><br>
+	<font size=+3><img src="c23/j0042.gif"></font></td>
+    <td align=center><br><font size=+4><img src="c23/j0042.gif"></font><br><br></td>
+    <td>Correction <br>Hypotheses <br>Creation</td>
+    <td></td>
+    <td></td></tr>
+<tr align=center>
+    <td>Semantic <br>Distance</td>
+    <td>Phonetic <br>Distance</td>
+    <td colspan=2 align=left valign=bottom>Translation</td></tr>
+<tr><td bgcolor=#ffff00><img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0041.gif"></td>
+    <td bgcolor=#ffff00 align=center>0.0</td>
+    <td bgcolor=#ffff00 align=center>0.13</td>
+    <td><font size=+2><img src="c23/j0039.gif"></font></td>
+    <td>Are there preference for a room?</td></tr>
+<tr><td><img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0043.gif"></td>
+    <td align=center>0.5</td>
+    <td align=center>0.22</td>
+    <td></td><td></td></tr>
+<tr><td><img src="c23/j0040.gif"> <img src="c23/j0044.gif"></td>
+    <td align=center>0.0</td>
+    <td align=center>0.30</td>
+    <td></td><td></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2: Example of Recovered Translation
+</i></strong></div>
+</p>
+
+<p>
+In step (i), the recognition result is decided to be recovered because the total
+value of semantic distance, 1.30, is larger than threshold value C.
+</p>
+<p>
+The corrcction hypotheses of the input are created in step (ii). Here. three
+candidates that are phonetically similar to the correction part "<img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0045.gif">"
+are shown, i.e., "<img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0041.gif"> [preference for a room]", "<img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0043.gif"> [to
+the room]", and "<img src="c23/j0040.gif"> <img src="c23/j0044.gif"> [a room]". By replacing the correction part with
+these candidates, we obtain three correction hypotheses. The phonetic similarity
+of each hypothesis to the recognition result is evaluated as the "edit" distance
+between the phoneme sequence of the recognition result and the phoneme sequence
+of the hypothesis. Here. the hypothesis with "<img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0041.gif">" has the smallest
+value, 0.13, which is smaller than threshold D.
+</p>
+<p>
+In step (iii), the most reliable correction hypothesis is output as the final
+correction result. The reliability of each hypothesis is decided according to
+its total semantic distance and phonetic distance. The hypothesis 
+"<img src="c23/j0040.gif"> <img src="c23/j0025.gif"> <img src="c23/j0041.gif"> <img src="c23/j0046.gif"> <img src="c23/j0047.gif">" is selected. Then, the translation result from this
+correction "Are there preferences for a room?" is finally obtained.
+</p>
+<p>
+In a preliminary experiment, we compare the translation qualities for a
+translation without/with correction. With correction, the translation qualities
+increased about 10% of the time. These results show the validity of the proposed
+method.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Evaluation of TDMT</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 Outline of Current TDMT system</font></h2></a>
+
+<p>
+Currently, the TDMT system addresses dialogues in the <i>travel domain</i>, such
+as travel scheduling, hotel reservations, and trouble-shooting. We have applied
+TDMT to four language pairs: Japanese-English, Japanese-Korean [<a
+href="c23.html#ref1">Furuse et al., 1995</a>], Japanese-German [<a href="c23.html#ref8">Paul,
+1998</a>] and Japanese-Chinese [<a href="c23.html#ref15">Yamamoto, 1999</a>].  Table 1
+shows the transfer knowledge statistics.<a name="rfn2"
+href="c23.html#fn2"><sup>2</sup></a> Training and test utterances were randomly selected
+per dialogue from our speech and language data collection that includes about 40
+thousand utterances in the travel domain [<a href="c23.html#ref13">Takezawa,
+1999</a>]. The coverage of our training data differs among the language pairs
+and varies between about 3.5% and about 9%.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1 : Transfer Knowledge Statistics
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Count</td>		<td>JE</td>	<td>JG</td>	<td>JK</td>	<td>EJ</td></tr>
+<tr align=right><td align=left>Words</td>		<td>15063</td>	<td>15063</td>	<td>15063</td>	<td>7937</td></tr>
+<tr align=right><td align=left>Patterns</td>		<td>1002</td>	<td>802</td>	<td>801</td>	<td>1571</td></tr>
+<tr align=right><td align=left>Examples</td>		<td>16725</td>	<td>9912</td>	<td>9752</td>	<td>11401</td></tr>
+<tr align=right><td align=left>Trained Utterances</td>	<td>3639</td>	<td>1917</td>	<td>1419</td>	<td>3467</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 The Evaluation Procedure</font></h2></a>
+
+<p>
+A system dealing with spoken-dialogues is required to realize a quick and
+informative response that supports smooth communication. Even if the response is
+somewhat broken, there is no chance for manual pre/post-editing of input/output
+utterances. In other words, both speed and informativity are vital to a
+spoken-language translation system. Thus. we evaluated TDMT's translation
+results for both <i>time</i> and <i>qualily</i>.
+</p>
+<p>
+Three native speakers of each target language manually graded translations for
+23 <i>unseen</i> dialogues (330 Japanese utterances and 344 English
+utterances. each about 10 words). During the evaluation, the native speakers
+were given information not only about the utterance itself but also about the
+previous context.  The use of context in an evaluation, which is different from
+typical translation evaluations, is adopt ed bccause the users of the
+spoken-dialogue system consider a situation naturally in real conversation.
+</p>
+<p>
+Each utterance was assigned one of four ranks for translation quality: (A)
+Perfect : no problems in both information and grammar; (B) Fair:
+easy-to-understand with some unimportant information missing or flawed grammar;
+(C) Acceptable: broken but understandable with effort; (D) Nonsense: important
+information has been translated incorrectly. Here we show samples for each rank
+containing information about 1. input, 2. system translation, 3. human
+transIation, and 4. explanation.
+</p>
+<p>
+<ul>
+<li> rank-A <br>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td>1.</td><td rowspan=4>&nbsp;</td><td> "<img src="c23/j0048.gif"> <img src="c23/j0049.gif"> <img src="c23/j0050.gif"> <img src="c23/j0051.gif">" </td></tr>
+	<tr><td>2.</td><td>"Hello, I'd like to make a reservation for a
+		room."</td></tr>
+	<tr><td>3.</td><td>"Hi, I'd like to make a reservation." </td></tr>
+	<tr><td valign=top>4.</td><td>The translation 2. is correct to the point
+		that it could be understood by an English
+		speaker. However, a "natural" translation
+		could be 3.</td></tr>
+	</table>
+	<br>
+<li> rank-B <br>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td>1.</td><td rowspan=4>&nbsp;</td><td> "<img src="c23/j0052.gif"> <img src="c23/j0053.gif">" </td></tr>
+	<tr><td>2.</td><td>"Yes. I'm Hiroko Tanaka."</td></tr>
+	<tr><td>3.</td><td>"Yes, my name is Hiroko Tanaka."</td></tr>
+	<tr><td valign=top>4.</td><td>This translation is a slightly wrong, since
+		"my name is" or "this is" should be used
+		instead of "I'm." However, native speakers
+		can understand the translation as soon as
+		they read it.</td></tr>
+	</table>
+	<br>
+<li> rank-C <br>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td>1.</td><td rowspan=4>&nbsp;</td><td> "<img src="c23/j0052.gif"> <img src="c23/j0054.gif"> <img src="c23/j0055.gif"> <img src="c23/j0038.gif">" </td></tr>
+	<tr><td>2.</td><td>"Yes, from when change are you?"</td></tr>
+	<tr><td>3.</td><td>"Yes, and from when would you like to change
+		your reservation?"</td></tr>
+	<tr><td valign=top>4.</td><td>This translation is poor. However, native
+		speakers can understand it and receive important information if they consider the situation in the conversation.</td></tr>
+	</table>
+	<br>
+<li> rank-D <br>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td>1.</td><td rowspan=4>&nbsp;</td><td> "<img src="c23/j0056.gif"> <img src="c23/j0057.gif"> <img src="c23/j0058.gif"> <img src="c23/j0059.gif"> <img src="c23/j0060.gif"> <img src="c23/j0046.gif">"</td></tr>
+	<tr><td>2.</td><td>"And, there is between the tatami the next
+		the room."</td></tr>
+	<tr><td>3.</td><td>"And, there is a tatami room next to that
+		room."</td></tr>
+	<tr><td valign=top>4.</td><td>This translation gives no information, since
+		it has a strange word order, wrong word selection ( "<img src="c23/j0061.gif">" should be "tatami room." ).</td></tr>
+	</table>
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3"><h2><font color=#ff0000>5.3 Results</font></h2></a>
+
+<p>
+Table 2 shows the latest evaluation results for TDMT, where the "acceptability
+ratio" is the sum of the (A), (B) and (C) ranks. The JE and JG translations
+achieved about 85% acceptability and the JK and EJ translations achieved about
+90% acceptability. JK's superiority is due to the linguistic similarity between
+the two languages: EJ's superiority is due to the relatively loose grammatical
+restrictions of Japanese.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2: Quality and Time
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td></td>				<td>JE</td>	<td>JG</td>	<td>JK</td>	<td>EJ</td></tr>
+<tr align=right><td align=left>A (%)</td>		<td>43.4</td>	<td>45.8</td>	<td>71.0</td>	<td>52.1</td></tr>
+<tr align=right><td align=left>A+B (%)</td>		<td>74.0</td>	<td>65.9</td>	<td>92.7</td>	<td>88.1</td></tr>
+<tr align=right><td align=left>A+B+C (%)</td>		<td>85.0</td>	<td>86.4</td>	<td>98.0</td>	<td>95.3</td></tr>
+<tr align=right><td align=left>Time (Seconds)</td>	<td>0.09</td>	<td>0.13</td>	<td>0.05</td>	<td>0.05</td></tr>
+</table>
+</p>
+
+<p>
+The translation speed was measured on a PC/AT PentiumII/450MHz with 1GB of
+memory. The translation time did not include the time needed for a morphological
+analysis, which is much faster than a translation. Although the speed depends on
+the amount of knowledge and the utterance length, the average translation times
+were around 0.1 seconds. Thus, TDMT can be considered to be efficient.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Conclusion</font></h2></a>
+
+<p>
+This paper has described a TDMT approach to spoken-language translation. This
+approach was implemented, evaluated and incorporated into a multi-language
+speech translatlon system called ATR-MATRIX. The effectiveness of the approach
+was confirmed. However, it is still just a small step forward in the developing
+frontier of speech translation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+The authors would like to thank Kadokawa-Shoten for providing us with the
+Ruigo-Shin-Jiten. We also thank all previous members of this project, including
+Hideki Mima, Yumi Wakita, Osamu Furuse and Hitoshi Iida.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[Furuse et al., 1995]</strong></a>
+<dd>Osamu Furuse, Jun Kawai, Hitoshi lida, Susumu Akamine and Deok-Bong Kim. 1995. 
+	Multi-lingual Spoken-Language Translation UtiIizing Translation Examples. 
+	In <i>Proceedings of NLPRS '95</i>, pages 544-549.
+	<br><br>
+<dt><a name="ref2"><strong>[Furuse and Iida, 1996]</strong></a>
+<dd>Osamu Furuse and Hitoshi Iida. 1996. 
+	Incremental Translation Utilizing Constituent Boundary Patterns. 
+	In <i>Proceedings of Coling '96</i>, pages 412-417.
+	<br><br>
+<dt><a name="ref3"><strong>[Ishikawa et al., 1999]</strong></a>
+<dd>Kai Ishikawa and Eiichiro Sumita. 1999 (to appear). 
+	Error Correction Translation Using Text Corpora. 
+	In <i>Proceedings of EuroSpeech '99</i>.
+	<br><br>
+<dt><a name="ref4"><strong>[Lavie et al., 1996]</strong></a>
+<dd>Alon Lavie, Donna Gates, Marsal Gavalda, Laura Mayfield, Alex Waibel and Lori Leven. 1996. 
+	Multi-lingual Translation of Spontaneously Spoken Language in a Limited Domain. 
+	In <i>Proceedings of Coling '96</i>, pages 442-447.
+	<br><br>
+<dt><a name="ref5"><strong>[Mellish, 1989]</strong></a>
+<dd>C. S. Mellish. 1989. 
+	Some chart-based techniques for parsing iIl-formed input. 
+	In <i>Proceedings of the Annual Meeting of the ACL</i>, pages 102-109.
+	<br><br>
+<dt><a name="ref6"><strong>[Mima et al., 1997]</strong></a>
+<dd>Hideki Mima, Osamu Furuse and Hitoshi Iida. 1997. 
+	Improving Performance of Transfer-Driven Machine Translation with Extra-linguistic Information 
+	from Context, Situation and Environment. In <i>Proceedings of IJCAI-97</i>, pages 983-988.
+	<br><br>
+<dt><a name="ref7"><strong>[Ohno and Hamanishi, 1981]</strong></a>
+<dd>S. Ohno and M. Hamanishi. 1981. 
+	Ruigo-Shin-Jiten, Kadokawa
+	<br><br>
+<dt><a name="ref8"><strong>[Paul, 1998]</strong></a>
+<dd>Michael Paul, Eiichiro Sumita and Hitoshi Iida. 1998. 
+	Field Structure and Generation in Transfer-Driven Machine Translation. 
+	In <i>Proccedings of 4th Annual Meeting of NLP</i>.
+	<br><br>
+<dt><a name="ref9"><strong>[Paul et al., 1999]</strong></a>
+<dd>Michael Paul, Kazuhide Yamamoto and Eiichiro Sumita. 1999. 
+	Corpus-Based Anaphora Resolution Towards Antecedent Preference. 
+	In <i>Proceedings of 1999 ACL Workshop on 'Coreference and Its Applications.'</i>
+	<br><br>
+<dt><a name="ref10"><strong>[Saitou and Tomita, 1988]</strong></a>
+<dd>Hiroaki Saitou and Masaru Tomita. 1988. 
+	Parsing noisy sentences. 
+	In <i>Proceedinps of COLING '88</i>, pages 561-566.
+	<br><br>
+<dt><a name="ref11"><strong>[Sumita and Iida, 1991]</strong></a>
+<dd>Eiichiro Sumita and Hitoshi Iida. 1991. 
+	Experiments and Prospects of Example-based Machine Translation. 
+	In <i>Proccedings of the 29th ACL</i>, pages 185-192.
+	<br><br>
+<dt><a name="ref12"><strong>[Takezawa et al., 1999]</strong></a>
+<dd>Toshiyuki Takezawa, Fumiaki Sugaya, Akio Yokoo and Seiichi Yamamoto. 1999. 
+	A New Evaluation Method for Speech Translation Systems and the Case Study on ATR-MATRIX from Japanese to English. 
+	In <i>Proc. of Machine Translation VII</i>.
+	<br><br>
+<dt><a name="ref13"><strong>[Takezawa, 1999]</strong></a>
+<dd>Toshiyuki Takezawa. 1999. 
+	Building a bilingual travel conversation database for speech transIation research. 
+	In <i>Proc. of Oriental COCOSDA Workshop</i>.
+	<br><br>
+<dt><a name="ref14"><strong>[Yamamoto and Sumita, 1998]</strong></a>
+<dd>Kazuhide Yamamoto and Eiichiro Sumita. 1998. 
+	Peasibility Study for Ellipsis Resolution in Dialogues by Machine Learning Techniques. 
+	In <i>Proceedings of COLING-ACL '98</i>. pages 1428-1435.
+	<br><br>
+<dt><a name="ref15"><strong>[Yamamoto, 1999]</strong></a>
+<dd>Kazuhide Yamamoto. 1999. 
+	Proofreading Generated Outputs: Automated Rule Acqusition and Application to Japanese-Chinese Machine Translation. 
+	In <i>Proccedings of ICCPOL '99</i>. pages 87-92.
+	<br><br>
+<dt><a name="ref16"><strong>[Wakita et al., 1997]</strong></a>
+<dd>Yumi Wakita. Jun Kawai, and Hitoshi Iida. 1997. 
+	Correct Parts Extraction from Speech Recognition Results using Semantic Distance Calculation and Its Application 
+	to Speech Translation. 
+	In <i>Proceedings of an ACL Workshop on Spoken Language Translation</i>, pages 24-31.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+English translations are bracketed and attached to the
+Japanese throughout this paper. (<a href="c23.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+The development of the KJ system is suspended. The
+JC system has just been started so it is still too early to
+evaluate it. Other directions. CJ and GJ have not yet been
+implemented. (<a href="c23.html#rfn2">Return</a>)
+
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

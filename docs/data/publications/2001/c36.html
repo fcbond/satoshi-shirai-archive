@@ -1,0 +1,1133 @@
+<html>
+<head>
+<title>Mamiko Hatayama, Yoshihiro Matsuo &amp; Satoshi Shirai, NLPRS-2001, November 27-29, 2001</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Summarizing Newspaper Articles Using Extracted Informative and Functional Words</font>
+<br><br>
+
+<font size=+2>Mamiko HATAYAMA<sup>+</sup>, Yosihiro MATSUO<sup>++</sup> and Satoshi SHIRAI<sup>+++</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup> NTT Communication Science Laboratories, <tt>mamiko@cslab.kecl.ntt.co.jp</tt></font>
+<br>
+<font size=+1><sup>++</sup> NTT Cyber Space Laboratories, <tt>yosihiro@light.hil.ntt.co.jp</tt></font>
+<br>
+<font size=+1><sup>+++</sup> ATR Spoken Language TransIation Research Laboratories, <tt>shirai@slt.atr.co.jp</tt></font>
+<br>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+We propose a new method of summarizing newspaper articles that extracts important words and phrases 
+from original articles using a case-frame dictionary, 
+and generates a summary by reconstructing those extracted words and phrases. 
+The number of sentences in the generated summary can be controlled by from one to a few sentences the users. 
+We have also developed the prototype summarization system ALTLINE, 
+and evaluate the system by comparing generated summaries to human-produced summaries. 
+This evaluation result shows that the ALTLINE was ranked near the middle among all of the human subjects, 
+proving that the system summaries are comparable to human summaries.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of NLPRS-2001</i>, pp.593-600 (November, 2001). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=26>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c36.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c36.html#chap-2">2 Summarization Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-2.1">2.1 Scoring the importance of sentences</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-2.2">2.2 Specification of the main verb</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-2.3">2.3 Extracting the important words and phrases</a></td></tr>
+<tr><td><a href="c36.html#chap-3">3 Implementation of Summarization System</a></td></tr>
+<tr><td><a href="c36.html#chap-4">4 Human-produced Summary</a></td></tr>
+<tr><td><a href="c36.html#chap-4.">4. 1 Experimental conditions</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-4.2">4.2 Experimental data</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c36.html#chap-4.2.1">4.2.1 Newspaper articles</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c36.html#chap-4.2.2">4.2.2 Word list</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-4.3">4.3 Task</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-4.4">4.4 Experimental results</a></td></tr>
+<tr><td><a href="c36.html#chap-5">5 Evaluation of ALTLlNE by Subjects Summaries</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-5.1">5.1 ALTLINE's summarization</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-5.2">5.2 Evaluation criterion design</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#chap-5.3">5.3 Recall/Precision/F-measure</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c36.html#chap-5.3.1">5.3.1 Overall Evaluation</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c36.html#chap-5.3.2">5.3.2 Evaluation by Cross Validation</a></td></tr>
+<tr><td><a href="c36.html#chap-6">6 Discussion</a></td></tr>
+<tr><td><a href="c36.html#chap-7.">7. Conclusions</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#ref">References</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#app-a">A Appendix: Original Article</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c36.html#app-b">B Appendix: Word list</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+Because of the dramatic increase in text information, 
+it is difl1cult for us to precisely select the information we really need. 
+In addition, since mobile terminals have become popular, the information we receive needs to be compact. 
+Therefore, there is a strong demand for automatic summarization of texts.
+</p>
+<p>
+Various methods of summarization have been developed, 
+and most of these are methods that use extracted sentences or other relatively large textual units as summaries. 
+For example, there are methods that extract sentences based on importance by counting the appearance frequency of words 
+in the text (<a href="c36.html#ref1">Edmundson, 1969</a>; <a href="c36.html#ref8">Luhn, 1958</a>; <a href="c36.html#ref13">Zechner, 1996</a>). 
+Another method extracts sentences by using an implicit discourse structure (<a href="c36.html#ref10">Marcu, 1997</a>). 
+However, summaries generated by these methods include a lot or unnecessary information, snch as needless modifiers. 
+Therefore, these methods are not appropriate because they do not minimize the information extracted. 
+On the other hand, summaries created by enumerating sentences are problematic 
+because the coherence and readability of the summaries tend to be low. 
+Therefore, several recent studies move beyond the extraction of sentences or other relatively large textual units, 
+for example, methods to extract important words and phrases 
+(<a href="c36.html#ref3">Hovy and Lin, 1997</a>; <a href="c36.html#ref12">Oka and Ueda, 2000</a>) 
+and methods to extract the words and phrases grammatically 
+(<a href="c36.html#ref7">Knight and Marcu, 2000</a>; <a href="c36.html#ref6">Jin and McKeown, 2000</a>). 
+Studies have also been conducted to advance with the readability of summaries 
+(<a href="c36.html#ref9">Mani et al., 1999</a>; <a href="c36.html#ref11">Nanba and Okumura, 2000</a>). 
+In these methods, there is an abstractive method approach to replace some of the concepts 
+that appear in the original text with hypernym (<a href="c36.html#ref3">Hovy and Lin, 1997</a>). 
+However, enumerating the important words and phrases also reduce readability and coherence, 
+because it does not produce clear sentences. 
+Otherwise, an enormous amount of knowledge is needed to integrate concepts or to paraphrase.
+</p>
+<p>
+In this paper, we propose a method that can extract not only sentences but also important words and phrases 
+from original articles and generate a summary by reconstructing those extracted words and phrases. 
+Our proposed method increases compressibility by extracting the necessary and sufficient words and phrases, 
+and solves the problem of readability by generating sentences from these words in addition to simply extracting these words. 
+Because we consider that a subject, a predicate verb and an object are necessary at a minimum 
+in order to constitute a sentence, this method selects case frame elements in order to extract important words and phrases. 
+Thus, this method provides us with the necessary and sufficient information for a short summary. 
+Furthermore, we use the case-frame dictionary (<a href="c36.html#ref5">Ikehara et al., 1997</a>) 
+of the Japanese-to-English Machine Translation system 
+ALT-J/E (<a href="c36.html#ref4">Ikehara et al., 1991</a>), so as to use the practical knowledge that we can obtain. 
+Our summarization model consists of the following two points:
+</p>
+<p>
+<ul>
+<li> Word and phrase extraction,
+<li> Sentence generation.
+</ul>
+</p>
+<p>
+In the former, for the extraction or words and phrases based on importance, we consider two approaches:
+</p>
+<p>
+<dl compact>
+<dt><dd>A) Important key words, 
+<dt><dd>B) Words necessary for generation.
+</dl>
+</p>
+<p>
+The important key words A) are those used to express the main points of an article. 
+These are frequently appearing words that can also be extracted by conventional key word extraction. 
+However, these are insufficient to improve readability, because they do not form a sentence. 
+On the other hand, words necessary for sentence gencration B) include some key words A), but are not limited to them. 
+For example, functional words would be necessary to constitute a sentence, 
+and nouns and verbs that aren't included in the key words would also be necessary. 
+In this paper, we focus on the word and phrase extraction of B) to generate a sentence for summarization.
+</p>
+<p>
+Moreover, we implemented the newspaper article summarization system ALTLINE using the above method. 
+ALTLINE can generate both single and multiple sentences. 
+Because we extract only important words and phrases, there is high compressibility. 
+We also designed a criterion to evaluate ALTLINE by comparing it with experimental results of human-generated summaries.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Summarization Method</font></h2></a>
+
+<p>
+In this section. we describe the summarization method. Figure 1 shows the summarization procedure.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c36/c36-fig1.gif" width=524 height=435>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1: Summarization flow (1)
+</i></strong></div>
+</p>
+
+<p>
+There are five steps. 
+In the first step, an importance score is assigned to each sentence. 
+In the second step, the main verbs are specified. 
+In the third step, the important words and phrases are extracted 
+by the case-frame Information of the main verb and exception extract rules. 
+In the fourth step, summary sentences are generated by reconstructing those extracted words and phrases. 
+Finally, the system selects and outputs some high score sentences according to compressibility.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Scoring the importance of sentences</font></h2></a>
+
+<p>
+We choose an important sentence after carrying out morphological analysis and a dependency analysis 
+of the original sentences. 
+We also use information on sentence location. cue words. and sentence length to score the importance.
+</p>
+<p>
+<strong>1) Sentence location</strong>
+</p>
+<p>
+In a preliminary study (<a href="c36.html#ref2">Hatayama et al., 1999</a>), 
+we investigated what portions of the original information was necessary 
+to generate a one-sentence summary, specifically, where in the original article 
+the necessary information to generate a one-sentence summary was contained. 
+We found that this information is in the first sentence 73.4% of the time, and in the first paragraph 91.9% of the time. 
+Judging from the results, we can see that the importance of a sentence nearer to the top is higher.
+</p>
+<p>
+<strong>2) Cue words</strong>
+</p>
+<p>
+Cue words are given scores, Examples of cue words are conjunctive words like <i>"Sonokekka</i> " 
+( <i>as the result of</i> ) and word correspondence like <i>"X announced Y-plan. The Y-plan is ..."</i> . 
+Moreover, parentheses are used as cue expressions. 
+For example, In Japanese, parentheses are added to words that we want to emphasize, e.g,, "<img src="c36/j0000.gif"> <i>word</i> <img src="c36/j0001.gif">".
+</p>
+<p>
+<strong>3) Sentence length</strong>
+</p>
+<p>
+In the preliminary study, we found that a short sentence tended to be an introductory sentence 
+that does not express an important topic. 
+Therefore, the score of importance for extremely short sentences is low.
+</p>
+<p>
+Our method sums up the three scores.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Specification of the main verb</font></h2></a>
+
+<p>
+In extracting important elements within the selected sentence, we first specify the main verb. 
+Several verbs usually exist in one sentence. 
+We must specify and extract the verb that has the most important meaning among all of the verbs in the original article.
+</p>
+<p>
+It is common to see the following kind of expressions in Japanese newspaper articles:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=5><hr size=2></td></tr>
+<tr><td>&nbsp;&nbsp;</td><td valign=top>J:</td><td>&nbsp;&nbsp;</td>
+    <td align=center>X ha / sannyuu wo / mitomeru / kimeta<br>
+	<tt>X / the entry / permit / decided</tt></td>
+    <td>&nbsp;&nbsp;</td></tr>
+<tr><td colspan=5><hr size=2></td></tr>
+<tr><td>&nbsp;&nbsp;</td><td valign=top>E:</td><td>&nbsp;&nbsp;</td>
+    <td align=center><i>X decided to permit the entry</i></td>
+    <td>&nbsp;&nbsp;</td></tr>
+<tr><td colspan=5><hr size=2></td></tr>
+</table>
+</p>
+<p>
+Most Japanese articles do not express that <i>"X permit the entry ..."</i> 
+but rather that <i>"X decided/announced to permit the entry..."</i> . 
+Therefore, we must determine which is the main verb. 
+For the important meaning of the original sentences, tIie main verb is <i>"permit"</i> . 
+In this paper, we define the verb that has the most important meaning in the original sentence, 
+such as <i>"permit"</i> above, as "the main verb". 
+We also define a predicate verb that cannot be the main verb, 
+such as <i>"dccided/announced"</i> as used in the above example, as "the verb of the modality expressIon." 
+There are 47 rules for verb specification at present, and 14 exception rules for verb specification. 
+For example, in the case of complex sentences consisting of a direct verb and a modal verb, 
+we use the latter as the main verb.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Extracting the important words and phrases</font></h2></a>
+
+<p>
+We extract the case elements of the main verb, and also extract other elements in case-frame information.
+</p>
+<p>
+In the preliminary study, we found that the necessary information was the obligatory case of the main verb. 
+Additionally, the modifiers of the obligatory cases and other modifiers are unnecessary. 
+We employ complements of the main verbs in the summary output and omit adjuncts and modifiers of the complements. 
+We use NTT's case-frame dictionary to identify the complements. 
+Since each entry of the dictionary comprises one verb and its complements 
+with restriction rules written in a semantic category system (2,700 nodes), 
+we can consider a modifier of the verb as a complement if the modifier satisfies the semantic restriction of the dictionary. 
+Additionally, we prepared other word extraction rules. 
+For example, if the complement is an abstract thing, its modifier is employed. 
+If there are a number of modifiers, we give priority to the modiliers closer to the modified word. 
+Lastly, the system generates one sentence using the extracted words.
+</p>
+<p>
+Our system can generate several summary sentences. However, we limit our discussion to the
+most important summary sentences for simplicity.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Implementation of Summarization System</font></h2></a>
+
+<p>
+ALTLINE can produce a very short summary by extracting only the most important elements. 
+This system creates a one sentence summary for each sentence when a newspaper article is input. 
+And this system selects and outputs some high score sentences according to compressibility. 
+Figure 2 shows the procedure of the summarization. However, we shall explain only one sentence here.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="c36/c36-fig2.gif" width=614 height=352>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2: Summarization flow (2)
+</i></strong></div>
+</p>
+
+<p>
+To illustrate the sentences shown in Figure 3 are input. 
+ALTLINE then generates the summary shown in Figure 4. 
+The words and phrases underlined in the original article are used for the summary, 
+and the words and phrases in rectangles are the case-frame elements (we will describe these case-frame elements later). 
+The most important sentences are output as the summary or the article. 
+It should be noted that this is a Japanese article that we translated into English. 
+We also use Japanese syntactic analysis information. 
+The number at the end of each summary sentence expresses the sentence's importance score.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td valign=top>1:</td><td>&nbsp;&nbsp;</td>
+	    <td><img border=2 src="c36/j0002.gif">
+		<img src="c36/j0003.gif">
+		<img border=1 src="c36/j0004.gif">
+		<img border=1 src="c36/j0005.gif">
+		<img border=2 src="c36/j0006.gif">
+		<img border=2 src="c36/j0007.gif">
+		<img src="c36/j0008.gif"><br>
+		(On January 9th,
+		<u><font color=#0000ff>The Ministry of Posts and Telecommunications</font></u>
+		decided to
+		<u><font color=#0000ff>permit</font></u>
+		<u>the NTT group's</u>
+		<u><font color=#0000ff>entry</font></u>
+		<u>into</u> <u>BS data broadcasting</u>
+		to begin with BS (broadcast satellite) digital broadcasts at the end of 2000.)
+	</td></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr><td valign=top>2:</td><td>&nbsp;&nbsp;</td>
+	    <td><img src="c36/j0009.gif">
+		<img src="c36/j0010.gif">
+		<img border=2 src="c36/j0011.gif">
+		<img border=1 src="c36/j0012.gif">
+		<img border=2 src="c36/j0013.gif">
+		<img src="c36/j0014.gif"><br>
+		(They approved capital participantion of less
+		than one-third of a BS data broadcasting company as an NTT group company,
+		and <u>they</u>
+		<u><font color=#0000ff>authorized</font></u>
+		<u><font color=#0000ff>the new company</font></u>
+		with 30% of financing from NTT DoCoMo,
+		<u>as a broadcasting business</u>).
+</td></tr>
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 3: Original article
+</i></strong></div>
+</p>
+
+<p>
+In the example of Figure 3, the system first gives scores by calculating the importance of each sentence. 
+Second, it specifies the main verb. 
+Because <i>"decided"</i> in <i>"X decided to permit"</i> is the verb of the modality expression, 
+it specifies <i>"permit"</i> as the main verb. 
+Third, it specifies the words and phrases to extract using the case elements of <i>"permit"</i> . 
+The case-frames of <i>"permit"</i> are
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=3><hr size=2></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+    <td align=center>[<img src="c36/j0015.gif">] <img src="c36/j0016.gif"> / [<img src="c36/j0017.gif">] <img src="c36/j0018.gif"> / <img src="c36/j0007.gif"><br>
+	<tt>[subject] / [ action ] / permit</tt></td>
+    <td>&nbsp;&nbsp;</td></tr>
+<tr><td colspan=3><hr size=2></td></tr>
+<tr><td colspan=3 align=center>Case-frame</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr><td colspan=3><hr size=2></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+    <td align=center>[<img src="c36/j0019.gif">] <img src="c36/j0016.gif"> / [<img src="c36/j0020.gif">] <img src="c36/j0018.gif"> / <img src="c36/j0007.gif"><br>
+	<tt> MPT / entry / permit</tt></td></tr>
+<tr><td colspan=3><hr size=2></td></tr>
+<tr><td colspan=3 align=center>Original words in the article</td></tr>
+</table>
+<p>
+The obligatory case-frame elements of <i>"permit"</i> are the subject and action, 
+which correspond to <i>"Ministry of Posts and Telecommunications"</i> and <i>"entry"</i> , respectively, in the sentence. 
+Furthermore, other words are extracted according to the word extraction rules and syntactic analysis information, 
+namely, <i>"BS data broadcasting"</i> , which modifies the main verb by case relation, 
+and <i>"NTT group"</i> , which modifies <i>"entry"</i> that is an abstract noun.
+</p>
+<p>
+Lastly, the system generates one sentence using these extracted words (Figure 4).
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=1 cellspacing=5>
+	<tr><td valign=top>1:</td><td>&nbsp;&nbsp;</td>
+	    <td><img img border=1 src="c36/j0002.gif">
+		<img src="c36/j0004.gif">
+		<img src="c36/j0005.gif">
+		<img img border=1 src="c36/j0006.gif">
+		<img img border=1 src="c36/j0007.gif">
+		<img src="c36/j0014.gif"> (30) <br>
+		(<u>Ministry of Posts and Telecommunications</u>
+		<u>permit</u> the NTT group's <u>entry</u> into BS
+		data broadcasting.)
+	</td></tr>
+	<tr></tr>
+	<tr><td valign=top>2:</td><td>&nbsp;&nbsp;</td>
+	    <td><img src="c36/j0011.gif">
+		<img src="c36/j0012.gif">
+		<img src="c36/j0021.gif"> (20) <br>
+		(They <u>authorized</u> <u>the new company</u> as
+		a broadcasting business.)
+	</td></tr>
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 4: System-generated summary
+</i></strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Human-produced Summary</font></h2></a>
+
+<p>
+We now describe the evaluation criterion ALTLlNE. 
+As mentioned above, ALTLINE makes a summary based only on words which appear in the original text. 
+To evaluate the capability of ALTLINE to extract informative and functional words fairly, 
+we asked human subjects to make summaries under the same conditions as ALTLINE, 
+that is, that the summarization use only words contained in the original text. 
+We defined the "correct answer set" based on the human-produced summaries. 
+By comparing the answer set to the summaries made by ALTLINE, 
+in terms of whether informative and functional words can be extracted or not, 
+we evaluate the proposed summarization method and ALTLINE (details of the comparison results are set forth in Section 5).
+</p>
+<p>
+We developed this evaluation for the following reasons. 
+Conventional reading comprehension evaluation, which evaluates whether original texts are understandable 
+only by reading the summaries, is not appropriate for the evaluation of extracted informative and functional words. 
+This is because human-beings can easily guess the content of an original text 
+when frequent words extracted based only on such a measure as idf. 
+Also, a conventional evaluation of whether the summaries contain clear sentences results 
+in the evaluation of the sentence generation technique. 
+Hence, the evaluation cannot evaluate whether or not the necessary and sufricient words for summarization are extracted.
+</p>
+<p>
+We therefore developed the above evaluation method and collected human summaries. 
+In this section, we describe the approach of the human summarizing experiment, 
+the experimental conditions, and the experimental results. 
+The comparison with ALTLINE is described in Section 5.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. 1 Experimental conditions</font></h2></a>
+
+<p>
+In this experiment, our objective is to evaluate ALTLINF. 
+We imposed the restriction that only words and phrases written in the text could be used to generate a one sentence summary.
+</p>
+<p>
+The subjects were 13 office workers, males and females in their 20s and 30s, 
+because we assumed that they were familiar with reading newspaper articles. 
+Hereafter, we refer to the subjects as <i>S<sub>i</sub></i> (<i>i</i> = 1, ... , 13).
+</p>
+<p>
+We did not explain to the subjects that our objective was to establish correct answers for a machine summarization. 
+However, we did tell them that it was a reference study for machine summaries. 
+We also explained that there were no expected answers in this experiment.
+</p>
+<p>
+The subjects were given 100 articles set a task for each article. 
+We instructed them to do the task for one article within 10-20 minutes. 
+The articles could be read randomly.
+</p>
+<p>
+We showed the newspaper articles (Section 4.2.1) and the word list for the answers (Section 4.2.2) to the subjects, 
+and the subjects were told to make sentences using only the words in the word list.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Experimental data</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.1"><h2><font color=#ff0000>4.2.1 Newspaper articles</font></h2></a>
+
+<p>
+The original newspaper articles were obtained from a CD version of the Mainichi Shimbun newspaper for 1998. 
+The Mainichi Shimbun is a major Japanese daily newspaper. 
+The newspaper's first page contains a broad range of topics that occurred on one day. 
+In this experiment, we selected 100 articles from first pages at random, 
+excluding articles without text or those with figures. 
+Article headlines were deleted from each article. 
+The paragraph structure was not shown to the subjects.
+</p>
+<p>
+The average article length was 9.04 sentences. 
+The shortest article was 4 sentences, and the longest was 19. 
+In terms of phrases, the shortest article had 49, while the longest article had 244. 
+The articles had 119.34 phrases on average.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.2"><h2><font color=#ff0000>4.2.2 Word list</font></h2></a>
+
+<p>
+We made the word list as follows. 
+We did morphoiogical analysis of the original text and segmented the phrases using the morphological analysis tool ALTJAWS, 
+which is part of the Japanese-to-English Machine Translation system ALT-J/E. 
+Afterwards, we corrected the analysis errors, and added parentheses to particle and auxiliary verbs (see Appendix B).
+</p>
+<p>
+We informed the subjects that they could only use words in the word list in their summary. 
+They were allowed to conjugate particles and auxiliary verbs or delete them.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 Task</font></h2></a>
+
+<p>
+The subjects selected words necessary for summarization from among those in the word list and made a one sentence summary. 
+We gave the subjects the followIng instructions.
+</p>
+<p>
+<ul>
+<li> Describe the point of this article in one sentence (give the shortest possible summary).
+<li> Select words to make the shortest summary.
+<li> Select any words from the word list.
+<li> When you select words, do not consider the word's location and the order of appearance in the original article.
+<li> You can appropriately conjugate the particles in parentheses and yon can delete or add them.
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.4"><h2><font color=#ff0000>4.4 Experimental results</font></h2></a>
+
+<p>
+Figure 5 shows the answers of three subjects for the article of Appendix A. 
+Numbers with parentheses show the phrase number in the word list (Appendices B). 
+The word list included many synonyms, which we therefore unified into one expression. 
+For example, "The governor Masahide Ohta", "governor Ohta", and "Masahide Ohta the governor" 
+became the unified single word "The governor Masahide Ohta."
+</p>
+
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td valign=top><i>S</i><sub>1</sub>:</td><td>&nbsp;&nbsp;</td>
+	    <td><small>(2)</small> The governor Masahide Ohta / <small>(15)</small> expresses / 
+		<small>(14)</small> his objection / to <small>(6)</small> the construction of U.S. Armed Forces sea heliport.
+	</td></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr><td valign=top><i>S</i><sub>4</sub>:</td><td>&nbsp;&nbsp;</td>
+	    <td><small>(2)</small> Masahide Ohta the governor / <small>(1)</small> of Okinawa / 
+		<small>(123)</small> Considers / <small>(26)</small> by a substitute plan / 
+		about <small>(6)</small> the construction of U.S. Armed Forces sea heliport.
+	</td></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr></tr>
+	<tr><td valign=top><i>S</i><sub>9</sub>:</td><td>&nbsp;&nbsp;</td>
+	    <td><small>(1)</small> Okinawa / <small>(2)</small> governor Ohta / <small>(12)</small> speaks / 
+		<small>(14)</small> his objection / 
+		to <small>(6)</small> the construction of U.S. Armed Forces sea heliport / 
+		<small>(4)</small> off of Nago city / <small>(17)</small> with Prime Minister Hashimoto, / 
+		and <small>(30)</small> proposed / <small>(26)</small> a substitute plan.
+	</td></tr>
+	</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 5: Human-produced summaries
+</i></strong></div>
+</p>
+
+<p>
+The phrase average used by the subjects in tlieir answers for 100 articles was 5.49. 
+The shortest was 4.17 phrases, the longest was 7.6 phrases.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Evaluation of ALTLlNE by Subjects Summaries</font></h2></a>
+
+<p>
+We compared the ALTLINE summary results with the human-generated experiment results and analyzed the comparison.
+</p>
+<p>
+We define that a correct answer set is the average of a human summary. 
+From this definition, it is difficult to get better than human performance. 
+However, this definition implies that getting close to human performance is good performance.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 ALTLINE's summarization</font></h2></a>
+
+<p>
+We input to ALTLINE the same articles (Section 4.2,1) used for the human summarization. 
+It generated summaries automatically. 
+For example, the ALTLINE summary for the articles in Appendices A and B were
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=3><hr size=2></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+    <td>(2) Masahide Ohta the governor / (1) of Okinawa / (15) expresses / (14) his objection.</td>
+    <td>&nbsp;&nbsp;</td></tr>
+<tr><td colspan=3><hr size=2></td></tr>
+</table>
+</p>
+<p>
+Hereafter, we refer to ALTLINE as <i>S</i><sub>0</sub>, and as <i>A</i> in Tables 1 and 2.
+</p>
+<p>
+In 100 summaries, the phrases used by ALTLINE were 3.62 on average. 
+This is much shorter than the 5.49 phrases on average for <i>S<sub>i</sub></i> (<i>i</i> =1 1, ... , 13). 
+The average for <i>S<sub>i</sub></i> (<i>i</i> = 0, ... , 13) was 5.35 phrases.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 Evaluation criterion design</font></h2></a>
+
+<p>
+We designed an evaluation criterion for the ALTLINE and human-produced summary results.
+</p>
+<p>
+We denote that <i>k</i> (<i>k</i> = 1, ... , 100) is the number of articles, 
+<i>S<sub>i</sub></i> (<i>i</i> = 0, ... , 13) is the subject identifier, 
+<i>J<sub>k</sub></i> is the total number of phrases for article <i>k</i> , 
+and each phrase is,<i>j</i> (<i>j</i> = 1, ... , <i>J<sub>k</sub></i> ).
+</p>
+<p>
+The <i>B<sub>kji</sub></i> in article <i>k</i> is the phrase that <i>S<sub>i</sub></i> used for the answer, 
+and it is given the following value.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2>&nbsp;&nbsp; <i>B<sub>kji</sub></i> = </td>
+    <td rowspan=2><font size=+3>{</font> &nbsp;</td>
+    <td>1 &nbsp;&nbsp;</td>
+    <td>( <i>The purase that was used for an answer</i> )</td></tr>
+<tr><td>0</td>
+    <td>( <i>The phrase that wasn't used for an answer</i> )</td></tr>
+</table>
+</p>
+<p>
+We can show the number of phrases that subject <i>S<sub>i</sub></i> used for the answer in article <i>k</i> 
+by the following function.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2></td>
+    <td align=center><font size=-2><i>J<sub>k</sub></i></font></td></tr>
+<tr><td rowspan=3 align=center><font size=+2><img src="c36/j0022.gif"></font></td></tr>
+<tr><td>&nbsp;&nbsp; <i>W<sub>ki</sub></i> = </td>
+    <td><i>B<sub>kji</sub></i></td></tr>
+<tr></tr>
+<tr><td></td>
+    <td align=center><font size=-2><i>j</i> = 1</font></td></tr>
+</table>
+</p>
+<p>
+We define the importance <i>SCORE<sub>kj</sub></i> of the phrase <i>j</i> , for article <i>k</i> as follows.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2></td>
+    <td align=center><font size=-2>13</font></td>
+    <td rowspan=2 align=center valign=bottom><i>B<sub>kji</sub></i></td></tr>
+<tr><td rowspan=3 align=center><font size=+2><img src="c36/j0022.gif"></font></td></tr>
+<tr><td>&nbsp;&nbsp; <i>SCORE<sub>kj</sub></i> = </td>
+    <td>----</td></tr>
+<tr><td></td>
+    <td rowspan=2 align=center valign=top><i>W<sub>ki</sub></i></td></tr>
+<tr><td></td>
+    <td align=center><font size=-2><i>i</i> = 0</font></td></tr>
+</table>
+</p>
+<p>
+When we decide one threshold <i>TH<sub>k</sub></i> , 
+we define a set of phrases <i>j</i> satisfying <i>SCORE<sub>kj</sub></i> &gt; <i>TH<sub>k</sub></i> 
+with correct answer set <i>ASET<sub>k</sub></i> in article <i>k</i> .
+</p>
+<p>
+<i>ASET<sub>k</sub></i> = {<i>j</i> | <i>SCORE<sub>kj</sub></i> &gt; <i>TH<sub>k</sub></i> }
+</p>
+<p>
+We set the threshold <i>TH<sub>k</sub></i> 
+so that the average of the correct answer set was close to the average of the subjects. 
+That is, <i>TH<sub>k</sub></i> satisfies the following function.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=2></td>
+    <td align=center><font size=-2>13</font></td>
+    <td rowspan=2 align=center valign=bottom><i>W<sub>ki</sub></i></td></tr>
+<tr><td rowspan=3 align=center><font size=+2><img src="c36/j0022.gif"></font></td></tr>
+<tr><td>&nbsp;&nbsp; <i>num</i> (<i>ASET<sub>k</sub></i> ) = </td>
+    <td>----</td></tr>
+<tr><td></td>
+    <td rowspan=2 align=center valign=top>13</td></tr>
+<tr><td></td>
+    <td align=center><font size=-2><i>i</i> = 0</font></tr></tr>
+</table>
+</p>
+<p>
+We also define function <i>num</i> (<i>x</i>) as the number of <i>x</i> .
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3"><h2><font color=#ff0000>5.3 Recall/Precision/F-measure</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3.1"><h2><font color=#ff0000>5.3.1 Overall Evaluation</font></h2></a>
+
+<p>
+We deline the recall, precision, and F-measure of each subject in the following way:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td></td>
+    <td align=center>{ <i>Answer of S<sub>i</sub></i> } <img src="c36/j0023.gif"> { <i>The correct answer set</i> }</td></tr>
+<tr><td>&nbsp;&nbsp; <i>R</i> = </td>
+    <td align=center>------------------------------------------------</td></tr>
+<tr><td></td>
+    <td align=center>{ <i>The correct answer set</i> }</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td></td>
+    <td align=center>{ <i>Answer of S<sub>i</sub></i> } <img src="c36/j0023.gif"> { <i>The correct answer set</i> }</td></tr>
+<tr><td>&nbsp;&nbsp; <i>P</i> = </td>
+    <td align=center>------------------------------------------------</td></tr>
+<tr><td></td>
+    <td align=center>{ <i>Answer of subject S<sub>i</sub></i> }</td></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td></td>
+    <td align=center>2 <i>R P</i></td></tr>
+<tr><td>&nbsp;&nbsp; <i>F</i> = </td>
+    <td align=center>--------</td></tr>
+<tr><td></td>
+    <td align=center><i>R</i> + <i>P</i></td></tr>
+</table>
+</p>
+<p>
+Table 1 shows the results of <i>S<sub>i</sub></i> (<i>i</i> = 0, ... , 13) and the random selection 
+from the entire article (<i>B<sub>r</sub></i> ), the random selection from the first sentence (<i>B<sub>l</sub></i> ), 
+and the high-idf phrases selected from the entire article (<i>B<sub>i</sub></i> ). 
+The number of selected phrases is the same as the number of <i>ASET<sub>k</sub></i> for each article <i>k</i> .
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1: Average recall, precision and F-measure for each subject (1)
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Rank</td><td rowspan=25></td><td colspan=2>R</td><td rowspan=25></td><td colspan=2>P</td>
+    <td rowspan=25></td><td colspan=2>F</td><td rowspan=25></td><td colspan=2>Phrases</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td>1</td><td align=left>S13</td><td>0.867</td><td align=left>S7</td><td>0.779</td>
+    <td align=left>S13</td><td>0.717</td><td align=left>S11</td><td>7.5</td></tr>
+<tr align=right><td>2</td><td align=left>S11</td><td>0.801</td><td align=left><strong>A</strong></td><td>0.777</td>
+    <td align=left>S7</td><td>0.704</td><td align=left>S13</td><td>7.4</td></tr>
+<tr align=right><td>3</td><td align=left>S5</td><td>0.760</td><td align=left>S1</td><td>0.718</td>
+    <td align=left>S12</td><td>0.692</td><td align=left>S4</td><td>6.7</td></tr>
+<tr align=right><td>4</td><td align=left>S4</td><td>0.698</td><td align=left>S12</td><td>0.715</td>
+    <td align=left>S5</td><td>0.676</td><td align=left>S5</td><td>6.6</td></tr>
+<tr align=right><td>5</td><td align=left>S12</td><td>0.697</td><td align=left>S13</td><td>0.637</td>
+    <td align=left>S11</td><td>0.660</td><td align=left>S9</td><td>6.3</td></tr>
+<tr align=right><td>6</td><td align=left>S7</td><td>0.668</td><td align=left>S5</td><td>0.635</td>
+    <td align=left>S1</td><td>0.648</td><td align=left>S3</td><td>5.9</td></tr>
+<tr align=right><td>7</td><td align=left>S8</td><td>0.626</td><td align=left>S2</td><td>0.635</td>
+    <td align=left><strong>A</strong></td><td>0.622</td><td align=left>S8</td><td>5.4</td></tr>
+<tr align=right><td>8</td><td align=left>S9</td><td>0.617</td><td align=left>S8</td><td>0.618</td>
+    <td align=left>S8</td><td>0.609</td><td align=left>S12</td><td>5.2</td></tr>
+<tr align=right><td>9</td><td align=left>S1</td><td>0.615</td><td align=left>S6</td><td>0.591</td>
+    <td align=left>S4</td><td>0.606</td><td align=left>S10</td><td>4.7</td></tr>
+<tr align=right><td>10</td><td align=left>S3</td><td>0.566</td><td align=left>S11</td><td>0.587</td>
+    <td align=left>S2</td><td>0.570</td><td align=left>S7</td><td>4.5</td></tr>
+<tr align=right><td>11</td><td align=left><strong>A</strong></td><td>0.544</td><td align=left>S10</td><td>0.565</td>
+    <td align=left>S9</td><td>0.557</td><td align=left>S2</td><td>4.5</td></tr>
+<tr align=right><td>12</td><td align=left>S2</td><td>0.538</td><td align=left>S4</td><td>0.565</td>
+    <td align=left>S3</td><td>0.526</td><td align=left>S1</td><td>4.4</td></tr>
+<tr align=right><td>13</td><td align=left>S10</td><td>0.515</td><td align=left>S9</td><td>0.531</td>
+    <td align=left>S10</td><td>0.525</td><td align=left>S6</td><td>4.2</td></tr>
+<tr align=right><td>14</td><td align=left>S6</td><td>0.479</td><td align=left>S3</td><td>0.510</td>
+    <td align=left>S6</td><td>0.515</td><td align=left><strong>A</strong></td><td>3.6</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td>Ave.</td><td colspan=2>0.642</td><td colspan=2>0.633</td>
+    <td colspan=2>0.616</td><td colspan=2>5.5</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td>15</td><td align=left>Bl</td><td>0.366</td><td align=left>Bl</td><td>0.364</td>
+    <td align=left>Bl</td><td>0.364</td><td align=left>Bl</td><td>5.2</td></tr>
+<tr align=right><td>16</td><td align=left>Bi</td><td>0.141</td><td align=left>Bi</td><td>0.124</td>
+    <td align=left>Bi</td><td>0.131</td><td align=left>Bi</td><td>5.2</td></tr>
+<tr align=right><td>17</td><td align=left>Br</td><td>0.050</td><td align=left>Br</td><td>0.050</td>
+    <td align=left>Br</td><td>0.050</td><td align=left>Br</td><td>5.2</td></tr>
+</table>
+</p>
+
+<p>
+Wo show the mean results for 100 articles. 
+From the results, ALTLINE <i>A</i> ranked around 7 in the F-measure, around 11 in recall, and around 2 in precision. 
+Moreover, the number of ALTLINE is near to the average of all subjects. 
+ALTLINE was able to achieve resuIts comparable with human summarization.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.3.2"><h2><font color=#ff0000>5.3.2 Evaluation by Cross Validation</font></h2></a>
+
+<p>
+In the above section, we made the correct answer set by all subjects (including ALTLINE). 
+In this section, we compute the F-measure for each subject <i>S<sub>i</sub></i> 
+using the correct answer set that does not include <i>S<sub>i</sub></i> . 
+This method divides the subjects into two groups and determines the correct answer set for each group.
+</p>
+<p>
+The mean for 100 articles is illustrated in Table 2. 
+We set the threshold <i>TH<sub>k</sub></i> 
+so that the average of the correct answer set was close to the average of the subjects. 
+From the results, ALTLINE <i>A</i> ranked around 9 In the F-measure, around 13 in recall, and around 3 in precision. 
+Again, recall is low, precision is high, and the number of ALTLINE is near to the average of all subjects. 
+ALTLINE was able to achieve results comparable with human summarization.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2: Average recall, precision and F-measure for each subject (2)
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Rank</td><td rowspan=20></td><td colspan=2>R</td><td rowspan=20></td><td colspan=2>P</td><td rowspan=20></td><td colspan=2>F</td><td rowspan=20></td><td colspan=2>Phrases</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td>1</td><td align=left>S13</td><td>0.853</td><td align=left>S7</td><td>0.802</td><td align=left>S7</td><td>0.718</td><td align=left>S11</td><td>7.5</td></tr>
+<tr align=right><td>2</td><td align=left>S11</td><td>0.784</td><td align=left>S1</td><td>0.737</td><td align=left>S13</td><td>0.716</td><td align=left>S13</td><td align=left>7.4</td></tr>
+<tr align=right><td>3</td><td align=left>S5</td><td>0.745</td><td align=left><strong>A</strong></td><td>0.734</td><td align=left>S12</td><td>0.698</td><td align=left>S4</td><td align=left>6.7</td></tr>
+<tr align=right><td>4</td><td align=left>S4</td><td>0.693</td><td align=left>S12</td><td>0.729</td><td align=left>S5</td><td>0.675</td><td align=left>S5</td><td align=left>6.6</td></tr>
+<tr align=right><td>5</td><td align=left>S12</td><td>0.689</td><td align=left>S2</td><td>0.654</td><td align=left>S1</td><td>0.058</td><td align=left>S9</td><td align=left>6.3</td></tr>
+<tr align=right><td>6</td><td align=left>S7</td><td>0.670</td><td align=left>S8</td><td>0.654</td><td align=left>S11</td><td>0.655</td><td align=left>S3</td><td align=left>5.9</td></tr>
+<tr align=right><td>7</td><td align=left>S8</td><td>0.649</td><td align=left>S5</td><td>0.639</td><td align=left>S8</td><td>0.640</td><td align=left>S8</td><td align=left>5.4</td></tr>
+<tr align=right><td>8</td><td align=left>S1</td><td>0.613</td><td align=left>S13</td><td>0.636</td><td align=left>S4</td><td>0.613</td><td align=left>S12</td><td align=left>5.2</td></tr>
+<tr align=right><td>9</td><td align=left>S9</td><td>0.613</td><td align=left>S6</td><td>0.604</td><td align=left><strong>A</strong></td><td>0.584</td><td align=left>S10</td><td align=left>4.7</td></tr>
+<tr align=right><td>10</td><td align=left>S3</td><td>0.570</td><td align=left>S10</td><td>0.586</td><td align=left>S2</td><td>0.582</td><td align=left>S7</td><td align=left>4.5</td></tr>
+<tr align=right><td>11</td><td align=left>S2</td><td>0.538</td><td align=left>S11</td><td>0.584</td><td align=left>S9</td><td>0.563</td><td align=left>S2</td><td align=left>4.5</td></tr>
+<tr align=right><td>12</td><td align=left>S10</td><td>0.519</td><td align=left>S4</td><td>0.577</td><td align=left>S3</td><td>0.543</td><td align=left>S1</td><td align=left>4.4</td></tr>
+<tr align=right><td>13</td><td align=left><strong>A</strong></td><td>0.506</td><td align=left>S9</td><td>0.539</td><td align=left>S10</td><td>0.540</td><td align=left>S6</td><td align=left>4.2</td></tr>
+<tr align=right><td>14</td><td align=left>S6</td><td>0.472</td><td align=left>S3</td><td>0.527</td><td align=left>S6</td><td>0.523</td><td align=left><strong>A</strong></td><td align=left>3.6</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=right><td>Ave.</td><td colspan=2>0.637</td><td colspan=2>0.643</td><td colspan=2>0.622</td><td colspan=2>5.5</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Discussion</font></h2></a>
+
+<p>
+Because ALTLINE uses case-elements written in a case-frame dictionary to generate a summary, 
+case-elements become the least specific clues for summarization. 
+Therefore, the number of phrases chosen by ALTLINE is much smaller than those of the subjects. 
+From the evaluation results, the recall rate tends to be low but the precision rate is high. 
+Therefore, we believe that this result shows 
+that ALTLINE can extract the necessary and sufficient words to generate a summary sentence. 
+In sentence selection, subjects extract words from the entire text, on the other hand, 
+ALTLINE extracts words from one sentence that has high important one, and generates a new sentence. 
+Therefore, our system is able to specify a location that subjects extract words.
+</p>
+<p>
+We think that there are three causes for the low recall. 
+The first is that an insufficient number of word extraction rules is used. 
+The second is the failure to specify main verbs. 
+The third is the effect of parsing errors in syntactic and semantic analysis. 
+In the first case, as ALTLINE can extract necessary and sufficient words to generate a summary, 
+it appears that it does not include enough modifiers to make the summary sentence more informative. 
+We obtain other words and phrases (modifiers) of case elements with the word extraction rules. 
+Thus, among these three causes, the insufficiency of the word extraction rules is regarded as the most significant factor. 
+However, we believe that the current system is effective enough for a task 
+that places importance on precision or high compressibility because the precision is still high. 
+Second, when the system incorrectly chooses a verb with a modality expression as the main verb, 
+it attempts to extract case elements for the wrong verb. 
+Therefore, the generated sentence does not give the appropriate point of the original article. 
+For example, ALTLINE summarized the original sentence, 
+<i>"NationsBank, the third largest bank holding company in the U.S., and the fifth place BankAmerica announced 
+on January 13 that they agreed to merge sometime between October and December"</i> , 
+as <i>"NationsBank and the fifth place BankAmerica announced"</i> . 
+The reason for this result is that the system mistook <i>"announced"</i> as the main verb. 
+This is due also to the insufficiency of the main verb specilication rule. 
+Lastly, in the case of parsing errors, there is some negative influence. 
+It is general important work in NLP.
+</p>
+<p>
+From the extraction results by random selection or idf in Table 1, 
+the conventional word extraction method cannot select the necessary and sufficient words for generating summaries. 
+On the other hand, the proposed method in ALTLINE seems to achieve this extraction 
+because it achieved an average evaluation compared with all the summaries.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-7."><h2><font color=#ff0000>7. Conclusions</font></h2></a>
+
+<p>
+We proposed a new method of summarizing newspaper articles that extracts, 
+using a case-frame dictionary, important words and phrases from original articles, 
+and generates summaries by reconstructing these extracted words and phrases. 
+We also developed a prototype summarization system, ALTLINE, 
+and evaluated the system by comparing generated summaries to human-produced summaries. 
+This evaluation result showed that the ALTLINE ranked near the middle among all the human subjects, 
+and proved that the system's summarization capabilities are comparable to a human.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">H.P. Edmundson. 1969. </a>
+<dd>New Methods in Automatic Abstracting. 
+	<i>Journal of the ACM</i>, 16(2).
+	<br><br>
+<dt><a name="ref2">M. Hatayama, Y. Matsuo, Y. Ooyama, and S. Shirai, 1999. </a>
+<dd>Generating English Headlines Using Important Elements in Japanese Articles. 
+	In <i>Proc. of The Fifth Annual Meeting of The Association for Natural Language Proccssing</i>, 
+	pages 17-20. (in Japanese).
+	<br><br>
+<dt><a name="ref3">H. Hovy and C.Y. Lin. 1997. </a>
+<dd>Automated Text Summarization in SUMMARIST. 
+	In <i>Proc. of the ACL Workshop on Intelligent Scalable Text Summarization</i>.
+	<br><br>
+<dt><a name="ref4">Satoru Ikehara, Satoshi Shirai, Akio Yokoo, and Hiromi Nakaiwa. 1991. </a>
+<dd>Toward an MT System without Pre-Edit1ng --Effects of New Methods in ALT-J/E--. 
+	In <i>Third Machine Translation Summit: MT Summit III</i>, pages 101-106, Washington DC. 
+	(http://xxx.lanl.gov/abs/cmp-lg/9510008).
+	<br><br>
+<dt><a name="ref5">S. Ikehara, M. Miyazaki, S. Shirai, A. Yokoo, H. Nakaiwa, K. Ogura, Y. Ooyama, and Y. Hayashi. 1997. </a>
+<dd><i>Goi-Taikei - A Japanese Lexicon</i>. 
+	Iwanami Shoten Publishers. (in Japanese).
+	<br><br>
+<dt><a name="ref6">H. Jin and K.R. McKeown. 2000. </a>
+<dd>Cut and Paste Based Text Summarization. 
+	In <i>Proceedings of NAACL-2000</i>, pages 178-185.
+	<br><br>
+<dt><a name="ref7">K. Knight and D. Marcu. 2000. </a>
+<dd>Statistics-based Summarization - Step One: Sentence Compression. 
+	In <i>Proceedings of AAAI-2000</i>, pages 703-710.
+	<br><br>
+<dt><a name="ref8">H.P. Luhn. 1958. </a>
+<dd>The Automatic Creation of Literature Abstracts. 
+	<i>IBM Journal of Research and Development</i>, 2(2).
+	<br><br>
+<dt><a name="ref9">I. Mani, B. Gates, and E. Bloedorn. 1999. </a>
+<dd>Improving Summaries by Revising Them. 
+	In <i>Proceedings of the ACL'99</i>, pages 558-565.
+	<br><br>
+<dt><a name="ref10">D. Marcu. 1997. </a>
+<dd>From Discourse Structures to Text Summaries. 
+	In <i>Proc. of the ACL Workshop on Intelligent Scalable Text Summarization</i>.
+	<br><br>
+<dt><a name="ref11">H. Nanba and M. Okumura. 2000. </a>
+<dd>Producing More Readable Extracts by Revising Them. 
+	In <i>Proceedings of the COLING-2000</i>, pages 1071-1075.
+	<br><br>
+<dt><a name="ref12">M. Oka and Y. Ueda. 2000. </a>
+<dd>Evaluation of Phrase-Representation Summarization based on Information Retrieval Task. 
+	In <i>Proc. of ANLP/NAACL2000 Workshop on Automatic Summarization</i>, pages 59-68, May.
+	<br><br>
+<dt><a name="ref13">K. Zechner. 1996. </a>
+<dd>Fast Generation of Abstracts from General Domain Text Corpora by Extracting Relebant Sentences. 
+	In <i>Proceedings of 16th International Conference on Computational Linguistics</i>, pages 986-989.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app-a"><h2><font color=#ff0000>A Appendix: Original Article</font></h2></a>
+
+<p>
+<img src="c36/j0024.gif"><img src="c36/j0025.gif"><img src="c36/j0026.gif"><img src="c36/j0027.gif"><img src="c36/j0028.gif"><img src="c36/j0029.gif">
+<img src="c36/j0030.gif"><img src="c36/j0016.gif"><img src="c36/j0031.gif"><img src="c36/j0025.gif"><img src="c36/j0032.gif"><img src="c36/j0033.gif"><img src="c36/j0029.gif">
+<img src="c36/j0034.gif"><img src="c36/j0035.gif">
+<img src="c36/j0000.gif"><img src="c36/j0036.gif"><img src="c36/j0027.gif"><img src="c36/j0037.gif"><img src="c36/j0038.gif"><img src="c36/j0039.gif">
+<img src="c36/j0040.gif">
+<img src="c36/j0041.gif">
+(On January 14th, Masahide Ohta, the governor of Okinawa, told our newspaper reporter for the Mainichi Shinbun 
+that he had objections to the first stage of the construction of a U.S. Armed Forces sea heliport off of Nago city.)
+</p>
+<p>
+<img src="c36/j0042.gif">
+<img src="c36/j0043.gif">
+<img src="c36/j0044.gif">
+<img src="c36/j0045.gif">
+<img src="c36/j0046.gif">
+<img src="c36/j0047.gif">
+And then, he said that he didn't want to make any conclusions that might annoy Prime Minister Hashimoto, 
+but he wonders whether there might be a substitute plan. 
+He said he would propose his opinion to Prime Minister Ryutaro Hashimoto.)
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app-b"><h2><font color=#ff0000>B Appendix: Word list</font></h2></a>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>1</td><td><img src="c36/j0024.gif"><img src="c36/j0048.gif"><img src="c36/j0025.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>2</td><td><img src="c36/j0026.gif"><img src="c36/j0048.gif"><img src="c36/j0027.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>3</td><td><img src="c36/j0028.gif"></td></tr>
+<tr><td>4</td><td><img src="c36/j0030.gif"><img src="c36/j0048.gif"><img src="c36/j0016.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>5</td><td><img src="c36/j0031.gif"><img src="c36/j0048.gif"><img src="c36/j0025.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>6</td><td><img src="c36/j0032.gif"><img src="c36/j0048.gif"><img src="c36/j0033.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>7</td><td><img src="c36/j0034.gif"><img src="c36/j0048.gif"><img src="c36/j0035.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>8</td><td><img src="c36/j0036.gif"><img src="c36/j0048.gif"><img src="c36/j0027.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td>9</td><td><img src="c36/j0037.gif"><img src="c36/j0048.gif"><img src="c36/j0038.gif"><img src="c36/j0049.gif"></td></tr>
+<tr><td><img src="c36/j0050.gif"></td><td><img src="c36/j0050.gif"></td></tr>
+</table>
+<div align=center><strong><i>
+Figure 6: Japanese Word list
+</i></strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>1</td><td>(of) Okinawa</td></tr>
+<tr><td>2</td><td>(topic) Masahide Ohta the governor</td></tr>
+<tr><td>3</td><td>on 14th</td></tr>
+<tr><td>4</td><td>off of Nago city</td></tr>
+<tr><td>5</td><td>(of) a candidate</td></tr>
+<tr><td>6</td><td>(about) the constructionn of a U.S. Armed Forces sea heliport</td></tr>
+<tr><td>7</td><td>(topic) our newspaper reporter for the Mainichi Shinbun</td></tr>
+<tr><td>8</td><td>objections (to)</td></tr>
+<tr><td>9</td><td>(to) the first stage</td></tr>
+<tr><td><img src="c36/j0050.gif"></td><td><img src="c36/j0050.gif"></td></tr>
+</table>
+<div align=center><strong><i>
+Figure 7: Translated Word list in English <br>
+(Numbers show order in Japanese)
+</i></strong></div>
+</p>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

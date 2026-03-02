@@ -1,0 +1,2208 @@
+<html>
+<head>
+<title>Satoshi Shirai, Satoru Ikehara, Akio Yokoo &amp; Yoshifumi Ooyama, CLAW'98, May 21-22, 1998</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Automatic Rewriting Method for Internal Expressions in Japanese to English MT and Its Effects</font>
+<br><br>
+
+<font size=+2>Satoshi Shirai<sup>+</sup>, Satoru Ikehara<sup>++</sup>, Akio Yokoo<sup>+++</sup>, Yoshifumi Ooyama<sup>+</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>Hikarinooka 1-1, Yokosuka, 239-0847 Japan &lt; {shirai, ooyama}@cslab.kecl.ntt.co,jp &gt;</font>
+<br><br>
+
+<font size=+1><sup>++</sup>Faculty of Engineering, Tottori University</font>
+<br>
+<font size=+1>Minami 4-101, Tottori, 680-0945 Japan &lt; ikehara@ike.tottori-u.ac.jp &gt;</font>
+<br><br>
+
+<font size=+1><sup>+++</sup>ATR Interpreting Telecommunications Research Laboratories,</font>
+<br>
+<font size=+1>Hikaridai 2-2, Seika-cho, Soraku-gun, Kyoto-fu, 619-0288Japan &lt; ayokoo@itl.atr.co,jp &gt;</font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+In order to get the translation quality applicable to actual documents, <i>an automatic rewriting
+method of source texts</i> has recently been proposed. Using a <i>semantic attribute system</i> of words,
+this method made it possible not only to define rewriting rules without undesirable side effects
+but also to rewrite the expressions as well which cannot be rewritten within the source
+language. This paper improves it to propose <i>Generalized Rewriting Method of Internal
+Expressions</i>. The new method interrupts the translation processes at any place and rewrite
+the internal expressions according to the conditions defined by rewriting rules.
+</p>
+<p>
+First, previously defined rewriting rules are expanded and re-classified. Second, it is
+shown that the rules are generally comprised of 7 fundamental functions. Based on this,
+how to distribute their functions between the translation processes is shown. Finally, the
+proposed method is applied to the translation of two kinds of newspaper articles to study
+the amount of required rules and their actual use in the translation. The results show that
+the rules needed for newspaper translation can be obtained from the analysis of a relatively
+small number of articles (about several hundred sentences) for each particular field. It is
+also shown that the rule was applied at least once, on average, in the translation of two
+sentences and the overall translation success rate is improved by 20%.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of CLAW'98</i>, pp.62-75 (May, 1998). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=17>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c20.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="c20.html#chap-2.">2. Outline of the Automatic Rewriting Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-2.1">2.1 Framework of the Automatic Rewriting Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-2.2">2.2 Expressions to be Rewritten</a></td></tr>
+<tr><td><a href="c20.html#chap-3.">3. Classification of the Expressions to be Rewritten</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-3.1">3.1 Extension of Automatic Rewriting Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-3.2">3.2 Classification of Elemental Functions included in Rewriting Rules</a></td></tr>
+<tr><td><a href="c20.html#chap-4.">4. Structures of Rewriting Functions and their Components</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-4.1">4.1 Augmented Description of Rewriting Conditions</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-4.2">4.2 Basic Functions for Execution of Rewriting</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-4.3">4.3 Control of Rewriting</a></td></tr>
+<tr><td><a href="c20.html#chap-5.">5. Experimental Result of Newspaper Translations</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-5.1">5.1 Application Frequency of Rewriting Rules</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#chap-5.2">5.2 Convergence of the Number of Rewriting Rules</a></td></tr>
+<tr><td><a href="c20.html#chap-6.">6. Concluding Remarks</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c20.html#ref">Reference</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+In the last ten years or so, many machine translation systems, especially for the
+translation between Japanese and English, have been developed in Japan (<a href="c20.html#ref3">Ikehara et al.
+1987</a>, <a href="c20.html#ref5">1996</a>, <a href="c20.html#ref14">Rimon et al. 1991</a>, <a href="c20.html#ref9">Nagao 1996</a>). English to Japanese translation systems have
+basically achieved the translation qua1ity required for actual use. On the contrary, the quality
+of Japanese to English translation is not yet satisfactory. One of the major reasons for this
+asymmetry is considered to be the differences in the linguistic expression frameworks of
+Japanese and English. The rigid sentence patterns of English are relatively independent of
+their contents. Such patterns do not exist in Japanese and the structure of a Japanese
+expression is heavily dependent on its content. Therefore, it is difficult accurately to analyze
+Japanese expressions using only syntactic knowledge.
+</p>
+<p>
+The second reason is the differences between the culture and historical circumstances
+of Japan and the West. Natural language is not only a means of communications but also
+a means of thinking. The characteristic of a language mirrors that of the culture. Differences
+in how to think lead to differences between the languages. Japan imported much European
+culture and many new concepts in the Meiji era. This is considered as one of the reasons
+of asymmetry of the translations.
+</p>
+<p>
+There are two ways how to improve the machine trans1ation quality for actual documents.
+The first is to change the system, tuning the translation functions to the characteristics of
+the expressions to be translated. The second is to change the expressions in soarce texts
+adjusting to the function of the translation system.
+</p>
+<p>
+<i>Example based Translation</i> (<a href="c20.html#ref7">Nagao 1984</a>, <a href="c20.html#ref15">Sato 1992</a>, <a href="c20.html#ref2">Furuse & Iida 1992</a>) and <i>Knowledge
+based Translation</i> (<a href="c20.html#ref18">Takeda 1989</a>, <a href="c20.html#ref11">Nirenburg et al. 1992</a>, <a href="c20.html#ref12">1993</a>) can be classified as examples of
+the first approach. Aiming to overcome the limit of <i>the principle of Compositional Semantics</i>,
+<i>Example based Translation finds</i> the expressions in a parallel corpus that correspond to
+those of the source text and replace them with those of the target language. Unfortunately, it
+is difficult to prepare an adequate parallel corpus that covers a sufficient number of
+expressions. On the other hand, <i>Knowledge based Translation</i> requires a huge amount of
+knowledge such as common sense and world knowledge. It is not easy to collect and collate
+sufficient information.
+</p>
+<p>
+<i>Controlled Language</i> can be classified as examples of the second approach. It will be
+separated into <i>Restricted Writing of the Source Texts</i> (<a href="c20.html#ref8">Nagao 1985</a>, <a href="c20.html#ref19">Yoshida 1985</a>) and
+<i>Pre-editing ofthe Source Texts</i> (<a href="c20.html#ref16">Shirai et al. 1993</a>, <a href="c20.html#ref17">1995</a>). <i>Restricted Writing of the Source
+Texts</i> has not been accepted by users in Japan because it is applied to the step of writing
+original texts so as to restrict the author's way of thinking. On the contrary, Pre-editing of
+Source Text has been accepted widely because the editing method can be acquired by
+confirming the translation result after pre-editing. However, automatic pre-editing is
+needed to reduce the large amount of human labor required for pre-editing.
+</p>
+<p>
+In the pre-editing process, the judgement as to whether an expression should be
+rewritten or not depends on its context. Disregarding context when rewriting expressions,
+degrades translation quality to an unacceptatb1e level. Thus, it has been difficult to realize
+automatic pre-editing without undesirable side effects.
+</p>
+<p>
+In order to solve this problem, (<a href="c20.html#ref16">Shirai et al. 1993</a>, <a href="c20.html#ref17">1995</a>) showed that <i>the semantic attribute
+system</i> (<a href="c20.html#ref6">Ikehara et al. 1997</a>) makes it possible to define rewriting rules with no undesirable
+side effects which allows the automatic rewriting of source texts to be realized. They also
+showed that rewriting into <i>a pseudo source language</i>, which is impossible with human
+pre-editing, can be undertaken. Based on this study, they developed an <i>Automatic Rewriting
+Method</i> and experimentally confirmed that the improvement of translation quality was
+about 20%.
+</p>
+<p>
+The proposed system allows the source texts to be rewritten not before their input but
+after they are syntactically analyzed. Extending the rewriting rules to be applied at any stage
+of machine translation may also be helpful in improving the quality of source text analysis.
+Achieving this extension requires classification of the fundamental functions for rewriting
+such that the rewriting rule definitions are independent of the translation processes.
+Accordingly, in tins paper, we will propose <i>An Automatic Rewriting Method for Internal
+Expression</i> for Japanese to English machine translation. This paper analyses the roughly 900
+rewriting rules that have been collected up to now to show that most rewriting rules can be
+represented as various combinations of 7 fundamental functions; the rewriting process can
+be easily constructed independent from the rewriting rules.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. Outline of the Automatic Rewriting Method</font></h2></a>
+
+<p>
+This chapter will summarize the framework of the automatic rewriting method that
+has been proposed (<a href="c20.html#ref17">Shirai et al. 1995</a>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Framework of the Automatic Rewriting Method</font></h2></a>
+
+<p>
+The most important problem in the automatic rewriting of the source text will be how to
+avoid undesirable side effects. In manual rewriting, only the expressions which can be
+rewritten without changing the meaning are rewritten so there is no need to worry about
+undesirable side effects. Automatic rewriting, however, applies registered rewriting rules
+without regard to context, so mistakes are possible.The more rewriting rules there are, the
+more undesirable side effects there will be. The overall translation quality will be decreased.
+In order to resolve this problem, the method considers the following two points.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>In addition to individual words and syntactic attributes, <i>semantic attributes</i> (<a href="c20.html#ref4">Ikehara
+	et al. 1993</a>, <a href="c20.html#ref6">1997</a>) should also be used to define the conditions as to whether the rewriting
+	rule should be applied or not. Here, as for granularity of semantic attributes, note
+	that <i>the semantic attribute system</i> needs to be comprised of 2,000 or more attributes.
+    </td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>Rewriting rules should be applied after syntactic analysis when sufficient information
+	has been obtained to judge whether the application conditions of rules are satisfied
+	or not.
+    </td>
+</tr>
+</table>
+</p>
+
+<p>
+Fig.1 shows an example of rewriting. The rewriting rules are represented by tree
+structures. The major conditions needed for expressions to be rewritten are as follows;
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>"<i>Norimono</i>" ("vehicle": defined by <i>semantic attribute</i>) needs to have a case relation
+	with "<i>Noru</i>" ("ride": defined by a word face).</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>"<i>Noru</i>" needs to have a conjunctive relation with "<i>Iku</i>" ("go": defined by a word face).</td>
+</tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td></td>
+    <td><nobr><i>Partial Tree to be Rewritten</i></nobr></td>
+    <td></td>
+    <td><nobr><i>Partrial Tree after Rewritten</i></nobr></td>
+    <td></td>
+</tr>
+<tr><td valign=top align=center>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td><br></td></tr>
+	<tr align=right><td><img src="c20/j0000.gif"><br>any kind of case<br><br></td></tr>
+	<tr align=right><td><img src="c20/j0000.gif"><br>must not have any case</td></tr>
+	</table>
+    </td>
+    <td valign=top align=center>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr align=center><td><table border=1 cellpadding=0 cellspacing=0><tr><td><img src="c20/j0001.gif"> (go)</td></tr></table></td></tr>
+	<tr align=center><td><nobr><img src="c20/j0002.gif"></nobr><br>conjunctive relation<br><img src="c20/j0003.gif"></td></tr>
+	<tr align=center><td><table border=1 cellpadding=0 cellspacing=0><tr><td><img src="c20/j0004.gif"> (ride)<img src="c20/j0005.gif"></td></tr></table></td></tr>
+	<tr align=center><td><img src="c20/j0003.gif"><br>case relation<br><img src="c20/j0003.gif"></td></tr>
+	<tr align=center><td><table border=1 cellpadding=0 cellspacing=0><tr><td>[<img src="c20/j0006.gif">]<img src="c20/j0007.gif"><br>on [vehicle]</td></tr></table></td></tr>
+	</table>
+    </td>
+    <td valign=top align=center>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td><br></td></tr>
+	<tr align=left><td><img src="c20/j0008.gif"><br>any kind of case element</td></tr>
+	<tr align=center><td><font size=+5><img src="c20/j0009.gif"></font></td></tr>
+	</table>
+    </td>
+    <td valign=top align=center>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr align=center><td><table border=1 cellpadding=0 cellspacing=0><tr><td><img src="c20/j0001.gif"> (go)</td></tr></table></td></tr>
+	<tr align=center><td><nobr><img src="c20/j0002.gif"></nobr><br>case relation<br><img src="c20/j0003.gif"></td></tr>
+	<tr align=center><td><table border=1 cellpadding=0 cellspacing=0><tr><td><nobr>[<img src="c20/j0006.gif">]<img src="c20/j0010.gif"></nobr><br>by [vehicle]</td></tr></table></td></tr>
+	</table>
+    </td>
+    <td valign=top align=center>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td><br></td></tr>
+	<tr align=left><td><img src="c20/j0008.gif"><br>original case elements are reserved</td>
+	</table>
+    </td>
+</tr>
+<tr><td></td></tr>
+
+</table>
+
+</td></tr>
+</table>
+<div align=center><strong><i>
+Fig.1 Example of Rewriting Rules
+</i></strong></div>
+</p>
+
+
+<p>
+Thus, this rule is applied to the following sentence as shown in Fig. 2. In this
+example, the expression "ni notte iku" will be rewritten into "by".
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+	<td></td>			<td rowspan=4>&nbsp;</td>
+	<td><i>watashi-ha</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>densha-ni</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>notte</i></td>		<td rowspan=2>&nbsp;</td>
+	<td><i>gakko-he</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>iku</i></td>
+    </tr>
+    <tr valign=top>
+	<td>Example Sentence:</td>
+	<td><img src="c20/j0011.gif"></td>
+	<td><u><img src="c20/j0012.gif"></u></td>
+	<td><u><img src="c20/j0013.gif"></u></td>
+	<td><img src="c20/j0014.gif"></td>
+	<td><u><img src="c20/j0001.gif"></u><img src="c20/j0015.gif"></td>
+    </tr>
+    <tr valign=top>
+	<td>Direct Translation:</td>
+	<td colspan=9>I take a train and go to school.</td>
+    </tr>
+    <tr valign=top>
+	<td>Translation after Rewriting:</td>
+	<td colspan=9>I go to school by train.</td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr><td><br></td></tr>
+<tr valign=top>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+	<td rowspan=5>&nbsp;&nbsp;</td>
+        <td colspan=2></td>
+	<td rowspan=5 align=center>
+	    <table border=1 cellpadding=0 cellspacing=0 align=center>
+	    <tr><td align=center>
+		<font size=-1>&nbsp;</font><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0016.gif"><br>(go)</td></tr>
+	        </table>
+	        <img src="c20/j0003.gif"><br>
+		<nobr><img src="c20/j0017.gif"></nobr><br>
+		<font size=-1>conjunctive</font><br>
+		<img src="c20/j0003.gif"><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0018.gif"><br>(ride)</td></tr>
+	        </table>
+	        <img src="c20/j0003.gif"><br><nobr><font size=-1>case relation</font></nobr><br><img src="c20/j0003.gif"><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0019.gif"><br>(on train)</td></tr>
+	        </table>
+		<font size=-2>&nbsp;</font><br>
+	    </td></tr>
+	    </table>
+	</td>
+	<td colspan=4>&lt;- coincide with the structure<br>&nbsp;&nbsp; defined by the rewriting rule</td>
+	<td></td>
+	<td rowspan=5 align=center>
+	    <table border=1 cellpadding=0 cellspacing=0 align=center>
+	    <tr><td align=center>
+		<font size=-1>&nbsp;</font><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0016.gif"><br>(go)</td></tr>
+	        </table>
+	        <img src="c20/j0003.gif"><br>
+		<nobr><img src="c20/j0017.gif"></nobr><br>
+		<nobr><font size=-1>case relation</font></nobr><br>
+		<img src="c20/j0003.gif"><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0020.gif"><br>(by train)</td></tr>
+	        </table>
+		<font size=-2>&nbsp;</font><br>
+	    </td></tr>
+	    </table>
+	</td>
+	<td colspan=2></td>
+	<td rowspan=5>&nbsp;&nbsp;</td>
+    </tr>
+    <tr valign=top>
+	<td rowspan=2 align=right><img src="c20/j0021.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=right>
+	    <tr><td align=center><nobr><img src="c20/j0022.gif"></nobr><br>(I)</td></tr>
+	    </table>
+	</td>
+	<td align=right><img src="c20/j0023.gif"></td>
+	<td aligh=left><img src="c20/j0023.gif"></td>
+	<td  rowspan=2 aligh=left><img src="c20/j0024.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=left>
+	    <tr><td align=center><nobr><img src="c20/j0025.gif"></nobr><br>(to school)</td></tr>
+	    </table>
+	</td>
+	<td></td>
+	<td rowspan=2 align=right><img src="c20/j0021.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=right>
+	    <tr><td align=center><nobr><img src="c20/j0022.gif"></nobr><br>(I)</td></tr>
+	    </table>
+	</td>
+	<td align=right><img src="c20/j0023.gif"></td>
+	<td aligh=left><img src="c20/j0023.gif"></td>
+	<td rowspan=2 aligh=left><img src="c20/j0024.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=left>
+	    <tr><td align=center><nobr><img src="c20/j0025.gif"></nobr><br>(to school)</td></tr>
+	    </table>
+	</td>
+    </tr>
+    <tr valign=top>
+	<td></td>
+	<td></td>
+	<td valign=middle align=center><font size=7><img src="c20/j0009.gif"></font></td>
+	<td></td>
+	<td></td>
+    </tr>
+    <tr valign=top>
+	<td colspan=2></td>
+	<td colspan=5 align=center>be rewritten into <img src="c20/j0026.gif"></td>
+	<td colspan=2></td>
+    </tr>
+    <tr valign=top>
+	<td></td><td colspan=3></td><td></td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr><td><font size=-1>&nbsp;</font><br></td></tr>
+</table>
+
+</td></tr>
+</table>
+<div align=center><strong><i>
+Fig.2 Example in which rewriting is performed
+</i></strong></div>
+</p>
+
+<p>
+However, if we carefully look at the rule shown in Fig.1, we will find as well the following
+two conditions.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>3)</td><td rowspan=2>&nbsp;&nbsp;</td>
+    <td> "<i>Iku</i>" may have any number of case elements.</td>
+</tr>
+<tr valign=top>
+    <td>4)</td>
+    <td>But, "<i>Noru</i>" must have only one case element: "<i>Norimono</i>".</td>
+</tr>
+</table>
+</p>
+
+<p>
+Thus, the following sentence in Fig. 3 will not be rewritten althoght it has the same
+expression "<i>ni notte</i>" as the Fig. 2.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+	<td></td>			<td rowspan=3>&nbsp;</td>
+	<td><i>hansu-ha</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>densha-ni</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>notte</i></td>		<td rowspan=2>&nbsp;</td>
+	<td><i>nokori-ha</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>aruite</i></td>		<td rowspan=2>&nbsp;</td>
+	<td><i>iku</i></td>
+    </tr>
+    <tr valign=top>
+	<td>Example sentence:</td>
+	<td><img src="c20/j0027.gif"></td>
+	<td><u><img src="c20/j0012.gif"></u></td>
+	<td><u><img src="c20/j0013.gif"></u></td>
+	<td><img src="c20/j0028.gif"></td>
+	<td><img src="c20/j0029.gif"></td>
+	<td><u><img src="c20/j0001.gif"></u><img src="c20/j0015.gif"></td>
+    </tr>
+    <tr valign=top>
+	<td>Direct Translation:</td>
+	<td colspan=11>The half takes a train and the remaining walks.</td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr><td><br></td></tr>
+<tr valign=top>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+    	<td rowspan=5>&nbsp;&nbsp;</td>
+	<td colspan=2></td>
+	<td rowspan=5 align=center>
+	    <table border=1 cellpadding=0 cellspacing=0 align=center>
+	    <tr><td align=center>
+		<font size=-1>&nbsp;</font><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0016.gif"><br>(go)</td></tr>
+	        </table>
+	        <img src="c20/j0003.gif"><br>
+		<div align=right><nobr><img src="c20/j0030.gif"></nobr></div>
+		<font size=-1>conjunctive</font><br>
+		<img src="c20/j0003.gif"><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0018.gif"><br>(to ride)</td></tr>
+	        </table>
+		<nobr><img src="c20/j0031.gif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</nobr><br>
+		<font size=-1>case relation</font></nobr><br><img src="c20/j0003.gif"><br>
+	        <table border=1 cellpadding=0 cellspacing=0 align=center>
+	        <tr><td align=center><img src="c20/j0019.gif"><br>(on train)</td></tr>
+	        </table>
+		<font size=-2>&nbsp;</font><br>
+	    </td></tr>
+	    </table>
+	</td>
+	<td colspan=4 valign=bottom><font size=-3>&nbsp;</font><br>
+	    &lt;- Three elements in the large box<br>
+	    &nbsp;&nbsp; satisfy the rewriting conditions,<br>
+	    &nbsp;&nbsp; other elements do not.</td>
+	<td rowspan=5>&nbsp;&nbsp;</td>
+    </tr>
+    <tr valign=top>
+	<td colspan=2 valign=bottom align=right>this element does notsatisfy<br> the rewriting condition -&gt;</td>
+	<td align=left><img src="c20/j0032.gif"></td>
+	<td align=left><img src="c20/j0033.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=left>
+	    <tr><td align=center><nobr><img src="c20/j0034.gif"></nobr><br>remainder</td></tr>
+	    </table>
+	</td>
+	<td align=left><img src="c20/j0035.gif"></td>
+	<td align=left><img src="c20/j0024.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=left>
+	    <tr><td align=center><nobr><img src="c20/j0036.gif"></nobr><br>(by walk)</td></tr>
+	    </table>
+	</td>
+    </tr>
+    <tr valign=top>
+	<td align=right><img src="c20/j0021.gif"><br><img src="c20/j0003.gif"><br>
+	    <table border=1 cellpadding=0 cellspacing=0 align=right>
+	    <tr><td align=center><nobr><img src="c20/j0037.gif"></nobr><br>(the half)</td></tr>
+	    </table>
+	</td>
+	<td align=right><img src="c20/j0035.gif"></td>
+	<td></td>
+	<td colspan=3>These two elements also satisfy<br> the rewriting condidons</td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr><td><font size=-1>&nbsp;</font><br></td></tr>
+</table>
+
+</td></tr>
+</table>
+<div align=center><strong><i>
+Fig.3 Example in winch rewriting is not performed
+</i></strong></div>
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Expressions to be Rewritten</font></h2></a>
+
+<p>
+The expressions to be rewritten are classified as follows;
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>The expressions winch have no equivalent in the target language with the same
+	meaning. These expressions are rewritten into translatable expressions according to
+	the author's intent.</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>The expressions that can not be translated because of cultural differences.</td>
+</tr>
+<tr valign=top>
+    <td>3)</td>
+    <td>The expressions which could not correctly be translated because of the existing
+	translation functions are insufficient.</td>
+</tr>
+</table>
+</p>
+
+<p>
+From these observations, the expressions to be rewritten seem to be virtually identical
+to those requiring pre-editing, but they are not the same. The proposed method has another
+useful ability. In pre-editing, if there is no expression that has the same meaning as the
+original expression, rewriting fails. However, in the <i>Automatic Rewriting Method</i>, when
+there is an expression in the target language which have the same meaning as the original
+expression, it can be directly be rewritten as that expression.
+</p>
+<p>
+Under these considerations, (<a href="c20.html#ref17">Shirai et al. 1995</a>) have proposed 6 kinds of rewriting
+Japanese expressions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Classification of the Expressions to be Rewritten</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Extension of Automatic Rewriting Method</font></h2></a>
+
+<p>
+Previously mentioned Automatic Rewriting Method may create undesirable side effects
+when two or more rewriting rules are applied to the same sentence so only one rule was
+applied to one sentence. If more than one rules are needed to be applied to one sentence, it
+was necessary to synthesize those rules to make a new rule.
+</p>
+<p>
+In this paper, we functionally classify rewriting rules so as to be able to apply them
+to the same sentence. We also extend the application target of rewriting rules to the error
+recovery after source text analysis and to the extraction of other complex expressions.
+</p>
+<p>
+(1) Overlapped Applications of Rewriting Rules
+</p>
+<p>
+First let us consider the following sentence. Two rewriting rules will be applied to
+this sentence as follows.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>Reading:</td>		<td rowspan=3>&nbsp;</td>
+    <td><i>hon-shori-no</i></td>	<td rowspan=2>&nbsp;</td>
+    <td><i>kekka-wo</i></td>	<td rowspan=2>&nbsp;</td>
+    <td><i>mochiite</i></td>	<td rowspan=2>&nbsp;</td>
+    <td><i>henkan</i></td>	<td rowspan=2>&nbsp;</td>
+    <td><i>oyobi</i></td>	<td rowspan=2>&nbsp;</td>
+    <td><i>seisei-suru</i></td>
+</tr>
+<tr valign=top>
+    <td>Example:</td>
+    <td><img src="c20/j0038.gif"></td><td><img src="c20/j0039.gif"></td><td><img src="c20/j0040.gif"></td><td><img src="c20/j0041.gif"></td><td><img src="c20/j0042.gif"></td><td><img src="c20/j0043.gif"></td>
+</tr>
+<tr valign=top>
+    <td>Meaning:</td>
+    <td colspan=11>Using the results of this process, it transforms and generates.</td>
+</tr>
+</table>
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=2>&nbsp;</td>
+    <td>"<i>Wo mochiite</i>" is extracted as an <i>Independent Phrase Expression</i> and is rewritten into the
+	expression corresponding to the English words "based on".</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>The expression "<i>henkan oyobi seisei-suru</i>" ("transformation and generate") is a
+	degenerate expression composed of two verbs. The first verb "<i>henhan-suru</i>" is
+	degenerated to the noun "<i>henkan</i>". This expression is then rewritten as "<i>henkan-suru
+	oyobi seisei-suru</i>" ("transform and generate") supplementing the conjugation
+	"<i>-suru</i>".</td>
+</tr>
+</table>
+</p>
+
+<p>
+The two phrases "<i>wo mochiite</i>" (use) and "<i>seisei-suru</i>" (generate) in the original
+sentence have a dependency re1ation (verb to a verb). However this relation changes
+into a case dependency after rewriting the first verb into <i>the pseudo Japanese expression</i>
+corresponding to English "based on". Therefore, the application condition of the rewriting
+rule 1) including the phrase corresponding to "<i>seisei-suru</i>" and the target expression of
+rewriting rule 1) and 2) partially overlap. However the application of the rewriting rules
+that have different characteristics will not generate side effects. Separation of rewriting
+rules into small steps improves the generality of rewriting rules.
+</p>
+<p>
+(2) Application to the Result of Source Text Analysis
+</p>
+<p>
+Although, many rules are prepared for use in text analysis such as morphological and
+syntactic analysis, there are many exceptional expressions which can not be analyzed. In
+particular, there are many words and expressions whose behavior can not accurately be
+defined. Most of the failures in analysis are due to such words or expressions. This can be
+thought of as the major reason for the limitation of current analysis methods.
+</p>
+<p>
+However, if we collect the expressions that could not be analyzed correctly, we find
+that there are some common characteristics among these expressions and the analysis
+errors can be extracted as expression patterns. Considering this, we propose to expand the
+method to find error patterns in the results of morphological analysis and syntactic
+analysis, and to replace them by correct patterns.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Classification of Elemental Functions included in Rewriting Rules</font></h2></a>
+
+<p>
+According to the previous discussion, rewriting rules are functionally classified
+considering the order of application. First, rewriting ru1es of error correction will be applied
+just after morphological analysis and syntactic analysis. The following 2 categories of
+rewriting rules will be followed by this.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td><i>(a)</i></td><td rowspan=4>&nbsp;</td>
+    <td><i>Rewriting within the Source Language</i></td>
+</tr>
+<tr valign=top>
+    <td></td>
+    <td>The expressions rendering machine translation impossible are rewritten within the
+	Japanese language. Three types of expressions have been proposed: Degenerate
+	Expressions, Removing Redundancy, and Syntactic Pe-arrangement. This rewriting
+	outputs translatable Japanese sentences that are not always appropriate as Japanese
+	expressions.</td>
+</tr>
+<tr valign=top>
+    <td><i>(b)</i></td>
+    <td><i>Rewriting into Pseudo Source Language</i></td>
+</tr>
+<tr valign=top>
+    <td></td>
+    <td>The expressions which can not be rewritten into a different Japanese expression
+	are rewritten into pseudo Japanese expressions. Here the pseudo Japanese expressions
+	are represented by symbols, the meanings of winch correspond to the target language.
+	Three types of expressions have been proposed: Indipendent Phrase Expressions, Modal
+	and Tense Expressions and Degenerate Conjunctive Expressions. Even in cases where
+	rewriting within the Japanese text is possible, if the expression after rewriting resuits
+	in ambiguity, rewriting into the pseudo source language should be undertaken using an
+	awareness of the corresponding English.</td>
+</tr>
+</table>
+</p>
+
+<p>
+Here, let's consider the relation of these rewritings. The former can be thought as the
+rewriting to help the analysis of source expressions. The latter can be considered as
+rewriting to help the transfer into the target expression. Of the latter type, rewriting of
+"<i>Independent Phrase Expression</i>" aims at freezing the expressions which have rigid
+meaning. On the other hand, rewriting of "<i>Modal and Tense Expression</i>" and "<i>Degenerated
+Conjunctive Expression</i>" can be considered as the extraction of expressions which can not
+be translated based on <i>the principle of compositional Semantics</i>.
+</p>
+<p>
+Consequenuy, we classify the rewriting rules into 4 groups and 14 categories.
+Details are shown below.
+</p>
+<p>
+<strong>(1) Rewriting as Post Processing for Analysis</strong>
+</p>
+<p>
+<i>1) Correction of Morphological Analysis</i>
+</p>
+<p>
+Long strings of "<i>kana</i>" characters and composed words with suffixes offen cause
+errors in morphological analysis, The rewriting of these expressions is shown in the
+following two examples. The second example shows one of the errors that appear when
+suffix processing is strengthen for the analysis of comp1ex compound word. The patterns of
+these errors are registered in the rewriting rule dictionary and corrected by using them.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Error &gt;<br>	Meaning:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>shi</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>ta</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>imo</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>no</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>da</i></td>
+    </tr>
+    <tr><td><img src="c20/j0044.gif">(verb)/</td>
+	<td><img src="c20/j0045.gif">(auxiliary verb)/</td>
+	<td><img src="c20/j0046.gif">(noun)/</td>
+	<td><img src="c20/j0047.gif">(particle)/</td>
+	<td><img src="c20/j0048.gif">(auxiliary verb)</td>
+    </tr>
+    <tr><td>do</td>
+	<td>(past)</td>
+	<td>potato</td>
+	<td>of</td>
+	<td>(affirmation)</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; Correct &gt;<br>	Meaning:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>shi</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>tai</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>mono</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>da</i></td>
+    </tr>
+    <tr><td><img src="c20/j0044.gif">(verb)/</td>
+	<td><img src="c20/j0049.gif">(auxiliary verb)/</td>
+	<td><img src="c20/j0050.gif">(noun)/</td>
+	<td><img src="c20/j0048.gif">(auxiliary verb)</td>
+    </tr>
+    <tr><td>do</td>
+	<td>want</td>
+	<td>thing</td>
+	<td>(affirmation)</td>
+    </table>
+    </td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>Reading:<br>	&lt; Error &gt;<br>	Meaning:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i><i>gen</i></i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i><i>daiyou</i></i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i><i>go</i></i></td>
+    </tr>
+    <tr><td><img src="c20/j0051.gif">(prefix)/</td>
+	<td><img src="c20/j0052.gif">(noun)/</td>
+	<td><img src="c20/j0053.gif">(suffix)</td>
+    </tr>
+    <tr><td>now</td>
+	<td>substitution</td>
+	<td>word</td>
+    </tr>
+    </table>
+    </td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; Correct &gt;<br>	Meaning:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>gendai</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>yougo</i></td>
+    </tr>
+    <tr><td><img src="c20/j0054.gif">(noun)/</td>
+	<td><img src="c20/j0055.gif">(noun)</td>
+    </tr>
+    <tr><td>present age</td>
+	<td>word</td>
+    </tr>
+    </table>
+    </td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>2) Removing Redundancy of Morphological Analysis</i>
+</p>
+<p>
+In morphological analysis, several interpretation candidates such as "<img src="c20/j0056.gif"> ("<i>naru</i>":
+become)", " <img src="c20/j0057.gif"> ("<i>naru</i>"; sound)", " <img src="c20/j0058.gif"> ("<i>naru</i>"; grow)" are generated for the verb 
+"<img src="c20/j0059.gif">" written by "<i>kana</i>" characters. This kind of ambiguity can not be resolved by
+just syntactic information so that it is left for semantic analysis. However, in the <i>Rewriting
+of Internal Expression</i>, some of these ambiguities can be resolved referring the meaning of
+adjacent words which is defined by <i>the semantic attributes</i>. This reduces the work of
+syntactic and semantic analysis. Experiments up to now have shown that the
+interpretation ambiguities caused by morphological analysis can be reduced from an
+average of 2.15 to 1.15 at every word.
+</p>
+<p>
+<i>3) Correction of Dependency Analysis</i>
+</p>
+<p>
+In the following example, the noun phrase, "Noun + <img src="c20/j0060.gif"> (<i>nagara</i>)" is literally
+interpreted as a noun phrase in morphological analysis. But it plays the role of a
+predicate in this sentence so dependency analysis can not be correctly performed. For
+such cases, the results of dependency analysis, as well as the syntactic interpretation
+of the phrase, are changed.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td></td>						<td rowspan=2>&nbsp;</td>
+    <td colspan=3><i>kanojo-ha</i> (she)</td>		<td rowspan=2>&nbsp;</td>
+    <td colspan=3><i>onna-nagara</i> (even a woman)</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3><i>yuukan-da</i> (brave)</td>
+</tr>
+<tr valign=top>
+    <td><nobr>&lt; Before rewriting &gt;</nobr></td>
+    <td colspan=3><u><img src="c20/j0061.gif">(case element)</u></td>
+    <td colspan=3><u><img src="c20/j0062.gif">(case element)</u></td>
+    <td colspan=3><u><img src="c20/j0063.gif">(predicate)</u></td>
+</tr>
+<tr valign=top>
+    <td colspan=3></td>
+    <td colspan=4 align=left><img src="c20/j0003.gif"><br><img src="c20/j0003.gif">case dependency<br><nobr><img src="c20/j0064.gif"></nobr></td>
+    <td colspan=4 align=left><img src="c20/j0003.gif">case dependency<br><nobr><img src="c20/j0065.gif"></nobr><br><nobr><img src="c20/j0066.gif"></nobr></td>
+    <td colspan=2 align=left><nobr><img src="c20/j0067.gif"></nobr><br><nobr><img src="c20/j0068.gif"></nobr><br><nobr><img src="c20/j0069.gif"></nobr></td>
+</tr>
+</tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td></td>						<td rowspan=2>&nbsp;&nbsp;</td>
+    <td colspan=3><i>kanojo-ha</i> (she)</td>		<td rowspan=2>&nbsp;</td>
+    <td colspan=3><i>onna-da-ga</i> (is a woman but)</td>		<td rowspan=2>&nbsp;</td>
+    <td colspan=3><i>yuukan-da</i> (brave)</td>		<td rowspan=2>&nbsp;</td>
+</tr>
+<tr valign=top>
+    <td><nobr>&lt; After rewriting &gt;</nobr></td>
+    <td colspan=3><img src="c20/j0061.gif">(case element)</td>
+    <td colspan=3><img src="c20/j0070.gif">(predicate) <img src="c20/j0071.gif">(particle)</td>
+    <td colspan=3><img src="c20/j0063.gif">(predicate)</td>
+</tr>
+<tr valign=top>
+    <td colspan=3></td>
+    <td colspan=3 align=left><img src="c20/j0003.gif">case dependency<br><nobr><img src="c20/j0072.gif"></nobr></td>
+    <td><img src="c20/j0073.gif"><br><img src="c20/j0074.gif"></td>
+    <td colspan=5 align=left><img src="c20/j0003.gif">conjunctive dependency<br><nobr><img src="c20/j0065.gif"></nobr></td>
+    <td><img src="c20/j0073.gif"><br><img src="c20/j0074.gif"></td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>4) Removing Redundancy of Dependency Analysis</i>
+</p>
+<p>
+As shown in the following example, rewriting is performed so as to reduce the
+number of dependent candidates.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td colspan=20>&lt; Before rewriting &gt;</td>
+</tr>
+<tr valign=top>
+    <td colspan=3><nobr><i>kare-ha</i>(he)</nobr></td>		<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>densha-ni</i>(a train)</nobr></td>	<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>notte</i>(ride and)</nobr></td>	<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>gakkou-he</i>(to school)</nobr></td>	<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>itta</i>(went)</nobr></td>		<td rowspan=2>&nbsp;</td>
+</tr>
+<tr valign=top>
+    <td colspan=3><nobr><u><img src="c20/j0075.gif">(noun)</nobr></u></td>
+    <td colspan=3><nobr><u><img src="c20/j0012.gif">(noun phrase)</nobr></u></td>
+    <td colspan=3><nobr><u><img src="c20/j0013.gif">(predicate)</u></nobr></td>
+    <td colspan=3><nobr><img src="c20/j0014.gif"></nobr></td>
+    <td colspan=3><nobr><u><img src="c20/j0076.gif">(predicate)<img src="c20/j0015.gif"></u></nobr></td>
+</tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=8><nobr><img src="c20/j0003.gif">Two candidates of dependency</nobr><br><nobr><img src="c20/j0077.gif"></nobr></td>
+    <td colspan=8><img src="c20/j0073.gif"><br><nobr><img src="c20/j0078.gif"></nobr></td>
+    <td colspan=2><img src="c20/j0073.gif"><br><img src="c20/j0074.gif"></td>
+</tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td colspan=20>&lt; After rewriting &gt;</td>
+</tr>
+<tr valign=top>
+    <td colspan=3><nobr><i>kare-ha</i>(he)</nobr></td>		<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>densha-de</i>(by train)</nobr></td>	<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>gakkou-e</i>(to school)</nobr></td>	<td rowspan=2>&nbsp;</td>
+    <td colspan=3><nobr><i>itta</i>(went)</nobr></td>
+</tr>
+<tr valign=top>
+    <td colspan=3><nobr><u><img src="c20/j0075.gif">(noun)</u></nobr>
+    <td colspan=3><nobr><u><img src="c20/j0079.gif">((noun-phrase)</u></nobr>
+    <td colspan=3><nobr><img src="c20/j0014.gif"></nobr>
+    <td colspan=3><nobr><u><img src="c20/j0076.gif">(predicate)<img src="c20/j0015.gif"></u></nobr>
+</tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=5><img src="c20/j0003.gif"><br><img src="c20/j0003.gif"><br><nobr><img src="c20/j0080.gif"></nobr></td>
+    <td colspan=6><nobr><img src="c20/j0003.gif">A single dependency</nobr><br><nobr><img src="c20/j0081.gif"></nobr><br><nobr><img src="c20/j0082.gif"></nobr>
+    <td colspan=3><nobr><img src="c20/j0067.gif"></nobr><br><nobr><img src="c20/j0068.gif"></nobr><br><nobr><img src="c20/j0069.gif"></nobr></td>
+</tr>
+</table>
+</p>
+
+<p>
+<strong>(2) Rewriting within Source Language</strong>
+</p>
+<p>
+<i>5) Expansion of Degenerated Expression</i>
+</p>
+<p>
+Deleted word inflection and deleted expression in the parallel noun phrase are
+restored to their original expressions,
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meanings:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>henkan</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>oyobi</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>seisei-suru</i></td>
+    </tr>
+    <tr><td><img src="c20/j0041.gif"> (noun)//</td>
+	<td><img src="c20/j0042.gif">//</td>
+	<td><img src="c20/j0083.gif">/(noun)<img src="c20/j0084.gif">(verb)</td>
+    </tr>
+    <tr><td>transformation</td>
+	<td>and</td>
+	<td>generate</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>henkan-shi</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>soshite</i></td>		<td rowspan=3>&nbsp;</td>
+	<td><i>seisei-suru</i></td>
+    </tr>
+    <tr><td><img src="c20/j0085.gif"> (verb)//</td>
+	<td><img src="c20/j0086.gif">//</td>
+	<td><img src="c20/j0087.gif">(verb)</td>
+    </tr>
+    <tr><td>transform</td>
+	<td>and</td>
+	<td>generate</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>6) Removing Redundant Expression</i>
+</p>
+<p>
+The expressions whose nuances are not translatable into English are rewritten
+into simpler expressions. In this example, a complex sentence is rewritten into a simple
+sentence with a parallel noun phrase.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meaning:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>otoko-mo</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>ire-ba</i></td>		<td rowspan=2>&nbsp;</td>
+	<td><i>onna-mo</i></td>		<td rowspan=2>&nbsp;</td>
+	<td><i>iru</i></td>		<td rowspan=3>&nbsp;</td>
+    </tr>
+    <tr><td><img src="c20/j0088.gif">/ <img src="c20/j0089.gif">//</td>
+	<td><img src="c20/j0090.gif">/ <img src="c20/j0091.gif">//</td>
+	<td><img src="c20/j0092.gif">/ <img src="c20/j0089.gif">//</td>
+	<td><img src="c20/j0093.gif"></td>
+    </tr>
+    <tr><td colspan=8>There are men and also there are women.</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>otoko-mo</i></td>
+	<td><i>onna-mo</i></td>
+	<td><i>iru</i></td>		<td rowspan=3>&nbsp;</td>
+    </tr>
+    <tr><td><img src="c20/j0088.gif">/ <img src="c20/j0089.gif">//</td>
+	<td><img src="c20/j0092.gif">/ <img src="c20/j0089.gif">//</td>
+	<td><img src="c20/j0093.gif"></td>
+    </tr>
+    <tr><td colspan=8>There are both men and women.</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>7) Syntactic Rearrangement</i>
+</p>
+<p>
+The sentence structures of special Japanese expressions that can not be directly
+translated are rewritten. The example sentence is composed of adverbial phrases and
+a verb. It has neither of a subject nor a object so that it is necessary to rewrite it into a
+sentence with a subject.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meaning:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>ni-kishu</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>awase-te</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>tsuki</i></td>		<td rowspan=3>&nbsp;</td>
+	<td><i>hyaku-dai</i></td>	<td rowspan=3>&nbsp;</td>
+	<td><i>seisan-suru</i></td>
+    </tr>
+    <tr><td><img src="c20/j0094.gif">/ <img src="c20/j0095.gif">//</td>
+	<td><img src="c20/j0096.gif">/ <img src="c20/j0097.gif">//</td>
+	<td><img src="c20/j0098.gif">//</td>
+	<td><img src="c20/j0099.gif">/ <img src="c20/j0100.gif">/</td>
+	<td><img src="c20/j0101.gif"></td>
+    </tr>
+    <tr><td>two type of machine//
+	<td>to make together//
+	<td>monthly/
+	<td>a hundred/
+	<td>produce</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td>ni-kishu-no</td>	<td rowspan=3>&nbsp;</td>
+	<td>gessan-ha</td>	<td rowspan=3>&nbsp;</td>
+	<td>hyaku-dai-da</td>
+    </tr>
+    <tr><td><img src="c20/j0094.gif">/ <img src="c20/j0095.gif">/ <img src="c20/j0047.gif">//</td>
+	<td><img src="c20/j0098.gif">/ <img src="c20/j0102.gif">/ <img src="c20/j0103.gif">//</td>
+	<td><img src="c20/j0104.gif">/ <img src="c20/j0048.gif"></td>
+    </tr>
+    <tr><td>two type of machine//</td>
+	<td>monthly producdon//</td>
+	<td>is a hundred</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>8) Standardization of Honorific Exprssion</i>
+</p>
+<p>
+The Japanese language has many honorific expressions which cannot be translated into
+English. these expressions are rewritten into easily translatable  Japanese expression.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meanings:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>o</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>yomi</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>ni</i></td>	<td rowspan=2>&nbsp;</td>
+	<td><i>naru</i></td>
+    </tr>
+    <tr><td><img src="c20/j0105.gif"> (Suffix)/</td>
+	<td><img src="c20/j0106.gif"> (contents form of noun)/</td>
+	<td><img src="c20/j0107.gif"> (particle)//</td>
+	<td><img src="c20/j0059.gif"> (verb)</td>
+    </tr>
+    <tr><td colspan=7>(Honorific expression of "read")</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td><i>yomu</i></td>
+    </tr>
+    <tr><td><img src="c20/j0108.gif"> (verb + honorific)</td>
+    </tr>
+    <tr><td>(read + honorific)</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<p>
+<strong>(3) Rewrite into Pseado Soource Language</strong>
+</p>
+
+<p>
+<i>9) Independent Phrase Expression Corresponding to Particle</i>
+</p>
+<p>
+As shown in Fig.1 of chapter 1,  independent phrase expressions which correspond
+to an English particle are rewritten.
+</p>
+<p>
+<i>10) Adverbial Phrase Expression</i>
+</p>
+<p>
+If we translate literally clause expressions such as "<img src="c20/j0109.gif"> (<i>yuu-made-mo
+naru</i>)" and "<img src="c20/j0110.gif"> (<i>ippan-teki ni ie-ba</i>)" into English, clauses will be
+generated. However these expression take the role of adverbial phrase expressions
+such as "needless to say" and "generally speaking" in English. These are rewritten into
+<i>pseudo Japanese phrase exprssions</i>.
+</p>
+
+<p>
+<i>11)Adnominal Phrase Expresssion</i>
+</p>
+<p>
+Modification clauses such as "<img src="c20/j0111.gif"> (<i>inshou-ni nokoru</i>)" and "<img src="c20/j0112.gif"> 
+(<i>yorokobi-ni afureta</i>)" are rewritten into word modifiers that mean "impressive" and
+"joyful" respectively.
+</p>
+
+<p>
+<i>12) Phrase Expression</i>
+</p>
+<p>
+This is similar to the above expressions except that variable words are included.
+For example, "<img src="c20/j0113.gif"> (<i>odoroi-ta koto-niha</i>)" is rewritten to "to one's
+surprise" where the word "one's" changes depending on the context.
+</p>
+
+<p>
+<strong>(4) Rewriting to Freeze Subjective Expressions</strong>
+</p>
+<p>
+<i>13) Conjunctive, Modal and Tense Expression</i>
+</p>
+<p>
+The expressions composed of conjugation, modality and tense are rewritten into
+symbols which have the same meaning in English.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meanings:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td>suru</td>	<td rowspan=3>&nbsp;</td>
+	<td>nara</td>	<td rowspan=3>&nbsp;</td>
+	<td>suru</td>	<td rowspan=3>&nbsp;</td>
+	<td>noni</td>
+    </tr>
+    <tr><td><img src="c20/j0114.gif"> (verb)/</td>
+	<td><img src="c20/j0115.gif">//</td>
+	<td><img src="c20/j0114.gif"> (verb)/</td>
+	<td><img src="c20/j0116.gif"></td>
+    </tr>
+    <tr><td>do</td>
+	<td>if</td>
+	<td>do</td>
+	<td>would</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td>suru</td>	<td rowspan=3>&nbsp;</td>
+	<td>suru</td>
+    </tr>
+    <tr><td><img src="c20/j0114.gif"> (verb + subjunctive)//</td>
+	<td><img src="c20/j0114.gif"> (verb <img src="c20/j0026.gif"> would V)</td>
+    </tr>
+    <tr><td>do</td>
+	<td>do</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<p>
+<i>14) Modal and Tense Expression</i>
+</p>
+<p>
+Similarly to the above, the expressions composed of modality and tense are
+rewritten into some symbol which has the same meaning in English.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>Reading:<br>	&lt; Before rewriting &gt;<br>	Meanings:</td>	<td rowspan=7>&nbsp;</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td>si</td>	<td rowspan=2>&nbsp;</td>
+	<td>ta</td>	<td rowspan=2>&nbsp;</td>
+	<td>youdat-ta</td>
+    </tr>
+    <tr><td><img src="c20/j0044.gif">/</td>
+	<td><img src="c20/j0045.gif">/</td>
+	<td><img src="c20/j0117.gif">/ <img src="c20/j0045.gif"></td>
+    </tr>
+    <tr><td colspan=5>it seemed to have done</td>
+    </tr>
+    </table></td>
+</tr>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td>Reading:<br>	&lt; After rewriting &gt;<br>	Meanings:</td>
+    <td>
+    <table border=0 cellpadding=0 cellspacing=0>
+    <tr><td>suru</td>
+    </tr>
+    <tr><td><img src="c20/j0114.gif"> (verb <img src="c20/j0026.gif"> seemed to have V(past particle))</td>
+    </tr>
+    <tr><td>it seemed to have done</td>
+    </tr>
+    </table></td>
+</tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Structures of Rewriting Functions and their Components</font></h2></a>
+
+<p>
+Based on a translation experiment, we collected 940 rewriting rules. According to the
+above mentioned standards, they were classified into 14 categories and the fundamental
+functions needed to perform all rewriting rules ware studied. From this study, it was found
+that any rewriting function will to composed of 7 fundamental functions and that the
+conventional way of describing application conditions needs to be expanded.
+</p>
+<p>
+Accordingly, in this chapter we propose a new way of defining the conditions for
+rewriting rule application and the construction of the rewriting process based on the
+structure of fundamental rewriting functions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Augmented Description of Rewriting Conditions</font></h2></a>
+
+<p>
+Generally speaking, a rewriting rule is composed of two parts: the description of
+conditions for applying the rule and the description of rule execution. The first part can
+be defined using either word face, syntactic attributes such as part of speech or semantic
+attributes. Yet, this part has problems shown below.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>1)</td>	<td rowspan=3>&nbsp;</td>
+    <td>It is necessary to strictly define rewriting rules in order to avoid undesirable side
+	effects. Not only the target expression needs to be defined but also adjacent words or
+	phrases. However, many fluctuations are possible when writing words such as "kanji"
+	description, "<i>kana</i>" description and the description of word inflections. For example
+	of fluctuations, a Japanese noun "<img src="c20/j0118.gif"> (<i>bara</i>, rose)" is sometimes written as "<img src="c20/j0119.gif"> 
+	(<i>bara</i>)" in <i>katakana characters</i> and "<img src="c20/j0120.gif"> (<i>bara</i>)" in <i>hiragana characters</i>. A Japanese verb
+	"<img src="c20/j0121.gif"> (<i>okonau</i>, do)" is also written as "<img src="c20/j0122.gif"> (<i>okonau</i>)". This reduces the ability to
+	accurately handle actual expressions.</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>In order to define the expressions to be rewritten, two or more conditions need to be
+	written in the condition part of the rewriting rules. However, these were not freely
+	defined in the conventional method. Exceptional conditions were not also able to be
+	written.</td>
+</tr>
+<tr valign=top>
+    <td>3)</td>
+    <td>The usable attributes name was restricted and there were several forms to wrtite
+    them in the conventional rules.</td>
+</tr>
+</table>
+</p>
+
+<p>
+In order to resolve the first problem, a standard description was created to transform
+fluctuations into standard forms before applying rewriting rules. For the second problem,
+the relations of "<i>and</i>" and "<i>or</i>" between the rule application conditions were made easy to
+define and exceptional conditions are also made easy to write. For the third problem, we
+determined the expanded attribute set and a general form for defining rewriting conditions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Basic Functions for Execution of Rewriting</font></h2></a>
+
+<p>
+According to the analysis of the 940 rewriting rules already prepared, most rules can
+be performed by the following 7 fundamental functions.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=7>&nbsp;&nbsp;</td>
+    <td>1)</td>			<td rowspan=7>&nbsp;</td>
+    <td><i>Connection:</i></td>	<td rowspan=7>&nbsp;</td>
+    <td>Replace two or more words by one word</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td><i>Alteration:</i></td>
+    <td>Alter a word attribute or give a new attribute to a word</td>
+</tr>
+<tr valign=top>
+    <td>3)</td>
+    <td><i>Deletion:</i></td>
+    <td>Delete a word or a phrase</td>
+</tr>
+<tr valign=top>
+    <td>4)</td>
+    <td><i>Supplementation:</i></td>
+    <td>Insert a word or a phrase</td>
+</tr>
+<tr valign=top>
+    <td>5)</td>
+    <td><i>Separation:</i></td>
+    <td>Separate a word into two or more words</td>
+</tr>
+<tr valign=top>
+    <td>6)</td>
+    <td><i>Exchange:</i></td>
+    <td>Exchange the order of words or phrases</td>
+</tr>
+<tr valign=top>
+    <td>7)</td>
+    <td><i>Assessment:</i></td>
+    <td>Assess the expression that satisfies the rewriting conditions</td>
+</tr>
+</table>
+</p>
+
+<p>
+Table 1 shows the relation between 7 fundamental functions and 940 rewriting rules.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1. Fundamental Execution Functions for Rewriting Rules
+</strong>
+</div>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top><td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+	<td width=15%>&nbsp;</td>
+	<td><div align=center><i>
+		<nobr>(1) Connection</nobr>	<nobr>(2) Alternation</nobr>	<nobr>(3) Deletion</nobr>
+		<nobr>(4) supplementation</nobr>	<nobr>(5) Separation</nobr>	<nobr>(6) Exchange</nobr>
+		<nobr>(7) Assessment</nobr>	<nobr>(8) Total No. of Rules</nobr></i></div>
+	</td>
+	<td width=15%>&nbsp;</td>
+    </tr>
+    </table>
+</td></tr>
+<tr valign=top><td>
+    <table border=3 cellpadding=1 cellspacing=1 align=center>
+    <tr align=center>
+	<td rowspan=2>Classification</td>
+	<td rowspan=2>Rewriting Rules</td>
+	<td colspan=7>Fundamental Functions</td>
+	<td rowspan=2>(8)</td>
+    </tr>
+    <tr align=center>
+	<td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td><td>(6)</td><td>(7)</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td rowspan=4 align=left>Rewriting as Post-Processing for Analysis</td>
+	<td align=left><nobr><i>Correction of Morphological Analysis</i></nobr></td>
+	<td>25</td>	<td>22</td>	<td>2</td>	<td>4</td>	<td>13</td>	<td><br></td>	<td><br></td>
+	<td>60</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Removing Redundancy of M. Analysis</i></nobr></td>
+	<td><br></td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>	<td>15</td>
+	<td>16</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Correction of Dependency Analysis</i></nobr></td>
+	<td><br></td>	<td>19</td>	<td><br></td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>19</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Removing Redundancy of D. Analysis</i></nobr></td>
+	<td><br></td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>	<td>13</td>
+	<td>14</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td rowspan=4 align=left>Rewriting within Source Language</td>
+	<td align=left><nobr><i>Expansion of Degenerated Expression</i></nobr></td>
+	<td><br></td>	<td>2</td>	<td>8</td>	<td>8</td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>10</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Removing Redundant Expression</i></nobr></td>
+	<td>21</td>	<td>17</td>	<td>33</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td>1</td>
+	<td>55</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Syntactic Rearrangement</i></nobr></td>
+	<td>10</td>	<td>20</td>	<td><br></td>	<td>8</td>	<td><br></td>	<td>12</td>	<td><br></td>
+	<td>41</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Standardization of Honorific Expression</i></nobr></td>
+	<td><br></td>	<td><br></td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>1</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td rowspan=4 align=left>Rewrite into Pseudo Source Language</td>
+	<td align=left><nobr><i>Independent Phrase Expression</i></nobr></td>
+	<td>159</td>	<td>27</td>	<td>2</td>	<td>12</td>	<td>2</td>	<td><br></td>	<td><br></td>
+	<td>182</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Adverbial Phrase Expression</i></nobr></td>
+	<td>90</td>	<td>22</td>	<td>2</td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>111</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Adnominal Phrase Expression</i></nobr></td>
+	<td>9</td>	<td>7</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>15</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Phrase Expression</i></nobr></td>
+	<td>2</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>2</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td rowspan=2 align=left>Rewriting of Subjective Expressions</td>
+	<td align=left><nobr><i>Conjunctive, Modal and Tense Expression</i></nobr></td>
+	<td>12</td>	<td>11</td>	<td>1</td>	<td><br></td>	<td><br></td>	<td><br></td>	<td><br></td>
+	<td>22</td>
+    </tr>
+    <tr align=right>
+	<td align=left><nobr><i>Modal and Tense Expression</i></nobr></td>
+	<td>74</td>	<td>39</td>	<td>5</td>	<td>2</td>	<td>3</td>	<td>1</td>	<td><br></td>
+	<td>114</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td colspan=2 align=left>Others</td>
+	<td>-</td>	<td>-</td>	<td>-</td>	<td>-</td>	<td>-</td>	<td>-</td>	<td>-</td>
+	<td>278</td>
+    </tr>
+    <tr></tr>
+    <tr align=right><td colspan=2 align=left>Total</td>
+	<td>402</td>	<td>188</td>	<td>54</td>	<td>36</td>	<td>18</td>	<td>13</td>	<td>29</td>
+	<td>940</td>
+    </tr>
+    </table>
+</td></tr>
+<tr><td>
+    <table border=0 cellpadding=0 cellspacing=0 align=center>
+    <tr valign=top>
+	<td>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</td>
+	<td>&lt;cf.&gt;</td>	<td>&nbsp;</td>
+	<td>Note that each rule has one or more functions so that the total frequency of functions
+	    does not represent the number of rules (8).</td>
+	<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+    </table>
+    </td></tr>
+</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 Control of Rewriting</font></h2></a>
+
+<p>
+In the previous section, we pointed out that rewriting can be performed by the 7
+fundamental functions. Therefore, the rewriting execution program will be composed of 7
+independent modules and a control program. According to the requirements defined in
+the rules, rewriting process can interrupt at any point of the translation processed. Fig.4
+shows the correspondence between interrupting points and rewriting rules.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top>
+    <td><table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr valign=top>
+	    <td>&nbsp;&nbsp;</td>
+	    <td>
+		
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td align=center>
+	<font size=-1>&nbsp;</font><br>
+	<table border=1 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=center>Japanese<br>Sentence</td></tr>
+	</table>
+	<img src="c20/j0003.gif">
+	<table border=1 cellpadding=0 cellspacing=0 align=center>
+	<tr><td><table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td>
+	<tr align=center><td><img src="c20/j0123.gif"></td></tr>
+	<tr align=center>
+	    <td><table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td> &nbsp; &nbsp; </td>
+	    <td align=center>
+		<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+		<tr><td align=center><nobr>&nbsp; Morphological &nbsp;</nobr><br>Analysis</td></tr>
+		</table>
+		<div align=right><img src="c20/j0124.gif"></div>
+		<img src="c20/j0123.gif">
+		<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+		<tr><td align=center>Dependency<br>Analysis</td></tr>
+		</table>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0125.gif"><br>
+		Conventional<br>
+		<img src="c20/j0125.gif"><br>
+		Proocess of<br>
+		<img src="c20/j0125.gif"><br>
+		Machine<br>
+		<img src="c20/j0125.gif"><br>
+		Translation<br>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0125.gif"><br>
+		<img src="c20/j0123.gif">
+		<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+		<tr><td align=center>Semantic<br>Analysis</td></tr>
+		</table>
+		<img src="c20/j0123.gif">
+		<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+		<tr><td align=center>Japanese to<br>English Trans</td></tr>
+		</table>
+		<img src="c20/j0123.gif">
+		<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+		<tr><td align=center>English<br>Generation</td></tr>
+		</table>
+	    </td>
+	    <td valign=top>
+		<img src="c20/j0023.gif"><br><font size=+1>&nbsp;</font><br>		<!-- MA -->
+		<img src="c20/j0023.gif"><br><font size=-1>&nbsp;</font><br><br>	<!-- M/D -->
+		<img src="c20/j0023.gif"><br><br><br><br><br><br><br><br><br><br>	<!-- DA -->
+		<br><br><br><br><br><br><br>
+		<img src="c20/j0126.gif">						<!-- SA -->
+	    </td>
+	</tr>
+	</table>
+    </td>
+</tr>
+</td>
+</tr>
+<tr align=center><td><img src="c20/j0003.gif"></td></tr>
+</table>
+</td>
+</tr>
+</table>
+<img src="c20/j0123.gif">
+<table border=1 cellpadding=0 cellspacing=0 align=center>
+<tr><td align=center>English<br>Sentences</td></tr>
+</table>
+<font size=-1>&nbsp;</font><br>
+</td>
+</tr>
+</table>
+
+    </td>
+    <td><font size=+1>&nbsp;</font><br><br><br><br><br>
+	<img src="c20/j0023.gif"><br><br>		<!-- MA -->
+	<img src="c20/j0023.gif"><br><br><br>		<!-- M/D -->
+	<img src="c20/j0023.gif"><br><br><br><br><br>	<!-- DA -->
+	<br><br><br><br><br><br>
+	<br><br><br><br><br><br>
+	<img src="c20/j0023.gif">			<!-- SA -->
+    </td>
+    <td>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top>
+    <td><font size=-1>&nbsp;</font><br><br><br>
+	Automatic Rewriting of Internal Expressions</td>
+</tr>
+<tr><td><table border=1 cellpadding=0 cellspacing=0 align=center>
+	<tr valign=top>
+	    <td><table border=0 cellpadding=0 cellspacing=0 align=center>
+		<tr valign=top>
+		    <td><font size=+1>&nbsp;</font><br>
+			<img src="c20/j0026.gif"><br><br>		<!-- MA -->
+			<img src="c20/j0023.gif"><br><br><br>		<!-- M/D -->
+			<img src="c20/j0026.gif"><br><br><br><br><br>	<!-- DA -->
+			<br><br><br><br><br><br>
+			<br><br><br><br><br><br>
+			<img src="c20/j0023.gif">			<!-- SA -->
+		    </td>
+		    <td align=center>
+			<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+			<tr valign=top><td align=center>Post Processing<br>of Morphological<br>Analysis</td></tr>
+			</table>
+			<div align=left><img src="c20/j0127.gif"></div>
+			<img src="c20/j0123.gif"></font>
+			<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+			<tr valign=top><td align=center>Post Processing<br>of Dependency<br>Analysis</td></tr>
+			</table>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0123.gif">
+			<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+			<tr valign=top><td align=center>Rewriting within<br>Source Language</td></tr>
+			</table>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0123.gif">
+			<table border=1 cellpadding=0 cellspacing=0 align=center width=100%>
+			<tr valign=top><td align=center>Rewrite into Pseudo<br>Source Language</td></tr>
+			</table>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0123.gif">
+			<table border=1 cellpadding=6 cellspacing=0 align=center width=100%>
+			<tr valign=top><td align=center><nobr>Rewriting for Free-</nobr><br>zing of Subjective<br> Expressions</td></tr>
+			</table>
+		    </td>
+		    <td><br>
+			<img src="c20/j0023.gif"><br><br><br><br><br>
+			<img src="c20/j0023.gif"><br><br><br><br><br>
+			<img src="c20/j0023.gif"><br><br><br><br><br><br><br><br>
+			<img src="c20/j0023.gif"><br><br><br><br><br><br>
+			<img src="c20/j0023.gif"><br>
+		    </td>
+		    <td><img src="c20/j0021.gif"> <i>Correction of Morphological Analysis</i><br>
+			<img src="c20/j0128.gif"><br>
+			<img src="c20/j0129.gif"> <i>Removing Redundancy of Morphological Analysis</i><br>
+			<br>
+			<img src="c20/j0021.gif"> <i>Correction of Dependency Analysis</i><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0130.gif"> <i>Removng Redundancy of Dependency Analyss</i><br>
+			<br>
+			<img src="c20/j0021.gif"> <i>Expansion of Degenerated Expression</i><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0131.gif"> <i>Removing Redundant Expression</i><br>
+			<img src="c20/j0128.gif"><br>
+			<img src="c20/j0131.gif"> <i>Syntactic Rearrangement</i><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0129.gif"> <i>Standardization of Honorific Expression</i><br>
+			<br>
+			<nobr><img src="c20/j0021.gif"> <i>Independent phrase Expression corresponding to Particle</i></nobr><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0131.gif"> <i>Adverbial Phrase Expression</i><br>
+			<img src="c20/j0128.gif"><br>
+			<img src="c20/j0131.gif"> <i>Adnominal Phrase Expression</i><br>
+			<img src="c20/j0003.gif"><br>
+			<img src="c20/j0129.gif"> <i>Phrase Expression</i><br>
+			<br>
+			<img src="c20/j0021.gif"> <i>Conjunctive, Modal and Tense Expression</i><br>
+			<img src="c20/j0128.gif"><br>
+			<img src="c20/j0129.gif"> <i>Modal and Tense Expression</i>
+		    </td>
+		</tr>
+		</table>
+	    </td>
+	</tr>
+	</table>
+    </td>
+</tr>
+</table>
+
+	    </td>
+	    <td>&nbsp;&nbsp;</td>
+	</tr>
+	</table>
+    </td>
+</tr>
+</table>
+<div align=center><strong><i>
+Fig.4 Structure of Automatic Rewriting Method of Internal Expressions
+</i></strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Experimental Result of Newspaper Translations</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 Application Frequency of Rewriting Rules</font></h2></a>
+
+<p>
+<strong>(1) Experiment parameters</strong>
+</p>
+
+<p>
+In order to study the frequency with which rewriting rules were applied, the
+rewriting procedure was realized in the Japanese to English machine translation system
+ALT-J/E (<a href="c20.html#ref3">Ikehara et al. 1987</a>) and translation experiments were performed for two kinds
+of newspaper articles.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>1)</td>	<td rowspan=4>&nbsp;</td>
+    <td>General articles</td>
+</tr>
+<tr><td></td><td>874 sentences: <i>Japan Industrial News</i> (from August to September, 1994)</td>
+</tr>
+<tr><td>2)</td>
+    <td>Market News</tr>
+</tr>
+<tr><td></td><td>546 sentences: <i>Telecom BIZ</i>, Japan Industrial News Co. Ltd. July 1995)</td>
+</tr>
+</table>
+</p>
+
+<p>
+The rewriting rules resulting from several translation runs were collected to
+determine which rules were used and the frequency of rewriting rule application.
+</p>
+<p>
+<strong>(2) Frequency Rewriting Rule Application</strong>
+</p>
+<p>
+The frequencies with winch the rules were used are shown in Table 2. We can find
+the following from these results.
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>1)</td>	<td rowspan=3>&nbsp;</td>
+    <td>The total number of rules applied to the general artic1es was 162 and they were
+	applied a total of 463 times. The total number of rules applied to the market news
+	was 43 and their total frequency was 337. The times of application for a sentence is
+	0.53 for the first case and 0.62 for the last case.</td>
+</tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>Rewriting rules related to <i>Post-processing of Morphological Analysis</i> and <i>Independent
+	Phrase Expressions</i> are used most frequently. The rules related to syntactic analysis
+	such as <i>Correction of Dependency Analysis</i> and <i>Syntactic Rearrangement</i> are also used
+	frequently.</td>
+</tr>
+<tr valign=top>
+     <td>3)</td>
+     <td>Compared to the general articles, the translation of the Market News involves fewer
+	rules but they are used for frequently. This means that specific and rigid expressions
+	are frequently used.</td>
+</tr>
+</table>
+</p>
+
+<p>
+In this experiment, it was shown that the success rate of the trarlslation was improved
+by 20% by the proposed method.
+</p>
+
+
+<p>
+<div align=center><strong>
+Table 2. The number of rules used and the Frequency of Applications
+</strong>
+<br>
+cf.) No. of R: No.of Rules used, F. of A.: Frequency of Application 
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2>Classification</td>
+    <td rowspan=2>Rewriting Rules</td>
+    <td colspan=2>General Article</td>
+    <td colspan=2>Market News</td>
+</tr>
+<tr align=center>
+    <td>No. of R</td>
+    <td>F. of A.</td>
+    <td>No. of R</td>
+    <td>F. of A.</td>
+</tr>
+<tr></tr>
+<tr align=right>
+    <td align=left rowspan=5>Rewriting as Post-Processing for Analysis</td>
+    <td align=left><nobr><i>Correction of Morphological Analysis</i></nobr></td>
+    <td>32</td><td>66</td><td>9</td><td>107</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Removing Redundancy of M. Analysis</i></nobr></td>
+    <td>6</td><td>129</td><td>3</td><td>39</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Correction of Dependency Analysis</i></nobr></td>
+    <td>2</td><td>23</td><td>1</td><td>1</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Removing Redundancy of D. Analysis</i></nobr></td>
+    <td>2</td><td>6</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left>&nbsp;&nbsp;&nbsp;&nbsp; Sub-total</td>
+    <td>42</td><td>224</td><td>13</td><td>147</td>
+</tr>
+<tr></tr>
+<tr align=right>
+    <td align=left rowspan=5>Rewriting within Source Language</td>
+    <td align=left><nobr><i>Expansion of Degenerated Expression</i></nobr></td>
+    <td>1</td><td>1</td><td>1</td><td>14</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Removing Redundant Expression</i></nobr></td>
+    <td>5</td><td>5</td><td>1</td><td>14</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Syntactic Rearrangement</i></nobr></td>
+    <td>13</td><td>28</td><td>4</td><td>22</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Standardization of Honorific Expression</i></nobr></td>
+    <td>0</td><td>0</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left>&nbsp;&nbsp;&nbsp;&nbsp; Sub-total</td>
+    <td>19</td><td>34</td><td>6</td><td>50</td>
+</tr>
+<tr></tr>
+<tr align=right>
+    <td align=left rowspan=5>Rewrite into Pseudo Source Language</td>
+    <td align=left><nobr><i>Independent Phrase Expression</i></nobr></td>
+    <td>58</td><td>125</td><td>16</td><td>120</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Adverbial Phrase Expresston</i></nobr></td>
+    <td>25</td><td>32</td><td>8</td><td>20</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Adnominal Phrase Expression</i></nobr></td>
+    <td>7</td><td>9</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Phrase Expression</i></nobr></td>
+    <td>0</td><td>0</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left>&nbsp;&nbsp;&nbsp;&nbsp; Sub-total</td>
+    <td>90</td><td>166</td><td>24</td><td>140</td>
+</tr>
+<tr></tr>
+<tr align=right>
+    <td align=left rowspan=3>Rewriting of Subjective Expressions</td>
+    <td align=left><nobr><i>Conjunctive, Modal and Tense Expression</i></nobr></td>
+    <td>1</td><td>1</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left><nobr><i>Modal and Tense Expression</i></nobr></td>
+    <td>10</td><td>38</td><td>0</td><td>0</td>
+</tr>
+<tr align=right>
+    <td align=left>&nbsp;&nbsp;&nbsp;&nbsp; Sub-total</td>
+    <td>11</td><td>39</td><td>0</td><td>0</td>
+</tr>
+<tr></tr>
+<tr align=right>
+    <td align=center colspan=2>Total</td>
+    <td>162</td><td>463</td><td>43</td><td>337</td>
+</tr>
+</table>
+</p>
+
+<p>
+<strong>(3) Rewriting Rules used most frequently</strong>
+</p>
+<p>
+The ten most frequently applied rules are shown in Table 3. We found that the rules most
+frequently used for general articles differ from those used for market news, but most of the
+rules used in translating the two fields are the same even if their frequency of use differs.
+</p>
+
+<p>
+<div align=center><strong>
+Table 3. Examples for Rewriting Rules most frequently used
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+	<td></td>	<td>Rewriting Rules</td>
+	<td>General Article</td>	<td>Market News</td>	<td>Total</td>
+</tr>
+<tr align=right>
+	<td>1</td>	<td align=left>reduce the ambiguities of continuative expression of verb</td>
+	<td>84</td>	<td>15</td>	<td>99</td>
+</tr>
+<tr align=right>
+	<td>2</td>	<td align=left>change the part of speech of "<img src="c20/j0132.gif">" at the head of a sentence into an adverb</td>
+	<td>1</td>	<td>82</td>	<td>83</td>
+</tr>
+<tr align=right>
+	<td>3</td>	<td align=left>change the dependent of adverbial particle "<img src="c20/j0103.gif">"</td>
+	<td>21</td>	<td>1</td>	<td>22</td>
+</tr>
+<tr align=right>
+	<td>4</td>	<td align=left>change "<img src="c20/j0133.gif">" into "for the first time"</td>
+	<td>2</td>	<td>16</td>	<td>12</td>
+</tr>
+<tr align=right>
+	<td>5</td>	<td align=left>delete the numeral classifier "<img src="c20/j0100.gif">" from "<img src="c20/j0134.gif">", "<img src="c20/j0135.gif">"</td>
+	<td>1</td>	<td>14</td>	<td>15</td>
+</tr>
+<tr align=right>
+	<td>6</td>	<td align=left>change "<img src="c20/j0136.gif">" into "toward"</td>
+	<td>1</td>	<td>12</td>	<td>13</td>
+</tr>
+<tr align=right>
+	<td>7</td>	<td align=left>freeze "<img src="c20/j0137.gif">" to one word</td>
+	<td>2</td>	<td>7</td>	<td>9</td>
+</tr>
+<tr align=right>
+	<td>8</td>	<td align=left>change "<img src="c20/j0138.gif">" into "slightly" depending on the defined conditions</td>
+	<td>1</td>	<td>6</td>	<td>7</td>
+</tr>
+<tr align=right>
+	<td>9</td>	<td align=left>change "<img src="c20/j0139.gif">" into "beside"</td>
+	<td>1</td>	<td>6</td>	<td>7</td>
+</tr>
+<tr align=right>
+	<td>10</td>	<td align=left>delete the interpretation of a case particle for "<img src="c20/j0140.gif">"</td>
+	<td>6</td>	<td>1</td>	<td>7</td>
+</tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 Convergence of the Number of Rewriting Rules</font></h2></a>
+
+<p>
+In order to study the trends in the number of rewriting rules and the total frequency
+of usage are shown in Fig.5. From this figure, the following observation can to made.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c20/c20-fig5.gif" width=514 height=287>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Fig.5 Number of rules used for rewriting
+</i></strong></div>
+</p>
+
+<p>
+For both fields, the total number of rules used increases in proportion to the number
+of sentences but the number of rules used tends to saturate. This indicates that the
+proposed method is very feasible.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. Concluding Remarks</font></h2></a>
+
+<p>
+This paper extended the <i>Automatic Rewriting Method of Source Text</i> to create the
+<i>Automatic Rewriting of Internal Expressions</i>. In the new method, the rewriting process
+can interrupted the translation processes at any point to rewrite an internal expressions
+as necessary to achieve correct translations.
+</p>
+<p>
+First, rewriting rules were extended and functionally classified for rewriting internal
+expressions, Based on this classification, it was shown that rewriting rules can be
+executed by 7 fundamental functions. Finally, this method was applied to the translation of
+two kinds of news paper articles to determine the number of rules needed and the total
+number that they were applied.
+</p>
+<p>
+The results showed that rewriting rules are applied once, on average, at every two
+sentences and the improvement of translation quality was by 20%. It is very important to
+notice that the necessary rules can be collected from the analysis of relatively small
+numbers of sentences in the target field. In some cases, the study of several hundred
+sentences can find an adequate number of rewriting rules.
+</p>
+<p>
+In order to develop this method into a fundamental part of a machine translation
+system, it is necessary to collect an sufficient number of rewriting rules. However, it is not
+easy for a novice to strictly define the rules needed for rewriting internal expressions so
+we are now developing a machine aided system for rewriting rule generation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>Reference</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Carbonell,J., et al. (1992):</a>
+<dd>JTEC Panel Report on "Machine Translation in Japan",
+	<i>Coordinated by Loyola College In Maryland</i>
+	<br><br>
+<dt><a name="ref2">Furuse, O., Iida, H.(1992):</a>
+<dd>Cooperation between Transfer and Analysis in Example-Based Framework,
+	<i>Proceedings of the COLING '92</i>
+	<br><br>
+<dt><a name="ref3">Ikehara, S., Miyazaki, M., Shirai, S., Hayashi, Y. (1987):</a>
+<dd>Speaker's Recognition and Multi-level Machine Translation Method based on It,
+	<i>Trans. of the IPSJ</i>, Vol.28, No.12, pp.1269-1279
+	<br><br>
+<dt><a name="ref4">Ikehara, S., Miyazaki, M., Yokoo, A. (1993):</a>
+<dd>Classification of Linguistic Knowledge for Meaning Analysis in Machine Translations,
+	<i>Trans. of the IPSJ</i>, Vol.34, No.8, pp.1692-1704
+	<br><br>
+<dt><a name="ref5">Ikehars, S. (1996):</a>
+<dd>Current Status of Machine Translation,
+	<i>Science and Technologies of Information</i>, Vol.46, No.1, pp.26-33
+	<br><br>
+<dt><a name="ref6">Ikehara, S., Miyazaki, M., Shirai, S., Yokoo, A., Nakaiwa, H., Ogura, K., Ooyama, Y., Hayashi, Y.(1997):</a>
+<dd><i>Goi-Taikei-a Japanese Lexicon</i> (Vol. 5), Iwanami Book Store, Tokyo
+	<br><br>
+<dt><a name="ref7">Nagao, M. (1984):</a>
+<dd>A Framework of a Machine Translation between Japanese and English by Analogy Principle,
+	in A. Elithorn & Banerji, ed. <i>Artficial and Intelligence</i>, North Holland.
+	<br><br>
+<dt><a name="ref8">Nagao,S. (1985):</a>
+<dd>Translation Quality and Controlled Language,
+	<i>IPSJ</i>, Vol.26, No.10, pp.1197-1202.
+	<br><br>
+<dt><a name="ref9">Nagao, M. (1992):</a>
+<dd>Some Rationales and Methodologies for Example-based Approach,
+	<i>Proc. of the Workshop on Future Generation Natural Language Processing</i>, UMlST, Manchester
+	<br><br>
+<dt><a name="ref10">Nagao, M. Ed. (1994):</a>
+<dd>Subjects for Natural Language Processing
+	<br><br>
+<dt><a name="ref11">Nirenburg, S., Carbonell, J., Tomita, M. and Goodman, K.(1992):</a>
+<dd>Machine Translation, A Knowledge-Based Approach,
+	Morgan Kaufmann Publishers
+	<br><br>
+<dt><a name="ref12">Nierenburg,. S (1993):</a>
+<dd>A Direction of MT Developments,
+	<i>Proceedings of the Fourth Machine Translation Summit</i>, PP.189-193
+	<br><br>
+<dt><a name="ref13">Nomiyama, H. (1993):</a>
+<dd>Machine Translation based on Generalized Example,
+	<i>Trans. of the ISPJ</i>. Vol.34, No.5, pp. 905-912
+	<br><br>
+<dt><a name="ref14">Rimon, M., McCord, M., Schwall, U. and Martinez, P.(1991):</a>
+<dd>Advances in Machine Translation Research in IBM,
+	<i>Proceedings of MT SUMMIT III</i>, pp.11-18
+	<br><br>
+<dt><a name="ref15">Sato, S, (1992):</a>
+<dd>Example based Machine Translations,
+	<i>Trans. of the ISPJ</i>, Vol.33, No.6, pp.673-681
+	<br><br>
+<dt><a name="ref16">Shirai, S., Ikehara, S., Kawaoka, T.(1993):</a>
+<dd>Effects of Automatic Rewriting of Source Language within a Japanese to English MT System,
+	<i>Proceedings of the TMI-93</i>, pp.226-239
+	<br><br>
+<dt><a name="ref17">Shirai, S, Ikehara, S., Kawaoka, T., Nakamura, Y. (1995):</a>
+<dd>Automatic Rewriting Method of Source Texts for Machine Translations and Its Effects,
+	<i>Trans. of the ISPJ</i>, Vol.36, No.1, pp.12-21
+	<br><br>
+<dt><a name="ref18">Takeda, K., Uramoto, N., Nasukawa, T., Hagino, S., Tsutsumi, T. (1989):</a>
+<dd>Knowledge based Machine Translation System SHALT2,
+	<i>Computer Software</i>, Vol.12, No.5, pp.22-32
+	<br><br>
+<dt><a name="ref19">Yoshida, M, (1995):</a>
+<dd>Standardization of Japanese Language,
+	<i>SIG of Natural Language Processing</i>, <i>ISPJ</i>, NL51-4
+</dl>
+</p>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

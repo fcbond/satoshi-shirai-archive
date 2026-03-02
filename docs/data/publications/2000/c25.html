@@ -1,0 +1,412 @@
+<html>
+<head>
+<title>Yves Lepage, Nicolas Auclerc &amp; Satoshi Shirai, ICSLP 2000, October 16-20, 2000</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>A TOOL TO BUILD A TREEBANK FOR CONVERSATIONAL CHINESE</font>
+<br><br>
+
+<font size=+2>Yves LEPAGE, Nicolas AUCLERC & SHIRAI Satoshi</font>
+<br><br>
+<font size=+1>ATR-SLT Hikaridai 2-2-2, Seika-tyo, Soraku-gun, 619-0288 Kyoto, Japan</font>
+<br>
+<font size=+1><tt> {lepage,auclerc,shirai}@slt.atr.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Introduction</h2>
+<p>
+N-grams have been extensively used with phonemes or words as basic units in speech recognition. 
+Recently, it has been proposed to use n-grams with phrase tree structures as units to increase speech recognition quality.
+</p>
+<p>
+In order to test this idea on Chinese, a treebank of Chinese hotel reservation conversation utterances is needed. 
+Because no such treebank is yet available, we have to build it.
+</p>
+<p>
+We propose to see the process of building a tree-bank as a sequence of edition and search operations:
+</p>
+<p>
+<ul>
+<li>input or copy a new utterance (edit a text);
+<li>search for similar existing utterances to get their corresponding structures and adapt threm to the new utterance,
+<li>adapt the structure (edit a tree);
+<li>search for similar structures to ensure representaion and coding consistency.
+</ul>
+</p>
+<p>
+This way of doing will have a benefic "snow-ball" effect: 
+the bigger the treebank, the faster and the more consistent its extension.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of ICSLP 2000</i>, pp.985-988 (October, 2000). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=9>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c25.html#chap-1">1 Editing functions</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#chap-1.1">1.1 Inputting Chinese</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#chap-1.2">1.2 Editing trees</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#chap-1.3">1.3 Correspondences</a></td></tr>
+<tr><td><a href="c25.html#chap-2">2 Parsing helps</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#chap-2.1">2.1 Matching</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#chap-2.2">2.2 Analysis by analogy</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c25.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Editing functions</font></h2></a>
+
+<p>
+Although a few visualisation/edition tools for trees exist, they are all inadequate for our purpose, 
+either because tree edition is too cumbersome or because the layout of trees is unfamiliar to linguists. 
+Moreover, none of them solves the problem of inputting nonlatin characters.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.1"><h2><font color=#ff0000>1.1 Inputting Chinese</font></h2></a>
+
+<p>
+We faced the problem of edition of trees, and edition of texts written in a non-English language 
+under a specialised tool, the tree editor.
+</p>
+<p>
+The basic problem of entering and visualising non-latin character has been solved 
+by relying on modern computer science advances in language encoding. 
+We chose to implement our tree editor in Java, which makes the use of ISO-10646 (Unicode) transparent. 
+With this, the problem of editing Cninese is not different from the problem of editing Arabic, Korean, etc. 
+Entering is solved by the use of standard IME (input method editor) developed for the language in question (e.g. Wnn). 
+Visualising is also transparent thanks to Unicode.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.2"><h2><font color=#ff0000>1.2 Editing trees</font></h2></a>
+
+<p>
+With our tool, tree edition is made as simple and direct as text edition. 
+Interactive edition is performed directly on the canvas where the tree is drawn, 
+without any diaIogue box nor specialised menu, 
+thanks to a rigourous parallel between node/complete subtrees on the one hand, and words/lines on the other hand.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Text</td>	<td>Tree</td></tr>
+<tr><td>word</td>		<td>label of node</td></tr>
+<tr><td>--</td>			<td>node</td></tr>
+<tr><td>line</td>		<td>complete subtree</td></tr>
+</table>
+</p>
+
+<p>
+This parallel is valid for all functions of edition: 
+clicking, selecting, insertion, cut, copy, paste, etc. Some equivalences are shown in Table 1.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>Click</td>	<td rowspan=2>Effect</td>	<td colspan=2>Place</td></tr>
+<tr>								<td>Text</td>	<td>Tree</td></tr>
+<tr><td>Simple</td>			<td>position cursor in ...</td>	<td>word</td>	<td>node</td></tr>
+<tr><td>double</td>			<td>select the ...</td>		<td>word</td>	<td>node</td></tr>
+<tr><td>triple</td>			<td>select the ...</td>		<td>line</td>	<td>complete subtree</td></tr>
+</table>
+<br>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>Key</td>		<td rowspan=2>Effect</td>	<td colspan=2>Place</td></tr>
+<tr>								<td>Text</td>	<td>Tree</td></tr>
+<tr><td>&lt;space&gt;</td>		<td>start a new ...</td>	<td>word</td>	<td>node as right sister</td></tr>
+<tr><td>&lt;return&gt;</td>		<td>start a new ...</td>	<td>line</td>	<td>node as daughter</td></tr>
+<tr><td>arrows</td>			<td>move around ...</td>	<td>text</td>	<td>tree</td></tr>
+</table>
+<div align=center><strong><i>
+Table 1 : Equivalences of edit functions in trees and text
+</i></strong></div>
+</p>
+
+<p>
+Although the parallel clearly shows that a node is different from a label, people usually think that "a label is a node." 
+To make our tool intuitive, our editor contradicts this way of thinking as little as possible,
+</p>
+<p>
+With all this, inputting the structure
+</p>
+<p>
+<img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> (<img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> (<img src="c25/c25-jie.gif" width=21 height=21> (<img src="c25/c25-cong.gif" width=21 height=21>), <img src="c25/c25-ming.gif" width=21 height=21> (<img src="c25/c25-zhe.gif" width=21 height=21><img src="c25/c25-li.gif" width=21 height=21>), <img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> (<img src="c25/c25-dong.gif" width=21 height=21> (<img src="c25/c25-an.gif" width=21 height=21>),
+<img src="c25/c25-ming.gif" width=21 height=21> (<img src="c25/c25-kuai.gif" width=21 height=21><img src="c25/c25-men.gif" width=21 height=21>))), <img src="c25/c25-fu.gif" width=21 height=21> (<img src="c25/c25-jiu.gif" width=21 height=21>), <img src="c25/c25-dong.gif" width=21 height=21> (<img src="c25/c25-ke.gif" width=21 height=21><img src="c25/c25-yi.gif" width=21 height=21>))
+</p>
+<p>
+which describes the utterance
+</p>
+<p>
+<img src="c25/c25-cong.gif" width=21 height=21><img src="c25/c25-zhe.gif" width=21 height=21><img src="c25/c25-li.gif" width=21 height=21><img src="c25/c25-an.gif" width=21 height=21><img src="c25/c25-kuai.gif" width=21 height=21><img src="c25/c25-men.gif" width=21 height=21><img src="c25/c25-jiu.gif" width=21 height=21><img src="c25/c25-ke.gif" width=21 height=21><img src="c25/c25-yi.gif" width=21 height=21>.
+</p>
+<p>
+is done (see Figure 2) by just typing the following sequence: 
+<img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-jie.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-cong.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-ming.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-zhe.gif" width=21 height=21><img src="c25/c25-li.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-dong.gif" width=21 height=21><img src="c25/c25-duan.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-dong.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-an.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-ming.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-kuai.gif" width=21 height=21><img src="c25/c25-men.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-fu.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-jiu.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-dong.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-ke.gif" width=21 height=21><img src="c25/c25-yi.gif" width=21 height=21>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.3"><h2><font color=#ff0000>1.3 Correspondences</font></h2></a>
+
+<p>
+A special functionality of our tool is that links (correspondences in (<a href="c25.html#ref1">Boitet and Zaharin 88</a>)'s terms) 
+between portions of the text and portions of the tree can be established. 
+If these links are activated, selecting in the text (or the tree) 
+simultaneously selects the corresponding part of the tree (or the text). 
+In Figure 3, deleting the prepositional group 
+<img src="c25/c25-jiu.gif" width=21 height=21><img src="c25/c25-ke.gif" width=21 height=21><img src="c25/c25-yi.gif" width=21 height=21> 
+in the utterance, automatically deletes the corresponding part in the structure.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Parsing helps</font></h2></a>
+
+<p>
+The ideal way of obtaining a linguistic structure for a new utterance is to have a complete parser 
+for the language in which the utterance is written, and to feed the utterance to this parser. 
+Unfortunately, as parsing is still an object of research, and as precisely, 
+we want to build a treebank to build a parser, <tt>Boardedit</tt> proposes parsing helps 
+which gradually fill the gap between editing by hand and complete automatic parsing.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Matching</font></h2></a>
+
+<p>
+Retrieving similar utterances, which structures should supposedly be similar to the structure of the utterance at hand, 
+should help the treebanker.
+</p>
+<p>
+Exact matching allows to see whether the utterance did not simply exist already in the treebank.
+</p>
+<p>
+Approximate matching comes in two flavours: 
+either similar utterances which are at a certain edit distance of the utterance searched are looked for, 
+or similar utterances which share a maximal longest subsequence with the utterance at hand are looked for. 
+Figure 1 shows some possible settings for searching.
+</p>
+<p>
+The first search is performed by an algorithm which has been shown to be faster than <i>agrep</i> 
+(<a href="c25.html#ref5">Wu & Manber 92</a>). 
+It was proposed in (<a href="c25.html#ref3">Lepage 97</a>) and became a Japanese and an American patents this year. 
+Figure 4 gives an example of such a search. 
+The second search is based on the algorithm described in (<a href="c25.html#ref2">Hunt & Szymanski 75</a>).
+</p>
+
+<p>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig1l.gif" width=420 height=210></td></tr>
+	</table>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig1r.gif" width=420 height=210></td></tr>
+	</table>
+</tr></td>
+</table>
+<div align=center><strong><i>
+Figure 1 : Some possible settings for the search facliity.
+</i></strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Analysis by analogy</font></h2></a>
+
+<p>
+IdeaIly, the treebanker would like to automatical1y get the structure to be built. 
+A step in this direction is made with analysis by analogy, a technique described in (<a href="c25.html#ref4">Lepage 99</a>). 
+New structures are built by analogy with three structures corresponding with three utterances 
+analogical to the utterance at hand. 
+The structure obtained in this way can then be edited by hand by the treebanker 
+to fit the utterance at hand, using the tree editing functionalities.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="conc"><h2><font color=#ff0000>Conclusion</font></h2></a>
+<p>
+We presented the design and our solutions for the implementation of a tool 
+to build a treebank of utterances of conversational Chinese. 
+It has the fol1owing features:
+</p>
+<p>
+<ol>
+<li>On-the-spot IME for Chinese input;
+<li>User-friendly, intuitive edition of trees;
+<li>Search for similar utterances;
+<li>Proposal of possible structures by analysis by analogy.
+</ol>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Christian Boitet and Zaharhl Yusoff<dd>
+<dd>Representation trees and string-tree correspondences
+	<i>Proceedings of COLING-88</i>, Bndapest, 1988, pp 59-64.
+	<br><br>
+<dt><a name="ref2">James W. Hunt and Thomas G. Szymanski</a>
+<dd>A fast algorithm for computing longest common subsequences
+	<i>Communications of the ACM</i>, Vol.10, No.5, May 1977, pp.350-353.
+	<br><br>
+<dt><a name="ref3">Yves Lepage</a>
+<dd><i>String Approximate Pattern-Matching</i>
+	55th Meeting of the Information Processing Society of Japan, Fukuoka, August 1997, vol.3, pp.139-140.
+	<br><br>
+<dt><a name="ref4">Yves Lepage</a>
+<dd>Open Set Experiments with Direct Analysis by Analogy
+	<i>Proceedings of NLPRS-99</i>, Beijing, November 1999, pp 303-368.
+	<br><br>
+<dt><a name="ref5">Sun Wu & Udi Manber</a>
+<dd>Fast Text Searching Allowing Errors
+	<i>Communications of the ACM</i>, Vol.35, No.10, October 1992, pp.83-91.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br><br>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig2l.gif" width=390 height=360></td></tr>
+	</table>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig2r.gif" width=390 height=360></td></tr>
+	</table>
+</tr></td>
+</table>
+<div align=center><strong><i>
+Figure 2: Completing the tree corresponding to an utterance by typing the sequence:
+<img src="c25/c25-fu.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-jiu.gif" width=21 height=21> 
+&lt;<img src="c25/c25-uarrow.gif" width=21 height=21>&gt; &lt;space&gt; 
+<img src="c25/c25-dong.gif" width=21 height=21> 
+&lt;return&gt; 
+<img src="c25/c25-ke.gif" width=21 height=21><img src="c25/c25-yi.gif" width=21 height=21>.
+</i></strong></div>
+</p>
+
+<br><br>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig3l.gif" width=390 height=360></td></tr>
+	</table>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig3r.gif" width=390 height=360></td></tr>
+	</table>
+</tr></td>
+</table>
+<div align=center><strong><i>
+Figure 3: Simultaneons selection and deletion in the utterance and in the tree using correspondences.
+</i></strong></div>
+</p>
+
+<br><br>
+
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr><td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig4l.gif" width=410 height=350></td></tr>
+	</table>
+    </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><table border=3 cellpadding=1 cellspacing=1 align=center>
+	<tr><td><img src="c25/c25-fig4r.gif" width=410 height=350></td></tr>
+	</table>
+</tr></td>
+</table>
+<div align=center><strong><i>
+Figure 4: Search of a similar utterance with atmost 3 different characters.
+</i></strong></div>
+</p>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,1385 @@
+<html>
+<head>
+<title>Masahiko Haruno, Satoshi Shirai &amp; Yoshifumi Ooyama, Transaction of Information Processing Society of Japan, Vol.39, No.12, pp.3177-3186, December 12, 1998. </title>
+<meta http-equiv="content-type" content="text/html; charset=euc-jp">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>決定木を用いた日本語係受け解析</font>
+<br><br>
+
+<font size=+2>春野雅彦<sup>+</sup> 白井諭<sup>++</sup> 大山芳史<sup>++;</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup>ATR人間情報通信研究所 <sup>++</sup>NTTコミュニケーション科学研究所</font>
+<br>
+</div>
+
+<br><br>
+
+<p>
+本稿ではコーパスから決定木を構成し日本語係受け解析に適用する手法を提案する.
+一般に日本語係受け解析では2文節間の係りやすさを数値で表現し,
+その数値を1文全体で最適化することによって係受け関係を決定する.
+したがって, 日本語係受け解析の問題は2文節間の係りやすさを正確に計算することに帰着される.
+提案手法の主旨は
+2文節の係りやすさの評価と必要な属性の自動選択に決定木を利用するということである.
+既存の統計的依存解析の研究では, 文節の種類によらず,
+あらかじめ決められた属性すべてによる条件付き確率で係りやすさを評価する.
+一方, 決定木による手法では, 係受け関係にある文節とそうでない文節を弁別する属性が,
+2文節の種類に応じて重要な順に必要な数だけ選択される.
+したがって, 大量の属性をシステムに与えても必要がなければ利用されず,
+データスパースネスの問題を避けることが可能となる.
+これによって構文解析の精度向上に効果が期待される属性はすべて採用することができる.
+EDRコーパスを用いて手案手法の評価実験を行ったところ,
+既存の統計的係受け解析手法を4%上回る解析精度が得られた.
+さらに本実験では, <i>1</i>.決定木の枝刈りと解析精度の関係,
+<i>2</i>.データ量と解析精度の関係, <i>3</i>.種々の属性の解析精度に与える影響,
+<i>4</i>.文節の主辞に関して頻出単語の表層, 分類語彙表カテゴリを属性に加えた場合の影響,
+の各項目について検討を行った.
+その結果, <i>1</i>.少なめの枝刈りで解析精度が向上する,
+<i>2</i>.係受け解析の学習に必要な文数はおよそ5万文である,
+<i>3</i>.属性のうち特に有効なのは, 係り側文節の形と文節間距離である,
+<i>4</i>.主辞の語彙情報を使っても必ずしも解析精度が上がるわけではない,
+の4点が明らかとなった.
+これらの結果は今後日本語係受け解析システムや日本語解析済みコーパスを構築する際に
+一定の指針となりうる.
+</p>
+
+<br><br>
+<br><br>
+
+<div align=center>
+<font size=+3>A Japanese Dependency Parser Based on a Decision Tree</font>
+<br><br>
+
+<font size=+2>MASAHIKO HARUNO,<sup>+</sup> SATOSHI SHIRAl<sup>++</sup> and YOSHIFUMI OOYAMA<sup>++</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup>ATR Human Information Processing Research Laboratories <sup>++</sup>NTT Communication Science Laboratories</font>
+<br>
+</div>
+
+<br><br>
+
+<p>
+This paper describes a Japanese dependency parser that uses a decision tree.
+Japanese dependency parser generally prepares a modification matrix,
+each value of which represents how a phrase tends to modify the other.
+The parser determines the best dependency structure by totally optimizing the values
+in a sentence under several constraints.
+Therefore, our main task is to precisely evaluate the modification matrix from corpora.
+Conventional stochastic dependency parsers define a set of learning features
+and apply all of them regardless of phrase types.
+On the contrary, our decision tree based method automatically selects significant
+and enough number of features according to the phrase types.
+We can make use of large number of features that may have contribution
+to parsing accuracy.
+The proposed method was tested with EDR corpus and yielded significantly better (4%)
+performance over a conventional statistical dependency parser.
+In addition, we tested the following 4 properties of the system;
+<i>1</i>. relation between parsing accuracy and pruning of decision tree,
+<i>2</i>. relation between parsing accuracy and amount of training data,
+<i>3</i>. relation between types of features and parsing accuracy
+and <i>4</i>. parsing accuracy when additionally using frequent open class words
+and thesaurus categories.
+The results were <i>1</i>. weak pruning yielded better performance,
+<i>2</i>. the decision tree learning for dependency parsing required
+fifty thousands Japanese sentences,
+<i>3</i>. the type of modifier and the modification distance are
+particularly effective for parsing accuracy
+and <i>4</i>. open class words and thesaurus categories
+do not always improve the accuracy.
+These findings may offer the important clues to Japanese parser developments
+and corpus constructions in the future.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>情報処理学会論文誌</i>, pp.3177-3186 (1998.12). ]<br>
+[ <i>Transaction of Information Processing Society of Japan</i>, pp.3177-3186 (December, 1998). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p11.html#chap-1.">1. はじめに</a></td></tr>
+<tr><td><a href="p11.html#chap-2.">2. 統計的係受け解析と決定木の利用</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-2.1">2.1 統計的係受け解析モデル</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-2.2">2.2 学習に利用する属性</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-2.3">2.3 決定木の構成と技刈り</a></td></tr>
+<tr><td><a href="p11.html#chap-3.">3. 実験と考察</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-3.1">3.1 枝刈りと解析精度</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-3.2">3.2 訓練データ数と解析精度</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-3.3">3.3 種々の属性の影響</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#chap-3.4">3.4 頻出単語の表層, 分類語彙表カテゴリの利用</a></td></tr>
+<tr><td><a href="p11.html#chap-4.">4. 関連研究</a></td></tr>
+<tr><td><a href="p11.html#chap-5.">5. 結論</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p11.html#ref">参考文献</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. はじめに</font></h2></a>
+
+<p>
+日本語の実用システムにおける構文解析では,
+従来から依存文法の考え方に基づく係受け解析を採用することが多い.
+これは主に, 日本語の文節順序が化較的自由であろこと,
+文節という単位ごとに情報を集約し文節間の係受け関係を決定することにより
+無駄な曖味性を減らせることの2つの理由による.
+一般に係受け解析では2文節間の係りやすさを数値で表現した係受け行列を用意し,
+動的計画法を用いて1文全体で最適化を行い文の係受け関係を決定する.
+したがって, 係受け解析の本質的問題はどのように係受け行列を構成するかに帰着される.
+これまで多くの研究者によって係受け行列を高度化する手法が提案されてきた.
+文献<a href="p11.html#ref1">1)</a>, <a href="p11.html#ref2">2)</a>は
+南<sup><a href="p11.html#ref3">3)</a></sup>によって提案された
+従属節の階層性を係受け行列の中に取り込み,
+文献<a href="p11.html#ref4">4)</a>は
+日本語長文の並列句に現れる文節列の類似性に着目し係受け行列に制約を加えた.
+文献<a href="p11.html#ref5">5)</a>ではさらに字種, 読点や副詞性単語の有無などを考慮している.
+</p>
+<p>
+これら既存の研究では係受けの優先度(すなわち係受け行列の値)は
+人手によって設定されることが多かった.
+係受け解析で使われる属性数は膨大でそれらが互いに競合することも多いため,
+その優先度を人手で決定するのは非常に困難な作業である.
+優先度が解析するテキストの種類に依存すると教えられるため,
+構文解析の適用範囲を変更しようとすると優先度の保守管理も非常に煩雑となる.
+また, 既存手法の評価が数十から数百という少数の文を用いて行われてきたため, 
+その一般的な効果を評価することは困難であるという問題点もあった.
+</p>
+<p>
+本稿ではコーパスから決定木を構成し日本語係受け解析を行う手法を提案する.
+具体的には2文節の係りやすさの評価と必要な属性の選択に決定木を利用する.
+これまでに行われた
+統計的依存解析の研究<sup><a href="p11.html#ref6">6)</a>,<a href="p11.html#ref7">7)</a></sup>では,
+文節の種類によらずあらかじめ決められた属性による条件付き確率で係りやすさを評価している.
+そのため有限のデータから計算する条件付き確率が正確であるためには,
+利用する属性数は少数にならざるをえなかった(データスパースネスの問題).
+決定木を利用する手法では, 係受け関係にある文節とそうでない文節を弁別する属性が,
+2文節の種類や周囲の環境に応じて重要な順に, しかも必要な数だけ選択される.
+そのため大量の属性をシステムに与えても必要がなければ利用されず,
+データスパースネスの問題を避けることできる.
+これは従来研究で解析精度向上に有効であることが知られている知見をシステムに取り込み, 
+テストする際に非常に有効な特長となる.
+</p>
+<p>
+EDRコーパス<sup><a href="p11.html#ref8">8)</a></sup>を用いて提案手法の評価実験を行った.
+訓練事例とテス ト事例を明確に区別し, テスト文数も言語現象の偏りを避けるため1万文とした.
+このような評価法を用いることで
+様々な属性が解析精度全般に与える影響をある程度客観的に知ることが可能となった.
+</p>
+<p>
+本稿の構成は以下のとおりである.
+2章で決定木を用いた係受け解析の統計モデルについて述べる.
+初めに統計的係受け解析のモデルを説明した後, 実際のシステムで利用する属性を導入する.
+続いてこれらの属性を用いた決定木学習により係受け確率の計算を行う方法について述べる.
+3章ではEDRコーパスを用いた様々な評価実験の結果について報告する.
+4章で本研究と他の統計的構文解析法について比較を行い, 最後に5章で本稿をまとめる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. 統計的係受け解析と決定木の利用</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 統計的係受け解析モデル</font></h2></a>
+
+<p>
+日本語の実用システムにおける構文解析では,
+従来から文節の係受け関係に基づく係受け解析を採用することが多い.
+これは主に, 日本語の文節順序が比較的自由であること,
+係受け解析が文節という単位ごとに情報を集約するので,
+無駄な曖味性を減らし頑堅なシステムを構築できることの2つの理由による.
+一般に係受け解析システムは以下の3つのステップから構成される.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td>(1)</td>
+    <td>入力文を形態素解析した後, 文節の列に分解する</td></tr>
+<tr valign=top><td>(2)</td>
+    <td>2文節間の係りやすさを数値で表現した
+	(本稿では確率で表現される)係受け行列を用意する</td></tr>
+<tr valign=top><td>(3)</td>
+    <td>動的計面法を用いて1文全体で最適化することで文の係受け関係を決定する</td></tr>
+</table>
+</p>
+<p>
+各ステップを次の例に基づいて説明する.
+</p>
+<p>
+例: 昨日の夕方に近所の子供がワインを飲んだ
+</p>
+<p>
+第1のステップで<strong>表1</strong>の係受け行列中に示す文節列が生成される.
+2番目のステップでは係受け行列における各文節間の係受け確率を計算する.
+たとえば, 表1により最初の文節(昨日-の)は2番目の文節‘夕方-に’に確率0.70,
+3番目の文節‘近所-の’に確率0.07で係ることが示される.
+最後に3番目のステップは動的計画法により係受け行列から
+1文全体の係受け構造<i>D<sub>best</sub></i> を決定する.
+上記の例に対しては<strong>図1</strong>に示す解が得られる.
+</p>
+
+<p>
+<div align=center><strong>
+表1 例文に対する係受け行列<br>
+Table 1 Modification matrix of the example sentence.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td></td><td>昨日-の</td></tr>
+<tr><td>夕方-に</td><td>0.70</td><td>夕方-に</td></tr>
+<tr><td>近所-の</td><td>0.07</td><td>0.10</td><td>近所-の</td></tr>
+<tr><td>子供-が</td><td>0.10</td><td>0.10</td><td>0.70</td><td>子供-が</td></tr>
+<tr><td>ワイン-を</td><td>0.10</td><td>0.10</td><td>0.20</td><td>0.05</td>
+    <td>ワイン-を</td></tr>
+<tr><td>飲む-た</td><td>0.03</td><td>0.70</td><td>0.10</td><td>0.95</td><td>1.00</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=3>1</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3>2</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3>3</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3>4</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3>5</td><td rowspan=2>&nbsp;</td>
+    <td colspan=3>6</td></tr>
+<tr align=center>
+    <td colspan=3>昨日の</td><td colspan=3>夕方に</td><td colspan=3>近所の</td>
+    <td colspan=3>子供が</td><td colspan=3>ワインを</td><td colspan=3>飲んだ</td></tr>
+<tr><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>│</td><td></td>
+    <td align=right>↑</td><td>&nbsp;&nbsp;</td><td>│</td><td></td>
+    <td>&nbsp;</td><td>&nbsp;</td><td>│</td><td></td>
+    <td align=right>↑</td><td>&nbsp;</td><td>│</td><td></td>
+    <td>&nbsp;</td><td>&nbsp;</td><td>│</td><td></td>
+    <td>↑</td><td>↑</td><td>↑</td></tr>
+<tr><td></td><td></td><td>│</td><td></td>
+    <td align=right>│</td><td></td><td>│</td><td></td>
+    <td></td><td></td><td>│</td><td></td>
+    <td align=right>│</td><td></td><td>│</td><td></td>
+    <td></td><td></td><td colspan=3>└───┘</td><td>│</td><td>│</td></tr>
+<tr><td></td><td></td><td>│</td><td></td>
+    <td align=right>│</td><td></td><td>│</td><td></td>
+    <td></td><td></td><td colspan=3>└───┘</td>
+    <td></td><td colspan=8>└─────────┘</td><td>│</td></tr>
+<tr><td></td><td></td><td colspan=3>└──┘</td><td></td>
+    <td colspan=17 align=center>└───────────────────┘</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+図1 例文に対する係受け構造<br>
+Fig. 1 Dependency structure of the example sentence.
+</strong></div>
+</p>
+
+<p>
+以上で述べた操作を確率モデルとして記述する.
+入力文を <i>S</i> とし, <i>S</i> が <i>m</i> 個の文節集合
+<i>B</i> ( {<i>b</i><sub>1</sub>,・・・, <i>b<sub>m</sub></i> } ) に分けられるとする.
+ただし, <i>b<sub>i</sub></i> は <i>i</i> 番目の文節である.
+ここで文全体の係受け集合 <i>D</i> を,
+<i>D</i> ＝ {<i>mod</i> (1),・・・, <i>mod</i> (<i>m</i> -1) } とする.
+<i>mod</i> (<i>i</i> ) は <i>i</i> 番目の文節が係る文節の番号を示している.
+たとえば図1の係受け構造では <i>D</i> ＝ {2,6,4,6,6} となっている.
+これ以降 <i>D</i>
+は以下の条件を満たすものと仮定する<a name="rfn1" href="p11.html#fn1"><sup>☆</sup></a>.
+<ul>
+<li> 各文節は自分より後ろに必ず係り先を持つ
+<li> 各係受けが交差することはない(非交差条件)
+</ul>
+</p>
+<p>
+統計的係受け解析は, 1文に訓練データの観点から見て
+最も確率が高い係受け集合 <i>D<sub>best</sub></i> を割り当てる過程である.
+係受け集合は文節集合から決定されるので,
+統計的係受け解析の手続きは次のような尢度を最大化することに相当する.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>&nbsp;&nbsp;</td>
+    <td><i>D<sub>best</sub></i> ＝ 
+	<i>argmax<sub>D</sub></i> <i>P</i> (<i>D</i> |<i>S</i> ) ＝
+	<i>argmax<sub>D</sub></i> <i>P</i> (<i>D</i> |<i>B</i> )</td></tr>
+</table>
+</p>
+<p>
+各係受けが上記2つの条件を満たし, 他の係受けと独
+立であると仮定すると <i>P</i> (<i>D</i> |<i>B</i> ) は
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3><i>P</i> (<i>D</i> |<i>B</i> ) ＝</td>
+    <td><sub><i>m</i></sub></td>
+    <td rowspan=3><i>P</i> (<i>yes</i> |<i>b<sub>i</sub></i> ,
+	<i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> )</td>
+    <td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td rowspan=3>(1)</td></tr>
+<tr align=center><td> <font size=+2>Π</font></td></tr>
+<tr align=center><td><sup><i>i</i> ＝1</sup></td></tr>
+</table>
+と変形できる.
+ここで <i>P</i> (<i>yes</i> |<i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> ,
+<i>f<sub>ij</sub></i> ) は文節 <i>b<sub>i</sub></i> と文節 <i>b<sub>j</sub></i> が
+言語的属性集合 <i>f<sub>ij</sub></i> を持つときに文節 <i>b<sub>i</sub></i> が
+<i>b<sub>j</sub></i> に係る確率を示す.
+言語的属性集合 <i>f<sub>ij</sub></i> は文節 <i>b<sub>i</sub></i> と文節
+<i>b<sub>j</sub></i> に関する種々の言語的特徴であり, その詳細は次節で述べる.
+決定木に基づく係受け解析法は学習データから決定木 <i>DT</i> を構成し,
+文節対の種類に応じて属性集合 <i>f<sub>ij</sub></i> から
+必要なものを自動的に選択することで式(1)中の係受け確率を精度良く近似する.
+これは決定木から計算される係受け確率を利用して,
+上記ステップ2の係受け行列を構成することに相当する.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 学習に利用する属性</font></h2></a>
+
+<p>
+本節では2文節(前文節 <i>b<sub>i</sub></i> と後文節 <i>b<sub>j</sub></i> )の係受け確率を
+決定するために用いる属性(前節の <i>f<sub>ij</sub></i> とそのとりうる値)について説明する.
+<strong>表2</strong>は用いる属性の種類をまとめたもので, <strong>表3</strong>に
+各属性値のとりうる値<a name="rfn2" href="p11.html#fn2"><sup>☆☆</sup></a>を示す.
+属性1から属性5は前文節と後文節の両者が持つ属性である.
+それに対して属性6から属性8は主に2文節の間に存在する言語的手がかりに関連する属性である.
+今回は決定木を利用した係受け解析の基本性能を評価する目的で,
+比較的単純な構文的属性のみを用いた.
+例外的なのは属性番号1の主辞の語彙情報であり,
+類出単語の表層と分類語彙表<sup><a href="p11.html#ref11">11)</a></sup>のカテゴリを利用した.
+これらの属性の解析精度への影響については次章で詳しく述べる.
+</p>
+
+<p>
+<div align=center><strong>
+表2 学習に利用する属性一覧<br>
+Table 2 Features for learning.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=center>番号</td><td>2文節</td>
+    <td align=center>番号</td><td>その他</td></tr>
+<tr><td align=center>1</td><td>主辞の語彙情報</td>
+    <td align=center>6</td><td>2文節間距離</td></tr>
+<tr><td align=center>2</td><td>主辞の形態素</td>
+    <td align=center>7</td><td>2文節間の助詞‘は’</td></tr>
+<tr><td align=center>3</td><td>文節のクイプ</td>
+    <td align=center>8</td><td>2文節間の読点</td></tr>
+<tr><td align=center>4</td><td>句読点</td>
+    <td></td><td></td></tr>
+<tr><td align=center>5</td><td>括孤</td>
+    <td></td><td></td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+表3 各属性のとる値一覧<br>
+Table 3 Possible values for each feature.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><nobr>属性番号</nobr></td><td>各属性のとりうる値</td></tr>
+<tr valign=top>
+    <td align=center>2</td>
+    <td>サ変名詞, 感動詞, 記号, 形式名詞, 形容詞, 固有名詞, 時制相副詞,
+	時相名詞, 人名, 数詞, 接続詞, 地名, 陳述副詞, 程度副詞, 動詞, 動詞性接尾辞,
+	発言副詞, 評価副詞, 頻度副詞, 普通名詞, 副詞, 副詞形態指示詞, 副詞的名詞,
+	名詞形態指示詞, 名詞性名詞助数辞, 名詞性名詞接尾辞, 名詞接続助詞, 名詞接頭辞,
+	様態副詞, 量副詞, 連体詞, 形態指示詞</td></tr>
+<tr valign=top>
+    <td align=center>3</td>
+    <td>きり, くらい, けど, けれど, けれども, こそ. こと, さ, さえ, し, しか, じゃ, 
+	すなわち, すら, て, で, でも, ぜ, そして, それに, ぞ, ため, たけ, だって, だの,
+	っけ, ったら, って, つつ, と, とか, とも, ども, な, なあ, ない, ないし, ないしは,
+	ながら, など, なら, ならびに, なり, なんか, なんて, に, ね, の, のみ, は, ばかり,
+	ヘ, ほど, また, または, まで, も, もしくは, もの, ものの, や, やら, よ, よう,
+	より, る, わ, を, サ変名詞, 意志, 括弧開, 感動詞, 基本, 記号, 及び, 共, 形式名詞,
+	形容詞, 形容詞性述語接尾辞, 固有名詞, 語幹, 時制相副詞, 時相名詞, 条件, 人名,
+	推量, 数詞, 接続詞, 地名, 中, 陳述副詞, 程度制詞, 動詞, 発言副詞, 評価副詞, 
+	頻度副詞, 普通名詞, 副詞, 形態指示詞, 副詞的名詞, 並びに, 又は, 未然,
+	名詞形態指示詞, 名詞性述語接尾辞, 名詞性名詞助数辞, 名詞性名詞接尾辞, 命令,
+	様態副詞, 量副詞, 連体, 連体詞, 連体詞, 形態指示詞, 連用</td></tr>
+<tr valign=top>
+    <td align=center>4</td>
+    <td>non, 読点, 句点</td></tr>
+<tr valign=top>
+    <td align=center>5</td>
+    <td>non, ‘, （, “, 「, 『, 【, ＜, [</td></tr>
+<tr valign=top>
+    <td align=center>6</td>
+    <td>A (前文節番号と後文節番号の差が1), D (前文節番号と後文節番号の差が2〜5), 
+	C (前文節香号と後文節番号の差が6 以上)</td></tr>
+<tr valign=top>
+    <td align=center>7</td>
+    <td>0,1 (2 文節間の副助詞「は」の有無 0:無 1:有)</td></tr>
+<tr valign=top>
+    <td align=center>8</td>
+    <td>0,1 (2 文節間の読点の有無 0:無 1:有)</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 決定木の構成と技刈り</font></h2></a>
+
+<p>
+決定木を利用した係受け解析法では文内の2文節(前文節と後文節)に関する言語情報を属性とし,
+その2文節が係受け関係にあるかどうかをクラスとして事例データを作成する.
+<strong>表4</strong>には前節で定義された属性を用いて
+2.1節で用いた例文から作成した事例データを示す.
+表4から分かるように決定木作成用のデータは1文内のあらゆる2文節の組合せから構成され, 
+その2文節が係受け関係にあったかどうかでクラス付与が行われる.
+データは文内の任意の2文節の組合せで構成されるが,
+我々が利用するC4.5<sup><a href="p11.html#ref12">12)</a></sup>の決定木学習アルゴリズムは
+基本的に事例数の線形オーダの時間しか要しないので,
+3章で述べるように学習は効率的な時間で終了する.
+</p>
+
+<p>
+<div align=center><strong>
+表4 例文から作成した係受け解析学習用データ<br>
+Table 4 Sample data generated from the example sentence.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td colspan=5>前文節</td><td colspan=5>後文節</td>
+    <td colspan=3>その他</td><td>クラス</td></tr>
+<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+    <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+    <td>6</td><td>7</td><td>8</td><td></td></tr>
+<tr><td>昨日</td><td>時相名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>夕方</td><td>普通名詞</td><td>に</td><td>no</td><td>no</td>
+    <td>A</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>昨日</td><td>時相名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>近所</td><td>普通名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>昨日</td><td>時相名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>子供</td><td>普通名詞</td><td>が</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>昨日</td><td>時相名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>ワイン</td><td>普通名詞</td><td>を</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>昨日</td><td>時相名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>飲む</td><td>動詞</td><td>動詞</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>夕方</td><td>普通名詞</td><td>に</td><td>no</td><td>no</td>
+    <td>近所</td><td>普通名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>A</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>夕方</td><td>普通名詞</td><td>に</td><td>no</td><td>no</td>
+    <td>子供</td><td>普通名詞</td><td>が</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>夕方</td><td>普通名詞</td><td>に</td><td>no</td><td>no</td>
+    <td>ワイン</td><td>普通名詞</td><td>を</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>夕方</td><td>普通名詞</td><td>に</td><td>no</td><td>no</td>
+    <td>飲む</td><td>動詞</td><td>動詞</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>近所</td><td>普通名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>子供</td><td>普通名詞</td><td>が</td><td>no</td><td>no</td>
+    <td>A</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>近所</td><td>普通名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>ワイン</td><td>普通名詞</td><td>を</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>近所</td><td>普通名詞</td><td>の</td><td>no</td><td>no</td>
+    <td>飲む</td><td>動詞</td><td>動詞</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>子供</td><td>普通名詞</td><td>が</td><td>no</td><td>no</td>
+    <td>ワイン</td><td>普通名詞</td><td>を</td><td>no</td><td>no</td>
+    <td>A</td><td>no</td><td>no</td><td>no</td></tr>
+<tr><td>子供</td><td>普通名詞</td><td>が</td><td>no</td><td>no</td>
+    <td>飲む</td><td>動詞</td><td>動詞</td><td>no</td><td>no</td>
+    <td>B</td><td>no</td><td>no</td><td>yes</td></tr>
+<tr><td>ワイン</td><td>普通名詞</td><td>を</td><td>no</td><td>no</td>
+    <td>飲む</td><td>動詞</td><td>動詞</td><td>no</td><td>no</td>
+    <td>A</td><td>no</td><td>no</td><td>yes</td></tr>
+</table>
+</p>
+
+<p>
+次に決定木の学習について説明する. 決定木の構成,
+枝刈りには汎用の決定木学習プログラムC4.5を利用した.
+C4.5はデータに対して決定的に1つのクラスを出力するのに対して,
+我々が係受け解析で利用したいのはデータがあるクラスに属する確率である.
+そのためC4.5が構成した決定木から各クラスの頻度分布を取り出し,
+データが各クラスに属する確率を計算するモジュールのみ追加した.
+以下では表4の例に基づいて手案手法,
+実験結果を理解するのに必要な程度でC4.5のアルゴリズムを説明する.
+詳細に興味のある読者は文献<a href="p11.html#ref12">12)</a>,
+<a href="p11.html#ref13">13)</a>を参照されたい.
+</p>
+<p>
+決定木アルゴリズムは
+情報理論的なヒューリスティックス<a name="rfn3" href="p11.html#fn3"><sup>☆</sup></a>を
+最大にする属性の再帰的選択によって, 木構造を持つクラス弁別規則を生成する.
+獲得された決定木は事例の分類や回帰分析などに広く利用されている.
+<strong>図2</strong>に表4の例から生成した決定木を簡単化したものを示す.
+決定木の各節点はその節点に付与された属性によるテストを行い,
+その値(各節点から出る枝に付与されている)に応じて再帰的に事例を分割する.
+また, 決定木の葉節点にはその節点に割り振られた事例が属するクラスが指定される.
+図2の決定木では初めに2文節間距離によるテストが行われる.
+その値が‘A’であれば木を1段たどり, 前文節のタイプによってテストを行う.
+その値が‘の’であればデータのクラスはyesであると判定される.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p11/p11-fig2.gif" width=291 height=187>
+</td></tr>
+</table>
+<div align=center><strong>
+図2 決定木の例<br>
+Fig. 2 Sample decision tree.
+</strong></div>
+</p>
+
+<p>
+C4.5では再帰的にヒューリスティック関数<i>gain_ratio</i> (<i>X</i> )を最大にする属性
+<i>X</i> をテストとしてデータを完全に弁別できる決定木を構成する.
+続いて訓練に用いたデータ以外への汎化性能を向上させるために技刈りを行う.
+属性の選択に用いる <i>gain_ratio</i> (<i>X</i> ) の意味は以下のとおりである.
+</p>
+<p>
+<i>S</i> をある事例の集合, <i>C<sub>i</sub></i> を1つのクラスとし
+freq(<i>C<sub>i</sub></i> ,<i>S</i> ) を <i>S</i> のうち
+<i>C<sub>i</sub></i> に属する事例の個数とする.
+また, |<i>S</i> | は<i>S</i> に属する事例数, <i>k</i> , <i>m</i> は各々クラス数,
+節点の分岐数であるとする.
+</p>
+<p>
+<i>S</i> から事例を1つ選びそのクラスが <i>C<sub>j</sub></i> であるとするとその確率は
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;</td>
+    <td><i>freq</i> (<i>C<sub>j</sub></i> ,<i>S</i> )</td></tr>
+<tr align=center><td><font size=-2>------------------</font></td></tr>
+<tr align=center><td>|<i>S</i> |</td></tr>
+</table>
+</p>
+<p>
+であるから, この事実が持つ情報量は
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>-<i>log</i> <sub>2</sub></td><td><i>freq</i> (<i>C<sub>j</sub></i> ,<i>S</i> )</td><td>&nbsp;</td><td rowspan=3>bits</td></tr>
+<tr align=center><td><font size=-2>------------------</font></td></tr>
+<tr align=center><td>|<i>S</i> |</td></tr>
+</table>
+</p>
+<p>
+で, <i>S</i> の全事例について期待値をとれば
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=6>&nbsp;&nbsp;</td>
+    <td colspan=6><i>info</i> (<i>S</i> ) ＝</td></tr>
+<tr align=center>
+    <td rowspan=5>-</td>
+    <td><sub><i>k</i></sub></td>
+    <td rowspan=2 valign=bottom>freq( <i>C<sub>j</sub></i> ,<i>S</i> )</td>
+    <td rowspan=5>× <i>log</i><sub>2</sub></td>
+    <td rowspan=2 valign=bottom>freq( <i>C<sub>j</sub></i> ,<i>S</i> )</td>
+    <td rowspan=5>bits</td></tr>
+<tr align=center>
+    <td rowspan=3><font size=+2>Σ</font></td></tr>
+<tr align=center>
+    <td><font size=-2>-----------------</font></td>
+    <td><font size=-2>-----------------</font></td></tr>
+<tr align=center>
+    <td rowspan=2>|<i>S</i> |</td>
+    <td rowspan=2>|<i>S</i> |</td></tr>
+<tr align=center>
+    <td><sup><i>j</i> =1</sup></td></tr>
+</table>
+</p>
+<p>
+となる.
+訓練データの集合 <i>T</i> に対して <i>info</i> (<i>T</i> ) の値は
+<i>T</i> の中の1つの事例のクラスを決定するために必要な平均情報量を示している.
+同様に, ある属性 <i>X</i> で集合
+<i>T</i> を分割したときの平均情報量 <i>info<sub>X</sub></i>(<i>T</i> ) を以下に定義する.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=5>&nbsp;&nbsp;</td>
+    <td rowspan=5><i>info<sub>X</sub></i>(<i>T</i> ) ＝</td>
+    <td><sub><i>m</i></sub></td>
+    <td rowspan=2 valign=bottom>|<i>T<sub>i</sub></i> |</td>
+    <td rowspan=5>×<i>info</i> (<i>T<sub>i</sub></i> )</td></tr>
+<tr align=center>
+    <td rowspan=3><font size=+2>Σ</font></td></tr>
+<tr align=center><td><font size=-2>--------</font></td></tr>
+<tr align=center><td rowspan=2>|<i>T</i> |</td></tr>
+<tr align=center><td><sup><i>i</i> =1</sup></td></tr>
+</table>
+</p>
+<p>
+属性 <i>X</i> で事例を分割することに意味が有るのは
+分割後にクラスの予測が容易になる場合(分割されたデータのクラスが片寄る)であるから,
+属性 <i>X</i> による分割の評価基準の候補として
+<i>info</i> (<i>T</i> ) と<i>info<sub>X</sub></i>(<i>T</i> ) の差
+<i>gain</i> (<i>X</i> ) を考えうる.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td></td><td>&nbsp;&nbsp;</td><td><i>gain</i> (<i>X</i> )
+    ＝ <i>info</i> (<i>T</i> ) - <i>info<sub>X</sub></i> (<i>T</i> )</td></tr>
+</table>
+</p>
+<p>
+ところが実際に <i>gain</i> (<i>X</i> ) を評価基準として利用すると
+分割数の多い属性にバイアスが掛かるため, 以下の<i>split_info</i> (<i>X</i> )
+で正規化した <i>gain_ratio</i> (<i>X</i> ) を導入する.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=5>&nbsp;&nbsp;</td>
+    <td rowspan=5><i>split_info</i> (<i>X</i> ) ＝ -</td>
+    <td><sub><i>m</i></sub></td>
+    <td rowspan=2>|<i>T<sub>i</sub></i> | </td>
+    <td rowspan=5>× <i>log</i> <sub>2</sub></td>
+    <td rowspan=2>|<i>T<sub>i</sub></i> |</td></tr>
+<tr align=center>
+    <td rowspan=3><font size=+2>Σ</font></td></tr>
+<tr align=center>
+    <td><font size=-2>--------</font></td>
+    <td><font size=-2>--------</font></td></tr>
+<tr align=center>
+    <td rowspan=2>|<i>T</i> |</td>
+    <td rowspan=2>|<i>T</i> |</td></tr>
+<tr align=center><td><sup><i>i</i> ＝1</td></sup></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3><i>gain_ratio</i> (<i>X</i> ) ＝</td>
+    <td><i>gain</i> (<i>X</i> )</td></tr>
+<tr align=center>
+    <td><font size=-2>-------------------</font></td></tr>
+<tr align=center>
+    <td><i>split_info</i> (<i>X</i> )</td></tr>
+</table>
+</p>
+<p>
+<i>gain-rafio</i> (<i>X</i> ) を用いて構成した決定木は訓練事例は
+完全に弁別するが過適応の可能性があり, 未知データに対する分類能力は必ずしも高くない.
+そこでC4.5では統計的検定の考えに基づいて決定木の枝刈りを行う.
+信頼レベル0%から100%で枝刈りの強さを指定し, 値が小さいほど技刈りを強く行うことを意味する.
+</p>
+<p>
+以上で見てきたように決定木の節点にはデータが分配されており,
+各クラスの出現頻度が保存されている.
+したがって, 決定木の任意の節点においてクラスの分布確率を計算できる.
+たとえば図2の決定木で〇を付けた節点は文節間距離がA である5つの事例が分配されている.
+この節点においてクラスがyes, noである確率は各々3/5, 2/5 と計算できる(表4参照).
+まったく同様にして文内の2つの文節 <i>b<sub>i</sub></i> と <i>b<sub>j</sub></i> ,
+属性情報 <i>f<sub>ij</sub></i> が与えられると,
+枝刈り後の決定木を葉節点までたどることで2文節が係受け関係にある確率
+<i>P<sub>DT</sub></i> (<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> ,
+<i>f<sub>ij</sub></i>) を計算できる.
+この確率 <i>P<sub>DT</sub></i> (<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> ,
+<i>f<sub>ij</sub></i>) から式(1)の係受け確率を計算するために以下の式(2)を用いる.
+式(2)は文献<a href="p11.html#ref6">6)</a>が用いたのと同種のヒューリスティックスで文節
+<i>b<sub>i</sub></i> の可能なすべての係り先に関して決定木から得られる確率を正規化している.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=6>&nbsp;&nbsp;</td>
+    <td>P(<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> ,
+	<i>f<sub>ij</sub></i>) 〜</td></tr>
+<tr></tr>
+<tr></tr>
+<tr align=center>
+    <td><i>P<sub>DT</sub></i> (<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> ,
+	<i>f<sub>ij</sub></i>) </td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td rowspan=3>(2)</td></tr>
+<tr align=center>
+    <td><font size=-2>-------------------------------------------</font></td></tr>
+<tr><td><font size=+2>Σ</font><sup><i>m</i></sup> <sub><i>k</i> &gt; <i>i</i></sub> 
+	<i>P<sub>DT</sub></i> (<i>yes</i> | <i>b<sub>i</sub></i> ,<i>b<sub>k</sub></i> ,
+	<i>f<sub>ik</sub></i> )</td></tr>
+</table>
+</p>
+<p>
+もちろん式(2)の <i>P<sub>DT</sub></i> (<i>yes</i> | <i>b<sub>i</sub></i> ,
+<i>b<sub>j</sub></i> ,  <i>f<sub>ij</sub></i>) の代わりに
+決定木中の頻度分布を直接用いて係受け確率を計算することも可能である.
+その場合と比較して式(2)は遠い係受けを重視する傾向がある.
+式(2)の値を係受け行列の値として
+全体を最適化する<sup><a href="p11.html#ref14">14)</a></sup>ことで文全体の係受け構造を決定できる.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. 実験と考察</font></h2></a>
+
+<p>
+提案手法の定量的評価を行うため, EDRコーパス<sup><a href="p11.html#ref8">8)</a></sup>を用いて
+以下の4項目の実験を行った.
+以下の各節でそれぞれの結果について述べる.
+<ul>
+<li> 決定木の技刈りと解析精度の関係
+<li> データ量と解析精度の関係
+<li> 種々の属性の影響
+<li> 文節主辞の単語, 分類詰彙表カテゴリを属性に加えた場合の精度
+</ul>
+</p>
+<p>
+本研究で係受け解析の精度とは係受け解析システムが付けた係受け中で,
+EDRコーパスでも係受け関係が付与されたものの割合を示す.
+訓練データ, テストデータは以下の方法で作成した.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(1)</td>
+    <td>EDRコーパスから文を抽出し形態素解析<sup><a href="p11.html#ref10">10)</a></sup>を
+	行った後, 文節に分解した.</td></tr>
+<tr><td>(2)</td>
+    <td>1の出力から2文節ずつの組合せを作成し, 
+	これをEDRコーパスの係受け可否の情報(ブラケット情報のみ)と比較する.
+	この際文節定義の違いにより
+	EDRの係受けとの対応を完全にとることができない文節が生じる.
+	そのような組合せを含む文のデータは採用しない
+	(その文から作られる2文節の組合せのうち
+	1つでも不整合なものがあるときは文全体のデータを採用しない).</td></tr>
+<tr><td>(3)</td>
+    <td>2で残ったコーパス(総文数207,802, 総文節数1,790,920)を20個のファイルに分ける
+	(1個のファイルが約1万文強).
+	訓練データは文数に応じて, 各ファイルの先頭から同じ文数ずつ取り出し作成した.
+	テストデータ(1万文)は, 訓練データとの重なりがないように,
+	20に分けた各ファイルの2,501文目から500文ずつ取り出して作成した.</td></tr>
+</table>
+</p>
+<p>
+実験結果の詳細に移る前にC4.5による決定木構成の効率について簡単に触れておく.
+5万文の訓練データから決定木を構成するのに必要な時間はSun SPARC Ultra2を用いて
+15分程度であり実用上まったく問題がない時間であった.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 枝刈りと解析精度</font></h2></a>
+
+<p>
+<strong>表5</strong>に決定木を様々な信頼レベルで枝刈りした際の解析精度を示す.
+使用した訓練データ数は1万文である<a name="rfn4" href="p11.html#fn4"><sup>☆</sup></a>.
+</p>
+
+<p>
+<div align=center><strong>
+表5 枝刈りの信頼レベルと解析精度<br>
+Table 5 Pruning confidence level vs. parsing accuracy.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>信頼レベル</td><td>25%</td><td>50%</td><td>75%</td><td>95%</td></tr>
+<tr><td>解析精度</td><td>82.01%</td><td>83.43%</td><td>83.52%</td><td>83.35%</td></tr>
+</table>
+</p>
+
+<p>
+2.3節で述べたように, 信頼レベルの値が小さいほど, 強い枝刈りを意味する.
+通常の機械学習の問題には25%程度が適当であることが
+実験的に示されている<sup><a href="p11.html#ref12">12)</a></sup>.
+したがって, 決定木を係受け解析に利用する場合の枝刈りは
+通常より少なめに行うのが良いということになる.
+この結果から以下に述べる実験ではすべて信頼レベル75%を使用した.
+</p>
+<p>
+枝刈りは小数のデータしか持たない情報をノイズであると考えて捨てることに相当する.
+一方, 係受け解析を含む自然言語処理には
+一般的規則で記述するのが困難な例外的な表現が頻繁にともなう.
+係受け解析において枝刈りを少なめにすると精度が向上するのは, 
+少数の事例しか持たない情報もノイズではなく,
+係受け関係の決定に有益な情報を含んでいるためであると考えられる.
+Harunoら<sup><a href="p11.html#ref15">15)</a></sup>は形態素解析において
+少数の事例が持つ例外情報の重要性に着目し, 誤り駆動で複数の確率モデル作成し
+予測の際に混合する手法で解析精度が向上することを報告している.
+本節の実験結果を考慮すると, 係受け解析に関しても同様の手法を適用することで
+解析精度が向上する可能性がある<sup><a href="p11.html#ref16">16)</a></sup>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 訓練データ数と解析精度</font></h2></a>
+
+<p>
+<strong>表6</strong>に様々な数の訓練データから決定木を作成し, 
+1万文のテストデータで評価した解析精度を示す.
+<strong>図3</strong>は訓練データ数と解析精度の関係を分かりやすくするため,
+同じデータを学習曲線の形に書き改めたものである.
+図から訓練データ数が2万文程度までは急激に解析精度が向上し,
+その後学習曲線の立ち上がりは鈍り始め, 3万文から5万文でかなりフラットに近くなる.
+</p>
+
+<p>
+<div align=center><strong>
+表6 訓練データ数と解析精度<br>
+Table 6 Number of training data vs. parsing accuracy.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>訓練データ数</td>
+    <td>3000文</td><td>6000文</td><td>10000文</td>
+    <td>20000文</td><td>30000文</td><td>50000文</td></tr>
+<tr align=center><td align=left>解析精度</td>
+    <td>82.07%</td><td>82.70%</td><td>83.52%</td>
+    <td>84.07%</td><td>84.27%</td><td>84.33%</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p11/p11-fig3.gif" width=359 height=245>
+</td></tr>
+</table>
+<div align=center><strong>
+図3 学習曲線<br>
+Fig.3 Learning curve.
+</strong></div>
+</p>
+
+<p>
+学習曲線の様子をまとめると, 
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(1)</td><td>係受け解析の学習に必要な訓練データ数はおよそ5万文である</td></tr>
+<tr><td>(2)</td><td>解析精度は最高84.33%である</td></tr>
+</table>
+の2点が重要であり, 以下ではこれらについて考察
+する.
+</p>
+<p>
+一般に構文解析結果付きのコーパスの作成は非常にコストが掛かる作業である.
+本節で得られた結果は少なくとも係受け解析の学習に関しては
+5万文程度のコーパスがあれば十分であることを示しており,
+今後のコーパス作成にある程度の指針を与える.
+もちろん, EDRコーパスは様々な分野のテキストから構成されているので,
+対象分野を絞ったコーパスを利用し学習を行えば,
+より少ないデータ数で高い精度を達成することも可能となろう.
+</p>
+<p>
+次に解析精度が収束する84.33%という数字について検討する.
+Penn Treebank<sup><a href="p11.html#ref17">17)</a></sup>を用いた最近の
+統計的構文解析システム<sup><a href="p11.html#ref6">6)</a>,<a href="p11.html#ref18">18)</a></sup>では,
+我々と同種の情報を用いて86〜87%の解析精度が得られていること,
+日本語文節の係り先は自分より後ろであり, 英語よりも予測が行いやすいことの2点を考慮すると,
+現状の精度は一見低いように見えるかもしれない.
+</p>
+<p>
+学習システムの評価はデータに大きく依存する.
+そこで1万文のテストデータを訓練データとしても使い解析精度を評価したところ,
+解析精度は88.85%にとどまった.
+この解析精度が低い原因として, 使用した属性の不備以外にも,
+EDRコーパスとPenn Treebankの内容の違いが考えられる.
+EDRコーパスが様々なテキストから引用されているのに対して, Penn Treebankは
+Wall Street Journalの記事のみから構成されており一様性が高いという特徴を持つ.
+またデータの揺れによって精度が落ちる可能性も考えられる.
+この可能性は同じくEDRコーパスにCollins<sup><a href="p11.html#ref6">6)</a></sup>と
+同様の手法を適用した藤尾ら<sup><a href="p11.html#ref7">7)</a></sup>のシステムの解析精度が
+80.48%であることからも推測されるが, 定量的評価は今後の課題である.
+</p>
+<p>
+次に, EDRコーパスと英語の構文解析に利用される
+Penn Treebank<sup><a href="p11.html#ref17">17)</a></sup>が含む
+タグ情報の違いにも注意する必要がある.
+Penn Treebankは詳細な形態素, 構文情報を含んでおり,
+英語における研究では品詞タガーも同じPenn Treebankから学習したものを利用している.
+加えてパーザを学習する際にもコーパスに含まれる構文情報を利用している.
+これに対してEDRコーパスの品詞タグは構文解析の曖味性を解消するには十分でないため,
+我々の研究では形態素解析にChasen<sup><a href="p11.html#ref10">10)</a></sup>を利用した.
+このように我々の研究ではEDRコーパスに含まれるブラケット情報のみを利用し,
+形態素解析や文節への分解などは(コーパスと関係のない)他のプログラムを使用していることも
+解析精度を低くする原因となっているであろう.
+</p>
+<p>
+今後はどのような属性が係受け解析に有効であるかを見きわめると同時に,
+5万文から10万文の構文解析結果付きコーパスをいかに揺れを少なく
+豊富な情報を含めて構築できるかが重要なテーマとなるであろう.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 種々の属性の影響</font></h2></a>
+
+<p>
+<strong>表7</strong>に1万文の訓練データに対する各々の属性の解析精度への影響を示した.
+具体的には個々の属性を利用しない場合にどの程度解析精度が低下するかを表している.
+</p>
+
+<p>
+<div align=center><strong>
+表7 個々の属性の削除による解析精度の低下<br>
+Table 7 Relation between parsing accuracy and types of attribute.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td>属性内容</td><td>解析精度の低下</td>
+    <td>属性内容</td><td>解析精度の低下</td></tr>
+<tr><td>前文節主辞品詞</td><td align=right>−0.07%</td>
+    <td>後文節句読点の有無</td><td align=right>＋1.62%</td></tr>
+<tr><td>前文節タイプ</td><td align=right>＋9.34%</td>
+    <td>後文節括孤開の有無</td><td align=right>±0.00%</td></tr>
+<tr><td>前文節句読点の有無</td><td align=right>＋1.15%</td>
+    <td>後文節括孤閉の有無</td><td align=right>±0.00%</td></tr>
+<tr><td>前文節括弧開の有無</td><td align=right>±0.00%</td>
+    <td>文節間距離</td><td align=right>＋5.21%</td></tr>
+<tr><td>前文節括弧閉の有無</td><td align=right>±0.00%</td>
+    <td>文節間読点の有無</td><td align=right>＋0.01%</td></tr>
+<tr><td>後文節主辞品詞</td><td align=right>＋2.13%</td>
+    <td>文節間“は”の有無</td><td align=right>＋1.79%</td></tr>
+<tr><td>前文節タイプ</td><td align=right>＋0.52%</td>
+    <td></td><td></td></tr>
+</table>
+</p>
+
+<p>
+表7の結果から係受け解析に特に有効な属性は前文節のタイプと文節間距離であることが分かる.
+この2属性の組合せは直感的に理解すると
+‘可能な範囲でできるだけ近い係り先を優先する’という
+頻繁に用いらてきたヒューリスティックスを表すと考えてよい.
+‘可能な範囲’や‘優先のさせかた’が統計を用いて柔軟に設定されるのが
+学習に基づく手法の利点であるともいえる.
+この結果から, 今後より高い解析精度を達成するためには,
+文節タイプと文節間の距離に関する詳細な情報が必要となる.
+</p>
+<p>
+他の属性の多くはわずかずつ解析精度の向上に寄与している.
+文字種などを含むこの種の属性数を増やすことも今後の重要な課題である.
+括弧に関する情報が解析精度に寄与しなかった理由としては,
+EDRコーパスに括狐を含む表現が少ないことがあげられる.
+この属性の有効性については他のコーパスを利用した検証が必要である.
+また, 前文節主辞品詞が唯一解析精度を低下させている.
+これは前文節の文法的特性の大部分が前文節の文節タイプで決定されることに加えて, 
+サ変名詞を動詞と解析する形態素解析の誤りが多く起きるためではないかと推測される.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.4"><h2><font color=#ff0000>3.4 頻出単語の表層, 分類語彙表カテゴリの利用</font></h2></a>
+
+<p>
+本節では文節の主辞の語彙情報を属性として利用した場合の解析精度について述べる.
+訓練データは1万文で, 利用した属性は以下の4種類である.
+参考のため<strong>表8</strong>に分類語彙表における小数点以下1桁までの分類項目を示す.
+表中の括弧内に示した数字は小数点以下2桁まで見たときの下位分類数である.
+<ul>
+<li> 出現回数上位100語
+<li> 出現回数上位200語
+<li> 分類語彙表<sup><a href="p11.html#ref11">11)</a></sup>小数点以下1桁
+<li> 分類語彙表小数点以下2桁
+</ul>
+</p>
+
+<p>
+<div align=center><strong>
+表8 分類語彙表の小数点1桁目<br>
+Table 8 Hierarchical structure of bunrui-goihyo.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>1</td><td>体の類</td>
+		<td>3</td><td>相の類</td></tr>
+<tr><td>1.1</td><td>抽象的関係(10種類)</td>
+		<td>3.1</td><td>抽象的関係(6種類)</td></tr>
+<tr><td>1.2</td><td>人間活動の主体(9種類)</td>
+		<td>3.3</td><td>精神および行為(4種類)</td></tr>
+<tr><td>1.3</td><td>人間活動-精神および行為(9種類)</td>
+		<td>3.5</td><td>自然現象(1種類)</td></tr>
+<tr><td>1.4</td><td>生産物および用具(8種類)</td>
+		<td></td></tr>
+<tr><td>1.5</td><td>自然物および自然現象(7種類)</td>
+		<td></td></tr>
+<tr><td>2</td><td>用の類</td>
+		<td>4</td><td>その世(3種類)</td></tr>
+<tr><td>2.1</td><td>抽象的関係(3種類)</td>
+		<td></td></tr>
+<tr><td>2.3</td><td>精神および行為(6種類)</td>
+		<td></td></tr>
+<tr><td>2.5</td><td>自然現象(1種類)</td>
+		<td></td></tr>
+</table>
+</p>
+
+<p>
+<strong>表9</strong>は各々の属性に対する解析精度を示す.
+実験を行った設定ではすべての属性について
+解析精度は主辞の語彙情報を利用しない場合(83.52%)に至らなかった.
+特に頻出語と分類語彙表の両者で情報を多く使うほど精度が悪くなることは注目に値する.
+詳細な原因を特定することは難しいが,
+決定木の上位の段階でこれらの属性による事例分割が行われる傾向が見られる.
+</p>
+
+<p>
+<div align=center><strong>
+表9 主辞の語彙情報と解析精度<br>
+Table 9 Lexical information vs. parsing accuracy.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>主辞の語彙情報</td>
+    <td>上位100語</td><td>上位200語</td><td>分類語彙表1桁</td><td>分類語彙表2桁</td></tr>
+<tr align=center><td align=left>解析精度</td>
+    <td>83.34%</td><td>82.68%</td><td>82.51%</td><td>81.67%</td></tr>
+</table>
+</p>
+
+<p>
+ヨーロッパ語による研究では有効であることが知られている<sup><a href="p11.html#ref6">6)</a>,
+<a href="p11.html#ref18">18)</a>,<a href="p11.html#ref19">19)</a></sup>語彙情報が
+なぜ我々の実験では有効に働かないのであろうか.
+ここでは頻出単語と分類語彙表のカテゴリに分けて考察を行う.
+</p>
+<p>
+頻出語彙に関して第1に考えられる理由は100語とか200語の限られた数の語彙を
+直接決定木の属性値として用いた点である.
+藤尾ら<sup><a href="p11.html#ref7">7)</a></sup>はCollins<sup><a href="p11.html#ref6">6)</a></sup>の方法で
+あらゆる単語間の共起頻度を考慮に入れたモデルを構成している.
+その結果いくらかの解析精度の向上が見らたことから,
+決定木を用いた手法においても単語間の共起確率をレベル分けし,
+属性値として利用することで語彙情報を有効に利用できる可能性がある.
+</p>
+<p>
+第2に日本語では助詞や助動詞など機能語の重要性がヨーロッパ語に比べて大きい点である.
+これらの語は他の属性(文節のタイプ)としてすでに使用されているので
+最も重要な語彙情報はすでに使われていると考えることもできる.
+</p>
+<p>
+第3に使用したコーパスの違いである. 英語で使用される
+Penn TreebankはWall Street Journalの記事のみから構成されるため,
+同じような単語が頻出すると考えられる,
+それに対してEDRコーパスは様々な分野のコーパスからなるため
+頻出単語の統計が効かなかった可能性がある.
+この可能性については今後さらなる定量的評価が必要である.
+</p>
+<p>
+分類語彙表のカテゴリに関しては状況がより複雑になるが, ここでは2つの要因を考える.
+第1はカテゴリが荒すぎて構文的曖味性を解消するには不十分である可能性であり,
+第2は分類語彙表のエントリが3万語と少ないことが全体の精度を悪くする可能性である.
+今回の実験ではシソーラスとして分類語彙表のみを用いたが
+他のシソーラス<sup><a href="p11.html#ref20">20)</a></sup>,
+クラスタリング手法<sup><a href="p11.html#ref19">19)</a></sup>,
+より構造化された格フレーム情報<sup><a href="p11.html#ref21">21)</a></sup>などを用いた
+さらなる検討が必要であろう.
+以上本節をまとめると実験結果から少なくとも語彙情報を利用すれば
+必ず解析精度が大幅に上がるという期待は成り立たないということになる.
+</p>n
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. 関連研究</font></h2></a>
+
+<p>
+本章では既存の統計的構文解析手法の研究と本研究の関連について述べる.
+1980年代後半から1990年代初めにかけて, 確率文脈自由文法のパラメータを
+コーパスから推定する研究がさかんに行われた<sup><a href="p11.html#ref22">22)</a></sup>.
+これらの研究の結果, 品詞や非終端記号の共起関係だけでは,
+構文的曖味性を正しく解消するには不十分であることが明らかとなった.
+文献<a href="p11.html#ref18">18)</a>は様々な語彙的情報を考慮し,
+文法規則の適用を決定木で選択する手法を提案し86%程度の高い解析精度を得た.
+一方, 文献<a href="p11.html#ref6">6)</a>は依存文法の考え方を統計的構文解析に導入した.
+英語文を句の列に分解した後, 2つの句の係受け確率を, 主辞の共起確率,
+句間距離などの属性を用いて計算し前者と同等の解析精度を得た.
+これら2つの研究は語彙情報を含む様々な属性を利用したためによく比較されるが,
+各々の成功理由は微妙に異なっている.
+つまり文献<a href="p11.html#ref18">18)</a>が成功した理由は
+本質的に様々な属性の選択に決定木を用いたことであり,
+文献<a href="p11.html#ref6">6)</a>が成功した理由は言語的まとまりとして句(文節)を選び,
+その係受け関係を考えたことである.
+本稿で提案した決定木を利用した係受け解析法は両者の利点を活かし,
+係受け解析に多くの属性を利用可能とした.
+その結果, これまで行われた日本語係受け解析研究で得られた多くの知見を
+統計モデルで利用できるようになった.
+</p>
+<p>
+日本語で行われた統計的係受け解析の研究としては文献<a href="p11.html#ref7">7)</a>がある.
+我々の手法が決定木を利用し係受け確率の計算に利用する属性を対象となる文節対に応じて
+動的に変更するのに対して, 文献<a href="p11.html#ref7">7)</a>ではつねに同じ属性を利用する.
+文献<a href="p11.html#ref6">6)</a>の手法にもいえることであるが, つねに同じ属性を利用し,
+スムージングを用いて係受け確率を計算する手法は文節の特殊性を反映することが難しく,
+属性数にも制限を受けるという問題がある.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. 結論</font></h2></a>
+
+<p>
+本稿ではコーパスから決定木を構成し, 日本語係受け解析に利用する手法について述べた.
+係受け解析に決定木を利用することで多くの属性を利用した場合にも
+動的な属性選択が可能となった.
+その結果, 多くの先行研究の知見を統計的学習の枠組みに取り込むことが可能となった.
+</p>
+<p>
+これまで日本語構文解析法の評価では通常数十文から数百文の小規模なデータが
+使用されることが多く, しかも各研究者が独自のデータを使用しているため
+解析精度を互いに比較することが難しかった.
+客観的な評価基準が存在して初めて様々な解析手法の評価が可能となることを考えると,
+日本語解析の研究においても共通のテストデータを評価に利用することが望ましい.
+本研究ではできる限り客観的な評価を行うためEDRコーパスを利用して
+1万文のデータでテストを行った.
+その結果, 既存の統計手法を上回る解析精度が得られ, 次の4点が明らかになった.
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(1)</td><td>決定木の枝刈りは少なめに行う方が解析精度が向上する</td></tr>
+<tr><td>(2)</td><td>係受け解析の学習に必要な文数はおよそ5万である</td></tr>
+<tr><td>(3)</td><td>係受け解析に特に有効な属性は,
+	係り側文節のタイプと文節間距離である</td></tr>
+<tr><td>(4)</td><td>主辞の語彙情報を利用しても必ずしも解析精度が上がるわけではなく,
+	本研究の設定では精度が悪化する</td></tr>
+</table>
+</p>
+<p>
+今後はより高い解析精度の達成と一般性検証のため以下の項目について研究を進める予定である.
+<ul>
+<li> 係り側, 受け側文節に関する詳細な情報を含む様々な属性の解析精度への影響の調査
+<li> 文献<a href="p11.html#ref15">15)</a>などデータの分布に鋭敏な
+	学習手法の適用<sup><a href="p11.html#ref16">16)</a></sup>
+<li> 日本語だけでなく英語等の言語への提案手法の	適用
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>参考文献</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>1)</strong></a>
+<dd>福本文代, 佐野洋, 斉藤洋子, 福本淳一:
+	係り受けの強度に基づく依存文法,
+	情報処理学会論文誌, Vol.33, No.10, pp.1211-1223 (1992).
+	<br><br>
+<dt><a name="ref2"><strong>2)</strong></a>
+<dd>白井諭, 池原悟, 横尾昭男, 木村淳子:
+	階層的認識構造に着目した日本語従属節間の係り受け解析の方法とその精度,
+	情報処理学会論文誌, Vol.36, No.10, pp.2353-2361 (1995).
+	<br><br>
+<dt><a name="ref3"><strong>3)</strong></a>
+<dd>南不二男:
+	現代日本語の構造,
+	大修館書店 (1986).</td></tr>
+	<br><br>
+<dt><a name="ref4"><strong>4)</strong></a>
+<dd>黒橋禎夫, 長尾真:
+	長い日本語文における並列構造の推定,
+	情報処理学会論文誌, Vol.33, No.8, pp.1022-1031 (1992).
+	<br><br>
+<dt><a name="ref5"><strong>5)</strong></a>
+<dd>Kameda, M.:
+	A Portable & Quick Japanese Parser: Q_JP,
+	Proc. 16th Internation Conference on Computational Lingnistics, pp.616-621 (1996).
+	<br><br>
+<dt><a name="ref6"><strong>6)</strong></a>
+<dd>Collins, M.:
+	A New Statistical Parser based on bigram lexical dependencies,
+	Proc. 34th An- nual Meeting of Association for Computational Linguistics,
+	pp.184-191 (1996).
+	<br><br>
+<dt><a name="ref7"><strong>7)</strong></a>
+<dd>藤尾正和, 松本裕治:
+	統計的手法を用いた係り受け解析,
+	自然言語処理研究会, NL1 1 7-12, pp.83-90 (1997).
+	<br><br>
+<dt><a name="ref8"><strong>8)</strong></a>
+<dd>Japan Electronic Dictionary Research Institute Ltd.:
+	The EDR Electronic Dictionary Technical Guide (1995) .
+	<br><br>
+<dt><a name="ref9"><strong>9)</strong></a>
+<dd>吉田将:
+	二文節間の係受けを基礎とした日本語文の構文解析,
+	信学会論文誌, Vol.55-D, No.4, pp.238-244 (1972).
+	<br><br>
+<dt><a name="ref10"><strong>10)</strong></a>
+<dd>Matsumoto, Y., Kitauchi, A., Yamashita, T. , Hirano, Y., Imaichi, O. and Imamura, T.:
+	Japanese Morphological Analyisis System Chasen Manual (1997).
+	NAIST Technical Re- port NAIST-IS-TR97007.
+	<br><br>
+<dt><a name="ref11"><strong>11)</strong></a>
+<dd>NLRI (National Language Research Institute):
+	Word List by Semantic Principles,
+	Syuei Syuppan (1964). (in Japanese) .
+	<br><br>
+<dt><a name="ref12"><strong>12)</strong></a>
+<dd>Quinlan, J.:
+	C4.5 Programs for Machine Learning,
+	Morgan Kaufmann (1993) .
+	<br><br>
+<dt><a name="ref13"><strong>13)</strong></a>
+<dd>Breiman, L., Friedman, J., Olshen, R. and Stone, J.:
+	Classification and Regression Trees,
+	Wadsworth (1984) .
+	<br><br>
+<dt><a name="ref14"><strong>14)</strong></a>
+<dd>Kay, M.:
+	Algorithm Schemata and Data Structure in Syntactic Processing,
+	Technical Report CLS-80-12, Xerox PARC (1980) .
+	<br><br>
+<dt><a name="ref15"><strong>15)</strong></a>
+<dd>Haruno, M. and Matsumoto, Y.:
+	Mistakedriven Mixture of Hierarchical Tag Context Trees,
+	Proc. 35th Annual Meeting of Association for Computational Linguistics,
+	pp.230-237 (1997).
+	<br><br>
+<dt><a name="ref16"><strong>16)</strong></a>
+<dd>Haruno, M., Shirai, S. and Ooyama, Y.:
+	Using Decision Trees to Construct a Practical Parser,
+	Proc. 86th Annual Meeting of Association for Computational Linguistics,
+	pp.505-511 (1998) .
+	<br><br>
+<dt><a name="ref17"><strong>17)</strong></a>
+<dd>Marcus, M. , Santorini, B. and Marcinkiewicz, M.:
+	Building a Large Annotated Corpus of English: The Penn Treebank,
+	Compntational Lin- guistics, Vol.19, No.2, pp.313-330 (1993) .
+	<br><br>
+<dt><a name="ref18"><strong>18)</strong></a>
+<dd>Magerman, D .M.:
+	Statistical Decision-Tree Models for Parsing,
+	Proc. 33rd Annual Meeting of Association for Computational Linguistics,
+	pp.276-283 (1995) .
+	<br><br>
+<dt><a name="ref19"><strong>19)</strong></a>
+<dd>Charniak, E.:
+	Statistical Parsing with a Context-free Grammar and Word Statistics,
+	Proc. 15th National Conference on Artificial Intelligence, pp.598-603 (1997) .
+	<br><br>
+<dt><a name="ref20"><strong>20)</strong></a>
+<dd>池原悟, 宮崎正弘, 横尾昭男:
+	日英機械翻訳のための意味解析用の知識とその分解能,
+	情報処理学会論文誌, Vol.34, No.8, pp.1692-1704 (1993).
+	<br><br>
+<dt><a name="ref21"><strong>21)</strong></a>
+<dd>Collins, M.:
+	Three Generative, Lexicalised Models for Statistical Parsing,
+	Proc. 35th An- nual Meeting of Association for Computational Lingnistics,
+	pp.16-23 (1997).
+	<br><br>
+<dt><a name="ref22"><strong>22)</strong></a>
+<dd>Charniak, E.:
+	Statistical Langnage Learning,
+	MIT Press (1993).
+</dl>
+
+<br><br>
+
+<div align=right>
+(平成 9年11月12日受付)<br>
+(平成10年10月 2日採録)
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td><img src="p11/p11-a1.gif" width=94 height=123></td><td>&nbsp;</td>
+    <td><strong>春野雅彦</strong>(正会員)<br>
+	1991年京都大学工学部電気工学第二学科卒業. 1993年同大学院修士課程修了.
+	1998年奈良先端科学技術大学院大学博士後期課程修了. 博士(工学).
+	1993年日本電信電話(株)入社. 1997年まで同社コミュニケーション科学研究所研究員.
+	1997年よりATR人間情報通信研究所研究員.
+	機械学習, 自然言語処理およびコミュニケーションの生物的基礎に興味を持つ.
+	ACL, 言語処理学会各会員.
+</td></tr>
+</table>
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td><img src="p11/p11-a2.gif" width=94 height=120></td><td>&nbsp;</td>
+    <td><strong>白井諭</strong>(正会員)<br>
+	1978年大阪大学工学部通信工学科卒業. 1980年同大学院博士前期課程修了.
+	同年日本電信電話公社(現NTT)入社.
+	以来, 日英機械翻訳を中心とする自然言語処理システムの研究開発に従事.
+	1998年10月からATR音声翻訳通信研究所に出向(NTTコミュニケーション科学研究所兼務).
+	1995年日本科学技術情報センター賞(学術賞), 同年人工知能学会論文賞受賞.
+	著書「日本語語彙大系」(共編, 岩波書店, 1997年).
+	電子情報通信学会, 言語処理学会各会員・
+</td></tr>
+</table>
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td><img src="p11/p11-a3.gif" width=94 height=122></td><td>&nbsp;</td>
+    <td><strong>大山芳史</strong>(正会員)<br>
+	1954年生. 1977年大阪大学工学部電子工学科卒業.
+	1979年同大学院工学研究科電子工学専攻博士前期課程修了.
+	同年日本電信電話公社(現NTT)入社. 現在, NTTコミュニケーション科学研究所主幹研究員.
+	日本文音声出力, 漢字電報, 機械翻訳等自然言語処理システムの研究開発に従事.
+	IEEE, 電子情報通信学会, 言語処理学会, 社会言語科学会各会員.
+</td></tr>
+</table>
+</p>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>☆</sup></a>
+この種の制約に関する議論としては文献9)を参照されたい. (<a href="p11.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>☆☆</sup></a>
+形態素解析にChasen<sup>10)</sup>を利用したため, 属性値の多くは
+Chasenの形態素分類名となっている. (<a href="p11.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>☆</sup></a>
+データ分割する最適な決定木を求める問題はNP完全であるこ
+とに注意. (<a href="p11.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>☆</sup></a>
+訓練データ数を変化させても同様の傾向が見られる. (<a href="p11.html#rfn4">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

@@ -1,0 +1,956 @@
+<html>
+<head>
+<title>Francis Bond, Daniela Kurz &amp; Satoshi Shirai, COLING-ACL'98, August 10-14, 1998</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Anchoring Floating Quantifiers in Japanese-to-English Machine Translation</font>
+<br><br>
+
+<font size=+2>Francis Bond,<sup>+</sup> Daniela Kurz<sup>++</sup> and Satoshi Shirai<sup>+</sup></font>
+<br><br>
+
+<font size=+1><sup>+</sup> NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>2-4 Hikari-dai, Seika-cho, Soraku-gun, Kyoto, Japan, 619-0237</font>
+<br>
+<font size=+1><tt> {bond, shirai}@cslab.kecl.ntt.co.jp</tt></font>
+
+<br><br>
+
+<font size=+1><sup>++</sup> Department of Computational Linguistics, University of the Saarland</font>
+<br>
+<font size=+1>Postfach 1150, D-66041 Saarbrücken, Germany</font>
+<br>
+<font size=+1><tt> kurz@coli.uni-sb.de</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+In this paper we present an algorithm to anchor floating quantifiers
+in Japanese, a language in which quantificational nouns and
+numeral-classifier combinations can appear separated from the noun
+phrase they quantify. The algorithm differentiates degree and event
+modifiers from nouns that quantify noun phrases. It then finds a
+suitable anchor for such floating quantifiers. To do this, the
+algorithm considers the part of speech of the quantifier and the
+target, the semantic relation between them, the case marker of the
+antecedent and the meaning of the verb that governs the two
+constituents. The algorithm has been implemented and tested in a
+rule-based Japanese-to-English machine translation system, with an
+accuracy of 76% and a recall of 97%.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of COLING-ACL'98</i>, pp.152-159 (August, 1998). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=17>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c21.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c21.html#chap-2">2 Quantifier float in Japanese</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-2.1">2.1 Restrictions on quantiner float</a></td></tr>
+<tr><td><a href="c21.html#chap-3">3 An algorithm to identify and anchor floating quantiflers</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-3.1">3.1 Identify potential floating quantifiers</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-3.2">3.2 Identify potential anchors</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-3.3">3.3 Discard bad combinations</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c21.html#chap-3.3.1">3.3.1 Semantically anomalous cases</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c21.html#chap-3.3.2">3.3.2 Degree modification</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c21.html#chap-3.3.3">3.3.3 Event modification</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-3.4">3.4 Rank and select candidates</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#chap-3.5">3.5 Anchoring</a></td></tr>
+<tr><td><a href="c21.html#chap-4">4 Results and Discussion</a></td></tr>
+<tr><td><a href="c21.html#chap-5">5 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c21.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+One interesting phenomenon in Japanese is the fact that quantifiers
+can appear in two main positions, as pre-modifier in a noun phrase
+(1), or 'floating' as adjuncts to the verb phrase, typically in
+pre-verbal position (2).<sup><a name="rfn1" href="c21.html#fn1">1</a>,<a name="rfn2" href="c21.html#fn2">2</a></sup>
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(1)</td><td rowspan=3>&nbsp;</td>
+    <td><i>watashi-wa</i></td><td><i><strong>3-ko</strong>-no</i></td>
+    <td><i><u>kêki-wo</u></i></td><td><i>tabeta</i></td></tr>
+<tr><td>I-<font size=-1>TOP</font></td><td>3-<font size=-1>CL</font>-<font size=-1>ADN</font></td>
+    <td>cake-<font size=-1>ACC</font></td><td>ate</td></tr>
+<tr><td colspan=4>I ate three cakes</td></tr>
+<tr></tr>
+<tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(2)</td><td rowspan=3>&nbsp;</td>
+    <td><i>watashi-wa</i></td><td><i><u>kêki-wo</u></i></td>
+    <td><i><strong>3-ko</strong></i></td><td><i>tabeta</i></td></tr>
+<tr><td>I-<font size=-1>TOP</font></td><td>cake-<font size=-1>ACC</font></td>
+    <td>3-<font size=-1>CL</font></td><td>ate</td></tr>
+<tr><td colspan=4>I ate three cakes</td></tr>
+</table>
+</p>
+
+<p>
+Quantifier 'float' of numeral-classifier combinations is wideIy
+discussed in the linguistic literature.<a name="rfn3" href="c21.html#fn3"><sup>3</sup></a> Much of the
+discussion focuses on identifying the conditions under which a
+quantifier can appear in the adjunct position. The explanations range
+from configurational (<a href="c21.html#ref12">Inoue, 1983</a>; <a href="c21.html#ref17">Miyagawa, 1989</a>) to discourse based
+(<a href="c21.html#ref7">Downing, 1996</a>; <a href="c21.html#ref1">Alam, 1997</a>). we shall discuss these further
+below. There has been almost no discussion of other floating
+quantifiers, such as quantificational nouns.
+</p>
+<p>
+We call the process of identifying the noun phrase being quantified by
+a floating quantifier 'anchoring' the quantifier. The necessity of
+anchoring floatIng quantifiers for many natural language processing
+tasks is widely recognized (<a href="c21.html#ref2">Asahioka et al., 1990</a>; <a href="c21.html#ref4">Bond et al., 1996</a>),
+and is important not only for machine translation but for the
+interpretation of Japanese in general. However, although there are
+several NLP systems that incorporate some solution to the problem of
+floating quantifiers, to the best of our knowledge, no algorithm for
+anchoring floating quantifiers has been given. We propose such an
+algorithm in this paper. The algorithm uses information about
+case-marking, sentence structure, part-of-speech, noun and verb
+meaning. The algorithm has been implemented and tested within the
+Japanese-to-English machine translation system <strong>ALT-J/E</strong> (<a href="c21.html#ref9">Ikehara et
+al., 1991</a>).
+</p>
+<p>
+The next section describes the phenomenon of quantifier float in more
+detail. We then propose our algorithm to identify and anchor floating
+quantifiers in Section 3. The results of implementing the algorithm in
+<strong>ALT-J/E</strong> are discussed in Section 4 and some remaining problems
+identified. The conclusion summarises the implementation of the
+algorithm and highlights some of its strengths.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Quantifier float in Japanese</font></h2></a>
+
+<p>
+First we will give a definition of quantifiers. Semantically,
+quantifiers are elements that serve to quantify, or enumerate, some
+target. The target can. be an entity, in which case the number of
+objects is quantified, or an action, in which case the number of
+events (i.e. iterations of the action) are quantified. The
+quantification can be by a cardinal number, or by a more vague
+expression, like several or many.
+</p>
+<p>
+In Japanese, quantifiers (<strong>Q</strong>) are mainly realised in two ways:
+numeral-classifier combinations (<strong>XC</strong>) and quantificational nouns (<strong>N</strong>).
+Note that these nouns are often treated as adverbs, as they typically
+function as adjuncts that modify verbs, a function prototypically
+carried out by adverbs. They can however head noun phrases, and take
+some case-markers, so we classify them as nouns.
+</p>
+<p>
+Numeral classiflers form a closed class, although a large
+one. Japanese and Korean both have two or three hundred numeral
+classiflers (not counting units), although typically individual
+speakers use far less, between 30 and 80 (<a href="c21.html#ref6">Downing, 1995</a>, 346).
+</p>
+<p>
+Syntacticaily, numeral classifiers are a subclass of nouns. The main
+property distinguishing them from prototypical nouns is that they
+cannot stand alone. Typically they postfix to numerals, forming a
+quantifier phrase, although they can also combine with the
+quantificational prefIx <i>sû</i> "some" or the interrogative
+<i>nani</i> "what" :
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>(3)</td><td rowspan=3>&nbsp;</td><td><i>2-hiki</i> "2 animals"</td><td rowspan=3>&nbsp;</td><td align=right>(Numeral)</td></tr>
+<tr valign=top>
+    <td>(4)</td><td><i>sû-hiki</i> "some animals"</td><td align=right>(Quantifier)</td></tr>
+<tr valign=top>
+    <td>(5)</td><td><i>nan-biki</i> "how many animals"</td><td align=right>(Interrogative)</td></tr>
+</table>
+</p>
+
+<p>
+Semantically, classifiers both classify and quantify the referent of
+the noun phrase they collocate with.
+</p>
+<p>
+Quantificational nouns, such as <i>takusan</i> "much/many" ,
+<i>subete</i> "all" and <i>ichibu</i> "some" , only quantify their
+targets, there is no classification involved.
+</p>
+<p>
+Numeral classifier combinations appear in seven major patterns of use
+(following <a href="c21.html#ref2">Asahioka et al. (1990)</a>) as shown below (<strong>T</strong>
+refers to the quantified target noun phrase, <strong>m</strong> is a
+case-marker):
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>Type</td><td>Form</td><td>XC</td><td>N &nbsp;</td></tr>
+<tr></tr>
+<tr></tr>
+<tr valign=top><td>pre-nominal</td><td>Q-no T-m</td>	<td align=center>+</td><td align=center>+</td></tr>
+<tr valign=top><td>appositive</td><td>TQ-m</td>		<td align=center>+</td><td align=center>-</td></tr>
+<tr valign=top><td>floating</td><td>T-m Q<br>Q T-m</td>	<td align=center>+</td><td align=center>+</td></tr>
+<tr valign=top><td>partitive</td><td>T-no Q-m</td>	<td align=center>+</td><td align=center>+</td></tr>
+<tr valign=top><td>attributive</td><td>QT-m</td>	<td align=center>+</td><td align=center>-</td></tr>
+<tr valign=top><td>anaphoric</td><td>T-m</td>		<td align=center>+</td><td align=center>-</td></tr>
+<tr valign=top><td>prodicative</td><td>T-wa Q-da</td>	<td align=center>+</td><td align=center>-</td></tr>
+</table>
+<div align=center><strong>
+Table 1: Types of quantifier constructions
+</strong></div>
+</p>
+
+<p>
+Noun quantifiers cannot appear in the appositive, attributive,
+anaphoric and predicative complement patterns.
+</p>
+<p>
+In the pre-nominal construction the relation between the target noun
+phrase and quantifier is explicit. For numeral-classifier combinations
+the quantification can be of the object denoted by the noun phrase
+itself as in (6); or of a subpart of it as in (7) (see <a href="c21.html#ref3">Bond and Paik
+(1997)</a> for a fuller discussion). For nouns, only the object denoted by
+the noun itself can be quantified.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=8>&nbsp;&nbsp;</td>
+    <td rowspan=3>(6)</td><td rowspan=3>&nbsp;</td><td><i>3-tsû</i>-no</td><td><i><u>tegami</u></i></td></tr>
+<tr valign=top><td>3-<font size=-1>CL</font>-<font size=-1>ADN</font></td><td>letter</td></tr>
+<tr valign=top><td colspan=2>3 letters</td></tr>
+<tr></tr>
+<tr></tr>
+<tr valign=top>
+    <td rowspan=3>(7)</td><td rowspan=3>&nbsp;</td><td><i>3-mai</i>-no</td><td><i><u>tegami</u></i></td></tr>
+<tr valign=top><td>3-<font size=-1>CL</font>-<font size=-1>ADN</font></td><td>letter</td></tr>
+<tr valign=top><td colspan=2>a 3 page letter</td></tr>
+</table>
+</p>
+
+<p>
+In the partitive construction the quantifier restricts a subset of a
+known amount: e.g., <i>tegami-no 3-tsû</i> "three of the
+letters". This is a very different construal to the pre-nominal
+construction. Only rational quantificational nouns can appear in the
+partitive construction.
+</p>
+<p>
+The floating construction, on the other hand, has the same
+quantificational meaning as the pre-nominal. Two studies indicate that
+there are pragmatic difTerences (<a href="c21.html#ref7">Downing, 1996</a>; <a href="c21.html#ref15">Kim, 1995</a>).
+Pre-nominal constructions typically are used to introduce important
+referents, with nonexistential predicates, while floating
+constructions typically introduce new number information. In addition
+floating constructions are used when the nominal has other modifiers,
+and are more common in spoken text.
+</p>
+<p>
+We will restrict the following discussion to the difference between
+the pre-nominal and floating uses.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Restrictions on quantiner float</font></h2></a>
+
+<p>
+There have been many attempts to describe the situations under which
+the floating construction is possible, almost all of which only
+consider numeral-classifier constructions.
+</p>
+<p>
+The earliest generative approaches suggested that the target in the
+floating construction must be either subject or object. <a href="c21.html#ref12">Inoue (1983)</a>
+pointed out that quasi-objects, noun phrases marked with the
+accusative case-marker but failing other tests for objecthood, could
+also be targets.
+</p>
+<p>
+<a href="c21.html#ref17">Miyagawa (1989)</a> gives a comprehensive configurational explanation,
+where the target and quantifier must mutually c-command each other
+(that is, neither the target nor the quantifier dominates the other,
+and the first branching node that dominates either one, dominates the
+other). The restriction to nominative and accusative targets is
+explaIned by proposing a difference in structure. Verb arguments
+subcategorized for in the lexicon are noun phrases, where the
+case-marker is a clitic and thus can be c-commanded, whereas adjuncts
+are headed by their markers, to form post-positional phrases which are
+thus not available as targets.
+</p>
+<p>
+The c-command relation is applied to both the noun phrases themselves
+and traces. Quantifiers can be scrambled (moved from their base
+position after their target) leaving a trace if the target is an
+<i>affected Theme</i> NP, and the target and quantifier are governed
+by the verb that assigns this thematic role. Thus quantifiers
+associated with affected themes can move within the sentence. Affected
+themes are things that are "changed, created, converted, extinguished,
+consumed, destroyed or gotten-rid of" .
+</p>
+<p>
+<a href="c21.html#ref17">Miyagawa (1989, 57.)</a> proposes a syntactic test for affectiveness:
+affected themes can occure in the intransitive resultative
+construction <i>-te-aru</i>.
+</p>
+<p>
+<a href="c21.html#ref1">Alam (1997)</a> looks at the problem from a different angle, and proposes
+that only quantifiers which are interpreted "distributively or as a
+quantified event" can float, as they take wide scope beyond the NP. A
+quantified noun phrase will also quantify the event if the noun phrase
+<i>measures-out</i> the event, where "direct internal arguments
+undergoing change in the event described by the verb measure out the
+event" a very similar description to that of <strong>affected
+theme</strong>. However, <a href="c21.html#ref13">Jackendoff (1996)</a> has shown that a wide variety of
+arguments can measure out processes, not just subjects and objects,
+but also the complements of prepositional phrases.  Which case-roles
+measure out the process can be pragmatically determined as well as
+lexically stipulated, so it is not a simple matter to determine which
+arguments are relevent.
+</p>
+<p>
+The excellent distributional analysis of <a href="c21.html#ref7">Downing (1996)</a> shows that
+actual cases of floating tend to be <strong>absolutive</strong>, that is quantifiers
+largeIy float from intransitive subjects (67%) or direct objects of
+transitive verbs (24%) rather than from transitive subjects (4%) or
+indirect objects (1%).
+</p>
+<p>
+On the question of why quantifiers appear outside of the noun phrases
+they quantify, there have been two explanations: Discourse new
+information floats to the pre-verb focus position (<a href="c21.html#ref7">Downing, 1996</a>; <a href="c21.html#ref15">Kim,
+1995</a>), quantifiers float from noun phrases that 'measure out' an event
+(<a href="c21.html#ref1">Alam, 1997</a>).
+</p>
+<p>
+We speculate that there may be a performance based reason. <a href="c21.html#ref8">Hawkins
+(1994)</a> has shown that many phenomena claimed to be discourse related
+are in fact largely due to performance.  However we have not yet
+compiled sufficient empirical evidence to show this conclusively.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 An algorithm to identify and anchor floating quantiflers</font></h2></a>
+
+<p>
+The proposed algorithm is outlined in Figure 1.  In our implementation
+it is appplied to each of one or more candidate outputs of a Japanese
+dependency parser as part of the semantic ranking.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td colspan=3><tt>For each unit sentence</tt></td></tr>
+	<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td colspan=2><tt>Identify potential floating quantifiers (QP)</tt></td></tr>
+	<tr><td></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt>[Numeral-classifier or Quantificational Noun]</tt></td></tr>
+	<tr><td></td><td colspan=2><tt>Identify potential anchors (NP)</tt></td></tr>
+	<tr><td></td><td></td><td><tt>[nominative or accusative]</tt></td></tr>
+	<tr><td></td><td colspan=2><tt>Discard bad combinations</tt></td></tr>
+	<tr><td></td><td></td><td><tt>[semantic anomalies, degree modifiers, event modifiers]</tt></td></tr>
+	<tr><td></td><td colspan=2><tt>Rank remaining combinations</tt></td></tr>
+	<tr><td></td><td></td><td><tt>Prefer accusative</tt></td></tr>
+	<tr><td></td><td></td><td><tt>Prefer anchor on the left</tt></td></tr>
+	<tr><td></td><td></td><td><tt>Prefer closest</tt></td></tr>
+	<tr><td colspan=3><tt>Anchor the best candidate pair(s)</tt></td></tr>
+	</table></td></tr>
+</table>
+<div align=center><strong>
+Figure 1: Algorithm to anchor floating quantifiers
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Identify potential floating quantifiers</font></h2></a>
+
+<p>
+The first step is to identify potential floating quantifiers.
+</p>
+<p>
+Every adjunct case element headed by a noun is checked. All numeral
+classifier combinations are potential candidates.
+</p>
+<p>
+An adjunct must must meet two conditions to be considered a floating
+quantificational nouns, one semantic and one syntactic. The semantic
+criterion is that one of the noun's senses must be subsumed by
+<tt>quanta</tt>, <tt>few/some</tt>, <tt>all-part</tt>.  The syntactic criterion is that
+the part of speech subcategory must be one of <tt>degree</tt> or quantifier
+adverbial.<a name="rfn4" href="c21.html#fn4"><sup>4</sup></a> We use the Goi-Taikei (<a href="c21.html#ref11">Ikehara et al., 1997</a>.)
+to test for the senses and <a href="c21.html#ref18">Miyazaki et al. (1995)</a> for the syntactic
+classification.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Identify potential anchors</font></h2></a>
+
+<p>
+All noun phrases that matched a case-slot marked wlth <i>-ga</i>
+(nominative) or <i>-0</i> (accusative) are accepted as potential
+anchors. This is the traditional criterion given for potentiai
+anchors.  Note even if the surface marker is different, for example
+when the case-marker is overwritten by a focus-marker such as
+<i>-wa</i> "topic", the 'canonical' case-marker will be found by our
+parser.
+</p>
+<p>
+Noun phrases marked wlth <i>-ni</i> (dative), have been shown to be
+permissible candidates, but we do not allow them. Such sentences are,
+however, rare outside linguistics papers. We found no such candidates
+in the sentences we examined, and <a href="c21.html#ref7">Downing (1996, 239)</a> found only one
+in ninety six examples. When we tried allowing dative noun phrases, it
+significantly reduced the performance of our algorithm: every dative
+noun phrase selected was wrong. If we could determine which noun
+phrases measure-out the action, then they should also be considered as
+candidates, but we have no way to identify them at present.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Discard bad combinations</font></h2></a>
+
+<p>
+Some combinations of anchor and quantifier can be ruled out. We have
+identified three cases: semantically anomalous cases, sentences where
+the quantifier modifies the verb as a degree modifier, and sentences
+where the quantifier modifies the verb as a frequency modifier.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.1"><h2><font color=#ff0000>3.3.1 Semantically anomalous cases</font></h2></a>
+
+<p>
+<strong>Singular noun phrases</strong> In Japanese, pronouns and names are
+typically marked with a collectiviser (such as <i>-tachi</i>) if there
+are multiple referents (see e.g. <a href="c21.html#ref16">Martin (1988, 143-154)</a>) .  A pronoun
+or name not so marked characteristically has a singular
+interpretation. For names this can be overridden by a
+numeral-classifier combination (8), although it is rare, but not by an
+quantificational noun (9).
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(8)</td><td rowspan=3>&nbsp;</td><td><i><u>Matsuo-san-ga</u></i></td><td><i><strong>3-nin</strong></i></td><td><i>shabetta</i></td></tr>
+<tr><td>Matsuo-<font size=-1>HON</font>-<font size=-1>NOM</font> &nbsp;</td><td>3-<font size=-1>CL</font></td><td>spoke</td></tr>
+<tr><td colspan=3>3 Matsuos spoke</td></tr>
+<tr></tr>
+<tr></tr>
+</table>
+
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(9)</td><td rowspan=3>&nbsp;</td><td><i>Matsuo-san-ga</i></td><td><i><strong>takusan</strong></i></td><td><i>shabetta</i></td></tr>
+<tr><td>Matsuo-<font size=-1>HON</font>-<font size=-1>NOM</font> &nbsp;</td><td>many</td><td>spoke</td></tr>
+<tr><td colspan=3>Matsuo spoke a lot</td></tr>
+</table>
+</p>
+
+<p>
+In all the texts we examined, we found no examples of names modified
+by floating numeral-classifier combinations. We therefore block all
+pronouns and names not modified by a collectiviser from serving as
+anchors to floating quantifiers.
+</p>
+<p>
+In Japanese, there is not a clear division between pronouns and common
+nouns, particularly kin-terms such as <i>ojisan</i> "grandfather/old
+man". Pronouns can be modified in the same way as common nouns, and
+kin-terms are often used to refer to non kin. Pronouns modified by
+quantifiers need to be translated by more general terms as in (10).
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(10)</td><td rowspan=4>&nbsp;</td><td><i><u>kanojo-tachi-ga</u></i></td><td><i><strong>3-nin</strong></i></td><td><i>kita</i></td></tr>
+<tr><td>she-<font size=-1>COL</font>-<font size=-1>NOM</font></td><td>3-<font size=-1>CL</font></td><td>came</td></tr>
+<tr><td colspan=3>? 3 she came</td></tr>
+<tr><td colspan=3>The 3 girls came</td></tr>
+</table>
+</p>
+
+<p>
+<strong>Classifier semantic restrictions</strong> For numeral classifiers, the
+selectional restrictions of the classifier can be used to disallow
+certain combinations. For example, <i>-kai</i> "event" can only be
+used to modify event-nouns such as <i>shokuji</i> "meal" or <i>jishin</i>
+"earthquake". However, the semantics are very complicated, and there
+is a great deal of variation, as a classifier can select not just for
+the object denoted by its target but also a sub-part of it. In
+addition, classifiers can be used to select meanings figuratively,
+coercing a new interpretation of their head. <a href="c21.html#ref3">Bond and Paik (1997)</a>
+suggest a way of dealing with this in the generative lexical framework
+of <a href="c21.html#ref19">Pustejovsky (1995)</a> but it requires more information about the
+conceptual structure of noun phrases than is currently available.
+</p>
+<p>
+For the time being, we use a simple table of forbidden
+combinations. For example <i>pointo</i> "point" will not be used to
+quantify nouns denoting <tt>agent</tt>, <tt>place</tt> or <tt>abstract
+noun</tt>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.2"><h2><font color=#ff0000>3.3.2 Degree modification</font></h2></a>
+
+<p>
+Noun quantifiers can be used as degree modifiers as well as
+quantifying some referent. If the predicate is used to state a
+property of the potential anchor, then a noun quantifier will
+characteristically be a degree modifier.
+</p>
+<p>
+We use the verbal semantic attributes given in the Goi-Taikei (<a href="c21.html#ref11">Ikehara
+et al., 1997</a>) to test for this relationship. Anchoring will be blocked
+either if the potential anchor is nominative and the verbal semantic
+attribute is one of <tt>attribute transfer</tt>, <tt>existence</tt>,
+<tt>attribute</tt> or <tt>result</tt> or if the anchor is accusative
+and the verbal semantic attribute is <tt>physical/attribute
+transfer</tt>.
+</p>
+<p>
+Sentence (11) shows this constraint in action:
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(11)</td><td rowspan=4>&nbsp;</td><td><i>kodomo-ga</i></td><td><i><strong>sukoshi</strong></i></td><td><i>samui</i></td></tr>
+<tr><td>child-<font size=-1>NOM</font></td><td>a little</td><td>cold</td></tr>
+<tr><td colspan=3>* A few children are cold</td></tr>
+<tr><td colspan=3>The child is a little cold</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.3"><h2><font color=#ff0000>3.3.3 Event modification</font></h2></a>
+
+<p>
+The final case we need to consider is where the noun quantifier can
+quantify the event or the affected theme of the event, such as
+(12). In Japanese, either reading is possible when the quantifier is
+in pre-verbal position. Anchoring the quantifier is equivalent to
+choosing the theme reading.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(12)</td><td rowspan=4>&nbsp;</td>
+    <td><i>kare-wa</i></td><td><i><u>kêki-wo</u></i></td><td><i><strong>takusan</strong></i></td><td><i>tabeta</i></td>
+    <td row=2></td></tr>
+<tr><td>he-<font size=-1>TOP</font></td><td>cake-<font size=-1>NOM</font> &nbsp;</td><td>much</td><td>ate</td></tr>
+<tr><td colspan=4>He ate cake a lot</td><td align=right>(event)</td></tr>
+<tr><td colspan=4>He ate a lot of cake</td><td align=right>(theme)</td></tr>
+</table>
+</p>
+
+<p>
+Examining our corpus showed the theme reading to be the default. Of
+course, if the event is modified elsewhere, for example by a temporal
+modifier, then different readings are possible. The system in which
+our implementation was tested lacks a system for event quantification,
+so we were not able to implement any constraint for this
+phenomenon. We therefore implemented the theme reading as our
+default. Note that, for stative verbs with permanent readings such as
+<i>shiru</i> "know" , there is almost no difference between the two
+readings (13).
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(13)</td><td rowspan=4>&nbsp;</td>
+    <td><i>watashi-wa</i></td><td><i><u>ratengo-wo</u></i></td><td><i><strong>sukoshi</strong></i></td><td><i>shitte-iru</i></td></tr>
+<tr><td>I-<font size=-1>TOP</font></td><td>Latin-<font size=-1>ACC</font></td><td>a little</td><td>know</td></tr>
+<tr><td colspan=4>I know a little Latin</td></tr>
+<tr><td colspan=4>I know Latin a little</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.4"><h2><font color=#ff0000>3.4 Rank and select candidates</font></h2></a>
+
+<p>
+If there are more than two combinations, the following heuristics are
+used to choose which one or ones to choose.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=2><strong>Prefer accusative:</strong>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>A combination with an accusative anchor gets
+	two points: This is to allow for the absolutive bias.</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr><td colspan=2><strong>Prefer left anchor:</strong>
+<tr><td></td><td>If the anchor is to the left of the
+	quantifier score it with one point: Quantifiers tend to float to the
+	right of their anchors.</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr><td colspan=2><strong>Prefer closest:</strong>
+<tr><td></td><td>Subtract one for each intervening quantifier:
+	Closer targets are better.</td></tr>
+</table>
+</p>
+
+<p>
+Finally select the highest scoring combination and eliminate any
+combinations that include the chosen quantifier and anchor. If there
+is still a combination left (e.g. there were two quantifiers and two
+targets) then select it as well.
+</p>
+<p>
+These heuristics rule out crossing combinations in the rare instances
+of two quantifiers and two candidates.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.5"><h2><font color=#ff0000>3.5 Anchoring</font></h2></a>
+
+<p>
+Once the best combinations are chosen, the quantifier can be anchored
+to its target. We consider the best way to represent this would be by
+showing the semantic relation in a separate level from the syntax, in
+a similar way to the architecture outlined by <a href="c21.html#ref13">Jackendoff (1997)</a>.
+</p>
+<p>
+Our implementation is in a machine translation system and we simply
+rewrite the sentence so that the floating quantlfier becomes an
+prenominal modifier of its target, marked with the adnominal
+case-marker <i>-no</i>. The resulting modifier is labeled as
+'anchored', to allow special processing during the transfer phase.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Results and Discussion</font></h2></a>
+
+<p>
+The algorithm was tested on a 3700 sentence machine translation test
+set of Japanese sentences with English translations, produced by a
+professional human translator. A description of the test set and its
+design is given in <a href="c21.html#ref10">Ikehara et al. (1994)</a>.
+</p>
+<p>
+Overall, 56 possible combinations were found and 37 anchored in 3700
+sentences: Table 2.  Of these, 9 were anchored that should not have
+been, and 1 was not anchored that should have been. The accuracy
+(correctly anchored/anchored) was 76% (28/37), and the recall
+(correctly anchored/should be anchored) was 97% (28/29).
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2 align=left>Floating Quantifiers:</td><td rowspan=11></td><td colspan=2>Anchored</td><td colspan=2>Not anchored</td></tr>
+<tr align=center><td>&nbsp; Good &nbsp;</td><td>&nbsp; Bad &nbsp;</td><td>&nbsp; Good &nbsp;</td><td>&nbsp; Bad &nbsp;</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr align=center><td align=left>Nouns (<strong>N</strong>):</td><td>12</td><td>2</td><td>7</td><td>0</td></tr>
+<tr align=center><td align=left>Num-Cls (<strong>XC</strong>):</td><td>16</td><td>7</td><td>11</td><td>1</td></tr>
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr align=center><td align=left>Total:</td><td>28</td><td>9</td><td>18</td><td>1</td></tr>
+</table>
+<div align=center><strong>
+Table 2: Test results
+</strong></div>
+</p>
+
+<p>
+The major source of errors was from parsing errors in the system as a
+whole. All of the badly anchored numeral-classifiers combinations were
+caused by this. In this case, the algorithm has not degraded the
+system performance, it would have been a bad result anyway.
+</p>
+<p>
+There were three problems with the algorithm itself. In one case an
+anaphoric quantifier was mistaken as a floating quantif1er, in another
+the verbal semantic attribute check for degree modification gave a bad
+result. Finally there was one case where the default blocking for
+semantic anomalies blocked a good combination.
+</p>
+
+<strong>TransIation of floating quantifiers</strong>
+
+<p>
+Note that anchoring a floating quantifier is only the first step
+toward translating it. Special handling is sometimes needed to
+translate the anchored quantifiers.
+</p>
+<p>
+For example, Japanese has some universal pronouns that can stand alone
+as full noun phrases (14) or act as floating quantifiers (15): e.g.,
+<i>minna</i> "everyone" , <i>zen'in</i> "all members" .  When they are
+anchored, the information about the denotation of the head carried by
+the pronoun is redundant, and should not be translated. A special rule
+is required for this.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(14)</td><td rowspan=3>&nbsp;</td><td><i>minna-ga</i></td><td><i>sorou</i></td></tr>
+<tr><td>everyone-<font size=-1>NOM</font> &nbsp;</td><td>gather</td></tr>
+<tr><td colspan=2>All members gather.</td></tr>
+<tr></tr>
+<tr></tr>
+</table>
+
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(15)</td><td rowspan=4>&nbsp;</td><td><i>membâ-ga</i></td><td><i><strong>minna</strong></i></td><td><i>sorou</i></td></tr>
+<tr><td>member-<font size=-1>NOM</font> &nbsp;</td><td>everyone</td><td>gather</td></tr>
+<tr><td colspan=3>All the members gather.</td></tr>
+<tr><td colspan=3>* Everyone's members gather.</td></tr>
+</table>
+</p>
+
+<strong>Further work</strong>
+
+<p>
+The proposed algorithm forms a solid base for extensions in various
+ways.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=5>&nbsp;&nbsp;</td>
+    <td>1.</td><td rowspan=5>&nbsp;</td><td>Combine it with a fuller system of event semantics.</td></tr>
+<tr valign=top>
+    <td>2.</td><td>Make the treatment of classifier-target semantics more detailed, so
+	that inbuilt semantic restrictions can be used instead of a table
+	of forbidden combinations.</td></tr>
+<tr valign=top>
+    <td>3.</td><td>Use the results of the algorithm to help choose between candidate
+	parses and integrate it with the resolution of zero pronouns.</td></tr>
+<tr valign=top>
+    <td>4.</td><td>Test the algorithm on other languages, for example Korean.</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Conclusion</font></h2></a>
+
+<p>
+We have presented an algorithm to anchor floating quantiflers in
+Japanese. The algorithm proceeds as follows. First identify potential
+floating quantifiers: either numeral classifier combinations or
+quantificational nouns. Then identify potentiai anchors: all
+accusative or nominative noun phrases. Inappropriate combinations are
+deleted, either because of a semantic mismatch between the target and
+quantifler, or because the quantifier is interpreted as a degree or
+event modifier. Finally, possible combinations are ranked, with the
+accusative candidate being the best choice, then the closest and
+leftmost. The algorithm is robust and uses the full power of currently
+available detailed semantic dictionaries.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+The authors thank Tim Baldwin, Yukie Kuribayashi, Kyonghee Paik and
+the members of the NTT Machine Translation Research Group for their
+discussion and comments on this paper and earlier versions. The
+research was carried out while Daniela Kurz visited the NTT
+Communication Science Laboratories. Francis Bond is currently also
+enrolled part time as a doctoral candidate at the University of
+Queensland's Center for Language Teaching & Research.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Yukiko Sasaki Alam. 1997.</a>
+<dd>Numeral classifiers as adverbs of quantification.
+	In Ho-Min Sohn and John Haig, editors, <i>Japanese/Korean Linguistics</i>, volume 6, pages 381-397. CSLI.
+	<br><br>
+<dt><a name="ref2">Yoshimi Asahioka, Hideki Hirakawa, and Shinya Amano. 1990.</a>
+<dd>Semantic classification and an analyzing system of Japanese numerical expressions.
+	<i>IPSJ SIG Notes 90-NL-78</i>, 90(64):129-136, July. (in Japanese).
+	<br><br>
+<dt><a name="ref3">Francis Bond and Kyonghee Paik. 1997.</a>
+<dd>Classifying correspondence in Japanese and Korean.
+	In <i>3rd Pacific Association for Computational Linguistics Conference: PACLING-97</i>,
+	pages 58-67. Meisei University, Tokyo, Japan.
+	<br><br>
+<dt><a name="ref4">Francis Bond, Kentaro Ogura, and Satoru Ikehara. 1996.</a>
+<dd>Classifiers in Japanese-to-English machine translation.
+	In <i>16th International Conference on Computational Linguistics: COLING-96</i>,
+	pages 125-130, Copenhagen, August. (cmp-lg/9608014).
+	<br><br>
+<dt><a name="ref5">Pamela Downing and Michael Noonan, editors. 1995.</a>
+<dd><i>Word Order in Discourse</i>, volume 30 of Typological Studies in Language.
+	John Benjamins.
+	<br><br>
+<dt><a name="ref6">Pamela Downing. 1995.</a>
+<dd>The anaphoric use of classifiers in Japanese.
+	In Downing and Noonan (Downing and Noonan, 1995), pages 345-375.
+	<br><br>
+<dt><a name="ref7">Pamela Downing. 1996.</a>
+<dd><i>Numeral Classifer Systems, the case of Japanese</i>.
+	John Benjamins, Amsterdam.
+	<br><br>
+<dt><a name="ref8">John A. Hawkins. 1994.</a>
+<dd><i>A performance theory of order and constituency</i>, volume 73 of <i>Cambridge studies in linguistics</i>.
+	Cambridge University Press, Cambridge.
+	<br><br>
+<dt><a name="ref9">Satoru Ikehara, Satoshi Shirai, Akio Yokoo, and Hiromi Nakaiwa. 1991.</a>
+<dd>Toward an MT system without pre-editing - effects of new methods in <strong>ALT-J/E</strong>-.
+	In <i>Third Machine Translation Summit: MT Summit III</i>, pages 101-106, Washington DC. (cmp-lg/9510008).
+	<br><br>
+<dt><a name="ref10">Satoru Ikehara, Satoshi Shirai, and Kentaro Ogura. 1994.</a>
+<dd>Criteria for evaluating the linguistic quality of Japanese to English machine translations.
+	<i>Journal of Japanese Society for Artificial Intelligence</i>, 9(4):569-579. (in Japanese).
+	<br><br>
+<dt><a name="ref11">Satoru Ikehara, Masahiro Miyazaki, Satoshi Shirai, Akio Yokoo, Hiromi Nakaiwa, Kentaro Ogura, Yoshifumi Ooyama, and Yoshihiko Hayashi. 1997.</a>
+<dd><i>Goi-Taikei - A Japanese Lexicon</i>.
+	Iwanami Shoten, Tokyo. 5 volumes.
+	<br><br>
+<dt><a name="ref12">Kazuko Inoue, editor. 1983.</a>
+<dd><i>Nihongo-no Kihonkouzou (Basic Japanese Structure)</i>.
+	Sanseido, Tokyo. (in Japanese).
+	<br><br>
+<dt><a name="ref13">Ray Jackendoff. 1996.</a>
+<dd>The proper treatment of measuring out, telicity and perhaps even quantification in English.
+	<i>Natural Language and Linguistic Theory</i>, 14:305-354.
+	<br><br>
+<dt><a name="ref14">Ray Jackendoff. 1997.</a>
+<dd><i>The Architecture of the Language Faculty</i>.
+	MIT Press.
+	<br><br>
+<dt><a name="ref15">Alan Hyun-Oak Kim. 1995.</a>
+<dd>Word order at the noun phrase level in Japanese: quantifier constructions and discourse functions.
+	In Downing and Noonan (Downing and Noonan, 1995), pages 199-246.
+	<br><br>
+<dt><a name="ref16">Samuel E. Martin. 1988.</a>
+<dd><i>A Reference Grammar of Japanese</i>.
+	Tuttle.
+	<br><br>
+<dt><a name="ref17">Shigeru Miyagawa. 1989.</a>
+<dd><i>Structure and Case Marking in Japanese</i>, volume 22 of <i>Syntax and Semantics</i>.
+	Academic Press, Amsterdam.
+	<br><br>
+<dt><a name="ref18">Masahiro Miyazaki, Satoshi Shirai, and Satoru Ikehara. 1995.</a>
+<dd>A Japanese syntactic category system based on the constructive process theory and its use.
+	<i>Journal of Natural Language Processing</i>, 2(3):3-25, July. (in Japanese).
+	<br><br>
+<dt><a name="ref19">James Pustejovsky. 1995.</a>
+<dd><i>The Generative Lexicon</i>.
+	MIT Press.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+Quantifiers are whown in <strong>bold</strong>, the noun phrases
+they quantify are <u>underlined</u>. (<a href="c21.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+This phenomenon exists in other languages, such as Korean. We will,
+however, restrict our discussion to Japanese in this paper. (<a href="c21.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+The name 'float' comes from early transformational accounts, where
+the quantifier was said to 'float' out of the noun phrase. Although
+this anaiysis has largely been abandoned, and we disagree with it, we
+shall continue with accepted practice and call a quantifier in the
+adjunct position a floating quantifier. (<a href="c21.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>4</sup></a>
+This part of speech category actually includes both
+true adverbs aIld adverb-like nouns. (<a href="c21.html#rfn4">Return</a>)

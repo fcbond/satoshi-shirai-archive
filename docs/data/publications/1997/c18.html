@@ -1,0 +1,606 @@
+<html>
+<head>
+<title>Yamato Takahashi, Satoshi Shirai &amp; Francis Bond, NLPRS'97, December 2-4, 1997</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>A Method of Automatically Aligning Japanese &amp; English Newspaper Articles</font>
+<br><br>
+
+<font size=+2>Yamato T<small>AKAHASHI</small>, Satoshi S<small>HIRAI</small> and Francis B<small>OND</small></font>
+<br><br>
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-1 Hikari-no-oka, Yokosuka-shi, Kanagawa-ken, JAPAN 239</font>
+<br>
+<font size=+1><tt> {yamato,shirai,bond}@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+Bilingual Corpora are very useful in natural language
+processing. Unfortunately they are difficult to compile. We have
+developed a method in which numerical values and proper nouns are used
+as keywords to align the Japanese and English newspaper articles
+automatically in order to develop a corpus. In addition, we have
+developed a way to evaluate the results. We correctly align
+automatically an average of 38 out of 90 pairs of articles daily.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of NLPRS'97</i>, pp.657-660 (December, 1997). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=15>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c18.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c18.html#chap-2">2 Characteristics of news articles</a></td></tr>
+<tr><td><a href="c18.html#chap-3">3 Proposed Method of aligning Japanese and English articles</a></td></tr>
+<tr><td><a href="c18.html#chap-3.">3. 1 Extracting keywords from English Articles</a></td></tr>
+<tr><td><a href="c18.html#chap-3.">3. 1. 1 Extracting numerical keywords</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c18.html#chap-3.2">3.2 Extracting keywords from Japanese articles</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c18.html#chap-3.2.1">3.2.1 Extracting numerical keywords</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c18.html#chap-3.3">3.3 Aligning articles</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c18.html#chap-3.3.1">3.3.1 Aligning using numerical keylwords</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c18.html#chap-3.3.2">3.3.2 Aligning using proper noun keywords</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c18.html#chap-3.3.3">3.3.3 A method using proper noun and numerical keywords</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c18.html#chap-3.3.4">3.3.4 Summary</a></td></tr>
+<tr><td><a href="c18.html#chap-4">4 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c18.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+Bilingual corpora are very usefui in natural language
+processing. There are two difficulties in compiling them: first, it is
+hard to gather very large corpora; second, it is hard to align them.
+</p>
+<p>
+In order to obtain a large volume of data, we use newspaper articles,
+from an on-line source.  This allows us to continually gather a very
+large amount of data.
+</p>
+<p>
+<a href="c18.html#ref1">Shirai et al. (1995a)</a> showed that it is possible to align articles
+from the Nikkei Telecom/Japan News &amp; Retrieval (English news) and
+NIKKEI TELECOM BIZ (Japanese news) on-line electronic information
+services provided by Ninon Keizal Shimbun, Inc. If you consider the
+content, sentences basically corresponded between Japanese and Enghsh,
+although there was considerable difference in how the content was
+expressed. If you include partial correspondence, almost all the
+sentences in the English articles align with some Japanese
+sentence. In addition, in half of the aligned sentences the Japanese
+nominative case and accusative case corresponds to the English subject
+and object,
+</p>
+<p>
+To make a useful bilingual corpus we need to align articles and
+sentences between Japanese and English articles from the sources
+mentioned earher. Various methods have been proposed for aligning
+sentences (<a href="c18.html#ref2">Brown et al. (1991)</a> and <a href="c18.html#ref3">Utsuro et al. (1994)</a>), most of
+which assume that the data is already reasonably well aligned. In this
+paper we look at the preliminary question of efficiently aligning
+articles.
+</p>
+<p>
+We propose a method of aligning articles using proper nouns and
+numerical keywords, and a method of selecting those that we are
+confident are correctly aligned, and show its performance. In this
+paper, we consider accuracy to be extremely important, even at the
+cost of aligning fewer articles, because we wish to fully
+automatically align articles.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Characteristics of news articles</font></h2></a>
+
+<p>
+We use Japanese and Enghsh news articles from Ninon Keizai Shimbun,
+Inc. They are downloaded by modem from an on-line data base. Japanese
+news articles are from Nihon Keizai Shimbun, Nikkei Industrial Daily,
+Nikkei Marketing Journal and Nikkei Financial Daily. English news
+articles are from the Nikkei Telecom/Japan News &amp; Retrieval. English
+articles are provided with news flashes from four Japarlese
+newspapers.
+</p>
+<p>
+The number of articles in one week are shown in Table, 1. There are
+seven times as many Japanese articles as there are English ones. So it
+is most efficient to search for corresponding Japanese articles using
+the English articles as a key.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1: The number of Japanese &amp; English articles
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2>Date</td><td colspan=2>Japanese</td><td colspan=2>English</td></tr>
+<tr align=center>
+    <td>articles</td><td>with numeral</td><td>articles</td><td>with numeral</td></tr>
+<tr align=right><td align=center>2</td>
+    <td>842</td><td>703</td><td>120</td><td>111</td></tr>
+<tr align=right><td align=center>3</td>
+    <td>485</td><td>360</td><td>39</td><td>34</td></tr>
+<tr align=right><td align=center>4</td>
+    <td>738</td><td>647</td><td>97</td><td>85</td></tr>
+<tr align=right><td align=center>5</td>
+    <td>504</td><td>358</td><td>29</td><td>26</td></tr>
+<tr align=right><td align=center>6</td>
+    <td>167</td><td>127</td><td>12</td><td>8</td></tr>
+<tr align=right><td align=center>7</td>
+    <td>629</td><td>519</td><td>128</td><td>116</td></tr>
+<tr align=right><td align=center>8</td>
+    <td>929</td><td>671</td><td>152</td><td>132</td></tr>
+<tr align=right><td align=center>Total</td>
+    <td>4294</td><td>2781</td><td>577</td><td>512</td></tr>
+</table>
+</p>
+
+<p>
+There are many approaches using bilinguai dictionaries and statistics
+to align Japanese and English sentences. But it takes a lot of time to
+searth for one out of many hundred corresponding Japanese
+articles. using translated keywords for each English article.
+</p>
+<p>
+So, we use numerical keywords in articles. Numerical keywords are easy
+to extract and normally appear in both languages. In particular, as
+the four newspapers we are using as sources deal with financial
+topics, numerical keywords are numerous. We found that 80% of Japanese
+articles and 90% of English articles include one or more numerical
+keywords.
+</p>
+<p>
+<a href="c18.html#ref4">Shirai et al. (1995b)</a> showed that we can align with an accuracy of 50%
+by statistical methods using frequency of numerical keywords only and
+80% using the combined frequency of numerical keywords and proper
+nouns. But judgment of confidence is difficult. We propose a method
+that uses the number of different corresponding keywords in an article
+as the basis of judgment. Numbers that appear in both Japanese and
+Enghsh are part of the information conveyed by the article. Using them
+makes it easy to decide whether an article is correctIy aligned or
+not. Moreover, combining numerical keywords and a bilingual
+dictionary, we can identify even more aligned articles.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Proposed Method of aligning Japanese and English articles</font></h2></a>
+
+<p>
+In this section we give an explanation of our method of extracting
+keywords from articles and then aligning Japanese and English articles
+using these extracted keywords.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. 1 Extracting keywords from English Articles</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. 1. 1 Extracting numerical keywords</font></h2></a>
+
+<p>
+Listing numerical keywords as followed from one days English articles.
+</p>
+
+<ol>
+<li>First extract all strings of numerals, including decimal points
+	[0-9.], and all measure units.  We have prepared a list of frequently
+	occurring measure units, including some numerical words. Convert
+	combinations of numerals and numerical words to strings of numerals to
+	easy to match numerical keywords: <br>
+	<i>dollar, yen, %, trillion,
+	billion, million 4.3 trillion dollar => 4300000000000 dollar</i>
+<li>Delete duplicated numerical values in each article, leaving a
+	unique example of each type.  Because an article has often several
+	numerical keywords, and usually those are used twice or more (here, we
+	run only characteristic analysis, so we may miss that different
+	meaning numerical words are equivalent). So as not to match the same
+	keyword more than once.
+</ol>
+
+3.1.2 Extracting proper noun keywords
+
+<ol>
+<li>Extract proper nouns from the headline and body of the news
+	article. The nouns (including compound nouns) that satisfy the
+	following conditions are considered as proper noun keywords.
+    <ul type=disc>
+    <li> Words including capital letters: <br>
+	<i>SL-enhanced Intel i486SX</i>
+    <li> Words including capital letters connected by
+	the possessive clitic ('s), "of" or "&amp;": <br>
+	<i>Japan Federation of Employers ' Associations</i> . <br><br>
+	If the words following the possessive clitic ('s) or "of" do not
+	include capital letters then delete the clitic and don't include "of": <br>
+	<i>NTT's line => NTT, Bank of city => Bank</i> <br><br>
+    <li> Delete the definite article, "The" ,because we
+	suppose that "The U.S." and "the U.S." are equivalent: <br>
+	<i>The U.S. =>  U.S.</i>
+    </ul>
+    <br>
+<li>Look for a Japanese equivalent to the extracted proper noun keyword in a bilingual
+	dictionary. If there is a Japanese equivalent,
+	add it to the list of proper noun keywords. If
+	not, delete the word. If one Japanese word
+	sequence includes another Japanese word sequence
+	in the same articles delete the included one:
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td>&nbsp;&nbsp;</td><td><i>tokyô</i></td><td>"Tokyo"</td></tr>
+	<tr><td></td><td><i>tokyô-ginkou</i></td><td>"Bank of Tokyo"</td></tr>
+	</table>
+	Delete "Tokyo" from the proper noun keywords in this case.
+</ol>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Extracting keywords from Japanese articles</font></h2></a>
+
+<p>
+We try to align English articles with Japanese articles from the
+previous, same and next days, because <a href="c18.html#ref1">Shirai et al. (1995a)</a> showed
+that aligned articles come from the same day (30.6%), previous day
+(63.5%) and next day (5.9%).
+</p>
+<p>
+So we extract all numerical keywords from three days of Japanese news
+articles. But, it is hard to extract Japanese proper nouns
+automatically from Japanese news articles (there is no equivalent to
+</p>
+<p>
+English capitalization), so we only align proper nouns in the header
+and first paragraph of the Japanese news articles. Most important
+proper noun keywords appear in the lead sentences.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.1"><h2><font color=#ff0000>3.2.1 Extracting numerical keywords</font></h2></a>
+
+<ol>
+<li>We consider sequences of Japanese and English numerals, decimal
+	points, and the following units, <i>doru</i> "dollar" , <i>en</i> "yen" , <i>pâsento</i>
+	"%" to form numerical keywords.  And we regularize the extracted
+	sequences into strings of numerals followed by a unit, as we did for
+	the English keywords: <br>
+	<i>san-ju-go en go-ju sen</i> "35 yen 50 sen" => 35,50 yen
+<li>Delete duplicated numerical value in each articles, leaving one.
+</ol>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Aligning articles</font></h2></a>
+
+<p>
+We experimented with various combinations of alignment using numerical
+keywords or proper noun keywords.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.1"><h2><font color=#ff0000>3.3.1 Aligning using numerical keylwords</font></h2></a>
+
+<p>
+[E<small>XPERIMENT</small> 1]
+</p>
+<p>
+For our first attempt, we examined the numerical keyword list for each
+day, in both Japanese and English, and deleted any keyword that
+appeared in more than one article. We then aligned all articles with
+matching keywords. If there were two articles in the same language
+with the same keyword (from different days) we did not align them.  We
+call this method 1-to-1 alignment.
+</p>
+<p>
+As result, an average of accuracy of alignment is about 70% with one
+matching keywords, but an average of accuracy of alignment is 100%
+with two or more matching keywords. It is shown that rare numerical
+keyword isn't a good marker. And numerical value frequency is under
+the influence of a day of the number of article. So judging from the
+frequency is very difficult.
+</p>
+<p>
+Therefore, we think that aligning using the number of different
+matching keywords may be better than using the frequency of aligned
+keywords. We tested this in experiment 2.
+</p>
+<p>
+[E<small>XPERIMENT</small> 2]
+</p>
+<p>
+In this experiment we judged to be aligned any pair that had more
+matching keywords than any other pair. If there are multiple
+candidates with the same number of matches, we align the English
+article with none of them. We call this method best match.
+</p>
+<p>
+Using this method, we were able to a1ign 265 articles, 254 of them
+correctly, an accuracy of 95.8%.  Most of the errors occurred when
+there were only a few matching keywords, but there were errors even
+with as many as five matches.
+</p>
+<p>
+In order to improve the accuracy, we next consider the difference in
+the number of matching keywords between the top and second ranked
+candidates in the next experiment.
+</p>
+<p>
+[E<small>XPERIMENT</small> 3]
+</p>
+<p>
+In this experiment we align only those articles where the top
+candidate has two or more keyword matches than any other
+candidates. We call this method superlative match.
+</p>
+<p>
+Using this measure, all aligned articles are correctly
+aligned. However, we now only align 176 articles out of 577 articles
+(30.5%) in 7 days. An upper bound for this method is the number of
+articles with three or more numerical keywords, in this case, 373
+(64.6%).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.2"><h2><font color=#ff0000>3.3.2 Aligning using proper noun keywords</font></h2></a>
+
+<p>
+Next, we attempt to align using the proper noun keywords extracted in 3.2.
+<a href="c18.html#ref5">Takahashi et al. (1996)</a> used a typical machine-translation
+dictionary of company and place names (1345 items). However people's
+names and product names are also good keywords, and companies are
+often referred to by abbreviated forms of their names. So we handmade
+a translation dictionary from the result of the numerical
+alignment. We intend to automate this step later on, possibly using
+the automatic transliteration method outlined by <a href="c18.html#ref6">Matsuo et al. (1996)</a>.
+</p>
+<p>
+[E<small>XPERIMENT</small> 1]
+</p>
+<p>
+We attempted make to align articles using the English proper noun
+keyword list and the Japanese lead sentence list and our handmade
+dictionary. We judged to be aligned any pair that had more matching
+keywords than any other pair.  If there are multiple candidates with
+the same number of matches, we align the English article with none of
+them.
+</p>
+<p>
+As result, we align 134 articles, 122 of them correctly
+(91.0%). Because the bilingual dictionary is imperfect, the number of
+articles aiigned and the accuracy are both less than the numerical
+method.  In particular, when only two keywords are aligned, the
+accuracy is as low as 88.7%. Some company names and place names are
+very frequent, so they do not give a good measure of alignment,
+</p>
+<p>
+[E<small>XPERIMENT</small> 2]
+</p>
+<p>
+In our second experiment, we align only those articles where the top
+candidate has two or more keyword matches than any other candidates.
+</p>
+<p>
+In this case 50 articles are aligned, 49 of them correctIy, an
+accuracy of 98.0%, there is only one false positive. Extracted pairs
+of article are decrease to about 37.3%. Using only proper noun
+keywords, we don't get so good data.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.3"><h2><font color=#ff0000>3.3.3 A method using proper noun and numerical keywords</font></h2></a>
+
+<p>
+Finally we align only those articles where the top candidate has two
+or more keyword matches than any other candidates, using both proper
+noun and numerical keywords.
+</p>
+<p>
+As a result, the numerous aligned articles increase by 73 articles to
+249 articles (41.5% increased) from using only numerical keywords. So
+using proper nouns is worthwhile. An upper bound for this method is
+the number of articles with three or more numerical keywords and
+proper nouns, in this case, 492 (85.3%).
+</p>
+<p>
+In an additional experiment, we added to a translation dictionary new
+words found from the result of using both proper noun and numerical
+keywords.
+</p>
+<p>
+The translation dictionary increases by 11 items, but only one more
+article could be aligned.  Remaking the translation dictionary is not
+so useful, because financial news articles do not deal with companies
+or events so much.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3.4"><h2><font color=#ff0000>3.3.4 Summary</font></h2></a>
+
+<p>
+We summarize the results of the various methods in Table. 2.
+</p>
+
+<p>
+<div align=center><strong>
+Table 2: Comparison of the various methods.
+</strong></div>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td colspan=4>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=2>The method of alignment</td>
+    <td>Aligned articles</td><td colspan=2>Correctlyaligned</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top align=right>
+    <td rowspan=4 align=center>No</td>
+    <td align=left>Statistical approach</td>
+    <td>577</td><td>298</td><td>51.6%</td></tr>
+<tr align=right>
+    <td align=left>1-to-1 alignment</td>
+    <td>174</td><td>150</td><td>86.2%</td></tr>
+<tr align=right>
+    <td align=left>Best match</td>
+    <td>265</td><td>254</td><td>95.8%</td></tr>
+<tr align=right>
+    <td align=left>Superlative match</td>
+    <td>176</td><td>176</td><td>100%</td></tr>
+<tr valign=top align=right>
+    <td rowspan=2 align=center>PN</td>
+    <td align=left>Best match</td>
+    <td>134</td><td>122</td><td>91.0%</td></tr>
+<tr align=right>
+    <td align=left>Superlative match</td>
+    <td>50</td><td>49</td><td>98.0%</td></tr>
+<tr valign=top align=right>
+    <td align=center rowspan=2>N+P</td>
+    <td align=left>Statistical approach</td>
+    <td>577</td><td>463</td><td>80.2%</td></tr>
+<tr align=right>
+    <td align=left>Superlative match</td>
+    <td>249</td><td>249</td><td>100%</td></tr>
+<tr></tr><tr></tr>
+<tr><td align=center colspan=2>All English articles</td>
+    <td align=center colspan=3>577</td></tr>
+</table>
+</td></tr>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>No :</td><td>Using only numerical keywords.</td>
+    <td rowspan=3>&nbsp;&nbsp;</td></tr>
+<tr><td>PN :</td><td>Using only proper noun keywords.</td></tr>
+<tr><td>N+P:</td><td>Using both proper noun and numerical keywords.</td></tr>
+</table>
+</p>
+
+<p>
+The statistical method produces the most correct alignments, but with
+a lot of false nits. For an application that requires high accuracy we
+recommend the superlative match, using both numerical and proper noun
+keywords.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Conclusion</font></h2></a>
+
+<p>
+In this report, we propose and evaluate a method of automatically
+aligning Japanese and English articles using both numerical keywords
+and proper noun keywords. The merit of this method is that we can
+compile a large bilingual corpora automatically using simply
+analysis. in result, we align 249 articles out of 577 articles (43.2%)
+in 7 days, with all aligned articles correctly aligned.
+</p>
+<p>
+In the future, we intend to align sentences within these aligned
+articles; to use as examples in a translation database (<a href="c18.html#ref7">Takahashi et
+al., 1997</a>); to make translation dictionaries, to complie a SGML tagged
+bitext corpora (<a href="c18.html#ref8">Bond et al., 1996</a>), and so on.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">S. Shirai, S. Fujinami, S. Ikehara, H. Ueda and H. Inoue. 1995.</a>
+<dd>Constructing an aligned Japanese/English corpus of newspaper articles (1)
+	-basic structure and discussion-.
+	In <i>Record of the 1995 Joint Conference of Electrical and Electronics
+	Engineers in Kyushu</i> , p.855. (in Japanese).
+	<br><br>
+<dt><a name="ref2">P. F. Brown, J. C. Lai and R. L. Mercer. 1991.</a>
+<dd>Aligning sentences in parallel corpora.
+	In <i>Proc. of the 29th Annuat Meeting of the ACL</i> , pp.169-176.
+	<br><br>
+<dt><a name="ref3">T. Utsuro, H. Ikeda, M. Yamane, Y. Matsumoto and M. Nagano. 1994.</a>
+<dd>Bilingual text matching using bilingual dictionary and statistics.
+	In <i>15th COLING</i> , pp.1076-1082.
+	<br><br>
+<dt><a name="ref4">S. Shirai, H. Ueda, S. Abe, S. Fujinami and S. Ikehara. 1995.</a>
+<dd>Constructing an aligned Japanese/English corpus of newspaper articles (2)
+	-aligning articles taken from a database-.
+	In <i>Record of the 1995 Joint Conference of Electrical and Electronics
+	Engineers in Kyushu</i> , p.856. (in Japanese).
+	<br><br>
+<dt><a name="ref5">Y. Takahashi, S, Shirai, S. Fujmami, S. Ikehara, H. Ueda and H. Matsusima. 1996.</a>
+<dd>Automatically Aligning Japanese &amp; English Newspaper Articles.
+	In <i>IEICE Technical Report, NLC96-17</i> , pp. 55-62. (in Japanese).
+	<br><br>
+<dt><a name="ref6">Y. Matsuo and S. Shirai. 1996.</a>
+<dd>Using Pronunciation to Automatically Extract Bilingual Word Pairs.
+	In <i>IPSJ SIG Notes</i> , 96-NL-116, pp.101-106. (in Japanese).
+	<br><br>
+<dt><a name="ref7">Y. Takahashi, S. Shirai, M. Tachibana, M. Nisigaki and S. Ikehara. 1997.</a>
+<dd>Outline of an Example Based Method for Japanese-to-English Machine Translation.
+	in <i>Proc. of 7he 3rd Annual Meeting of The Association for Natural Language
+	Processing</i> , A2-1, pp.145-148. (in Japanese).
+	<br><br>
+<dt><a name="ref8">F. Bond, Y. Takahashi, S. Yamada and M. Nisigaki. 1996.</a>
+<dd>Still tagging an aligned Japanese/English corpus.
+	In <i>Proc. of The 2nd Annual Meeting of The Assoctation for Natural Language
+	Processing</i> , pp.205-208
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

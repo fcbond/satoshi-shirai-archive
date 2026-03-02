@@ -1,0 +1,1459 @@
+<html>
+<head>
+<title>Satoshi Shirai, Satoru Ikehara &amp; Tsukasa Kawaoka, TMI '93, July 14-16, 1993</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Effects of Automatic Rewriting of Source Language within a Japanese to English MT System</font>
+<br><br>
+
+<font size=+2>Satoshi Shirai, Satoru Ikehara and Tsukasa Kawaoka</font>
+<br><br>
+
+<font size=+1>Email: <tt> [shirai@nttkb.ntt.jp]   [ikehara@nttkb.ntt.jp]         [kawaoka@nttkb.ntt.jp]</tt></font>
+
+<br><br>
+
+<font size=+1>(NTT Network Information Systems Laboratories)</font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+To improve the quality of machine translation, it is important to develop a translation method that takes into account the conceptual differences between languages that cause difficult problems in translation. These problems typically occur with expressions that must be subjected to manual pre-editing of the source texts.
+</p>
+<p>
+This paper proposes a translation method that includes an automatic
+source text rewriting function. This method has the advantage of being
+able to use existing translation functions for the translation of
+difficult-to-translate expressions. At the same time, it improves
+processing efficiency by reducing ambiguities in syntactic and
+semantic analysis. This method is an extension of the Multi-Level
+Translation Method, on which the Japanese to English Machine
+Translation System ALT-J/E is based.
+</p>
+<p>
+According to translation experiments using newspaper articles,
+rewriting rules were applied to 44 sentences (43%) out of a total 102
+sentences (in 32 articles), an aggregate total of 52
+locations. Translation quality was improved in 33 sentences (75%) of
+the total and there was no degradation in the remainder. Furthermore,
+ambiguities in the semantic analysis were reduced from an average 5.39
+per sentence to 1.31 per sentence. These results show that this simple
+method gives a substantial improvement in translation quality.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of TMI '93</i>, pp.226-239 (July, 1993). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c03.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="c03.html#chap-2.">2. Types of Expressions to be Rewritten</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#chap-2.1">2.1 Conditions for Automatic Rewriting</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#chap-2.2">2.2 Classification of Expressions to be Rewritten</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c03.html#chap-2.2.1">2.2.1 Rewriting within Source Language</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c03.html#chap-2.2.2">2.2.2 Rewriting into Pseudo Source Language</a></td></tr>
+<tr><td><a href="c03.html#chap-3.">3. Rules and Method for Automatic Rewriting</a></td></tr>
+<tr><td><a href="c03.html#chap-4.">4. Experimentation and Evaluation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#chap-4.1">4.1 Conditions for Experimentation and Evaluation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#chap-4.2">4.2 Results and Observations</a></td></tr>
+<tr><td><a href="c03.html#chap-5.">5. Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#ack">Acknowledgement</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c03.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+To date, extensive research has been undertaken in machine translation
+and practical systems are being used to translate actual documents[<a
+href="c03.html#ref1">1</a>].  Unfortunately, the quality of translated texts
+continues to be problematic, resulting in a search for new theories
+and suggestions for innovative systems[<a href="c03.html#ref2">2</a>].  Many
+research efforts seeking to improve the quality of translations have
+been conducted in recent years[<a href="c03.html#ref3">3</a>,<a
+href="c03.html#ref4">4</a>].
+</p>
+<p>
+Considering the fact that language is the means for expressing the
+manner in which objects are viewed by the speaker, the conceptual
+differences between language groups must be considered important [<a
+href="c03.html#ref5">5</a>,<a href="c03.html#ref6">6</a>]. To realize a translation
+method that pays close attention to these differences, yet does not
+lose the meaning of the original text, the following two approaches
+can be considered.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=2>&nbsp;</td>
+    <td>To refrain from excessively parsing the source expression, yet seek 
+	combinations of words which have predicated meanings for replacement
+	within the original expression (non-literal translation).</td></tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>To automatically rewrite the original text into readily translatable
+	expressions without changing the meaning of the original expression
+	(rewriting into literally translatable expressions).</td></tr>
+</table>
+</p>
+<p>
+The first approach is adopted by the Multi-Level Translation Method
+[<a href="c03.html#ref7">7</a>,<a href="c03.html#ref8">8</a>] that takes into account
+the differences in speaker's perception according to languages. More
+recently, an empirical approach has come to encroach on the
+traditional theoretical approach, resulting in knowledge-based
+translation [<a href="c03.html#ref9">9</a>-<a href="c03.html#ref11">11</a>] or
+example-based translation [<a href="c03.html#ref12">12</a>,<a
+href="c03.html#ref13">13</a>]. The example-based method seeks to find
+expressions in the source language that correspond directly with those
+of the target language, and must be regarded as using the first
+approach.
+</p>
+<p>
+In contrast, the second approach mimes conventional manual
+pre-editing. Efforts are made to restrict expressions so as to
+facilitate translation and to develop a program that supports the
+checking of the source language text [<a href="c03.html#ref14">14</a>,<a
+href="c03.html#ref15">15</a>].
+</p>
+<p>
+Differences in concepts are felt to be clearly manifested in those
+situations in which machine translation systems encounter
+difficulties. If expressions that previously required manual
+pre-editing could be translated directly, machine translation systems
+would be more useful.
+</p>
+<p>
+This paper proposes a method of machine translation that includes the
+automatic rewriting of the source text. This method extends the
+Multi-Level Translation Method to include the second approach,
+automatically rewriting expressions that are difficult to translate by
+machine.
+</p>
+<p>
+Specifically, the types and characteristics of expressions and
+sentence structures that are subjected to automatic rewriting of the
+source text in Japanese to English MT are examined. These are
+separated into elements that can be rewritten within the source
+language framework and elements that need to be directly rewritten
+into expressions of the target language. Based on this understanding,
+an automatic rewriting method is proposed.
+</p>
+<p>
+This method aims at upgrading translation quality, and at the same
+time, retaining advantages[<a href="c03.html#ref16">16</a>] such as<a
+name="rfn1" href="c03.html#fn1"><sup>1</sup></a>:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>1)</td><td rowspan=2>&nbsp;</td>
+    <td>Existing translation functions can be used to translate rewritten expressions,
+	thus the need for any new translation algorithm is avoided, and,</td></tr>
+<tr valign=top>
+    <td>2)</td>
+    <td>Ambiguities in syntactic and semantic analyses are reduced which reduces 
+	processing time.</td></tr>
+</table>
+</p>
+<p>
+These benefits were confirmed by the following experiments in which
+the proposed method was applied to translation of the newspaper
+articles.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. Types of Expressions to be Rewritten</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Conditions for Automatic Rewriting</font></h2></a>
+
+<p>
+Expressions which meet all of the following conditions are to
+automatically rewritten.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>Condition 1:</td><td rowspan=4>&nbsp;</td>
+    <td>Accurate translation is not possible in the existing form.</td></tr>
+<tr valign=top>
+    <td>Condition 2:</td>
+    <td>A rewriting method exists that does not significantly change
+	the meaning.</td></tr>
+<tr valign=top>
+    <td>Condition 3:</td>
+    <td>The rewritten source can be translated.</td></tr>
+<tr valign=top>
+    <td>Condition 4:</td>
+    <td>No undesirable side effects occur with respect to existing translating
+	functions.</td></tr>
+</table>
+</p>
+<p>
+Of the foregoing, Conditions 1 through 3 are practically identical
+with manual pre-editing, but Condition 4 differs. Details are
+discussed below.
+</p>
+<p>
+(1) Cases Rendering MT Impossible
+</p>
+<p>
+Consider Condition 1. Expressions in actual documents for which
+appropriate translation is not possible can be generally classified as
+follows.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=10>&nbsp;&nbsp;</td>
+    <td rowspan=4 align=right>(i)</td><td rowspan=10>&nbsp;</td>
+    <td colspan=4>The source text is erroneous.</td></tr>
+<tr valign=top><td rowspan=3>&nbsp;</td>
+    <td>1.</td><td rowspan=3>&nbsp;</td>
+    <td>It does not follows the conventions of the source language. <br>
+	(Wrong kanji, missing characters, erroneous syntax, etc.)</td></tr>
+<tr valign=top>
+    <td>2.</td>
+    <td>There is unresolvable ambiguities. (analysis is not possible)</td></tr>
+<tr valign=top>
+    <td>3.</td>
+    <td>The contents are erroneous.</td></tr>
+<tr valign=top>
+    <td rowspan=3 align=right>(ii)</td>
+    <td colspan=4>The source text could be translated by existing technology, 
+	but implementation is not complete.</td></tr>
+<tr valign=top><td rowspan=2>&nbsp;</td>
+    <td>1.</td><td rowspan=2>&nbsp;</td>
+    <td>There are system bugs (in programs, dictionaries or rules)</td></tr>
+<tr valign=top>
+    <td>2.</td>
+    <td>The system lacks translation functions for some expressions.</td></tr>
+<tr valign=top>
+    <td rowspan=3 align=right>(iii)</td>
+    <td colspan=4>The source text requires a high level liberal translation 
+	which is difficult with existing technology.</td></tr>
+<tr valign=top><td rowspan=2>&nbsp;</td>
+    <td>1.</td><td rowspan=2>&nbsp;</td>
+    <td>Due to the absence of expressions in the target language which correspond 
+	directly to source language expressions, there is a need to reword the
+	source based on the appraisal of the speaker's intentions.</td></tr>
+<tr valign=top>
+    <td>2.</td>
+    <td>Some sections do not need to be translated due to differences 
+	in customs.</td></tr>
+</table>
+</p>
+<p>
+The foregoing, with the exception of (i)-3, fall within the scope of
+text error detection/correction, areas in which research efforts have
+been exerted for some time<a name="rfn2"
+href="c03.html#fn2"><sup>2</sup></a>. The areas causing problems in
+Japanese-English machine translation are (ii) and (iii).
+</p>
+<p>
+(2) Rewriting without Change in Meanings
+</p>
+<p>
+Let us next consider the second condition. In the case of manual
+pre-editing, rewriting is not possible unless an alternative
+expression can be found within the source language that does not
+change the meaning.  In contrast, when rewriting within the
+translation system, if there is an appropriate expression in the
+target language, this can be indicated directly, even if there is no
+such appropriate expression within the source language.
+</p>
+<p>
+Thus, targets for automatic rewriting of the source language can be
+regarded as one of the following categories.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>(A)</td>
+    <td>There is an alternative expression which can be translated by the existing system.
+	("Rewriting within the Source Language")</td></tr>
+<tr valign=top>
+    <td>(B)</td>
+    <td>No alternative expression exists in the source language, but there is
+	at least one corresponding target language expression.
+	("Rewriting into Pseudo Source Language")</td></tr>
+</table>
+</p>
+<p>
+In rewriting these two categories, (A) results in a sentence which can
+be understood also as a source language sentence<a name="rfn3"
+href="c03.html#fn3"><sup>3</sup></a>.  (B), however, yields expressions that
+correspond closely to the target language and, therefore, the
+resulting sentence need not necessary be understandable as a source
+language sentence.
+</p>
+<p>
+(3) Possibility of Translation after Rewriting
+</p>
+<p>
+Regarding Condition 3, whether translation is possible after rewriting
+must be judged in the same manner as with manual pre-editing and would
+need to be confirmed through experimentation.
+</p>
+<p>
+(4) Rewriting without Undesirable Side Effects
+</p>
+<p>
+Automatic rewriting is quite different from human pre-editing because
+rewriting rules will be applied to ail expression candidates. If any
+such rule should be inappropriate, there is a possibility that some
+unexpected expressions may also be rewritten against the aim of the
+rules. In preparing the rewriting rules therefore, there is a need to
+consider carefully the range and scope of application so as to avoid
+any degradation in translation quality. This would also need to be
+confirmed through experimentation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Classification of Expressions to be Rewritten</font></h2></a>
+
+<p>
+Based on experiments with the ALT-J/E MT System, six kinds of Japanese
+rewriting factors are to be suggested for Japanese to English
+MT. These factors are separated into two types as follows.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.1"><h2><font color=#ff0000>2.2.1 Rewriting within Source Language</font></h2></a>
+
+<p>
+There are 3 types of expressions that should be rewritten within the
+Japanese language. However, even in cases where rewriting within the
+Japanese text is possible, if the expression after rewriting results
+in ambiguity, rewriting into a pseudo source language should be
+undertaken using an awareness of the corresponding English. This type
+of expression is excluded from this classification and listed in the
+next section.
+</p>
+<p>
+(1) Degenerate Expressions
+</p>
+<p>
+When verbs are arranged in parallel, the conjugative suffix tends to
+be omitted and this causes misinterpretation of the verb which appears
+to be a noun. An example (a) below, the verb "tsuika-suru" (add) has
+the "suru" omitted and can be misinterpreted as "tsuika" (addition)
+which can cause the meaning of the entire sentence to be
+incomprehensible. To avoid such misinterpretation, the conjugative
+suffix should be supplemented in the original sentence rewritten in
+(a').
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Shisutemu-</td><td>ga</td><td rowspan=3>&nbsp;</td>
+    <td>tsuika</td><td rowspan=3>&nbsp;</td>
+    <td>oyobi</td><td rowspan=3>&nbsp;</td>
+    <td>sakujo-</td><td>suru</td><td rowspan=3>&nbsp;</td>
+    <td>deta</td></tr>
+<tr><td>(a)</td>
+    <td>ƒVƒXƒeƒ€</td><td>‚ª</td><td>’Ç‰Á</td>
+    <td>‚¨‚æ‚Ñ</td><td>íœ</td><td>‚·‚é</td><td>ƒf[ƒ^</td></tr>
+<tr><td></td>
+    <td>system</td><td></td><td>add</td><td>and</td>
+    <td>delete</td><td></td><td>data</td></tr>
+<tr><td></td><td colspan=11>(The data which the system adds and deletes.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td><td></td><td rowspan=3>&nbsp;</td>
+    <td>Shisutemu-</td><td>ga</td><td rowspan=3>&nbsp;</td>
+    <td>tsuika-shi</td><td rowspan=3>&nbsp;</td>
+    <td>soshite</td><td rowspan=3>&nbsp;</td>
+    <td>sakujo-suru</td><td rowspan=3>&nbsp;</td>
+    <td>deta</td></tr>
+<tr><td>(a')</td>
+    <td>ƒVƒXƒeƒ€</td><td>‚ª</td><td>’Ç‰Á‚µA</td>
+    <td>‚»‚µ‚Ä</td><td>íœ‚·‚é</td><td>ƒf[ƒ^</td></tr>
+<tr><td></td>
+    <td>system</td><td></td><td>add</td><td>and</td><td>delete</td><td>data</td></tr>
+</table>
+</p>
+<p>
+In compound sentences that jointly use the same verb, the verb for the
+earlier sentence tends to be omitted. For example, in (b) not only has
+the verb "tanto-suru" been omitted, but also joshi "wo". This causes
+the words "Beikoku"(the USA) and "Fukushacho" (vice-president) to be
+arranged in parallel and prevents the verification of the joshi
+"wa". In such a case, supplementing the omitted predicate by the
+correspondence between case elements will facilitate analysis.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Shacho-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Beikoku,</td><td rowspan=3>&nbsp;</td>
+    <td>Fukushacho-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Oshu-wo</td><td rowspan=3>&nbsp;</td>
+    <td>tanto-suru.</td><td rowspan=3 width=25%></td></tr>
+<tr><td>(b)</td>
+    <td>ŽÐ’·‚Í</td><td>•Ä‘A</td>
+    <td>•›ŽÐ’·‚Í</td><td>‰¢B‚ð</td><td>’S“–‚·‚éB</td></tr>
+<tr><td></td>
+    <td>president</td><td>the USA</td><td>vice-president</td><td>Europe</td><td>take charge</td></tr>
+<tr><td></td>
+    <td colspan=10>(The president takes charge of the USA and 
+	the vice president the europe)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td><td></td><td rowspan=3>&nbsp;</td>
+    <td>Shacho-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Beikoku-wo</td><td rowspan=3>&nbsp;</td>
+    <td>tanto-shi,</td><td rowspan=3>&nbsp;</td>
+    <td>Fukushacho-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Oshu-wo</td><td rowspan=3>&nbsp;</td>
+    <td>tanto-suru.</td></tr>
+<tr><td>(b')</td><td>ŽÐ’·‚Í</td><td>•Ä‘‚ð</td><td>’S“–‚µA</td>
+    <td>•›ŽÐ’·‚Í</td><td>‰¢B‚ð</td><td>’S“–‚·‚éB</td></tr>
+<tr><td></td>
+    <td>president</td><td>the USA</td><td>take charge</td>
+    <td>vice-president</td><td>Europe</td><td>take charge</td></tr>
+</table>
+</p>
+<p>
+(2) Removing Redundancy
+</p>
+<p>
+Normally, the conjugative particle "ba", besides its meaning as
+conditional conjunction, can be used to enumerate of nouns as in
+(c). In the case of noun enumeration, there is a need to take a broad
+view of the neighboring structure and semantics to arrive at a
+satisfactory interpretation.
+</p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Otoko-mo</td><td rowspan=3>&nbsp;</td>
+    <td>ire-ba</td><td rowspan=3>&nbsp;</td>
+    <td>onna-mo</td><td rowspan=3>&nbsp;</td>
+    <td>iru</td></tr>
+<tr><td>(c)</td><td>’j‚à</td><td>‚¢‚ê‚Î</td><td>—‚à</td><td>‚¢‚éB</td></tr>
+<tr><td></td><td>also male</td><td>be</td><td>also female</td><td>be</td></tr>
+<tr><td></td>
+    <td colspan=7>(There is both men and women.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;</td><td></td><td rowspan=3>&nbsp;</td>
+    <td>Otoko-mo</td><td rowspan=3>&nbsp;</td>
+    <td>onna-mo</td><td rowspan=3>&nbsp;</td>
+    <td>iru.</td></tr>
+<tr><td>(c')</td><td>’j‚à</td><td>—‚à</td><td>‚¢‚éB</td></tr>
+<tr><td></td><td>also male</td><td>also female</td><td>be</td></tr>
+</table>
+</p>
+<p>
+The translation of (c) is all but impossible. Therefore, (c) is
+rewritten to (c') which has practically the same meaning.
+</p>
+<p>
+(3) Syntactic Re-arrangement
+</p>
+<p>
+The subject and object tend to be omitted in Japanese sentences with
+the assumption that these can be understood by the reader. In such a
+case, a method has been proposed that supplies them by contextual
+analysis[<a href="c03.html#ref18">18</a>].  However, this process sometimes
+fails due to the lack of contextual information.
+</p>
+<p>
+For example, sentence (d) lacks both a subject and an object and
+cannot be translated in this form. The structure of sentences such as
+these need to be rewritten into a form corresponding to an appropriate
+English form structure as in (d').
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Nikishu</td><td rowspan=3>&nbsp;</td>
+    <td>awase-te</td><td rowspan=3>&nbsp;</td>
+    <td>tsuki</td><td rowspan=3>&nbsp;</td>
+    <td>gohyaku-dai</td><td rowspan=3>&nbsp;</td>
+    <td>seisan-suru.</td></tr>
+<tr><td>(d)</td>
+    <td>“ñ‹@Ží</td><td>‡‚í‚¹‚Ä</td><td>ŒŽ</td><td>ŒÜ•S‘ä</td><td>¶ŽY‚·‚éB</td></tr>
+<tr><td></td>
+    <td>two types</td><td>total</td><td>month</td><td>500 unit</td><td>produce</td></tr>
+<tr><td></td>
+    <td colspan=9>(500 unit total of both types will be produced monthly.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Nikishu-no</td><td rowspan=3>&nbsp;</td>
+    <td>gokei</td><td rowspan=3>&nbsp;</td>
+    <td>gessan-wa</td><td rowspan=3>&nbsp;</td>
+    <td>gohyaku-dai-da.</td></tr>
+<tr><td>(d')</td>
+    <td>“ñ‹@Ží‚Ì</td><td>‡Œv</td><td>ŒŽŽY‚Í</td><td>ŒÜ•S‘ä‚¾B</td></tr>
+<tr><td></td>
+    <td>two types</td><td>total</td><td>monthly products</td><td>500 units</td></tr>
+<tr><td></td>
+    <td colspan=9>(The monthly total of both types is 500 units.)</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2.2"><h2><font color=#ff0000>2.2.2 Rewriting into Pseudo Source Language</font></h2></a>
+
+<p>
+We identify 3 types of expressions.
+</p>
+<p>
+(1) Independent Phrase Expressions
+</p>
+<p>
+Among adverbial clauses functioning as verbs in the Japanese language
+are those which can be translated on the English side into simplified
+prepositional phrases. But a literal translation will result in a verb
+clause and in most cases, degrade translation quality. In (e) below,
+"noru"(ride) is a verb, but "ni-not-te" has a meaning corresponding to
+"by" which expresses means or method. Thus, a pseudo Japanese language
+expression "ni-not-te" is devised to replace this. There is in
+Japanese the joshi "de" which corresponds to the word "by" expressing
+means or method. But this is avoided since "de" can result in numerous
+forms of ambiguities that are difficult to analyze and is rewritten
+into pseudo Japanese language.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Basu-ni</td><td rowspan=3>&nbsp;</td>
+    <td>not-te</td><td rowspan=3>&nbsp;</td>
+    <td>gakko-e</td><td rowspan=3>&nbsp;</td>
+    <td>iku.</td></tr>
+<tr><td>(e)</td><td>ƒoƒX‚É</td><td>æ‚Á‚Ä</td><td>ŠwZ‚Ö</td><td>s‚­B</td></tr>
+<tr><td></td><td>bus</td><td>ride</td><td>to school</td><td>go</td></tr>
+<tr><td></td><td colspan=7>(I go to school riding on a bus.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Basu</td><td>ni-not-te</td><td rowspan=3>&nbsp;</td>
+    <td>gakko-e</td><td rowspan=3>&nbsp;</td>
+    <td>iku.</td></tr>
+<tr><td>(e')</td><td>ƒoƒX</td><td>ƒƒjƒmƒbƒe„</td><td>ŠwZ‚Ö</td><td>s‚­B</td></tr>
+<tr><td></td><td>bus</td><td>by</td><td>to school</td><td>go</td></tr>
+<tr><td></td><td colspan=6>(I go to school by bus)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Sunin-ga</td><td rowspan=3>&nbsp;</td>
+    <td>basu-ni</td><td rowspan=3>&nbsp;</td>
+    <td>notte,</td><td rowspan=3>&nbsp;</td>
+    <td>nokori-wa</td><td rowspan=3>&nbsp;</td>
+    <td>densha-ni</td><td rowspan=3>&nbsp;</td>
+    <td>noru.</td></tr>
+<tr><td>(f)</td>
+    <td>”l‚ª</td><td>ƒoƒX‚É</td><td>æ‚Á‚ÄA</td>
+    <td>Žc‚è‚Í</td><td>“dŽÔ‚É</td><td>æ‚éB</td></tr>
+<tr><td></td>
+    <td>several persons</td><td>bus</td><td>ride</td>
+    <td>remainder</td><td>train</td><td>ride</td></tr>
+<tr><td></td>
+    <td colspan=11>(Several persons ride on a bus, 
+	and the remainder on a train.)</td></tr>
+</table>
+</p>
+<p>
+In (f), "ni-not-te" is also being used, but in this case, this
+constitutes a main verb and is not rewritten.
+</p>
+<p>
+(2) Modal and Tense Expressions
+</p>
+<p>
+Modal and tense are usually expressed by combinations of joshi and
+intransitive verb. But there are instances where they are handled by
+expressions that have been objectified by nouns, verbs and other
+factors. For example, in (g), the copulative predicate "yotei-da" (be
+scheduled to, be planning to) clearly expresses "intentional
+planning", (i) signifies a condition immediately after conclusion of
+an act by the copulative predicate "tokoro-da" (have just finished
+---ing). Expressions such as these are to be separated from objective
+expressions and rewritten so as to be handled pseudo-linguistically as
+subjective expressions.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Sanya Denki-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Tokyo-ni</td><td rowspan=3>&nbsp;</td>
+    <td>honsha-wo</td><td rowspan=3>&nbsp;</td>
+    <td>utsusu</td><td rowspan=3>&nbsp;</td>
+    <td>yotei-da.</td></tr>
+<tr><td>(g)</td>
+    <td>ŽR’J “d‹C‚Í</td><td>“Œ‹ž‚É</td><td>–{ŽÐ‚ð</td><td>ˆÚ‚·</td><td>—\’è‚¾B</td></tr>
+<tr><td></td><td>Sanya Denki</td><td>to Tokyo</td>
+    <td>Head office</td><td>transfer</td><td>plan</td></tr>
+<tr><td></td>
+    <td colspan=9>(Sanya Denki plans to transfer its head office to Tokyo.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Sanya Denki-wa</td><td rowspan=3>&nbsp;</td>
+    <td>Tokyo-ni</td><td rowspan=3>&nbsp;</td>
+    <td>honsha-wo</td><td rowspan=3>&nbsp;</td>
+    <td>utsusu</td></tr>
+<tr><td>(g')</td>
+    <td>ŽR’J “d‹C‚Í</td><td>“Œ‹ž‚É</td><td>–{ŽÐ‚ð</td><td>ˆÚ‚·B(+ plan to)</td></tr>
+<tr><td></td>
+    <td>Sanya Denki</td><td>to Tokyo</td><td>head office</td><td>transfer</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Kore-wa</td><td rowspan=3>&nbsp;</td>
+    <td>watakushi-ga</td><td rowspan=3>&nbsp;</td>
+    <td>dashi-ta</td><td rowspan=3>&nbsp;</td>
+    <td>yotei-da.</td></tr>
+<tr><td>(h)</td><td>‚±‚ê‚Í</td><td>Ž„‚ª</td><td>o‚µ‚½</td><td>—\’è‚¾B</td></tr>
+<tr><td></td>
+    <td>this</td><td>I</td><td>submitted</td><td>schedule</td></tr>
+<tr><td></td>
+    <td colspan=7>(This is the schedule that I submitted.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Basu-wa</td><td rowspan=3>&nbsp;</td>
+    <td>shuppatsu-shi-ta</td><td rowspan=3>&nbsp;</td>
+    <td>tokoro-da.</td></tr>
+<tr><td>(i)</td><td>ƒoƒX‚Í</td><td>o”­‚µ‚½</td><td>‚Æ‚±‚ë‚¾B</td></tr>
+<tr><td></td>
+    <td>bus</td><td>departed</td><td>just</td></tr>
+<tr><td></td>
+    <td colspan=5>(The bus has just departed.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Basu-wa</td><td rowspan=3>&nbsp;</td>
+    <td>shuppatsu-suru</td></tr>
+<tr><td>(i')</td>
+    <td>ƒoƒX‚Í</td><td>o”­‚·‚éB( + a state immediately following completion)</td></tr>
+<tr><td></td>
+    <td>bus</td><td>depart</td></tr>
+<tr><td></td>
+    <td colspan=3>(The bus is departing. ( + a state immediately following completion))</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Kosenjo-wa</td><td rowspan=3>&nbsp;</td>
+    <td>bushi-ga</td><td rowspan=3>&nbsp;</td>
+    <td>tatakat-ta</td><td rowspan=3>&nbsp;</td>
+    <td>tokoro-da.</td><td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td>(j)</td>
+    <td>ŒÃíê‚Í</td><td>•Žm‚ª</td><td>í‚Á‚½</td><td>‚Æ‚±‚ë‚¾B</td></tr>
+<tr><td></td>
+    <td>old battlefield</td><td>samurai</td><td>fought</td><td>place</td></tr>
+<tr><td></td>
+    <td colspan=7>(The old battlefield is the place where samurai fought.)</td></tr>
+</table>
+</p>
+<p>
+Examples (h) and (j) have the simple syntax "A is B" and are not subject to rewriting.
+</p>
+<p>
+(3) Degenerate Conjunctive Expressions
+</p>
+<p>
+Among words expressing sentence conjunction, there are those which are
+meaningless when translated into English. In (k) for example, the
+expression "noni-tsuzuki" serves merely to indicate the order in which
+action is taken. In terms of internal expression, sequential
+conjunction is added as a conjunctive attribute, and is deleted from
+the source text.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Kokino-wo</td><td rowspan=3>&nbsp;</td>
+    <td>tsuika-suru</td><td>noni</td><td rowspan=3>&nbsp;</td>
+    <td>tsuzuki,</td><td rowspan=3>&nbsp;</td>
+    <td>kairyogata-wo</td><td rowspan=3>&nbsp;</td>
+    <td>donyu-suru.</td></tr>
+<tr><td>(k)</td>
+    <td>‚‹@”\‚ð</td><td>’Ç‰Á‚·‚é</td><td>‚Ì‚É</td><td>‘±‚«A</td>
+    <td>‰ü—ÇŒ^‚ð</td><td>“±“ü‚·‚éB</td></tr>
+<tr><td></td>
+    <td>high performance function</td><td>add</td><td></td><td>continue</td>
+    <td>revise model</td><td>introduce</td></tr>
+<tr><td></td>
+    <td colspan=9>(Following the addition of high performance features, 
+	a revised and improved model will be introduced.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td>Kokino-wo</td><td rowspan=3>&nbsp;</td>
+    <td>tsuika-suru</td><td rowspan=3>&nbsp;</td>
+    <td>kairyogata-wo</td><td rowspan=3>&nbsp;</td>
+    <td>donyu-suru.</td></tr>
+<tr><td>(k')</td>
+    <td>‚‹@”\‚ð</td><td>’Ç‰Á‚·‚é(+ sequential conjunction)A</td>
+    <td>‰ü—ÇŒ^‚ð</td><td>“±“ü‚·‚éB</td></tr>
+<tr><td></td>
+    <td>high performance function</td><td>add</td>
+    <td>revised model</td><td>itroduce</td></tr>
+<tr><td></td>
+    <td colspan=7>(A revised and improved model which adds high performance capability
+	will be introduced.)</td></tr>
+<tr></tr><tr></tr>
+</table>
+</p>
+<p>
+The Japanese language allows a considerable range of freedom in the
+arrangement order of clauses. In the case of conjunctive expressions,
+changes in the order of clauses will, at times, facilitate
+translation. Example (l) has two components that are verb-like. One is
+the adverbial clause "miokuri-ni" (to see off) functioning as a verb
+and the other is the predicate "iku"(go). In this example the
+phenomena of crossed dependency took place.  By regarding these two
+components as a single unit of a compound predicate, cross dependency
+can be avoided. However, rewriting the adverbial clause, "to see off"
+to reflect the meaning "in order to", greatly facilitates translation.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td rowspan=8>&nbsp;&nbsp;</td><td></td><td rowspan=8>&nbsp;</td>
+    <td colspan=3>daitoryo-wo</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>Narita-ni</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>miokuri-ni</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>iku</td></tr>
+<tr><td></td>
+    <td colspan=3>president</td><td colspan=3>to Narita</td>
+    <td colspan=3>to see off</td><td colspan=3>go</td></tr>
+<tr><td>(l)</td>
+    <td colspan=3>‘å“—Ì‚ð</td><td colspan=3>¬“c‚É</td>
+    <td colspan=3>Œ©‘—‚è‚É</td><td colspan=3>s‚­B</td></tr>
+<tr align=center><td></td>
+    <td width=30></td><td width=30 align=left>&nbsp;„ </td><td width=25></td><td></td>
+    <td width=20></td><td width=25></td><td width=25 align=left>„ </td><td></td>
+    <td width=20 align=left>ª</td><td width=25></td><td width=25>„ </td><td></td>
+    <td width=15>ª</td><td width=15>ª</td><td width=15></td></tr>
+<tr align=center><td></td><td></td><td colspan=8>„¤„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„©„Ÿ„£&nbsp;</td><td></td><td colspan=3>„¤„Ÿ„£</td><td>„ </td></tr>
+<tr align=center><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan=8>„¤„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„£</td></tr>
+<tr><td></td><td colspan=15>(I go to Narita to see the president off.)</td></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=4>&nbsp;&nbsp;</td><td></td><td rowspan=4>&nbsp;</td>
+    <td colspan=3>daitoryo-wo</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>miokuri-ni</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>Narita-ni</td><td rowspan=3>&nbsp;</td>
+    <td colspan=3>iku</td></tr>
+<tr><td></td>
+    <td colspan=3>president</td><td colspan=3>to see off</td>
+    <td colspan=3>to Narita</td><td colspan=3>go</td></tr>
+<tr><td>(l')</td>
+    <td colspan=3>‘å“—Ì‚ð</td><td colspan=3>Œ©‘—‚é(in order to)</td>
+    <td colspan=3>¬“c‚É</td><td colspan=3>s‚­B</td></tr>
+<tr align=center><td></td>
+    <td width=25></td><td width=25>„ </td><td width=25></td><td></td>
+    <td width=30>ª</td><td width=45></td><td width=25>„ </td><td></td>
+    <td width=20></td><td width=25 align=left>„ </td><td width=25></td><td></td>
+    <td width=15>ª</td><td width=15>ª</td><td width=15></td></tr>
+<tr align=center><td></td><td></td><td></td><td></td><td colspan=4 align=left>&nbsp;„¤„Ÿ„Ÿ„Ÿ„£</td><td></td><td align=left>&nbsp;„ </td><td></td><td></td><td colspan=4>„¤„Ÿ„Ÿ„Ÿ„£</td><td>„ </td></tr>
+<tr align=center><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td colspan=8>„¤„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„£</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Rules and Method for Automatic Rewriting</font></h2></a>
+
+<p>
+(1) Rewriting Rules
+</p>
+<p>
+Examples of rewriting rules are shown in Table 1. Expressions which
+are subjected to rewriting are defined using parts of speech, semantic
+attributes, dependency relations between words as well as the
+appearance of written words.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1. Forms for Japanese Rewriting Rules
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td rowspan=2>Index Word</td><td rowspan=2>Position of Case Element</td>
+    <td colspan=3>Expression to be Rewrited</td>
+    <td colspan=3>Expression after Rewriting</td></tr>
+<tr align=center><td>Contents</td><td>Head</td><td>Modifier</td>
+    <td>Contents</td><td>Head</td><td>Modifier</td></tr>
+<tr></tr>
+<tr align=center>
+    <td rowspan=3>æ‚é(ride, take)</td>
+    <td>X1</td><td>[Vehicle] +‚É(joshi)</td><td>(any one)</td><td>X2(case relation)</td>
+    <td>[Vehicle]+‚Éæ‚Á‚Ä(pseudo joshi)</td><td>*</td><td>X3(case relation)</td></tr>
+<tr align=center>
+    <td>X2</td><td>æ‚é(‰¹•Ö) + ‚Ä(joshi)</td><td>X1</td><td>X3(conjunction)</td>
+    <td colspan=3>&lt;deletion&gt;</td></tr>
+<tr align=center>
+    <td>X3</td><td>s‚­[+*]</td><td>X2</td><td>&lt;arbitrarily&gt;</td>
+    <td>&lt;no change&gt;</td><td>X1</td><td>&lt;no change&gt;</td></tr>
+</table>
+</p>
+
+<p>
+(2) Phases in Which Rules are Applied
+</p>
+<p>
+The translation process consists of several phases, such as
+morphological, syntactic, semantic analysis and other
+phases. Rewriting at too early a phase will sometimes cause an
+undesirable reaction because of the lack of analytical
+information. Conversely, rewriting after analysis has progressed
+significantly will risk diminishing the effects of ambiguity reduction
+in successive analyses.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c03/c03-fig1.gif" width=664 height=435>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.1 Source Text Rewriting Method
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c03/c03-fig2.gif" width=525 height=396>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.2 Reduction of Ambiguity by Rewriting
+</strong></div>
+</p>
+
+<p>
+Thus, we have decided to apply rewriting rules immediately after
+syntactic analysis, a phase at which it becomes possible to check
+conditions for the application of these rules. Fig. 1 shows the
+rewriting process.
+</p>
+<p>
+(3) Handling of Syntactic Ambiguities
+</p>
+<p>
+Syntactic ambiguities cannot be solved by just syntactic analysis and
+several interpretation candidates will generally be produced.  Thus,
+there will be two or more candidates for one sentence.  Moreover,
+there will be cases in which rewriting rules can be applied to some
+candidates but not to others. In such a case, we can define rewriting
+rules so precisely that the candidate for which the rewriting rule is
+applicable can be assumed to be the accurate interpretation.
+</p>
+<p>
+For example, in example (e) shown previously, the syntactic analysis
+produces two interpretations as shown in Fig. 2-(e). A rewriting rule
+is applied to Interpretation 1 resulting in (e'), but for
+Interpretation 2, it is not applicable. In such a case, correct
+interpretation can be easily determined by deleting the interpretation
+for which rules are not applicable.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Experimentation and Evaluation</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Conditions for Experimentation and Evaluation</font></h2></a>
+
+<p>
+Rewriting rules for Japanese sentences, as discussed in Chapters 2 and
+3, were applied to the Japanese to English MT System, ALT-J/E. The
+results of translation obtained with and without automatic rewriting
+were compared.
+</p>
+<p>
+(1) Test Sentences and Number of Rules Applied
+</p>
+<p>
+102 leading sentences from 32 articles in the Nikkei Sangyo Newspaper
+were selected as test sentences. The average number of characters in
+the source text was 44 characters per sentence and each sentence
+contains an average of 21 words. The leading section of each article
+consisted of 3 to 5 sentences. Since each article had some context,
+they were translated article by article<a name="rfn4"
+href="c03.html#fn4"><sup>4</sup></a>; evaluations, however, were conducted
+sentence by sentence.
+</p>
+<p>
+A total of 940 rewriting rules were prepared based on 500 newspaper article sentences including the aforementioned test sentences and on 3,700 functional test sentences.
+</p>
+<p>
+(2) Standards for Grading Translation Quality
+</p>
+<p>
+The standard for grading translation quality was determined by
+modifying the ALPAC 9-level Grading Standards[<a
+href="c03.html#ref19">19</a>]. Full marks are set at 10 points and a
+successful translation is set at 6 or more points the level where the
+meaning can be understood by a native reading only the
+translation. Grading was conducted individually by 3 bilingual persons
+specializing in Japanese to English translation. The grade averages
+were rounded out and determined as final scores for each translation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Results and Observations</font></h2></a>
+
+<p>
+The results of the experiments are shown in Tables 2 and 3. Rewriting
+rules were applied to 44 sentences (43%) out of 102 sentences at a
+total of 52 locations. Some translation examples with and without
+automatic rewriting are shown rn Table I in the Appendix. The changes
+that were brought about in translation quality and' in the reduction
+in ambiguity of semantic analysis with sentences to which rewriting
+rules were applied were observed as follows.
+</p>
+
+<p>
+<div align=center><strong>
+Table 2.   Improvement of Translation Quality with Rewriting Method
+</strong></div>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td colspan=3>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td align=right colspan=3 rowspan=2>after</td>
+    <td colspan=14>Marks with Automatic Rerwiting</td></tr>
+<tr align=center><td colspan=6>Fail</td><td rowspan=16></td><td colspan=5>Success</td>
+    <td rowspan=2 colspan=2>Total Aver. 4.3</td></tr>
+<tr align=center><td colspan=2 align=left>before</td><td>mark</td>
+    <td width=20>0</td><td width=20>1</td><td width=20>2</td><td width=20>3</td>
+    <td width=20>4</td><td width=20>5</td><td width=20>6</td><td width=20>7</td>
+    <td width=20>8</td><td width=20>9</td><td width=20>10</td></tr>
+<tr align=center><td rowspan=14>Marks<br>without<br>rewriting</td>
+    <td rowspan=6>fail</td><td>0</td>
+    <td><br></td><td><br></td><td><br></td><td><br></td><td><br></td><td><br></td>
+    <td><br></td><td><br></td><td><br></td><td><br></td><td><br></td><td><br></td>
+    <td rowspan=6>35 (80%)</td></tr>
+<tr align=center><td>1</td>
+    <td bgcolor=ffff40><br></td><td><br></td><td><br></td><td><br></td><td><br></td>
+    <td><br></td>
+    <td><br></td><td><br></td><td>1</td><td><br></td><td><br></td><td>1</td></tr>
+<tr align=center><td>2</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td><br></td><td><br></td>
+    <td><br></td><td><br></td>
+    <td><br></td><td>1</td><td>1</td><td><br></td><td><br></td><td>2</td></tr>
+<tr align=center><td>3</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td>4</td><td>1</td><td>2</td>
+    <td>5</td><td><br></td><td><br></td><td>1</td><td><br></td><td>13</td></tr>
+<tr align=center><td>4</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td>1</td>
+    <td>2</td><td>2</td><td>3</td><td><br></td><td>1</td><td><br></td><td>9</td></tr>
+<tr align=center><td>5</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td>1</td>
+    <td>3</td><td>4</td><td>1</td><td>1</td><td><br></td><td>10</td></tr>
+<tr></td>
+<tr align=center><td rowspan=5>success</td><td>6</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td>3</td><td>1</td><td>2</td><td><br></td><td><br></td><td>6</td>
+    <td rowspan=5>9 (20%)</td></tr>
+<tr align=center><td>7</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td>2</td><td><br></td><td><br></td><td><br></td>
+    <td>2</td></tr>
+<tr align=center><td>8</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td><br></td><td><br></td>
+    <td>1</td><td>1</td></tr>
+<tr align=center><td>9</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td><br></td><td><br></td><td><br></td></tr>
+<tr align=center><td>10</td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td><td bgcolor=ffff40><br></td>
+    <td bgcolor=ffff40><br></td><td><br></td><td><br></td></tr>
+<tr align=center><td colspan=2 rowspan=2>Total Aver. 6.7</td>
+    <td><br></td><td><br></td><td><br></td><td>4</td><td>2</td><td>5</td>
+    <td>13</td><td>11</td><td>5</td><td>3</td><td>1</td>
+    <td rowspan=2 colspan=2>Total 44</td></tr>
+<tr align=center>
+    <td colspan=6>11 (25%)</td><td colspan=5>33 (75%)</td></tr>
+</table>
+</td></tr>
+<tr><td rowspan=3>&nbsp;&nbsp;</td>
+    <td colspan=2>[c.f.]<font color=ffff40>¡</font>: Region of Quality Degraded</td></tr>
+<tr><td rowspan=2>&nbsp;&nbsp;</td>
+    <td>Test sentences: Newspaper articles 102 sentences (32articles)</td></tr>
+<tr><td>Sentence Length: Average 44 characters/sentence (21 words/sentence)</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 3.  Results of Experiments
+</strong></div>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td colspan=4>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Types of Rewriting</td><td>No</td><td>Type of Rewriting</td>
+    <td>No. of Places<br>Rules applied</td><td>Quality<br>Improve</td>
+    <td>Success<br>Increase</td><td>English<br>Words</td></tr>
+<tr align=center><td rowspan=3 align=left>Rewriting within<br>Source Language</td>
+    <td>1</td><td align=left>Degenerate Expression</td>
+    <td>7 places (7sent.)</td><td>1.7</td><td>1 ¨ 5</td><td>+4.3</td></tr>
+<tr align=center>
+    <td>2</td><td align=left>Removing Redundancy</td>
+    <td>2 places (2sent.)</td><td>3.5</td><td>0 ¨ 2</td><td>-0.9</td></tr>
+<tr align=center>
+    <td>3</td><td align=left>Syntactic Re-arrange.</td>
+    <td>12 places (11 sent.)</td><td>1.6</td><td>3 ¨ 5</td><td>-0.1</td></tr>
+<tr align=center><td rowspan=3 align=left>Rewriting into<br>Pseudo Surce Language</td>
+    <td>1</td><td align=left>Independent Phrase</td>
+    <td>21 places (19sent.)</td><td>2.3</td><td>3 ¨ 15</td><td>-1.6</td></tr>
+<tr align=center>
+    <td>2</td><td align=left>Modal and Tense</td>
+    <td>7 places (7sent.)</td><td>2.0</td><td>2 ¨ 6</td><td>-2.3</td></tr>
+<tr align=center>
+    <td>3</td><td align=left>Degenerate Conjunction</td>
+    <td>3 places (3sent.)</td><td>1.7</td><td>1 ¨ 3</td><td>0.0</td></tr>
+<tr align=center><td>Summary</td>
+    <td>-</td><td>- - - -</td>
+    <td>52 places (44sent.)</td><td>2.0</td><td>9 ¨ 33</td><td>-0.8</td></tr>
+</table>
+</td></tr>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>[c.f.]</td>
+    <td>Test sentences: Newspaper articles, 102 sentences (32 articles)</td>
+    <td rowspan=4>&nbsp;&nbsp;</td></tr>
+<tr><td>Sentence Length: Average 44 characters/sentence (21 words/ sentence)</td></tr>
+<tr><td>Two or more rules are applied to 10 sentences.</td></tr>
+<tr><td>In these cases, the dominant rule is picked up.</td></tr>
+</table>
+</p>
+
+<p>
+(1) Improvement in Translation Quality
+</p>
+<p>
+Of the 44 sentences to which rules were applied, 33 sentences (75%)
+were improved in quality. The rate of passing grades for all 102
+sentences rose from 55% to 79%. The average score for all 102
+sentences rose from 5.71 points prior to application to 6.59. The
+scores of translation achieved with and without this method are shown
+in Fig. 3.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c03/c03-fig3.gif" width=638 height=363>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.3 Improvement of Quality through Automatic Rewriting of Source Text
+</strong></div>
+</p>
+
+<p>
+The rewriting rules were in most cases applied to translations of a
+lower level of quality. The average score for the 44 sentences to
+which the rules were applied rose from 4.3 points before application
+to 6.7 after, an average improvement of over 2 points.
+</p>
+<p>
+In particularly, for sentences with translation grades of 4 to 5
+points (48% of total), many (15/19 = 79%) were improved to passing
+grades of 6 or higher. Sentences with original grades of 3 points or
+lower are widely affected by errors beyond the range of rewriting, but
+even here, the pass rate was brought to as high as (9/16 = 56%).
+</p>
+<p>
+24 sentences which were originally unacceptable (below 5 points)
+changed to passing quality (6 points or higher) by application of the
+rewriting rules. A breakdown reveals 5 sentences were rewritten within
+the Japanese language, 18 sentences were rewritten into pseudo
+Japanese, and 1 sentence used both types of rewriting.
+</p>
+<p>
+The performance improvements achieved by rewriting into pseudo
+Japanese were found to be a major factor. This type of rewriting
+decreases the burden of the English sentence generation as well as
+preventing occurrences of translation errors after rewriting.  We seek
+to further strengthen this type of rewriting.
+</p>
+<p>
+A look at the relationship between the types of rewriting rules and
+their benefits reveals that the rewriting of independent phrase
+expressions was applied most frequently and gave the most significant
+benefits.
+</p>
+<p>
+(2) Translated Text Compaction
+</p>
+<p>
+From the viewpoint of sentence compaction, rewriting degenerate
+expressions would necessarily increase (average 4.3-word increase) the
+number of words in the translated sentences. Other types of rewriting
+rules, however, recorded a decrease in the number of words (average
+1.8-word). Overall, the decrease in the number of words remains at a
+level of about 0.8 words. Not much can be expected therefore, in terms
+of sentence compaction.
+</p>
+<p>
+(3) Analytical Ambiguity Reduction
+</p>
+<p>
+Considering the 44 sentences to which rewriting rules were applied,
+ambiguities in semantic analyses were reduced from an average of 5.39
+to 1.31. This phenomenon contributes toward the improvement of
+translation quality and also toward improving the speed of the
+semantic analysis.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Conclusion</font></h2></a>
+
+<p>
+A translation method featuring automatic rewriting of source texts has
+been proposed and implemented on the Japanese to English MT system,
+ALT-J/E.
+</p>
+<p>
+Specifically, target expressions for rewriting are classified into (1)
+cases whereby alternative source language expressions which can be
+translated by this system exist ("rewriting within the source
+language"), and (2) cases where no alternative source language
+expression exist, but expressions which partially correspond to the
+target language exists ("rewriting into pseudo source
+language"). Automatic rewriting has been realized for a total of six
+different types of expressions.
+</p>
+<p>
+In translation experiments using newspaper articles, 44 sentences
+(43%) from a total 102 sentences, an aggregate total of 52 locations,
+were rewritten. Of the foregoing, 33 sentences (75%) were regarded as
+having been improved in quality. The sentences to which rewriting
+rules were applied had their average number of ambiguities in the
+semantic analyses reduced 5.39 to 1.31. The experiments have,
+therefore, confirmed that this method reduces ambiguities as well as
+upgrades translation quality.
+</p>
+<p>
+From the view point of implementation, this method has the advantage
+that it enables the use of existing translation capabilities for
+translation of difficult-to-translate expressions. Therefore, this
+method is one of the simplest ways of improving translation quality.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgement</font></h2></a>
+
+<p>
+The authors wish to thank Dr. M. Miyazaki, Mr. A. Yokoo and other
+members of the MT research group for valuable discussions. They also
+wish to thank the member of NTT Advanced Technology Corp. for
+implementing this method into the ALT-J/E system.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>J.Carbonell, et.al.,
+	"JTEC Panel Report on Machine Translation in Japan",
+	Coordinated by Loyola College in Maryland (January '92)
+	<br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>"TMI-92 Proceedings of the Conference",
+	Montreal Canada (June 25-27 '92)
+	<br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>M.Rimon, M.McCord, U.Schwail and P.Martinez,
+	"Advances in Machine Translation Research in IBM",
+	Proceedings of MT SUMMIT III, pp.11-18 (July 1-4 '91)
+	<br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>"Proceedings of the COLING '92",
+	France (July 23-28 '92)
+	<br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>S.Ikehara and S.Shirai,
+	"Function Test System for Japanese to English Machine Translation" (in Japanese),
+	Technical Report of IEICE, D-68 ('90)
+	<br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>S.Ikehara,
+	"Criteria for Evaluating the Linguistic Quality of Japanese to English MT System",
+	MT Evaluation Workshop (Nov.2 '92:San Diego)
+	<br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>S.Ikehara, M.Miyazaki, S.Shirai and Y.Hayashi,
+	"Speaker's Recognition and Multi-Level Translation Method Based on It"
+	(in Japanese),
+	Trans. IPS Japan, Vol.28, No.12, pp.1269-1279 ('87)
+	<br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>S.Ikehara,
+	"Multi-Level Machine Translation Method",
+	Future Computer Systems, Vol.2, No.3, PP.261-274 ('89)
+	<br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>S.C.Chen, J.N.Wang, J.S.Chang and K.Y.Su,
+	"ArchTran: A Corpus-Based Statistics-Oriented English Chinese Machine
+	Translation System",
+	Proceedings of MT SUMMIT III, pp.11-18(July 1-4 '91)
+	<br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>S.Nierenburg,
+	"KBMT-89-A Knowledge Based MT Project at Carnegie Melon University",
+	MT SUMMIT II, pp.141-147 (Aug. 16-18 '89)
+	<br><br>
+<dt><a name="ref11"><strong>[11]</strong></a>
+<dd>S,Ikehara, A.Yokoo and M.Miyazaki,
+	"Semantic Analysis Dictionaries for Machine Translation" (in Japanese).
+	Technical Report of IEICE. NLC 91-19, pp.23-30 (July 19 '91)
+	<br><br>
+<dt><a name="ref12"><strong>[12]</strong></a>
+<dd>O.Furuse and H.lida,
+	"Cooperation between Transfer and Analysis in Example-Based Framework",
+	COLING 92 (July '92)
+	<br><br>
+<dt><a name="ref13"><strong>[13]</strong></a>
+<dd>M.Nagao,
+	"Some Rationales and Methodologies for Example-Based Approach",
+	Proc. of Workshop on Future Generation Natural Language Processing,
+	UMIST, Manchester, U.K.(July 30-31 '92)
+	<br><br>
+<dt><a name="ref14"><strong>[14]</strong></a>
+<dd>M.Nagao,
+	"Proposal of Restricted Language",
+	Natural Language-Processing Technologies Symposium (June '83)
+	<br><br>
+<dt><a name="ref15"><strong>[15]</strong></a>
+<dd>M.Nagao, N.Tanaka and J.Tsujii,
+	"Computer Aided System for Pre-editing of Sentences Based on Restricted Grammar",
+	IPSJ SIG Report (July '84)
+	<br><br>
+<dt><a name="ref16"><strong>[16]</strong></a>
+<dd>S.Shirai,
+	"Reduction of Syntactic Ambiguities by Automatic Rewriting of Source Expressions"
+	(in Japanese),
+	Proc. 41th Annual Convention IPS Japan, 4S-6 ('90)
+	<br><br>
+<dt><a name="ref17"><strong>[17]</strong></a>
+<dd>S.Ikehara, T.Yasuda, K.Shimazaki and S.Takagi,
+	"Revision Support System for Japanese Verbal Errors (REVlSE)"(in Japanese),
+	NTT R&amp;D, Vol.36, No.9, pp.1159-1167 ('87)
+	<br><br>
+<dt><a name="ref18"><strong>[18]</strong></a>
+<dd>H.Nakaiwa and S.Ikehara,
+	"Zero Pronoun Resolution in a Japanese to English Machine Translation System
+	using Verbal Semantic Attributes",
+	Proc. of ANLP (March 29 '92)
+	<br><br>
+<dt><a name="ref19"><strong>[19]</strong></a>
+<dd>"Report by the Automatic Language Processing Advisory Committee" (June '65)
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app"><h2><font color=#ff0000>Appendix Table 1. Comparison between Translations with and without Automatic Rewriting</font></h2></a>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Types of Rewriting</td><td>No</td>
+    <td>Original Japanese Sentence</td><td>What to Rewrite and How</td>
+    <td>Translation without Automatic Rewriting</td>
+    <td>Translation with Automatic Rewriting</td></tr>
+<tr></tr>
+<tr valign=top><td rowspan=2 valign=middle>Rewriting within the Source Language</td>
+    <td align=center valign=middle>1</td>
+    <td>“ñŠK‚É<u>ƒVƒ‡[ƒ‹[ƒ€A</u>ŽOŠK‚É¤’kŽºA‰ï‹cŽºAƒZƒ~ƒi[Žº‚ðŠJÝ‚µA
+	Ž––±Žº‚ÍŽlŠKˆÈã‚É‚È‚éB</td>
+    <td>[Degenerate Expression]<br><i><u>ƒVƒ‡[ƒ‹[ƒ€</u>‚ðŠJÝ‚µA</i></td>
+    <td><font color=0000ff>C. Ito Techno-Science Corp.</font> will set up a conference 
+	room, a meeting room and a seminar room in the second floor to a show room and
+	the third floor and an office will reach the fourth and higher floors.
+	<div align=right>&lt;grade = 3&gt;</div></td>
+    <td><font color=0000ff>C. Itoh Techno- Science Corp.</font> 
+	<u>will set up a show room</u> in the second floor and will set up a conferencc
+	room, a meeting room, and a seminar room in the third floor and an office will
+	reach the fourth and higher floors.
+	<div align=right>&lt;grade = 6&gt;</div></td></tr>
+<tr valign=top>
+    <td align=center valign=middle>2</td><td>
+    <u>“ñ‹@Ží‡‚í‚¹‚ÄŒŽŽYŽl•S‘ä¶ŽY‚·‚éB</u></td>
+    <td>[Syntactic Re-arrangement]<br>¨ <i>“ñ‹@Ží‚Ì‡ŒvŒŽŽY‚Í400‘ä‚¾B</i></td>
+    <td>It produces <font color=0000ff>Midori Denki</font> ‡‚í‚¹‚Ä in 2 models in 400 
+	units per month. <div align=right>&lt;grade = 2&gt;</div></td>
+    <td>The monthly output of 2 models is 400 units. 
+	<div align=right>&lt;grade = 8&gt;</div></td></tr>
+<tr></tr>
+<tr valign=top><td rowspan=3 valign=middle>Rewriting into Pseuddo Soerce Language</td>
+    <td align=center valign=middle>3</td>
+    <td>ƒ\ƒtƒg‰ïŽÐAN &C ƒ\ƒtƒgƒEƒGƒA‚ÍƒVƒXƒeƒ€ƒnƒEƒX‚Ìƒ†ƒjƒRƒ€ƒI[ƒgƒ[ƒVƒ‡ƒ“<u>‚Æ‹¤“¯‚Å
+	</u>ƒpƒ\ƒRƒ“<u>‚ðŽg‚Á‚½</u>ƒJƒ‰[ˆóüƒVƒXƒeƒ€ƒAƒgƒŠƒGE ƒrƒbƒg‚ðŠJ”­‚µ‚½B</td>
+    <td>[Independent Phrase Expression]<br> <u>‚Æ‹¤“¯‚Å</u> ¨ jointly with<br> 
+	<u>‚ðŽg‚Á‚½</u> ¨ using</td>
+    <td>N&C Sottware Corp., a soft company, developed Atlier Bit, the system of 
+	colorprinting that used a personal computer by Unicom Automation Corp. and the
+	synergic of a system house. <div align=right>&lt;grade = 4&gt;</div></td>
+    <td>N&C Software Corp., a software company, developed Atlier Bit, the color printing 
+	system <u>using</u> a Personal computer, <u>jointly with</u> Unicom Automation
+	Corp., a system house. <div align=right>&lt;grade = 9&gt;</div></td></tr>
+<tr valign=top>
+    <td align=center valign=middle>4</td>
+    <td>o”ÅŽæŽŸ‚Í‚à‚Æ‚à‚Æ—˜‰v—¦‚ª’á‚¢<u>‚±‚Æ‚É‰Á‚¦‚Ä</u>A
+	o”Å•¨‚àŽù—v‚ª“Ý‰»‚µ‚Ä‚¢‚é‚½‚ß‹ê‚µ‚¢Œo‰c‚ð—]‹V‚È‚­‚³‚ê‚Ä‚¢‚éB</td>
+    <td>[Degenerate Conjunctive Expression]<br> 
+	<u>‚±‚Æ‚É‰Á‚¦‚Ä</u>A ¨ not only ` but also `</td>
+    <td>Because it adds a publication agency to that a profit rate is low originally and 
+	the demand for publication is slackening, tight management is made to be
+	unavoidable. <div align=right>&lt;grade = 4&gt;</div></td>
+    <td>Because <u>not only</u> the profit rate of a publication agency is low originally,
+	<u>but also</u> the demand for publication is slackening, tight management is
+	made to be unavoidable. <div align=right>&lt;grade = 7&gt;</div></td></tr>
+<tr valign=top>
+    <td align=center valign=middle>5</td>
+    <td>•xŽRƒZƒ“ƒ^[‚Íƒ\ƒtƒgŠJ”­—vˆõŒÜ\l‚ÅƒXƒ^[ƒgA	•SŒÜ\l‚É‘‚â‚·<u>Œv‰æB</u></td>
+    <td>[Modal and Tense ]<br> <u>Œv‰æB</u> ¨ be planning to `</td>
+    <td>The Toyama Center is a start in a development staff of 50 and is a plan 
+	increased to 150 person. <div align=right>&lt;grade = 4&gt;</div></td>
+    <td>The Toyama Center starts in a development staff of 50 and <u>is planning to</u> 
+	increase <font color=0000ff>the Toyama system Center</font> to 150 people.
+	<div align=right>&lt;grade =7&gt;</div></td></tr>
+</table>
+<div align=center>
+[c.f.] <font color=0000ff>blue</font>:Supplied from previous sentences by
+context processing.
+</div>
+</p>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+In addition, the rules used for rewriting within the source language
+can be made by people not fluent in the target language, a
+consideration which become important if a system is being designed in
+a large monolingual environment. (<a href="c03.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+For example, in the case of the Japanese language, solutions have
+generally been sought through system such as the Japanese Sentences
+Error Correcting System "REVISE"[<a href="c03.html#ref17">17</a>]. (<a
+href="c03.html#rfn2">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+As in the case of manual pre-editing, this rewriting seeks conformity
+with the translation system and, therefore, cannot be guaranteed to
+result in an expression that is appropriate as a source
+expression. (<a href="c03.html#rfn3">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>4</sup></a>
+Some functions of contextual analysis have been realized in ALT-J/E
+system. For Example, the subject and object which have been omitted
+are automatically supplemented from previous sentences[<a
+href="c03.html#ref18">18</a>]. And some (grammatical) articles are also
+determined from the context within the newspaper article. (<a
+href="c03.html#rfn4">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

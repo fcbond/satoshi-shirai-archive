@@ -1,0 +1,934 @@
+<html>
+<head>
+<title>Hiromi Nakaiwa &amp; Satoshi Shirai, COLING-96, August 5-9, 1996</title>
+<meta http-equiv="content-type" content="text/html; charset=ascii">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Anaphora Resolution of Japanese Zero Pronouns with Deictic Reference</font>
+<br><br>
+
+<font size=+2>Hiromi Nakaiwa and Satoshi Shirai</font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-2356 Take, Yokosuka-shi, Kanagawa-ken, 238-03, Japan</font>
+<br>
+<font size=+1><tt> {nakaiwa,shirai}@nttkb.ntt.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper proposes a method to resolve the reference of deictic
+Japanese zero pronouns which can be implemented in a practical machine
+translation system.  This method focuses on semantic and pragmatic
+constraints such as semantic constraints on cases, modal expressions,
+verbal semantic attributes and conjunctions to determine the deictic
+reference of Japanese zero pronouns. This method is highly effective
+because the volume of knowledge that must be prepared beforehand is
+not very large and its precision of resolution is good. This method
+was implemented in the Japanese-to-English machine translation system,
+ALT-J/E.  According to a window test for 175 zero pronouns with
+deictic referent in a sentence set for the evaluation of
+Japanese-to-English machine translation systems, all of zero pronouns
+could be resolved consistently and correctly.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of COLING-96</i>, Vol.2, pp.812-817 (August, 1996). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In all natural language, elements that can be easily deduced by the
+reader are frequently omitted from expressions in texts (<a
+href="c13.html#ref7">Kuno, 1978</a>). This phenomenon causes considerable
+problems in natural language processing systems. For example in a
+machine translation system, the system needs to recognize that
+elements which are not present in the source language, may become
+mandatory elements in the target language. In particular, the subject
+and object are often omitted in Japanese, whereas they are often
+mandatory in English, Thus, in Japanese-to-English machine translation
+systems, it is necessary to identify case elements omitted from the
+original Japanese (these are referred to as "zero pronouns" ) for
+their translation into English expressions.
+</p>
+<p>
+Several methods have been proposed with regard to this problem (<a
+href="c13.html#ref5">Kameyama, 1986</a>) (<a href="c13.html#ref13">Walker et al.,
+1990</a>) (<a href="c13.html#ref14">Yoshimoto, 1988</a>) (<a
+href="c13.html#ref1">Dousaka, 1994</a>).  When considering the application of
+these methods to a practical machine translation system for which the
+translation target area can not be limited, it is not possible to
+apply them directly, both because their precision of resolution is low
+as they only use limited information, and because the volume of
+knowledge that must be prepared beforehand is so large.
+</p>
+<p>
+The zero pronouns that must be resolved by a machine translation
+system can be classified into 3 types, (a) zero pronouns with
+antecedents within the same sentence (intrasentential), (b) zero
+pronouns with antecedents elsewhere in the text (intersentential) and
+(c) zero pronouns with deictic reference (extrasentential). Regarding
+type (b), <a href="c13.html#ref9">Nakaiwa and Ikehara (1992)</a> proposed a
+method to determine the intersentential antecedents using verbal
+semantic attributes. The rules used in this method are independent of
+the field of the source text. Therefore, anaphora resolution may be
+conducted with a relatively small volume of knowledge, making the
+proposed method very suitable for machine translation
+systems. Furthermore, for type (a), <a href="c13.html#ref11">Nakaiwa and
+Ikehara(1995)</a> proposed a method to determine the intrasentential
+antecedents of Japanese zero pronouns using semantic constraints such
+as verbal semantic attributes and pragmatic constraints such as types
+of conjunctions and modal expressions.
+</p>
+<p>
+In this paper, we propose a wideIy applicable method to determine the
+deictic referents of Japanese zero pronouns (type (c)) using not only
+semantic constraints to the cases but also further semantic
+constraints such as verbal semantic attributes and pragmatic
+constraints such as modal expressions and types of conjunctions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Appearance of Zero Pronouns in Japanese Texts</font></h2></a>
+
+<p>
+In order to understand the distribution of zero pronouns with
+antecedents that do not appeaf in the text, in this section, we
+examine which zero pronouns must be resolved and where their
+antecedents appear, using a test set designed to evaluate the
+performance of Japanese-to-English machine translation systems (<a
+href="c13.html#ref3">Ikehara et al., 1994</a>).  The results of the
+examination of zero pronouns and their referential elements in the
+functional test sentence set (3718 sentences) are shown in Table
+1. There were a total of 512 zero pronouns in 463 sentences. The
+location of referential elements can be divided into 2 kinds: those
+expressed in the same sentence, and those not expressed in the same
+sentence. The latter were further classified into 6 kinds.
+</p>
+<p>
+<ul>
+<li> The zero pronoun is not translated because the passive voice is used.
+<li> The referent is the writer or speaker, <i>I</i> or a group,<i>we</i>.
+<li> The referent is the reader or hearer, <i>you</i>.
+<li> The referent is human but it is not known who the human is.
+<li> The zero pronoun should be translated as it.
+<li> The referent is another specific element.
+</ul>
+</p>
+
+<p>
+<div align=center><strong>
+Table 1: Distribution of zero pronouns and their referential elements
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=3>Loc. of zero pron.</td>
+    <td colspan=7>Loc. of 'referential elements'</td><td rowspan=3>Total</td></tr>
+<tr align=center><td rowspan=2>Intrasentential</td><td colspan=6>Deictic</td></tr>
+<tr align=center>
+    <td>Psve</td><td>I we</td><td>you</td><td>human</td><td>it</td><td>misc</td></tr>
+<tr align=center><td><i>ha</i></td><td>1</td>
+    <td>5</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>8</td></tr>
+<tr align=center><td><i>ga</i></td><td>128</td>
+    <td>166</td><td>69</td><td>28</td><td>25</td><td>50</td><td>3</td><td>469</td></tr>
+<tr align=center><td><i>o</i></td><td>8</td>
+    <td>0</td><td>0</td><td>0</td><td>0</td><td>11</td><td>0</td><td>19</td></tr>
+<tr align=center><td><i>ni</i></td><td>1</td>
+    <td>2</td><td>2</td><td>5</td><td>0</td><td>0</td><td>2</td><td>12</td></tr>
+<tr align=center><td>misc</td><td>1</td>
+    <td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>4</td></tr>
+<tr align=center><td>Total</td><td>139</td>
+    <td colspan=6>373</td><td>512</td></tr>
+</table>
+</p>
+
+<p>
+According to this study of the functional test sentence set, in 373
+out of 512 instances (73%) the antecedent was not expressed in the
+sentence.  Zero pronouns could be left unexpressed by converting the
+translation to the passive voice in 173 instances (34%). The other
+zero pronouns, 200 instances (39%), referred to antecedents that did
+not appear in the sentence. In 69 out of the 200 instances (13%) zero
+pronouns were the subject of the sentence and referred to the writer
+or speaker <i>I</i> or a group <i>we</i>. Further examination revealed
+that only in these 69 instances did the verb that governed them
+express some modality such as <i>-shiiai</i> '- want to -' or
+<i>-shiyou</i> 'Let us -' or the verbs were <i>omou</i> 'think' and
+other such words indicating '<small>THINKING ACTION</small>'. Furthermore, zero
+pronouns that were the subjects and that referred to the reader or
+hearer <i>you</i>, amounted to 28 out of the 200 instances (5%). In
+these 28 instances, the verbs that governed these zero pronouns
+expressed the modalities of - <i>subekida</i> 'should' or
+<i>-sitehanaranai</i> 'must not'. Similarly, modalities and verb types
+can be used to identify <i>it</i> or the 'unknown human' This type of
+zero pronoun can be resolved by deducing their referents using
+modality or categorized verbal semantic attributes.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Deictic Resolution of Japanese Zero Pronouns</font></h2></a>
+
+<p>
+Based on the results shown in section 2, we propose a method to
+resolve Japanese zero pronouns whose antecedents do not appear in the
+texts.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Deictic Resolution using Semantic Constraints on Cases</font></h2></a>
+
+<p>
+To resolve Japanese zero pronouns whose antecedents do not appear
+within the texts, it is possible to use the semantic constraints on
+verbs' case elements to deduce likeIy referents. The semantic
+information used to estimate supplementing elements is similar to the
+constraints on cases used for selecting the transfer patterns in a
+machine translation system. Figure 1 shows an example of a transfer
+pattern in a Japanese-to-English machine translation system for the
+Japanese verb <i>ikimasu</i> 'go' Figure 1 shows how, if the Japanese
+verb is <i>ikimasu</i> 'go' and the noun phrase with a <i>ga</i>
+particle, which shows a subject, has the semantic attribute <small>SUBJECT,
+VEHICLES OR ANIMALS</small>, then the verb should be 'translated as 'go' In
+this pattern, if the subject N1 becomes a zero pronoun, the system
+tries to estimate the referent using semantic constraints. But, in
+this case, it is impossible to estimate the referent as one type,
+because there are three kinds of semantic constraints. In the transfer
+pattern, the semantic constraints are left unfulfilled if they are not
+used in selecting the appropriate translation. So, this method
+Frequently poses difficulties in pinpointing elements to be estimated.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center>
+    <td>N1 (<tt>SUBJECTS, VEHICLES OR ANIMALS</tt>)-<i>ga</i></td>
+    <td rowspan=2>&nbsp;</td>
+    <td><i>iki-masu</i></td></tr>
+<tr align=center><td>N1-<small>SUBJ</small></td><td>go-<small>POLITE</small></td></tr>
+<tr align=center><td><img src="c13/j0000.gif"> N1 go.</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1 Japanese-to-English transfer dictionary
+</strong></div>
+</p>
+
+<p>
+According to the results that were examined in section 2, this type of
+zero pronoun can be resolved by deducing their referents not only
+using semantic constraints to the cases but also using modality or
+categorized verbal semantic attributes. For example, in this case, it
+is effective to determine the referents corresponding to 'I' using the
+verbal semantic attributes of the pattern, N1's <small>PHYSICAL TRANSFER</small> and
+the polite expression <i>-masu</i>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Deictic Resolution using Semantic and Pragmatic Constraints</font></h2></a>
+
+<p>
+According to the analysis of the results shown in section 2, we found
+that modal expressions and verbal semantic attributes are useful in
+determining the deictic referents of Japanese zero pronouns. Also, we
+can estimate the types of conjunctions that are effective in
+determining the referents in a complex sentence. In this section, we
+examine three kinds of semantic and pragmatic constraints, modal
+expressions, verbal semantic attributes and conjunctions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.1"><h2><font color=#ff0000>3.2.1 Constraints Based on Modal Expressions</font></h2></a>
+
+<p>
+Modal expressions in Japanese are expected to be the most powerful
+constraints for estimating deictic reference. For example, in the case
+of zero pronouns in ga-cases 'subject', the referent becomes the
+writer or speaker, <i>I</i> or a group, <i>we</i> if the sentence has
+the modal expressions, <i>-sitai</i> '<img src="c13/j0001.gif"> want to - ' HOPE or
+<i>-sitehosii</i> '<img src="c13/j0001.gif"> want <img src="c13/j0001.gif"> to -' <small>CAUSATIVE HOPE</small>; the referent
+becomes the reader or hearer, <i>you</i> if the sentence has the modal
+expressions, <i>-siteha-ikenai</i> '<img src="c13/j0001.gif"> must not -' <small>PROHIBIT</small> or
+<i>-subekida</i> '<img src="c13/j0001.gif"> should -' <small>OBLIGATION</small>. If there are no referent
+candidates found within the surrounding text, the referents can be
+determined using the previous constraints based on modal expressions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.2"><h2><font color=#ff0000>3.2.2 Constraints based on Verbal Semantic Attributes</font></h2></a>
+
+<p>
+Constraints based on verbal semantic attributes can be divided into
+the following two types:
+</p>
+<p>
+<strong>(1) Constraints based on the types of verbs</strong>
+</p>
+<p>
+'Give and take' expressions such as the verbs <i>morau</i> 'get' and
+<i>yaru</i> 'give' and transfer expressions such as the verbs
+<i>iku</i> 'go' and <i>kuru</i> 'come' can determine the referents of
+zero pronouns without modal expressions. For example, if the
+<i>ga</i>-case (subject) of the sentence whose verb is <i>morau</i>
+'get ' becomes a zero pronoun, the referent becomes <i>I</i>.  In the
+case of verb <i>kuru</i> 'come', the referent becomes an element other
+than <i>I</i>, for example <i>you</i>.  These kinds of verbs
+implicitly indicate the relationship between the writer/speaker and
+the referent of the ga-case (for example, the empathy (<a
+href="c13.html#ref7">Kuno, 1978</a>) or the side of the territory of
+information (<a href="c13.html#ref6">Kamio, 1985</a>)). Based on these
+properties, the deictic referents of Japanese zero pronouns can be
+estimated.
+</p>
+<p>
+<strong>(2) </strong>Constraints based on the types of verbs and modal expressions
+</p>
+<p>
+Even if the referents of zero pronouns can not be determined using
+modal expressions or the types of verbs, the referents can sometimes
+be determined using a combination of modal expressions and the types
+of verbs. For example, in the following Japanese expression, the
+ga-case becomes a zero pronoun.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top align=center><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(1)</td><td rowspan=3>&nbsp;</td>
+    <td></td><td rowspan=2>&nbsp;</td>
+    <td><i>hon-wo</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>yon-da</i></td></tr>
+<tr align=center><td><img src="c13/j0001.gif">-<small>SUBJ</small></td>
+    <td><tt>book</tt>-<small>OBJ</small></td>
+    <td><tt>read</tt>-<small>PAST</small></td></tr>
+<tr align=center><td colspan=5>I read a book.</td></tr>
+</table>
+</p>
+<p>
+In this sentence the experience of the writer/speaker, <i>I</i> is
+suitable for the reference of the zero pronoun. As shown in this
+sentence, if the ga-case in an expression with a verb whose semantic
+attribute is <small>ACTION</small> and modal expression is <i>-ta</i>
+<small>PAST</small>, becomes a
+zero pronoun, it will be translated by a human translator as
+<i>I</i>. In a similar way, if the ga-case in an expression with a
+verb whose semantic attribute is <small>ACTION</small> and modal expression is
+<i>-darou</i> 'will' <small>ESTIMATION</small>, becomes a zero pronoun, the referent
+is <i>you</i>. Such constraints using both verbal semantic attributes
+and modal expressions can be used to determine the deictic reference
+of Japanese zero pronouns.  To write constraints based on types of
+verbs effectively, we used the 97 verbal semantic attributes (VSA)
+proposed by <a href="c13.html#ref10">Nakaiwa (1994)</a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2.3"><h2><font color=#ff0000>3.2.3 Constraints based on Conjunctions</font></h2></a>
+
+<p>
+Sometimes the deictic referents of Japanese zero pronouns can be
+determined depending on the types of conjunctions. The constraints
+based on the Japanese conjunctions can be divided into the following
+two types.
+</p>
+<p>
+<strong>(1) The constraints on case sharing depending on the types of conjunctions</strong>
+</p>
+<p>
+<a href="c13.html#ref8">Minami (1974)</a> and <a href="c13.html#ref12">Takubo
+(1987)</a> proposed that different Japanese conjunctions cover or
+share different cases. For example Minami divided Japanese
+conjunctions into three kinds, A, B and C. A complex sentence which
+includes A type Japanese conjunctions, such as <i>tsitsu</i> ('while '
+and <i>nagara</i> 'while', shares one ha-case (Topic) and one ga-case
+(Subject). In the case of B type Japanese conjunctions, such as
+<i>node</i> 'because' or <i>tara</i> 'if', one ha-case is shared but
+not the ga-case. In the case of C type Japanese conjunctions, such as
+<i>keredo</i> 'but' or <i>kedo</i> 'but', neither the ha-case nor the
+ga-case are necessarily shared. According to this classification, if
+two ga-cases in a complex sentence joined by an A type Japanese
+conjunction were to become zero pronouns and the referent of one of
+the two zero pronouns was determined by the constraints proposed
+previously, then the referent of the other zero pronoun is the same
+referent. These characteristics of Japanese conjunctions can be used
+to determine the referents of zero pronouns.
+</p>
+<p>
+<strong>(2) Constraints based on conjunctions, modal expressions and verbal semantic attributes</strong>
+</p>
+<p>
+Sometimes co-occurrence of conjunctions, verbal semantic attributes
+and modal expressions in a complex sentence determines the meaning of
+the sentence, and sometimes bhey determine the deictic reference of
+zero pronouns in the sentence. For example, in the following Japanese
+expression, the subject of the verb <i>ika-nai</i> 'go-not' becomes a
+zero pronoun but the referent can be determined as the writer or
+speaker, <i>you</i>.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(2)</td><td rowspan=3>&nbsp;</td>
+    <td></td><td rowspan=2>&nbsp;</td>
+    <td><i>tokoya-ni</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>ika-nai</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>to,</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>kami-ga</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>boubou-ni-naru</i></td></tr>
+<tr align=center>
+    <td><img src="c13/j0001.gif">-<small>SUBJ</small></td><td><tt>barber</tt>-<tt>IND-OBJ</tt></td>
+    <td><tt>go-not</tt></td><td><tt>if</tt></td><td><tt>hair</tt></td>
+    <td><tt>begin to look untidy</tt></td></tr>
+<tr align=center>
+    <td colspan=11>If you don't go to the barber, your hair will begin to look untidy.</td></tr>
+</table>
+</p>
+
+<p>
+This sentence has the meaning that the writer or speaker advises that
+if you do not do something, a situation will arise. The meaning type
+of a complex sentence can be determined using the rules that the
+conjunction is <i>to</i> 'if' and in the sub clause ga-case becomes a
+zero pronoun and the meaning of the verb is <small>ACTION</small> with negation and
+in the main clause the meaning of the verb is <small>ATTRIBUTE</small> with modal
+expression <i>ni-naru</i> 'become' <small>ATTRIBUTE TRANSFER</small>.
+</p>
+<p>
+The meaning type of a complex sentence can be determined using the
+folowing rules: when the conjunction is 'if' and the sub clause
+ga-case becomes a zero pronoun, and the meaning of the verb is <small>ACTION</small>
+with negation, and in the main clause the meaning of the verb is
+ATTRIBUTE with modal expression, then <i>ni-naru</i> 'become' is an
+example Of <small>ATTRIBUTE TRANSFER</small>. Using these kinds of rules, the meaning
+types of complex sentences can be determined, and the reference of
+zero pronouns can be determined.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>3.3 Algorithm</font></h2></a>
+
+<p>
+In this subsection, we propose an algorithm for the deictic resolution
+of Japanese zero pronouns using the constraints proposed in this
+section.  This algorithm was implemented in a Japanese-to-English
+machine translation system, so the only zero pronouns that must be
+resolved are those that become mandatory elements in English. To
+realize the previousIy proposed conditions in an algorithm, we must
+consider cases when these antecedents exist in the same sentence as
+well as when these antecedents exist in another sentences in the text,
+and we must design the algorithm to increase the overall accuracy of
+the resolution of zero pronouns.
+</p>
+<p>
+Anaphora resolution of zero pronouns is conducted as follows. In each
+step in the algorithm, when the referential element within or without
+the text is determined, the system checks not only the conditions that
+are written in the following algorithm, but also the semantic
+conditions that verbs impose on zero pronouns in the case elements in
+each pattern of the Japanese-to-EngIish transfer dictionaries.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=18>&nbsp;&nbsp;</td>
+    <td rowspan=2>1)</td><td rowspan=18>&nbsp;</td>
+    <td>Detection of zero pronouns.</td></tr>
+<tr><td>If they exist, proceed to step 2.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td rowspan=2>2)</td>
+    <td>Examine whether there are antecedents within the same
+	sentences. (For example, anaphora resolution is performed
+	using Nakaiwa's method (<a href="c13.html#ref11">Nakaiwa and Ikehara,
+	1995</a>)).</td></tr>
+<tr><td>If their antecedents can be found, finish the resolution
+	process. Else, proceed to step 3.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td rowspan=2>3)</td>
+    <td>Examine whether there are antecedents within other sentences
+	in the text. (For example, anaphora resolution is performed
+	using Nakaiwa's method (<a href="c13.html#ref9">Nakaiwa and Ikehara,
+	1992</a>))</td></tr>
+<tr><td>If their antecedents can be found, finish the resolution
+	process. Else, proceed to step 4.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td rowspan=2>4)</td>
+    <td>Deictic resolution of Japanese zero pronouns using verbal
+	semantic attributes, modal expressions and the types of
+	conjunctions are conducted. The conditions to determine the
+	referents are summarized in Table 2.</td></tr>
+<tr><td>If their referents can be found, finish the resolution
+	process. Else, proceed to step 5.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td rowspan=2>5)</td>
+    <td>If referential elements can not be found and the text can be
+	translated successfully in the passive voice, translate in the
+	passive voice.  Else, based on the semantic restrictions
+	imposed on the zero pronoun by the verbs, deductively generate
+	anaphora elements.</td></tr>
+<tr><td>Finish the resolution process.</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 2: Resolution conditions of deictic referents
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td>Location of Zero Pron.</td><td>Condition</td>
+    <td>Referents</td><td>Comment</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td rowspan=13>ga-case <br>(subj)</td>
+    <td>modal: hope(<i>-sitai</i>)</td>
+    <td rowspan=5>I or we</td>
+    <td>speaker/writer hopes</td></tr>
+<tr valign=top>
+    <td>modal: causal hope (<i>-sitehosii</i>)</td>
+    <td>speaker/writer hopes to hearer/reader</td></tr>
+<tr valign=top>
+    <td>modal: invite (<i>-simashou</i>)</td>
+    <td>speaker/writer invites</td></tr>
+<tr valign=top>
+    <td>VSA: under action + modal:plite (<i>-simasu</i>)</td>
+    <td>depending on the social relation ship between speaker/writer and 
+	hearer/reader</td></tr>
+<tr align=center><td>.....</td><td>.....</td></tr>
+<tr valign=top>
+    <td>modal: prohibit (<i>-siteha-ikenai</i>)</td>
+    <td rowspan=3>you</td>
+    <td>speaker/writer prohibits hearer/reader's action</td></tr>
+<tr valign=top>
+    <td>VSA: under action+modal obligatton (<i>-beki</i>)</td>
+    <td>speaker/writer make hearer/reader's action obligation</td></tr>
+<tr align=center><td>.....</td><td>.....</td></tr>
+<tr valign=top><td>VSA:<br>
+	bodily action<br>
+	thinking action<br>
+	emotive action<br>
+	emotive state<br>
+	bodily transfer </td>
+    <td rowspan=2>human <br>(I, we, you, ...)</td>
+    <td>When the verb that show the actton or emotion that only human can do appears 
+	in the sentence and when there are noother referent candidates,
+	the referents of zero pronouns is humman</td></tr>
+<tr align=center><td>.....</td><td>.....</td></tr>
+<tr valign=top>
+    <td>VSA: copula sentence and the meaning is abstract</td>
+    <td rowspan=3>it</td>
+    <td>Pronoun of abstract noun should be it</td></tr>
+<tr valign=top><td>VSA: attribute and perceptual state</td>
+    <td>verbs that indicates weather such as <i>atsui</i> 'hot', 
+	<i>-samui</i> 'cold'</td></tr>
+<tr align=center><td>.....</td><td>.....</td></tr>
+<tr valign=top>
+    <td rowspan=2><i>ni</i>-case <br>(ind. obj.)</td>
+    <td>modal: causal hope (<i>-sitehosii</i>)</td>
+    <td rowspan=2>you</td>
+    <td>speaker/writer hopes to hearer/reader</td></tr>
+<tr align=center><td>.....</td><td>.....</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Evaluation</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Evaluation Method</font></h2></a>
+
+<p>
+In this section, we show the results of evaluation of the method that
+was proposed above. The method to resolve zero pronouns with deictic
+reference was tested using the Japanese-to-English machine translation
+system ALT-J/E (<a href="c13.html#ref2">Ikehara et al., 1991</a>). The
+criteria for the evaluation and procedures used were as follows.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.1"><h2><font color=#ff0000>4.1.1 Resolution Target</font></h2></a>
+
+<p>
+The target was to resolve successfully the five types of zero pronouns
+(ga-case <img src="c13/j0002.gif"> "I" or "we", ga-case <img src="c13/j0002.gif"> "you", ga-case <img src="c13/j0002.gif"> <small>HUMAN</small>,
+ga-case <img src="c13/j0002.gif"> "it", ni-case <img src="c13/j0002.gif"> "you"; 175 instances). These are the
+zero pronouns with deictic reference found within the 512 zero
+pronouns in the 3718 sentence set for the evaluation of
+Japanese-to-English machine translation systems.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.2"><h2><font color=#ff0000>4.1.2 Rules to Resolve Zero Pronouns</font></h2></a>
+
+<p>
+The rules to resolve 175 zero pronouns were created by examining these
+zero pronouns using the constraints discussed in section 3 (46
+rules)<a name="rfn1" href="c13.html#fn1"><sup>1</sup></a>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.3"><h2><font color=#ff0000>4.1.3 Tests for the Evaluation</font></h2></a>
+
+<p>
+To examine the relationship between conditions of resolution and
+accuracy of resolution, we conducted the following two tests.
+</p>
+<p>
+<strong>(1) Resolution accuracy for conditions of resolution</strong>
+</p>
+<p>
+We examined the accuracy of resolution depending on the types of
+conditions in anaphora resolution such as semantic constraints to the
+cases, modal expression, verbal semantic attributes and conjunctive
+expressions. We evaluated the accuracy depending on the types of
+constraints used.
+</p>
+<p>
+<strong>(2) Resolution accuracy for rule complexity</strong>
+</p>
+<p>
+We examined the accuracy of the resolutions to see how they were
+affected by the complexities of the rules that were used in the
+resolution. In this test we evaluated the accuracy using simple,
+easily created and universal rules.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Resolution Accuracy for Conditions of Resolution</font></h2></a>
+
+<p>
+To examine the resolution accuracy under different conditions, we
+examined the accuracy of the method proposed in this paper with the
+following 4 kinds of conditions:
+</p>
+<p>
+<ul>
+<li> using conditions of semantic constraints on cases only
+<li> using conditions of semantic constraints on cases and modal expression
+<li> using conditions of semantic constraints on cases,
+	modal expression and verbal semantic attributes
+<li> using conditions of semantic constraints on cases,
+	modal expression, verbal semantic attributes and conjunctions
+</ul>
+</p>
+<p>
+Table 3 shows the results of the resolution depending on the types of
+the rules. As shown in this table, all 175 zero pronouns can be
+resolved using the rules that were proposed in section 3.  The
+introduction of verbal semantic attributes has achieved the same
+accuracy of resolution as the introduction of modal expressions (41
+entries, 24%).  From this result, we can say that the verbal semantic
+attributes are comparatively as effective as modal expressions, The
+results also show that, without using the constraints of conjunctions,
+the accuracy achieved is as high as 85%.
+</p>
+
+<p>
+<div align=center><strong>
+Table 3: Resolution accuracy for conditions of resolution
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td rowspan=2>Location of Zero Pronouns</td>
+    <td rowspan=2 colspan=2>Referents</td><td colspan=8>Resolution Condition</td></tr>
+<tr align=center>
+    <td colspan=2>Semtic Constraints on Cases</td><td colspan=2>+ Modal Expression</td>
+    <td colspan=2>+ VSA</td><td colspan=2>+ Conjunction</td></tr>
+<tr></tr><tr></tr>
+<tr align=center><td rowspan=7>ga-case <br>(subj)</td><td colspan=2>I or We</td>
+    <td>23%</td><td>(16)</td><td>58% (+35%)</td><td>(40)</td>
+    <td>93% (+38%)</td><td>(64)</td><td>100% (+7%)</td><td>(69)</td></tr>
+<tr align=center><td colspan=2>you</td>
+    <td>0%</td><td>(0)</td><td>43% (+43%)</td><td>(12)</td>
+    <td>61% (+18%)</td><td>(17)</td><td>100% (+39%)</td><td>(28)</td></tr>
+<tr align=center><td rowspan=4>human</td><td>I</td>
+    <td>0%</td><td>(0)</td><td>0%</td><td>(0)</td>
+    <td>67% (+67%)</td><td>(6)</td><td>100% (+33%)</td><td>(9)</td></tr>
+<tr align=center><td>you</td>
+    <td>0%</td><td>(0)</td><td>0%</td><td>(0)</td>
+    <td>55% (+55%)</td><td>(6)</td><td>100% (+45%)</td><td>(11)</td></tr>
+<tr align=center><td>one</td>
+    <td>0%</td><td>(0)</td><td>0%</td><td>(0)</td>
+    <td>0%</td><td>(0)</td><td>100% (+100%)</td><td>(3)</td></tr>
+<tr align=center><td>Sum</td>
+    <td>0%</td><td>(0)</td><td>0%</td><td>(0)</td>
+    <td>49% (+49%)</td><td>(12)</td><td>100%(+51%)</td><td>(23)</td></tr>
+<tr align=center><td colspan=2>it</td>
+    <td>100%</td><td>(50)</td><td>100%</td><td>(50)</td>
+    <td>100%</td><td>(50)</td><td>100%</td><td>(50)</td></tr>
+<tr align=center><td>ni-case <br>(ind. obj.)</td><td colspan=2>you</td>
+    <td>0%</td><td>(0)</td><td>100%</td><td>(5)</td>
+    <td>100%</td><td>(5)</td><td>100%</td><td>(5)</td></tr>
+<tr></tr><tr></tr>
+<tr align=center><td colspan=3>Sum</td>
+    <td>38%</td><td>(66)</td><td>61% (+24%)</td><td>(107)</td>
+    <td>85% (+24%)</td><td>(148)</td><td>100% (+15%)</td><td>(175)</td></tr>
+</table>
+</p>
+					
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 Resolution Accuracy against Rule Complexity</font></h2></a>
+
+<p>
+To examine how the resolution accuracy varied according to the
+complexity of rules, we tested the accuracy of the method proposed in
+this paper at different levels of complexity. The complexities C were
+evaluated using the following formula, and depended on the number of
+constraints used.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>C =</td><td># of modal const.* 1 + # of VSA const.* 1</td></tr>
+<tr><td></td><td>+ # of conjunctions const.* 2</td></tr>
+</table>
+</p>
+<p>
+In this formula, 1 in the modal and VSA and 2 in the conjunction
+indicate the weights. Because conjunction constraints affect both
+sides of the unit sentence, we gave the conjunctions constraints a
+weight of 2. According to this formula, the complexity of a rule that
+has a constraint for conjunctions and for VSA in the main clause and
+for modal and VSA in the sub clause, becomes 5(= 1(modal)*1 + 1(VSA)*2
++ 2(conjunction)*1).
+</p>
+<p>
+Table 4 shows the accuracy of the resolution depending on the
+complexities of the mules. 46 kinds of rules were used in the deictic
+resolution of 175 zero pronouns as shown in table 4. The accuracy of
+resolution using rules with complexities of 3 or less, is 90%, and the
+accuracy of resolution using rules with complexities of 4 or less, is
+95%.  This result shows that the use of the constraints based on modal
+expressions, VSA and conjunctions can achieve high accuracy using
+relatively simple rules.
+</p>
+
+<p>
+<div align=center><strong>
+Table 4: Resolution accuracy for complexities of rules
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td colspan=3>Resolution Condition</td>
+    <td rowspan=2>Complexities of Rules</td><td rowspan=2>Number of Rules</td>
+    <td rowspan=2 colspan=2>Accuracy</td></tr>
+<tr align=center><td>Modal Expression</td><td>VSA</td><td>Conjugations</td></tr>
+<tr align=center><td>0</td><td>0</td><td>0</td>
+    <td>0(Only semantic constrainnts to casess)</td><td>0</td>
+    <td>38%</td><td>(66)</td></tr>
+<tr align=center><td>1</td><td>0</td><td>0</td><td>1</td><td>11 (+11)</td>
+    <td>61% (+24%)</td><td>(107 (+41))</td></tr>
+<tr align=center><td>0</td><td>1</td><td>0</td><td>1</td><td>12 (+1)</td>
+    <td>62% (+1%)</td><td>(108 (+1))</td></tr>
+<tr align=center><td>1</td><td>1</td><td>0</td><td>2</td><td>29 (+17)</td>
+    <td>85% (+24%)</td><td>(148 (+40))</td></tr>
+<tr align=center><td>0</td><td>0</td><td>1</td><td>2</td><td>30 (+1)</td>
+    <td>85% (+1%)</td><td>(149 (+1))</td></tr>
+<tr align=center><td>1</td><td>0</td><td>1</td><td>3</td><td>31 (+1)</td>
+    <td>86% (+1%)</td><td>(151 (+2))</td></tr>
+<tr align=center><td>0</td><td>1</td><td>1</td><td>3</td><td>34 (+3)</td>
+    <td>90% (+3%)</td><td>(157 (+6))</td></tr>
+<tr align=center><td>1</td><td>1</td><td>1</td><td>4</td><td>36 (+2)</td>
+    <td>93% (+3%)</td><td>(163 (+6))</td></tr>
+<tr align=center><td>0</td><td>2</td><td>1</td><td>1</td><td>39 (+3)</td>
+    <td>95% (+2%)</td><td>(167 (+4))</td></tr>
+<tr align=center><td>2</td><td>1</td><td>1</td><td>5</td><td>40 (+1)</td>
+    <td>96% (+1%)</td><td>(168 (+1))</td></tr>
+<tr align=center><td>1</td><td>2</td><td>1</td><td>5</td><td>44 (+4)</td>
+    <td>99% (+3%)</td><td>(173 (+5))</td></tr>
+<tr align=center><td>2</td><td>2</td><td>1</td><td>6</td><td>46 (+2)</td>
+    <td>100% (+1%)</td><td>(175 (+2))</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Conclusion</font></h2></a>
+
+<p>
+This paper proposes a powerful method for the resolution of Japanese
+zero pronouns with deictic reference. It was found possible to resolve
+all of the sentences in the window test where the referential elements
+were not in the sentence resolved. This was achieved by the
+introduction of rules based on four kinds of constraints: semantic
+constraints on cases, modal expressions, verbal semantic attributes
+and conjunctions. In the future, we will examine the universality of
+the rules that have been discussed in this paper by applying them to
+other texts and examine a method for automatically acquiring the rules
+needed to resolve zero pronouns with deictic references.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments:</font></h2></a>
+
+<p>
+We would like to thank Professor Satoru lkehara of Tottori University
+for providing valuable comments and suggestions.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Kouji Dousaka. 1994.</a>
+<dd>Identifying the Referents if Japanese Zero-Pronouns based on Pragmatic
+	Condition Interpretation.
+	In <i>Trans. of IPS Japan</i>, 35(10):768-778. In Japanese.
+	<br><br>
+<dt><a name="ref2">Satoru Ikehara, Masahiro Miyazaki and Akio Yokoo. 1991.</a>
+<dd>Semantic Analysis Dictionary for Machine Translation.
+	In <i>Technical Reports of SIG on NLP</i>, NL-84-13, IPS Japan. In Japanese.
+	<br><br>
+<dt><a name="ref3">Satoru Ikehara, Shirai Satoshi and Kentaro Ogura. 1994.</a>
+<dd>Criteria for Evaluating the Linguistic Quality of Japanese-to-English
+	Machine Translation.
+	In <i>Journal of JSAI</I>, 9(5):569-579.
+	<br><br>
+<dt><a name="ref4">Satoru Ikehara, Shirai Satoshi, Akio Yokoo and Hiromi Nakaiwa. 1991.</a>
+<dd>Toward MT system without Pre-Editing -Efects of New Methods in ALT-J/E-.
+	In <i>Proc. of MT Summit III</i>, pages 101-106.
+	<br><br>
+<dt><a name="ref5">Megumi Kameyama. 1986.</a>
+<dd>A property-sharing constraint in centering.
+	In <i>24th Annual Meeting of ACL</i>, pages 200-206.
+	<br><br>
+<dt><a name="ref6">Akio Kamio. 1985.</a>
+<dd>Danwa ni okeru Shiten.
+	<i>Nihon-go gaku</i>, 4(12):10-21. Taishukan Publ. Co., Tokyo. In Japanese.
+	<br><br>
+<dt><a name="ref7">Susumu Kuno. 1978.</a>
+<dd>Danwa no Bunpoo.
+	Taishukan Publ. Co., Tokyo. In Japanese.
+	<br><br>
+<dt><a name="ref8">Fujio Minami. 1974.</a>
+<dd>Gendai Nihon-go no Kouzou.
+	Taishukan Publ. Co., Tokyo. In Japanese.
+	<br><br>
+<dt><a name="ref9">Hiromi Nakaiwa and Satoru Ikehara. 1992.</a>
+<dd>Zero Pronoun Resolution in a Japanese-to-English Machine Translation System
+	by using Verbal Semantic Attributes.
+	In <i>Proc. of ANLP92</i>, pages 201-208, ACL.
+	<br><br>
+<dt><a name="ref10">Hiromi Nakaiwa, Akio Yokoo, and Satoru Ikehara. 1994.</a>
+<dd>A System of Verbal Semantic Attributes Focused on the Syntactic Correspondence
+	between Japanese and English.
+	In <i>Proc. of COLING94</i>, pageS 672-678.
+	<br><br>
+<dt><a name="ref11">Hiromi Nakaiwa, and Satoru Ikehara. 1995.</a>
+<dd>Intrasentential Resolution of Japanese Zero Pronouns in a Machine Translation
+	system using Semantic and Pragmatic Constraints.
+	In <i>Proceedings of TMI95</i>, pages 96-105.
+	<br><br>
+<dt><a name="ref12">Yukinori Takubo. 1987.</a>
+<dd>Tougo Kouzou to Bunmyaku Jyouhou.
+	<i>Nihon-go gaku</i>, 4(12):10-21. In Japanese.
+	<br><br>
+<dt><a name="ref13">Marilyn Walker, Masayo Iida and Sharon Cote. 1990.</a>
+<dd>Centering in Japanese Discourse.
+	In <i>Proc. of COLING90</i>.
+	<br><br>
+<dt><a name="ref14">Kei Yoshimoto. 1988.</a>
+<dd>Identifying Zero Pronouns in Japanese Dialogue.
+	In <i>Proc. of COLING88</i>, pages 779-784.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+At the moment, it is difficult to use sentences which were not
+successfulIy syntactically and semantically analyzed for the
+evaluation of our method. So, to evaluate the technical limitation of
+proposed method, we evaluated the resolution accuracy in the sentences
+which were examined to make the 46 rules (window test). We will
+conduct blind tests after we have finished debugging the whole
+system. (<a href="c13.html#rfn1">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

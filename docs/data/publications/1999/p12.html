@@ -1,0 +1,1382 @@
+<html>
+<head>
+<title>Masahiko Haruno, Satoshi Shirai &amp; Yoshifumi Ooyama, Machine Learning, February 2, 1999, Vol.34, Nos.1/2/3, pp.131-149</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Using Decision Trees to Construct a Practical Parser</font>
+<br><br>
+
+<font size=+2>MASAHIKO HARUNO</font> &nbsp;&nbsp; mharuno@hip.atr.co.jp
+<br>
+<font size=+1><i>ATR Human Information Processing Research Laboratories, 
+	<br>2-2 Hikaridai, Seika-cho, Soruku-gun, Kyoto 619-02, Japan</i></font>
+
+<br><br>
+
+<font size=+2>SATOSHI SHIRAI</font> &nbsp;&nbsp; shirai@cslab.kecl.ntt.co.jp
+<br>
+<font size=+2>YOSHIFUMI OOYAMA</font> &nbsp;&nbsp; ooyama@cslab.kecl.ntt.co.jp
+<br>
+<font size=+1><i>NTT Communication Science Laboratories, 
+	<br>2-4 Hikaridai, Seika-cho, Soraku-gun, Kyoto 619-02, Japan</i></font>
+</div>
+
+<h2>Abstract.</h2> 
+<p>
+This paper describes a novel and practical Japanese parser that uses decision trees. First, we construct
+a single decision tree to estimate modification probabilities, how one phrase tends to modify another. Next, we
+introduce a boosting algorithm in which several decision trees are constructed and then combined for probability
+estimation. The constructed parsers are evaluated using the EDR Japanese annotated corpus. The single-tree
+method significantly outperforms the conventional Japanese stochastic methods. Moreover, the boosted version
+of the parser is shown to have great advantages; (1) a better parsing accuracy than its single-tree counterpart for
+any amount of training data and (2) no over-fitting to data for various iterations. The presented parser, the first
+non-English stochastic parser with practical performance, should tighten the coupling between natural language
+processing and machine learning.
+</p>
+
+<br><br>
+
+<h3>Keywords:</h3>
+
+<p>
+stochastic parsing, decision tree, boosting, dependency grammar, corpus linguistics
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i>Machine Learning</i>, pp.131-149 (February, 1999). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=17>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p12.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="p12.html#chap-2.">2. Dependency analysis in the Japanese language</a></td></tr>
+<tr><td><a href="p12.html#chap-3.">3. Decision trees for dependency analysis</a></td></tr>
+<tr><td><a href="p12.html#chap-3.">3. 1. Linguistic feature types used for learning</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p12.html#chap-3.2.">3.2. Stochastic model and decision trees</a></td></tr>
+<tr><td><a href="p12.html#chap-4.">4. Experimental results</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p12.html#chap-4.1.">4.1. Single tree experiments</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p12.html#chap-4.1.1.">4.1.1. Pruning and parsing accuracy.</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p12.html#chap-4.1.2.">4.1.2. The amount of training data and parsing accuracy.</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p12.html#chap-4.1.3.">4.1.3. Significance of non head-word features.</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="p12.html#chap-4.1.4.">4.1.4. Significance of head-word lexical information.</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p12.html#chap-4.2.">4.2. Boosting experiments</a></td></tr>
+<tr><td><a href="p12.html#chap-5.">5. Related work</a></td></tr>
+<tr><td><a href="p12.html#chap-6.">6. Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p12.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p12.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+With the recent availability of large annotated corpora, there has been growing interest in
+stochastic parsing methods so as to replace labor-intensive rule compilation by automated
+learning algorithms. Conventional parsers with practical levels of performance require a
+number of sophisticated rules that have to be hand-crafted by human linguists. It is time-consuming 
+and cumbersome to maintain these rules for two reasons.
+</p>
+<p>
+<ul>
+<li> The rules are specific to the application domain.
+<li> Specific rules handling infrequent and colloquial expressions create side effects. Such
+rules often deteriorate the overall performance of the parser. It is generalIy difficult to
+decide whether to include a specific rule, particularly when the number of rules becomes
+large.
+</ul>
+</p>
+<p>
+The stochastic approach, on the other hand, has the potential to overcome these difficulties. 
+Because it induces stochastic rules to maxilnize overall performance against training
+data, it not only adapts to any application domain but also avoids over-fitting to the data. Now
+that machine learning techniques are mature enough to deal with real-world applications,
+it is promising to try to construct practical parsers by using machine learning methods.
+In the late 80s and early 90s, the induction and parameter estimation of probabilistic
+context free grammars (PCFGs) from corpora were intensively studied. Because these
+grammars comprise only nonterminal and part-of-speech tag symbols, their performances
+were not good enough to be used in practical applications (Charniak, 1993). A broader
+range of information, in particular lexical (i.e., word-level) information, was found to be
+essential in disambiguating the syntactic structures of real-world sentences.
+</p>
+<p>
+The SPATTER parser (Magerman, 1995) replaced the pure PCFG with transformation
+(extension and labeling) rules that are augmented with a number of lexical attributes. The
+parser controlled the applications of each rule by using the lexical constraints induced by
+using a decision tree algorithm (Breiman et al., 1984). The extension can take on any of
+the following five values: <strong>right</strong>, <strong>left</strong>, <strong>up</strong>, <strong>unary</strong>, and <strong>root</strong>, each representing an extension
+of a syntactic tree node. The decision tree model is grown using the following questions,
+where <i>X</i> is either word, part-of-speech, label, or extension, and <i>Y</i> is either left or right. The
+SPATTER parser attained 87% an accuracy and was the first to make stochastic parsers a
+practical choice.
+</p>
+<p>
+<ul>
+<li> What is the <i>X</i> at the current node?
+<li> What is the <i>X</i> at the node to the <i>Y</i> ?
+<li> What is the <i>X</i> at the node two nodes to the <i>Y</i> ?
+<li> What is the <i>X</i> at the current node's first child from the <i>Y</i> ?
+<li> What is the <i>X</i> at the current node's second child from the <i>Y</i> ?
+</ul>
+</p>
+<p>
+Another type of high-precision parser, one based on dependency analysis, was introduced 
+by Collins (1996). Dependency analysis first segments a sentence into syntactically 
+meaningful sequences of words and then considers the modification of each segment.
+Figure 1 illustrates a sample dependency structure. Each modification is represented as
+a triple of nonterminal symbols with a direction (right or left). For example, <strong>NP S VP</strong><a name="rfn1" href="p12.html#fn1"><sup>1</sup></a>
+constructed from [<i>John Smith</i> ] and <i>announced</i> means that a <strong>NP</strong> (<i>John Smith</i> ) modifies a <strong>VP</strong>
+(<i>announced his resignation</i> ) and constructs a <strong>S</strong>. Collins' parser computes the likelihood that
+each segment modifies the other by using large corpora. These modification probabilities
+are conditioned by the head words of the two segments,<a name="rfn2" href="p12.html#fn2"><sup>2</sup></a> the distance between them, and
+other syntactic features.
+</p>
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="p12/p12-fig1.gif" width=453 height=123>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 1. Sample dependency structure.
+</i></strong></div>
+</p>
+
+<p>
+Although these two parsers have shown a similar performance, the keys to their successes
+are slightly different. The SPATTER parser performance greatly depends on the feature
+selection ability of the decision tree algorithm rather than its linguistic representation.
+On the other hand, dependency analysis plays an essential role in Collins' parser for efficiently 
+extracting information from corpora.
+</p>
+<p>
+In this paper, we describe a practical Japanese dependency parser that uses decision
+trees. The task of the parser is to output bracketed text from an input sequence of Japanese
+characters.
+</p>
+<p>
+In the Japanese language, dependency analysis has been shown to be powerful because
+segment (bunsetsu) order in a sentence is relatively free compared to European languages.
+Japanese dependency parsers generally proceed in three steps.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>1.</td><td rowspan=3>&nbsp;</td>
+    <td>Segment a sentence into a sequence of bunsetsu.</td></tr>
+<tr><td>2.</td>
+    <td>Prepare a modification matrix, each value of which represents how one bunsetsu is likely
+	to modify another.</td></tr>
+<tr><td>3.</td>
+    <td>Find optimal modifications in a sentence by dynamic programming.</td></tr>
+</table>
+</p>
+<p>
+The most difficult part is the second step, how to construct a sophisticated modification
+matrix. With conventional Japanese parsers, the linguist must classify the bunsetsu and
+select appropriate features to compute modification values. The parsers also suffer from
+application domain diversity and the side effects of specific rules.
+</p>
+<p>
+Stochastic dependency parsers like Collins', on the other hand, define a set of attributes
+and condition the modification probabilities by all of the attributes regardless of the bunsetsu
+type. These methods can encompass only a small number of features if the probabilities are
+to be precisely evaluated from a finite number of data. Our method, in contrast, constructs
+a more sophisticated modification matrix by using decision trees. It automatically selects
+a sufficient number of significant attributes according to the bunsetsu type. We can use
+arbitrary numbers of attributes to potentially increase the parsing accuracy.
+</p>
+<p>
+Natural languages are full of exceptional and colloquial expressions, and it is difficult for
+machine learning algorithms, as well as human linguists, to judge whether a specific rule
+is relevant in terms of the overall performance. Because the maximal likelihood estimator
+(MLE) emphasizes the most frequent phenomena, an exceptional expression is placed in the
+same class as a frequent one. To tackle this problem, we investigate a mixture of sequentially
+generated decision trees. Specifically, we use the Adaboost algorithm (Freund & Schapire,
+1997) which iteratively performs two procedures:
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>1.</td><td rowspan=2>&nbsp;</td><td>construct a decision tree based on the current data distribution</td></tr>
+<tr><td>2.</td><td>update the distribution by focusing on data not well explained by the constructed tree</td></tr>
+</table>
+</p>
+<p>
+The final modification probabilities are computed by mixing all of the decision trees according 
+to their performance. The sequential decision trees gradually change from broad
+coverage to specific exceptional trees that cannot be captured by a general tree. In other
+words, the method incorporates not only general expressions but also infrequent specific
+ones.
+</p>
+<p>
+The rest of this paper is organized as follows. Section 2 summarizes our dependency
+analysis for the Japanese language. Section 3 introduces our feature setting for learning and
+explains decision tree models that compute modification probabilities. Section 4 presents
+experimental results obtained by using the EDR Japanese annotated corpora. Section 5
+relates our parser research to other research from both natural language processing and
+machine learning viewpoints. FinalIy, Section 6 concludes the paper.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. Dependency analysis in the Japanese language</font></h2></a>
+
+<p>
+This section overviews dependency analysis in the Japanese language. The parser generally
+performs the following three steps.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>1.</td><td rowspan=3>&nbsp;</td><td>Segment a sentence into a sequence of bunsetsu.</td></tr>
+<tr><td>2.</td><td>Prepare a modification matrix, each value of which represents how one bunsetsu is likely
+	to modify the other.</td></tr>
+<tr><td>3.</td><td>Find optimal modifications in a sentence by a dynamic programming technique.</td></tr>
+</table>
+</p>
+<p>
+Because there are no explicit delimiters between words in Japanese, input sentences
+are first word segmented, part-of-speech tagged, and then chunked into a sequence of
+segments (bunsetsu). Bunsetsu basically consists of a set of non-function words + function
+words, although its definition greatly depends on the user and usage. In our system, word
+segmentation and part-of-speech tagging are performed by the Japanese morphological
+analyzing program Chasen (Matsumoto et al., 1997). Then, the output from the tagger
+is passed to an automatic bunsetsu segmenter (developed by Fujio & Matsumoto (1997)).
+The bunsetsu segmenter is implemented in Perl and contains 1311 rules in the form of
+regular expressions to determine the bunsetsu boundaries. The first step yields, for the
+following example, the sequence of bunsetsu displayed below. The Japanese expressions in
+the parenthesis represent the internal structures of the bunsetsu (word segmentations). Note
+here that postpositional particles (e.g., GA, WO, NO, and NI) provide much of the functional
+information that word order typically provides in English.
+</p>
+
+<p>
+Example. <img src="p12/j0000.gif"><img src="p12/j0001.gif"><img src="p12/j0002.gif"><img src="p12/j0003.gif"><img src="p12/j0004.gif"><img src="p12/j0005.gif"><img src="p12/j0006.gif"><img src="p12/j0007.gif"><img src="p12/j0002.gif"><img src="p12/j0008.gif"><img src="p12/j0009.gif"><img src="p12/j0010.gif"><img src="p12/j0011.gif"><img src="p12/j0012.gif"><img src="p12/j0013.gif"><img src="p12/j0014.gif"><img src="p12/j0015.gif"><img src="p12/j0016.gif"><img src="p12/j0017.gif"><img src="p12/j0018.gif"> <br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td><font size=1>&nbsp;</font></td></tr>
+<tr><td rowspan=4>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>((<img src="p12/j0000.gif"><img src="p12/j0001.gif">)((<img src="p12/j0002.gif">)))</td><td rowspan=4>&nbsp;&nbsp;</td><td>((<img src="p12/j0003.gif"><img src="p12/j0004.gif">)(<img src="p12/j0005.gif">))</td><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>((<img src="p12/j0006.gif"><img src="p12/j0007.gif">)(<img src="p12/j0002.gif">))</td><td rowspan=4>&nbsp;&nbsp;</td><td>((<img src="p12/j0008.gif"><img src="p12/j0009.gif"><img src="p12/j0010.gif">)(<img src="p12/j0011.gif">))</td><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>((<img src="p12/j0012.gif"><img src="p12/j0013.gif"><img src="p12/j0014.gif">)(<img src="p12/j0015.gif">))</td><td rowspan=4>&nbsp;&nbsp;</td><td>((<img src="p12/j0016.gif"><img src="p12/j0017.gif">)(<img src="p12/j0018.gif">)</td></tr>
+<tr><td><i>kinou-no</i> </td><td><i>yuugata-ni</i> </td><td><i>kinjo-no</i> </td>
+    <td><i>kodomo-ga</i> </td><td><i>wain-wo</i> </td><td><i>nomu+ta</i> </td></tr>
+<tr><td><i>yesterday</i>-NO</td><td><i>evening</i>-NI</td><td><i>neighbor</i>-NO</td>
+    <td><i>children</i>-GA</td><td><i>wine</i>-WO</td><td><i>drink</i> +PAST</td></tr>
+<tr><td><i>Yesterday</i> </td><td><i>evening</i> ,</td><td><i>the neighboring</i> </td>
+    <td><i>children</i> </td><td><i>drank</i> </td><td><i>the wine</i> </td></tr>
+</table>
+</p>
+
+<p>
+The second step of parsing is to construct a modification matrix whose values represent the
+likelihood that one bunsetsu modifies another in a sentence.
+</p>
+<p>
+In the Japanese language, almost all practical parsers assume the following two constraints
+(Yoshida, 1972). Although there are a small number of exceptions (i.e., inversion) for these
+two constraints, the majority of them can be avoided by devising corpus annotations and
+bunsetsu definitions. These two constraints with careful bunsetsu definitions can improve
+the parsing performance by cutting off excessive modification candidates.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>1.</td><td rowspan=2></td><td>Every bunsetsu except the last one modifies exactly one posterior bunsetsu.</td></tr>
+<tr><td>2.</td><td>No modification crosses other modifications in a sentence.</td></tr>
+</table>
+</p>
+<p>
+Table 1 illustrates a modification matrix for the example sentence. In the matrix, the
+columns and rows represent anterior (preceding) and posterior (following) bunsetsu, respectively. 
+For example, the first bunsetsu '<i>kinou-no</i> ' modifies the second '<i>yuugata-ni</i> ' with
+a score of 0.70 and the third '<i>kinjo-no</i> ' with a score of 0.07. The aim of this paper is to
+generate a modification matrix by using decision trees.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 1. Modification matrix for sample sentence.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left></td><td><i>kinou-no</i></td></tr>
+<tr align=center><td align=left><i>yuugata-ni</i></td><td>0.70</td><td><i>yuugata-ni</i></td></tr>
+<tr align=center><td align=left><i>knjo-no</i></td><td>0.07</td><td>0.10</td><td><i>kinjo-no</i></td></tr>
+<tr align=center><td align=left><i>kodomo-ga</i></td><td>0.10</td><td>0.10</td><td>0.70</td><td><i>kodomo-ga</i></td></tr>
+<tr align=center><td align=left><i>wain-wo</i></td><td>0.10</td><td>0.10</td><td>0.20</td><td>0.05</td><td><i>wain-wo</i></td></tr>
+<tr align=center><td align=left><i>nomu-ta</i></td><td>0.03</td><td>0.70</td><td>0.10</td><td>0.95</td><td>1.00</td></tr>
+</table>
+</p>
+
+<p>
+The final step of parsing optimizes the entire dependency structure by using the values
+in the modification matrix. A probabilistic bottom-up chart parsing algorithm (Kay, 1980;
+Charniak, 1993) is adopted to determine the optimal dependencies, and produce the best
+parse.
+</p>
+<p>
+Before going into the details of our method, we introduce here the notations that will be
+used in this paper. Let <i>S</i> be the input sentence. <i>S</i> comprises a bunsetsu set <i>B</i> of length <i>m</i>
+({<i>b</i> <sub>1</sub> , ... , <i>b<sub>m</sub></i> }) in which <i>b</i><sub>i</sub> represents the <i>i</i> th bunsetsu. We define <i>D</i> to be a modification
+set; <i>D</i> = {<i>mod</i> (1) , ... , <i>mod</i> (<i>m</i>-1)}, in which <i>mod</i> (<i>i</i> ) is the bunsetsu which is modified
+by the <i>i</i>th bunsetsu. Because of the first assumption above, the length of <i>D</i> is always <i>m</i>-1.
+Therefore, <i>D</i> fully specifies the structure ofthe parsed text. Using these notations, the result
+of the third step for the example can be given as <i>D</i> = {2, 6, 4, 6, 6} as displayed in figure 2.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="p12/p12-fig2.gif" width=684 height=130>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 2. Modification set for sample sentence
+</i></strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Decision trees for dependency analysis</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. 1. Linguistic feature types used for learning</font></h2></a>
+
+<p>
+This section explains the concrete feature set we use for learning.
+</p>
+<p>
+Training and test instances for the decision tree algorithm contain 13 features that represent 
+any unordered combination of two bunsetsu, <i>b<sub>i</sub></i> and <i>b<sub>j</sub></i> , in a sentence: five features
+describe bunsetsu <i>b<sub>i</sub></i> (features 1-5 in Table 2); five features describe bunsetsu b1 (features
+1-5 in Table 2); the remaining three features describe the relationship between <i>b<sub>i</sub></i> and <i>b<sub>j</sub></i>
+(features 6-8 from Table 2). The class value for each instance (i.e., <i>yes</i> or <i>no</i> ) indicates
+whether or not a modification relation exists between <i>b<sub>i</sub></i> and <i>b<sub>j</sub></i> .
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 2. Linguistic feature types used for learning
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>No.</td><td>Two bunsetsu</td><td rowspan=6></td><td>No.</td><td>Others</td></tr>
+<tr></tr>
+<tr></tr>
+<tr><td>1</td><td>Lexical information of head word</td><td>6</td><td>Distance between two bunsetsu</td></tr>
+<tr><td>2</td><td>Part-of-speech of head word</td><td>7</td><td>Particle 'wa' between two bunsetsu</td></tr>
+<tr><td>3</td><td>Type of bunsetsu</td><td>8</td><td>Punctuation between two bunsetsu</td></tr>
+<tr><td>4</td><td>Punctuation</td></tr>
+<tr><td>5</td><td>Parentheses</td></tr>
+</table>
+</p>
+
+<p>
+Both No. 1 and No. 2 concern the head word of the bunsetsu. No. 1 takes values of frequent
+words or thesaurus categories (NLRI, 1964). No. 2, on the other hand, takes values of part-of-speech 
+tags. No. 3 deals with bunsetsu types which consist of functional word chunks
+or the part-of-speech tags that dominate the bunsetsu's syntactic characteristics. No. 4 and
+No. 5 are binary features and correspond to punctuation and parentheses, respectively.
+No. 6 represents how many bunsetsu exist between the two bunsetsu. Possible values in
+our setting are A (0), B (0 <img src="p12/j0019.gif"> 4), and C (<img src="p12/j0020.gif">5). No. 7 deals with the post-positional particle
+'wa' which greatly influences the long distance dependency of subject-verb modifications.
+Finally, No. 8 addresses the punctuation between the two bunsetsu. The detailed values of
+each feature type are summarized in the Appendix.
+</p>
+<p>
+Table 3 illustrates the instances generated from the example sentence discussed in
+Section 2. Each row in the table corresponds to one instance. t-noun and c-noun in the
+table represent a temporal noun and a common noun, respectively. Note also that <i>no</i>
+in italic and no in Roman mean the Japanese post positional particle '<i>no</i> ' and a binary
+value '<i>no</i> ' , respectively. In this setting, the decision tree algorithm automatically and consecutively 
+selects the significant features for discriminating modify/non-modify (yes/no)
+relations.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 3. Training data generated from the example sentence
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td colspan=5>Angerior bunsetsu</td><td rowspan=20></td>
+    <td colspan=5>Posterior bunsetsu</td><td rowspan=20></td>
+    <td colspan=3>pair</td><td rowspan=20></td><td rowspan=2 valign=bottom>Class</td></tr>
+<tr><td>1</td>	<td>2</td>	<td>3</td>	<td>4</td>	<td>5</td>
+    <td>1</td>	<td>2</td>	<td>3</td>	<td>4</td>	<td>5</td>
+    <td>6</td>	<td>7</td>	<td>8</td></tr>
+<tr></tr>
+<tr></tr>
+<tr><td>kinou</td>	<td>t-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>yuugata</td>	<td>c-noun</td>	<td><i>ni</i></td>	<td>no</td>	<td>no</td>
+    <td>A</td>	<td>no</td>	<td>no</td>	<td>yes</td></tr>
+<tr><td>kinou</td>	<td>t-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>kinjo</td>	<td>c-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kinou</td>	<td>t-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>kodomo</td>	<td>c-noun</td>	<td><i>ga</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kinou</td>	<td>t-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>wain</td>	<td>c-noun</td>	<td><i>wo</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kinou</td>	<td>t-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>nomu</td>	<td>verb</td>	<td>verb</td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>yuugata</td>	<td>c-noun</td>	<td><i>ni</i></td>	<td>no</td>	<td>no</td>
+    <td>kinjo</td>	<td>c-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>A</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>yuugata</td>	<td>c-noun</td>	<td><i>ni</i></td>	<td>no</td>	<td>no</td>
+    <td>kodomo</td>	<td>c-noun</td>	<td><i>ga</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>yuugata</td>	<td>c-noun</td>	<td><i>ni</i></td>	<td>no</td>	<td>no</td>
+    <td>wain</td>	<td>c-noun</td>	<td><i>wo</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>yuugata</td>	<td>c-noun</td>	<td><i>ni</i></td>	<td>no</td>	<td>no</td>
+    <td>nomu</td>	<td>verb</td>	<td>verb</td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>yes</td></tr>
+<tr><td>kinjo</td>	<td>c-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>kodomo</td>	<td>c-noun</td>	<td><i>ga</i></td>	<td>no</td>	<td>no</td>
+    <td>A</td>	<td>no</td>	<td>no</td>	<td>yes</td></tr>
+<tr><td>kinjo</td>	<td>c-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>wain</td>	<td>c-noun</td>	<td><i>wo</i></td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kinjo</td>	<td>c-noun</td>	<td><i>no</i></td>	<td>no</td>	<td>no</td>
+    <td>nomu</td>	<td>verb</td>	<td>verb</td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kodomo</td>	<td>c-noun</td>	<td><i>ga</i></td>	<td>no</td>	<td>no</td>
+    <td>wain</td>	<td>c-noun</td>	<td><i>wo</i></td>	<td>no</td>	<td>no</td>
+    <td>A</td>	<td>no</td>	<td>no</td>	<td>no</td></tr>
+<tr><td>kodomo</td>	<td>c-noun</td>	<td><i>ga</i></td>	<td>no</td>	<td>no</td>
+    <td>nomu</td>	<td>verb</td>	<td>verb</td>	<td>no</td>	<td>no</td>
+    <td>B</td>	<td>no</td>	<td>no</td>	<td>yes</td></tr>
+<tr><td>wain</td>	<td>c-noun</td>	<td><i>wo</i></td>	<td>no</td>	<td>no</td>
+    <td>nomu</td>	<td>verb</td>	<td>verb</td>	<td>no</td>	<td>no</td>
+    <td>A</td>	<td>no</td>	<td>no</td>	<td>yes</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2."><h2><font color=#ff0000>3.2. Stochastic model and decision trees</font></h2></a>
+
+<p>
+The stochastic dependency parser assigns the most plausible modification set <i>D</i><sub>best</sub> to a
+sentence in terms of the training data distribution.
+</p>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;<i>D</i><sub>best</sub> = <i>argmax<sub>D</sub> P</i> (<i>D</i> |<i>S</i> ) = <i>argmax<sub>D</sub> P</i> (<i>D</i> |<i>B</i> )
+</p>
+<p>
+Although modifications in a sentence are in fact dependent on each other as revealed
+in the two constraints in Section 2, it is generally difficult to efficiently determine what
+range of modifications should be considered in the online computation of the modification
+probability of two bunsetsu. In addition, the learning of such dependencies should require
+large amounts of training data. Therefore, we adopt an alternative independence assumption
+(as usual) for efficient learning from a limited amount of training data and for efficient
+computation. 
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td><td><small><i>m</i>-1</small></td></tr>
+<tr align=center><td><i>P</i> (<i>D</i> |</i>B</i> )	<img src="p12/j0021.gif"> &nbsp;</td>
+    <td><font size=+2><img src="p12/j0022.gif"></font></td><td><i>P</i> (<i>yes</i> |<i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (1)</td></tr>
+<tr><td></td><td><small><i>i</i> = 1</small></td></tr>
+</table>
+</p>
+<p>
+By assuming the independence of modifications, <i>P</i> (<i>D</i> | <i>B</i> ) can be transformed as Eq. (1).
+<i>P</i> (<i>yes</i> |<i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) means the probability that a pair of bunsetsu <i>b<sub>i</sub></i> and <i>b<sub>j</sub></i> have a modification
+relation given the feature sets <i>f<sub>ij</sub></i> defined in Table 2. We use decision trees to dynamically
+select appropriate features for each combination of bunsetsu (as shown in Table 3) from
+<i>f<sub>ij</sub></i> .
+</p>
+<p>
+Let us first consider the single tree case. We slightly changed C4.5 (QuinIan, 1993)
+programs to be able to extract class frequencies at every node in the decision tree because
+our task is regression rather than classification. Figure 3 is the simplified and unpruned
+decision tree generated from the training data shown in Table 3. Each node and edge in the
+tree is labeled with a feature name and its value, respectively. They indicate that the data
+are split by the feature according to its values. The feature and values are selected so as to
+maximally separate class labels of the data. The finally separated class values are attached
+to each leaf node of the tree. In the current example, the decision tree first selects the feature
+Distance at the top node. If its value is A and the value ofthe next feature anterior type is <i>no</i>,
+the class of data is then determined as yes. The rest of the data can be correctly classified
+in the same way. Note here that we can extract the class frequencies from each node. For
+example, the circled node of depth 1 stores five examples of Table 3 whose distance values
+are A. The class frequency at this node is (yes, no) = (3, 2). We can therefore compute at
+this node the probability of yes as 3/(3 + 2) = 0.6.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center><td rowspan=5>&nbsp;&nbsp;&nbsp;&nbsp;</td><td></td>
+    <td rowspan=2><i>P</i><sub>DT</sub>(<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> )</td></tr>
+<tr align=center><td rowspan=3><i>P</i> (<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i>, <i>f<sub>ij</sub></i> ) <img src="p12/j0023.gif"></td>
+    <td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (2)</td></tr>
+<tr align=center><td><font size=-2>----------------------------------------</font></td></tr>
+<tr align=center><td rowspan=2><img src="p12/j0024.gif"><sup><i>m</i></sup><sub><i>k</i>&gt;<i>i</i></sub> <i>P</i><sub>DT</sub>(<i>yes</i> | <i>b<sub>i</sub></i>, <i>b<sub>k</sub></i>, <i>f<sub>ik</sub></i> )</td></tr>
+<tr align=center><td></td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="p12/p12-fig3.gif" width=595 height=237>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 3. Simple decision tree generated from example data
+</i></strong></div>
+</p>
+
+<p>
+In the case ofthepruned decision tree, by using the class frequencies, we can also compute
+the probability <i>P</i><sub>DT</sub>(<i>yes</i> | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) which is the Laplace estimate of the empirical likelihood 
+that <i>b<sub>i</sub></i> modifies <i>b<sub>j</sub></i> at the leaf of the constructed decision tree DT. Note that it is necessary 
+to normalize <i>P</i><sub>DT</sub>(yes | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) to approximate <i>P</i> (yes | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ). By considering
+all candidates posterior to <i>b<sub>i</sub></i> , <i>P</i> (yes | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) is computed using a heuristic rule (2).
+Such a normalization technique is also utilized by Collins (1996). It is of course reasonable
+to normalize class frequencies instead of the probability <i>P</i><sub>DT</sub>(yes | <i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ). Equation
+(2) tends to emphasize long distance dependencies more than is true for frequency-based
+normalization.
+</p>
+<p>
+Let us extend the above to use a set of decision trees. As briefiy mentioned in Section 1 ,
+a number of infrequent and exceptional expressions appear in any natural language phenomenon; 
+they deteriorate the overall performance of application systems. It is also difficult
+for automated learning systems to detect and handle these expressions because exceptional
+expressions are placed in the same class as frequent ones. To tackle this difficulty, we generate 
+a set of decision trees by introducing the Adaboost (Freund & Schapire, 1997) algorithm
+illustrated in figure 4. The algorithm first sets the weights to 1 for all (training) examples
+(step 2 in figure 4) and repeats the following two procedures <i>T</i> times (step 3 in figure 4).
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td>1.</td><td rowspan=2>&nbsp;</td><td>A decision tree is constructed by using the current weight vector ((A) in figure 4)</td></tr>
+<tr valign=top><td>2.</td><td>The same training data are then parsed by using the tree and the weights of correctly
+	handled data are reduced ((B) and (C) in figure 4)</td></tr>
+</table>
+</p>
+<p>
+The final probability set <i>h<sub>f</sub></i> is then computed by mixing <i>T</i> trees according to their performance 
+(step 4 in figure 4). Using <i>h<sub>f</sub></i> instead of <i>P</i><sub>DT</sub> (<i>yes</i> |<i>b<sub>i</sub></i> , <i>b<sub>j</sub></i> , <i>f<sub>ij</sub></i> ) in Eq. (1) generates
+a boosted version of the dependency parser. The sequential decision trees gradually change
+from broad coverage to specific exceptional trees that cannot be captured by a general tree.
+In other words, the method incorporates not only general expressions but also infrequent
+specific ones.
+</p>
+
+<p>
+<table border=3 cellpadding=3 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=0 cellspacing=0 align=center>
+<tr valign=top><td>1.</td><td rowspan=8>&nbsp;</td>
+    <td colspan=3><strong>Input:</strong> sequence of <i>N</i> training examples <img src="p12/j0025.gif"><i>e</i><sub>1</sub> , <i>w</i><sub>1</sub><img src="p12/j0026.gif">, ..., <img src="p12/j0025.gif"><i>e<sub>N</sub></i>, <i>w<sub>N</sub></i> <img src="p12/j0026.gif"> in which <i>e<sub>i</sub></i> and
+<i>w<sub>i</sub></i> represent an example and its weight.</td></tr>
+<tr valign=top><td>2.</td>
+    <td colspan=3><strong>Initialize</strong> the weight vector <i>w<sub>i</sub></i> = 1 for <i>i</i> = 1 , ... , <i>N</i></td></tr>
+<tr valign=top><td>3.</td>
+    <td colspan=3><strong>Do for</strong> <i>t</i> = 1 , 2, ..., <i>T</i></td></tr>
+<tr valign=top><td></td><td>(A)</td><td rowspan=3>&nbsp;</td>
+    <td><strong>Call</strong> C4.5 providing it with the weight vector <i>w<sub>i</sub></i> s and Construct a modification
+	probability set <i>h<sub>t</sub></i></td></tr>
+<tr valign=top><td></td><td>(B)</td>
+    <td>Let <i>Error</i> be a set of training examples that are not correctly classified by <i>h<sub>t</sub></i>
+	Compute the pseudo error rate of <i>h<sub>i</sub></i> : <br>
+	<img src="p12/j0027.gif"><sub><i>t</i></sub> = <img src="p12/j0024.gif"><sub>i <img src="p12/j0028.gif"> Error</sub> <i>w<sub>i</sub></i> / <img src="p12/j0024.gif">N<sup></sup> <sub>i=1</sub> <i>w<sub>i</sub></i> <br>
+	<strong>if</strong> <img src="p12/j0027.gif"><i><sub>t</sub></i> <img src="p12/j0020.gif"> 1/2 , <strong>then</strong> abort loop <br>
+	<table border=0 cellpadding=0 cellspacing=0>
+	<tr align=center><td rowspan=3><img src="p12/j0029.gif"><i><sub>t</sub></i> <img src="p12/j0021.gif"> &nbsp;</td><td><small><img src="p12/j0027.gif"><i><sub>t</sub></i></small></td></tr>
+	<tr align=center><td><font size=1>------------</font></td></tr>
+	<tr align=center><td><small>1 - <img src="p12/j0027.gif"><i><sub>t</sub></i></small></td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td></td><td>(C)</td>
+    <td>For training examples correctly predicted by <i>h<sub>i</sub></i> , update the weight vector to be <i>w<sub>i</sub></i> = <i>w<sub>i</sub></i> <img src="p12/j0029.gif"><i><sub>t</sub></i></td></tr>
+<tr valign=top><td>4.</td>
+    <td colspan=3><strong>Output</strong> a final probability set:</td></tr>
+<tr><td></td><td></td><td></td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr align=center><td rowspan=5><i>h<sub>f</sub></i> <img src="p12/j0021.gif"></td><td><small><i>T</i></small></td><td rowspan=5><font size=+3>(</font></td><td rowspan=5><i>log</i></td><td rowspan=2>1</td><td rowspan=5><font size=+3>)</font></td><td rowspan=5><i>h<sub>t</sub></i></td><td rowspan=5><font size=+3>/</font></td><td><small><i>T</i></small></td><td rowspan=5><font size=+3>(</font></td><td rowspan=5><i>log</i></td><td rowspan=2>1</td><td rowspan=5><font size=+3>)</font></td></tr>
+	<tr align=center><td rowspan=3><font size=+2><img src="p12/j0024.gif"></font></td><td rowspan=3><font size=+2><img src="p12/j0024.gif"></font></td></tr>
+	<tr align=center><td><font size=1>----</font></td><td><font size=1>----</font></td></tr>
+	<tr align=center><td rowspan=2><img src="p12/j0029.gif"><sub><i>t</i></sub></td><td rowspan=2><img src="p12/j0029.gif"><sub><i>t</i></sub></td></tr>
+	<tr align=center><td><small><i>t</i> = 1</small></td><td><small><i>t</i> = 1</small></td></tr>
+	</table>
+    </td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 4. Combining decision trees by the Adaboost algorithm.
+</i></strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Experimental results</font></h2></a>
+
+<p>
+We evaluated the proposed parser using the EDR Japanese annotated corpus (EDR, 1995).
+The experiment consisted of two parts. One evaluated the single-tree parser and the other the
+boosting counterpart. In the rest of this section, parsing accuracy refers only to precision;
+this means out of all the individual dependencies the system assigns, how many of those
+are correct in terms of the annotated corpus.
+</p>
+<p>
+We do not show recall because we assume every bunsetsu modifies only one posterior
+bunsetsu. The features used for learning were non head-word features (i.e., types 2 to 8
+in Table 2). Section 4. 1 .4 investigates lexical information of head words such as frequent
+words and thesaurus categories. Before going into the details of the experimental results,
+we summarize here how the training and test data were constructed.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td>1.</td>
+    <td rowspan=3>&nbsp;</td><td>After all of the sentences in the EDR corpus were word-segmented and part-of-speech
+tagged, they were then chunked into a sequence of bunsetsu.</td></tr>
+<tr valign=top><td>2.</td>
+	<td>All bunsetsu pairs were compared with the EDR bracketing annotation (correct segmentations 
+and modifications). If a sentence contained a pair inconsistent with the EDR
+annotation, the sentence was removed from the data.</td></tr>
+<tr valign=top><td>3.</td>
+	<td>All data examined (total number of sentences: 207,802, total number of bunsetsu:
+1,790,920) were divided into 20 files. The training and test data were completely
+differentiated. The training data (50,000 sentences) were the first 2500 sentences of the
+20 files. The test data (10,000 sentences) were the 2,501st to 3,000th sentences of each
+file.</td></tr>
+</table>
+
+</p>
+<p>
+Because there are no explicit delimiters between words in Japanese, the primary task is to
+word segment and part-of-speech tag the input sentences. The part-of-speech information
+contained in the EDR corpus is too coarse to be used in parsing. We hence employed only
+bracketing information of the corpus. We used for the POS tagging a Japanese morphological 
+analyzing program Chasen (Matsumoto et al., 1997) to make use of the fine-grained
+tag information to address the syntactic ambiguities. After the part-of-speech tagging, a
+sequence of bunsetsu was automatically generated by utilizing the automatic bunsetsu segmenter 
+developed by Fujio and Matsumoto (1997). The bunsetsu segmenter is implemented
+in Perl and contains 1,311 segmentation rules.
+</p>
+<p>
+The second step detected the modification relations existing in the EDR corpus. Due to
+the difference between our definition of bunsetsu and that used in the EDR corpus, some discrepancies 
+in the bunsetsu boundaries occurred. We removed from the data those sentences
+that contained the boundary discrepancies. The errors in the part-of-speech tagging were
+handled as they were by a learning algorithm. Because the detection of bunsetsu boundaries
+is much easier than part-of-speech tagging, the removal of inconsistent sentences has little
+effect on the use of the resulting parser in which all bunsetsu segmentations are performed
+according to our bunsetsu definition.
+</p>
+<p>
+The third step is the construction of the completely disjoint training and test data for
+learning. For both data, we took the same numbers of sentences from 20 different files in
+order to avoid imbalances in the genres of the texts.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1."><h2><font color=#ff0000>4.1. Single tree experiments</font></h2></a>
+
+<p>
+In the single tree experiments, we evaluated the following four properties of the new dependency 
+parser.
+</p>
+<p>
+<ul>
+<li> Tree pruning and parsing accuracy
+<li> Number of training sentences and parsing accuracy
+<li> Significance of features other than Head-word Lexical Information
+<li> Significance of Head-word Lexical Information
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.1."><h2><font color=#ff0000>4.1.1. Pruning and parsing accuracy.</font></h2></a>
+
+<p>
+Table 4 summarizes the parsing accuracy with
+various confidence levels of pruning. The number of training sentences was 10,000. In
+C4.5 programs, a larger value of confidence means weaker pruning and 25% is commonly
+used in various domains (Quinlan, 1993). Our experimental results show that 75% pruning
+attains the best performance, i,e., weaker pruning than usual. In the remaining single tree
+experiments, we used the 75% confidence level. Although strong pruning treats infrequent
+data as noise, parsing involves many exceptional and infrequent modifications as mentioned
+before. Our result means that information included only in small numbers of samples is
+useful for disambiguating the syntactic structure of sentences.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 4. Pruning confidence level vs. parsing accuracy.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Confidence level (%)</td><td>25</td><td>50</td><td>75</td><td>95</td></tr>
+<tr align=center><td align=left>Parsing accuracy (%)</td><td>82.01</td><td>83.43</td><td>83.52</td><td>83.35</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.2."><h2><font color=#ff0000>4.1.2. The amount of training data and parsing accuracy.</font></h2></a>
+
+<p>
+Table 5 and figure 5 show how
+the number of training sentences influences the parsing accuracy for the same 10,000 test
+sentences. They illustrate the following two characteristics of the learning curve.
+</p>
+<p>
+<ul>
+<li> The parsing accuracy rapidly rises up to 30,000 sentences and is almost flat at around
+50,000 sentences.
+<li> The maximum parsing accuracy is 84.33% at 50,000 training sentences.
+</ul>
+</p>
+<p>
+We will discuss the maximum accuracy of 84.33%. Compared to recent stochastic English
+parsers that have yielded 86 to 87% accuracy (Collins, 1996; Magerman, 1995), our result
+is not so attractive at a glance. The main reason behind this lies in the difference between
+the two corpora used: Penn Treebank (Marcus, Santorini, & Marcinkiewicz, 1993) and
+EDR corpus (EDR, 1995).
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 5. Number of training sentences vs. parsing accuracy.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Number of training sentences</td><td>3000</td><td>6000</td><td>10000</td><td>20000</td><td>30000</td><td>50000</td></tr>
+<tr align=center><td align=left>Parsing accuracy (%)</td><td>82.07</td><td>82.70</td><td>83.52</td><td>84.07</td><td>84.27</td><td>84.33</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="p12/p12-fig5.gif" width=689 height=485>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 5 Learning curve of single-tree parser
+</i></strong></div>
+</p>
+
+<p>
+Penn Treebank was also used to induce part-of-speech (POS) taggers because the corpus
+contains very precise and detailed POS markers as well as bracket annotations. In addition,
+English parsers incorporate the syntactic tags that are contained in the corpus. The EDR
+corpus, on the other hand, contains only coarse POS tags.
+</p>
+<p>
+We had to introduce a Japanese POS tagger (Matsumoto et al., 1997) to make use of finegrained 
+information for disambiguating syntactic structures. Only the bracket information
+in the EDR corpus was considered. We conjectured that the difference between the parsing
+accuracies was due to the difference of the corpus information available. Other research
+seems to support the conjecture.
+</p>
+<p>
+Fujio and Matsumoto (1997) constructed another EDR-based dependency parserby using
+a similar method to Collins (1996). The performance of the parser was 80.48% precision.
+Furthermore, the features they used were exactly the same as ours although the possible
+values of each feature slightly differed. They also employed the same part-of-speech tagger
+and bunsetsu segmenter. Although we do not exactly know what portion ofthe EDR corpus
+was used as their 200,000 training and 10,000 test sentences, a comparison of the two
+parsers gives some indication for the characteristics of the EDR corpus because of the
+great similarity in our settings. The two parsers' difference in performance probably arises
+mainly from the feature selection ability of the decision tree algorithm.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.3."><h2><font color=#ff0000>4.1.3. Significance of non head-word features.</font></h2></a>
+
+<p>
+We will now summarize the significance of
+each non head-word feature introduced in Section 3. The influence ofthe lexical information
+of head words will be discussed in the next section. Table 6 illustrates how the parsing accuracy 
+is reduced when each feature is removed. The number of training sentences was 10,000.
+In the table, ant and post represent the anterior and the posterior bunsetsu, respectively.
+</p>
+<p>
+Table 6 clearly demonstrates that the most significant features are anterior bunsetsu type
+and distance between the two bunsetsu. This result may partially support an often used
+heuristic, that the bunsetsu modification distance be as short range as possible, provided the
+modification is syntactically possible. In particular, we need to concentrate on the types of
+bunsetsu to attain a higher level of accuracy. Most features contribute, to some extent, to the
+parsing performance. In our experiment, information on parentheses has no effect on the
+performance. The reason may be that EDR contains only a small number of parentheses.
+One exception in our features is anterior POS of head. We currently hypothesize that this
+drop in accuracy arises from two reasons.
+</p>
+<p>
+<ul>
+<li> In many cases, the POS of the head word can be determined from the bunsetsu type.
+<li> Our POS tagger sometimes assigns verbs for verb-derived nouns.
+</ul>
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 6. Change in parsing accuracy when each attribute is removed.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Feature</td><td>Accuracy decrease (%)</td></tr>
+<tr><td>ant POS of head</td><td align=center><img src="p12/j0030.gif">0.07</td></tr>
+<tr><td>ant bunsetsu type</td><td align=center><img src="p12/j0031.gif">9.34</td></tr>
+<tr><td>ant punctuation</td><td align=center><img src="p12/j0031.gif">1.15</td></tr>
+<tr><td>ant parentheses</td><td align=center><img src="p12/j0032.gif">0.00</td></tr>
+<tr><td>post POS of head</td><td align=center><img src="p12/j0031.gif">2.13</td></tr>
+<tr><td>post bunsetsu type</td><td align=center><img src="p12/j0031.gif">0.52</td></tr>
+<tr><td>post punctuation</td><td align=center><img src="p12/j0031.gif">1.62</td></tr>
+<tr><td>post parentheses</td><td align=center><img src="p12/j0032.gif">0.00</td></tr>
+<tr><td>distance between two bunsetsu</td><td align=center><img src="p12/j0031.gif">5.21</td></tr>
+<tr><td>punctuation between two bunsetsu</td><td align=center><img src="p12/j0031.gif">0.01</td></tr>
+<tr><td>'wa' between two bunsetsu</td><td align=center><img src="p12/j0031.gif">1.79</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1.4."><h2><font color=#ff0000>4.1.4. Significance of head-word lexical information.</font></h2></a>
+
+<p>
+We focused on the head-word
+feature by testing the following four lexical sources with the 10,000 training sentences.
+The first and the second are the 100 and 200 most frequently occurring words. The third
+and the fourth are derived from a broadly used Japanese thesaurus, Word List by Semantic
+Principles (NLRI, 1964). Level 1 and Level 2 classify words into 15 and 67 categories,
+respectively.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td>1.</td><td rowspan=4>&nbsp;</td><td>100 most frequent words</td></tr>
+<tr><td>2.</td><td>200 most frequent words</td></tr>
+<tr><td>3.</td><td>Word List Level 1</td></tr>
+<tr><td>4.</td><td>Word List Level 2</td></tr>
+</table>
+</p>
+<p>
+Table 7 displays the parsing accuracy when each of the above four head word lexical
+information was used in addition to the previous features. In all cases, the performance was
+worse than 83.52% which was attained without them. More surprisingly, more head word
+information yielded a poorer performance.
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 7. Head word information vs. parsing accuracy.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Head word information added</td><td>100 words</td><td>200 words</td><td>Level 1</td><td>Level 2</td></tr>
+<tr align=center><td align=left>Parsing accuracy (%)</td><td>83.34</td><td>82.68</td><td>82.51</td><td>81.67</td></tr>
+</table>
+</p>
+
+<p>
+Why does lexical information not improve the parsing accuracy even though it has been
+reported to be very effective for parsing European languages? In the Japanese language,
+functional words such as post positional particles offer stronger clues for dependency structures 
+than is true in European languages. Note here that these most influential word forms
+are utilized in another feature, type of bunsetsu (No. 3 in Table 2). The other lexical information 
+may have to be more elaborate to further improve the parsing accuracy of Japanese
+texts. It may be helpful to incorporate more structured lexical information (case frame
+information) as done by Collins (1997). We briefiy discuss problems involved in the word
+statistics and thesaurus information we used in turn.
+</p>
+<p>
+For frequently occurring words, there remains the possibility that the performance was
+worsened because we considered directly a limited number (100 and 200) of words.
+Other research (Fujio & Matsumoto, 1997) has reported that consideing all content words
+with the same smoothing technique as Collins slightly improves the parsing accuracy.
+</p>
+<p>
+The preprocessing of the head word co-occurrence might be helpful even for our decision
+tree learning method. For example, a feature used for learning may be a quantized co-occurrence 
+probability between two head words. Anyway, these two results indicate that
+word statistics does not have as strong an impact in parsing the EDR corpus as it does in
+European language corpora. The potential reason for the difference may be that the EDR
+corpus comprises more diverse genres of texts than Penn Treebank (Wall Street Journal
+articles). We need further research to test this possibility.
+</p>
+<p>
+The result from Word List by Semantic Principles involves more sensitive and complicated problems. 
+First, the categories of the thesaurus may be too coarse to be used in parsing.
+Second, the entries of the thesaurus contain only 30,000 words. These two shortcomings
+of the thesaurus may deteriorate the overall performance. Therefore, further investigation
+of other thesauri (Ikehara, Yokoo, & Miyazaki, 1991) and clustering techniques (Charniak,
+1997) might improve the parsing performance.
+</p>
+<p>
+In summary, it may now be safely said, at least for the Japanese corpus, that we
+cannot expect lexical information of content words to always improve the performance.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2."><h2><font color=#ff0000>4.2. Boosting experiments</font></h2></a>
+
+<p>
+This section reports experimental results on the boosting version of our parser. In all
+experiments, pruning confidence levels were set to 55%. Table 8 and figure 6 show the
+parsing accuracy when the number of training examples was increased. Because the number
+of iterations in each data set changed between 5 and 8, we will show the accuracy by
+combining the first five decision trees. In figure 6, the dotted line plots the learning of the
+single tree case (identical to figure 5) for reader convenience. The characteristics of the
+boosted version can be summarized as follows compared to the single tree version.
+<ul>
+<li> The learning curve rises more rapidly with a small number of examples. It is surprising
+that the boosted version with 10,000 sentences performs better than the single tree version
+with 50,000 sentences.
+<li> The boosted version significantly outperforms the single tree counterpart for any number
+of sentences although they use the same features for learning.
+</ul>
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 8. Number of training sentences vs. parsing accuracy.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Number of training sentences</td><td>3000</td><td>6000</td><td>10000</td><td>20000</td><td>30000</td><td>50000</td></tr>
+<tr align=center><td align=left>Parsing accuracy (%)</td><td>83.10</td><td>84.03</td><td>84.44</td><td>84.74</td><td>84.91</td><td>85.03</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<img src="p12/p12-fig6.gif" width=681 height=478>
+</td></tr>
+</table>
+<div align=center><strong><i>
+Figure 6 LearnIng curve of boosting parser
+</i></strong></div>
+</p>
+
+<p>
+Next, we discuss how the number of iterations influences the parsing accuracy. Table 9
+shows the parsing accuracy for various iteration numbers when 50,000 sentences were used
+as the training data. The results have two characteristics.
+<ul>
+<li> The parsing accuracy rises up rapidly at the second iteration.
+<li> No over-fitting to the data can be seen. The performance of each generated tree falls to
+around 30% at the final iteration stage, showing that the trees become more specialized.
+</ul>
+</p>
+
+<p>
+<div align=center><strong><i>
+Table 9. Number of iterations vs. parsing accuracy.
+</i></strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td align=left>Number of iteration</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+<tr align=center><td align=left>Parsing accuracy (%)</td><td>84.32</td><td>84.93</td><td>84.89</td><td>84.86</td><td>85.03</td><td>85.01</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Related work</font></h2></a>
+
+<p>
+We first relate our work to other research in the parsing community. Although recent sophisticated 
+English parsers (Magerman, 1995, Charniak, 1997) have replaced PCFG with
+transformation (extension and labeling) rules that are augmented with several attributes (in
+particular, lexical information), we adopt dependency analysis because the word order in
+Japanese, particularly the bunsetsu order, is relatively free compared to European languages.
+Our approach is, in spirit, similar to Collins' dependency-based English parser. The main
+difference lies in the feature selection process. Collins' type parser (Collins, 1996; Fujio &
+Matsumoto, 1997) predefines a set of features and conditions the modification probabilities
+by all of the attributes regardless of the bunsetsu type. The method can incorporate only a
+small number of features to precisely evaluate parameters from a finite amount of data.
+</p>
+<p>
+Our decision tree method offers more sophisticated feature selection which automatically 
+detects the most significant types of attributes according to the bunsetsu type. We
+can therefore make use of arbitrary numbers of attributes that may contribute to the parsing
+accuracy. These potential features for learning have been enumerated in the many papers
+on hand-compiled parsers. For example, Kameda (1996) considers many features (types of
+characters, similarity of bunsetsu sequence, etc.). Collins incorporates subcategorization
+frames in his extended generative model (Collins, 1997) and reports a 2.3% improvement
+in performance over his dependency model (Collins, 1 996). Such structured lexical information 
+should be useful in our decision tree based parsers.
+</p>
+<p>
+There are also some interesting points from the machine learning viewpoint. Various
+kinds of <i>re-sampling</i> techniques have been studied in statistics (Efron, 1979; Efron &
+Tibshirani, 1993) and machine learning (Breiman, 1996; Hull, Pedersen, & Sch\"utze,
+1996; Freund & Schapire, 1997). The Adaboost method was designed to construct a high-performance 
+predictor by iteratively calling a weak learning algorithm (one slightIy better
+than random guessing). An empirical work has reported that the method greatly improves the
+performance of the decision-tree, k-nearest-neighbor, and other learning methods (Freund
+& Schapire, 1996; Drucker & Cortes, 1996). In the context of natural language processing,
+Haruno & Matsumoto (1997) has reported that the Adaboost improves the performance of
+their lexicalised Japanese part-of-speech tagger that makes use of hierarchical context trees
+(Rissanen, 1983). However, most of these experiments were done with a small number of
+examples and no asymptotic results were reported.
+</p>
+<p>
+We tested tIIe proposed algorithm by using one million pieces of training data (50,000
+sentences) in a real-world parsing task. Our results confirmed the usefulness of the Adaboost
+algorithm both in the rapidity of the learning curve improvement and in an improved
+performance after enough data had been given to the parser.
+</p>
+<p>
+The following two theorems (Schaipre et al., 1997; Bartlett, 1998) may be worth mentioning 
+in the context of natural language processing. The first theorem is relevant for any
+voting-based classification method such as boosting and bagging (Breiman, 1996). It explains 
+the generalization error of any voting algorithm in terms of the margin (Vapnik, 1995;
+Cortes & Vapnik, 1995) (no dependence on the number of iterations). The second theorem
+gives the probability bound of the small margin in terms of the training errors of the base
+hypotheses. The margin is intuitively the distance between an example and a classification
+boundary. Therefore, the greater the margin is, the easier the classification becomes.
+</p>
+<p>
+From the two theorems, the Adaboost algorithm is found to produce a larger margin
+hypothesis on the training example set (Theorem 2) and then to yield smaller generalization
+errors (Theorem 1). It can therefore deal with the originally small-margin instances which
+correspond to the infrequent and difficult expressions from the viewpoint of natural language
+processing (NLP). Further research will be promising in relating NLP and margin-related
+learning algorithms such as Adaboost and Support Vector Machine (Vapnik, 1995; Cortes
+& Vapnik, 1995).
+</p>
+<p>
+Let <i>H</i> denote the space from which each base hypothesis is chosen; a base hypothesis
+<i>h</i> <img src="p12/j0033.gif"> <i>H</i> is a mapping from an instance space <i>X</i> to class {-1 , +1}. We assume that examples
+are generated independently at random according to some fixed but unknown distribution
+<i>D</i> over <i>X</i> <img src="p12/j0034.gif"> {-1, +1}. The training set is a list of <i>m</i> pairs <i>S</i> = <img src="p12/j0025.gif">(<i>x</i><sub>1</sub>, <i>y</i><sub>1</sub>) , ..., (<i>x<sub>m</sub></i> , <i>y<sub>m</sub></i> )<img src="p12/j0026.gif">
+chosen according to D. We use <i>P</i> <sub>(<i>x</i> ,<i>y</i> ) <img src="p12/j0019.gif"> <i>D</i></sub> [<i>A</i> ] to denote the probability of the event <i>A</i> when
+the example (<i>x</i> , <i>y</i> ) is chosen according to <i>D</i> and <i>P</i> <sub>(<i>x</i> , <i>y</i> ) <img src="p12/j0019.gif"> <i>S</i></sub> [<i>A</i> ] to denote the probability with
+respect to choosing an example uniformly at random from the training set. We abbreviate
+these by <i>P<sub>D</sub></i> [<i>A</i> ] and <i>P<sub>s</sub></i> [<i>A</i> ].
+</p>
+<p>
+The majority vote rule that is associated with <i>f</i> gives the wrong prediction on the example
+(<i>x</i> , <i>y</i> ) only if <i>yf</i> (<i></i>x ) <img src="p12/j0035.gif"> 0. Also, the margin (feasibility of classification) of an example (<i>x</i> , <i>y</i> )
+in this case is simply <i>yf</i> (<i>x</i> ).
+</p>
+<p>
+Theorem 1 states that with high probability, the generalization error of any majority vote
+hypothesis can be bounded in terms of the number of training examples with a margin below
+threshold <img src="p12/j0036.gif">, plus an additional term which depends on the number of training examples,
+the VC-dimension (Vapnik, 1995; Kearns & Vazirani, 1994) of <i>H</i>, and the threshold <img src="p12/j0036.gif">.
+</p>
+<p>
+<strong>Theorem 1</strong>. <i>Let D be a distribution over X</i> <img src="p12/j0034.gif"> {-1, +1}, <i>and let S be a sample of m
+examples chosen independently at random according to D. Suppose the base hypothesis
+space H has VC-dimension d, and let</i> <img src="p12/j0037.gif"> > 0, <i>Assume that m</i> <img src="p12/j0020.gif"> <i>d</i> <img src="p12/j0020.gif"> 1. <i>Then, with
+probability at least</i> 1-<img src="p12/j0037.gif"> <i>over the random choice of the training set S, every weighted
+average function f</i> <img src="p12/j0033.gif"> <i>C satisfies the following bound for all</i> <img src="p12/j0036.gif"> > 0 :
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;<i>P<sub>D</sub></i> [<i>yf</i> (<i>x</i>) <img src="p12/j0035.gif"> 0] <img src="p12/j0035.gif"> <i>P<sub>S</sub></i> [<i>yf</i> (<i>x</i> ) <img src="p12/j0035.gif"> 0] + <i>O</i></td><td rowspan=5><font size=+3>[</font></td><td>1</td><td rowspan=3><font size=+3>(</font><td><i>d</i> log<sup>2</sup>(<i>m</i>/<i>d</i> )</td><td rowspan=3>+ log</td><td rowspan=3><font size=+3>(</font></td><td>1</td><td rowspan=3><font size=+3>))</font></td><td rowspan=5 valign=top><small>1/2</small><td rowspan=5><font size=+3>]</font></td></tr>
+<tr align=center><td><font size=1>----</font></td><td><font size=1>----------------</font></td><td><font size=1>----</font></td></tr>
+<tr align=center><td><img src="p12/j0038.gif"><i>m</i></td><td><img src="p12/j0036.gif"><sup>2</sup></td><td><img src="p12/j0037.gif"></td></tr>
+</table>
+</p>
+<p>
+Theorem 2 states that a fraction of the training examples for which <i>yf</i> (<i>x</i> ) <img src="p12/j0035.gif"> 0 decreases
+to zero exponentially fast with the number of base hypotheses (boosting iteratIon <i>T</i>).
+</p>
+<p>
+<strong>Theorem 2.</strong> <i>Suppose the base learning algorithm when called by Adaboost, generates
+hypotheses with weighted training errors</i> <img src="p12/j0027.gif"><sub>1</sub>, <img src="p12/j0027.gif"><sub>2</sub>, ..., <img src="p12/j0027.gif"><sub><i>T</i></sub> . <i>Then, for any </i><img src="p12/j0036.gif">, <i>the following
+inequality holds.</i>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr align=center><td rowspan=3>&nbsp;&nbsp;&nbsp;&nbsp;</td><td rowspan=3><i>P</i> <sub>(<i>x</i> , <i>y</i> ) <img src="p12/j0019.gif"> S</sub> [<i>yf</i> (<i>x</i> ) <img src="p12/j0035.gif"><img src="p12/j0036.gif">] <img src="p12/j0035.gif"> </td><td><small><i>T</i></small></td><td rowspan=3><font size=+3><img src="p12/j0038.gif"></font></td><td><font size=-2 align=left>________________________________________________</font></td></tr>
+<tr><td><font size=+2><img src="p12/j0022.gif"></font></td><td rowspan=2 valign=top>&nbsp; 4<img src="p12/j0027.gif"><sub><i>t</i></sub><sup>1-<img src="p12/j0036.gif"></sup> (1-<img src="p12/j0027.gif"><sub><i>t</i></sub> )<sup>1+<img src="p12/j0036.gif"></sup></td></tr>
+<tr align=center><td><small><i>t</i> = 1</small></td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. Conclusion</font></h2></a>
+
+<p>
+We have described a new Japanese dependency parser that uses decision trees. First, we
+introduced the single tree parser to clarify the basic characteristics of our parser. The experimental 
+results show that the new parser achieves an accuracy of 84% significantly
+outperforming conventional stochastic parsers for Japanese. Next, the boosted version of
+our parser was introduced. The promising results of the boosting parser can be summarized
+as follows.
+</p>
+<p>
+<ul>
+<li> The boosted version achieves an accuracy of 85% outperforming the single-tree counterpart 
+regardless of the training data amount.
+<li> No data over-fitting was seen when the number of iterations changed.
+</ul>
+</p>
+<p>
+We now plan to continue our research in two directions. One is to make our parser available
+to a broad range of researchers and to use their feedback to revise the features for learning.
+Second, we will apply our method to other languages, say English. Although we have
+focused on the Japanese language, it is straightforward to modify our parser to work with
+other languages.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="app"><h2><font color=#ff0000>Appendix</font></h2></a>
+<p>
+<i>Values for each feature type</i>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td align=center><nobr>Feature Type</nobr></td><td>Values </td></tr>
+<tr valign=top><td align=center>2</td>
+    <td><nobr><img src="p12/j0039.gif"><img src="p12/j0040.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0043.gif"><img src="p12/j0044.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0045.gif"><img src="p12/j0046.gif"></nobr>, <nobr><img src="p12/j0047.gif"><img src="p12/j0048.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0047.gif"><img src="p12/j0049.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0050.gif"><img src="p12/j0051.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0052.gif"><img src="p12/j0053.gif"><img src="p12/j0054.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0052.gif"><img src="p12/j0054.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0056.gif"><img src="p12/j0041.gif"></nobr>, <nobr><img src="p12/j0057.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0058.gif"><img src="p12/j0059.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0060.gif"><img src="p12/j0041.gif"></nobr>, <nobr><img src="p12/j0061.gif"><img src="p12/j0062.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0063.gif"><img src="p12/j0064.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0044.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0044.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0058.gif"><img src="p12/j0066.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0068.gif"><img src="p12/j0069.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0070.gif"><img src="p12/j0071.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0072.gif"><img src="p12/j0064.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0073.gif"><img src="p12/j0074.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0055.gif"><img src="p12/j0042.gif"><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0055.gif"><img src="p12/j0042.gif"><img src="p12/j0078.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0079.gif"><img src="p12/j0057.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0058.gif"><img src="p12/j0066.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0058.gif"><img src="p12/j0059.gif"><img src="p12/j0079.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0058.gif"><img src="p12/j0080.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0081.gif"><img src="p12/j0075.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0082.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0083.gif"><img src="p12/j0084.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr></td></tr>
+<tr valign=top><td align=center>3</td>
+     <td><nobr><img src="p12/j0085.gif"><img src="p12/j0086.gif"></nobr>, <nobr><img src="p12/j0087.gif"><img src="p12/j0088.gif"><img src="p12/j0089.gif"></nobr>, <nobr><img src="p12/j0090.gif"><img src="p12/j0009.gif"></nobr>, <nobr><img src="p12/j0090.gif"><img src="p12/j0091.gif"><img src="p12/j0009.gif"></nobr>, <nobr><img src="p12/j0090.gif"><img src="p12/j0091.gif"><img src="p12/j0009.gif"><img src="p12/j0010.gif"></nobr>, 
+	<nobr><img src="p12/j0092.gif"><img src="p12/j0093.gif"></nobr>, <nobr><img src="p12/j0092.gif"><img src="p12/j0094.gif"></nobr>, <nobr><img src="p12/j0095.gif"></nobr>, <nobr><img src="p12/j0095.gif"><img src="p12/j0096.gif"></nobr>, <nobr><img src="p12/j0097.gif"></nobr>, <nobr><img src="p12/j0097.gif"><img src="p12/j0098.gif"></nobr>,
+	<nobr><img src="p12/j0099.gif"><img src="p12/j0100.gif"></nobr>, <nobr><img src="p12/j0101.gif"><img src="p12/j0102.gif"><img src="p12/j0103.gif"><img src="p12/j0104.gif"></nobr>, <nobr><img src="p12/j0101.gif"><img src="p12/j0088.gif"></nobr>, <nobr><img src="p12/j0105.gif"></nobr>, <nobr><img src="p12/j0106.gif"></nobr>,
+	<nobr><img src="p12/j0106.gif"><img src="p12/j0010.gif"></nobr>, <nobr><img src="p12/j0107.gif"></nobr>, <nobr><img src="p12/j0093.gif"><img src="p12/j0097.gif"><img src="p12/j0105.gif"></nobr>, <nobr><img src="p12/j0093.gif"><img src="p12/j0091.gif"><img src="p12/j0005.gif"></nobr>, <nobr><img src="p12/j0108.gif"></nobr>,
+	<nobr><img src="p12/j0109.gif"><img src="p12/j0110.gif"></nobr>, <nobr><img src="p12/j0018.gif"><img src="p12/j0090.gif"></nobr>, <nobr><img src="p12/j0018.gif"><img src="p12/j0111.gif"><img src="p12/j0105.gif"></nobr>, <nobr><img src="p12/j0018.gif"><img src="p12/j0002.gif"></nobr>, <nobr><img src="p12/j0111.gif"><img src="p12/j0090.gif"></nobr>,
+	<nobr><img src="p12/j0111.gif"><img src="p12/j0109.gif"><img src="p12/j0088.gif"></nobr>, <nobr><img src="p12/j0111.gif"><img src="p12/j0105.gif"></nobr>, <nobr><img src="p12/j0112.gif"><img src="p12/j0112.gif"></nobr>, <nobr><img src="p12/j0094.gif"></nobr>, <nobr><img src="p12/j0094.gif"><img src="p12/j0098.gif"></nobr>,
+	<nobr><img src="p12/j0094.gif"><img src="p12/j0010.gif"></nobr>, <nobr><img src="p12/j0009.gif"><img src="p12/j0010.gif"></nobr>, <nobr><img src="p12/j0102.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0113.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0089.gif"></nobr>,
+	<nobr><img src="p12/j0102.gif"><img src="p12/j0089.gif"><img src="p12/j0097.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0089.gif"><img src="p12/j0097.gif"><img src="p12/j0114.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0011.gif"><img src="p12/j0088.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0009.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0088.gif"></nobr>,
+	<nobr><img src="p12/j0102.gif"><img src="p12/j0088.gif"><img src="p12/j0115.gif"><img src="p12/j0005.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0086.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0017.gif"><img src="p12/j0098.gif"></nobr>, <nobr><img src="p12/j0102.gif"><img src="p12/j0017.gif"><img src="p12/j0105.gif"></nobr>, <nobr><img src="p12/j0005.gif"></nobr>,
+	<nobr><img src="p12/j0116.gif"></nobr>, <nobr><img src="p12/j0002.gif"></nobr>, <nobr><img src="p12/j0002.gif"><img src="p12/j0117.gif"></nobr>, <nobr><img src="p12/j0114.gif"></nobr>, <nobr><img src="p12/j0118.gif"><img src="p12/j0098.gif"><img src="p12/j0086.gif"></nobr>, <nobr><img src="p12/j0119.gif"></nobr>,
+	<nobr><img src="p12/j0120.gif"><img src="p12/j0009.gif"></nobr>, <nobr><img src="p12/j0121.gif"><img src="p12/j0109.gif"></nobr>, <nobr><img src="p12/j0121.gif"><img src="p12/j0109.gif"><img src="p12/j0114.gif"></nobr>, <nobr><img src="p12/j0121.gif"><img src="p12/j0106.gif"></nobr>, <nobr><img src="p12/j0010.gif"></nobr>,
+	<nobr><img src="p12/j0010.gif"><img src="p12/j0097.gif"><img src="p12/j0087.gif"><img src="p12/j0114.gif"></nobr>, <nobr><img src="p12/j0010.gif"><img src="p12/j0002.gif"></nobr>, <nobr><img src="p12/j0010.gif"><img src="p12/j0002.gif"><img src="p12/j0002.gif"></nobr>, <nobr><img src="p12/j0122.gif"></nobr>, <nobr><img src="p12/j0122.gif"><img src="p12/j0088.gif"></nobr>,
+	<nobr><img src="p12/j0123.gif"></nobr>, <nobr><img src="p12/j0123.gif"><img src="p12/j0124.gif"></nobr>, <nobr><img src="p12/j0123.gif"><img src="p12/j0086.gif"></nobr>, <nobr><img src="p12/j0125.gif"></nobr>, <nobr><img src="p12/j0103.gif"></nobr>, <nobr><img src="p12/j0015.gif"></nobr>,
+	<nobr><img src="p12/j0039.gif"><img src="p12/j0040.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0126.gif"><img src="p12/j0127.gif"></nobr>, <nobr><img src="p12/j0128.gif"><img src="p12/j0129.gif"><img src="p12/j0130.gif"></nobr>, <nobr><img src="p12/j0043.gif"><img src="p12/j0044.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0131.gif"><img src="p12/j0132.gif"></nobr>,
+	<nobr><img src="p12/j0045.gif"><img src="p12/j0046.gif"></nobr>, <nobr><img src="p12/j0133.gif"><img src="p12/j0115.gif"></nobr>, <nobr><img src="p12/j0134.gif"></nobr>, <nobr><img src="p12/j0047.gif"><img src="p12/j0048.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0047.gif"><img src="p12/j0049.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0047.gif"><img src="p12/j0049.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0062.gif"><img src="p12/j0135.gif"><img src="p12/j0058.gif"><img src="p12/j0066.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0050.gif"><img src="p12/j0051.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0135.gif"><img src="p12/j0136.gif"></nobr>, <nobr><img src="p12/j0052.gif"><img src="p12/j0053.gif"><img src="p12/j0054.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0052.gif"><img src="p12/j0054.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0137.gif"><img src="p12/j0138.gif"></nobr>, <nobr><img src="p12/j0056.gif"><img src="p12/j0041.gif"></nobr>, <nobr><img src="p12/j0139.gif"><img src="p12/j0082.gif"></nobr>, <nobr><img src="p12/j0057.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0058.gif"><img src="p12/j0059.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0060.gif"><img src="p12/j0041.gif"></nobr>, <nobr><img src="p12/j0140.gif"></nobr>, <nobr><img src="p12/j0061.gif"><img src="p12/j0062.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0063.gif"><img src="p12/j0064.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0044.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0068.gif"><img src="p12/j0069.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0070.gif"><img src="p12/j0071.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0072.gif"><img src="p12/j0064.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0073.gif"><img src="p12/j0074.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0055.gif"><img src="p12/j0042.gif"><img src="p12/j0078.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0141.gif"><img src="p12/j0115.gif"><img src="p12/j0005.gif"></nobr>, <nobr><img src="p12/j0142.gif"><img src="p12/j0114.gif"></nobr>, <nobr><img src="p12/j0143.gif"><img src="p12/j0144.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0062.gif"><img src="p12/j0135.gif"><img src="p12/j0058.gif"><img src="p12/j0066.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0079.gif"><img src="p12/j0057.gif"><img src="p12/j0067.gif"></nobr>, <nobr><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0065.gif"><img src="p12/j0041.gif"><img src="p12/j0042.gif"><img src="p12/j0058.gif"><img src="p12/j0066.gif"><img src="p12/j0067.gif"></nobr>,
+	<nobr><img src="p12/j0145.gif"><img src="p12/j0146.gif"></nobr>, <nobr><img src="p12/j0081.gif"><img src="p12/j0075.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0082.gif"><img src="p12/j0055.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0083.gif"><img src="p12/j0084.gif"></nobr>, <nobr><img src="p12/j0083.gif"><img src="p12/j0084.gif"><img src="p12/j0042.gif"></nobr>,
+	<nobr><img src="p12/j0047.gif"><img src="p12/j0075.gif"><img src="p12/j0076.gif"><img src="p12/j0077.gif"><img src="p12/j0042.gif"></nobr>, <nobr><img src="p12/j0083.gif"><img src="p12/j0147.gif"></nobr></td></tr>
+<tr valign=top><td align=center>4</td><td>no, <nobr><img src="p12/j0148.gif"><img src="p12/j0149.gif"></nobr>, <nobr><img src="p12/j0150.gif"><img src="p12/j0149.gif"></nobr></td></tr>
+<tr valign=top><td align=center>5</td><td>no, <img src="p12/j0151.gif"> , <img src="p12/j0152.gif">, <img src="p12/j0153.gif">, <img src="p12/j0154.gif">, <img src="p12/j0155.gif">, <img src="p12/j0156.gif">, <img src="p12/j0025.gif">, <img src="p12/j0157.gif">, <img src="p12/j0158.gif">, <img src="p12/j0159.gif">, <img src="p12/j0160.gif">, <img src="p12/j0026.gif">, <img src="p12/j0161.gif">, <img src="p12/j0162.gif">, <img src="p12/j0163.gif">, <img src="p12/j0164.gif"></td></tr>
+<tr valign=top><td align=center>6</td><td>A(0), B(1<img src="p12/j0019.gif">4), C(<img src="p12/j0020.gif">5)</td></tr>
+<tr valign=top><td align=center>7</td><td>yes, no</td></tr>
+<tr valign=top><td align=center>8</td><td>yes, no</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+We would like to thank three anonymous reviewers for their insightful and constructive
+comments. We are also indebted to the two editors. Their insightful comments have greatly
+improved the paper.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<a name="notes"><h2><font color=#ff0000><strong>Notes</strong></font></h2></a>
+
+<a name="fn1"><sup>1.</sup></a>
+<strong>NP, S, and VP</strong> represent noun phrase, sentence, and verb phrase, respectively.
+(<a href="p12.html#rfn1">Return</a>)
+
+<br><br>
+
+<a name="fn2"><sup>2.</sup></a>
+In the above <strong>NP S VP</strong> example, the two head words are <i>Smith</i> and <i>announced</i>.
+(<a href="p12.html#rfn2">Return</a>)
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Bartlett, P. (1998). </a>
+<dd>The sample complexity of pattern classification with neural networks: 
+	The size of the weights is more important than the size of network.
+	<i>IEEE Transaction on Information Theory</i>, <i>44</i> (2), 525-536.
+	<br><br>
+<dt><a name="ref2">Breiman, L. (1996). </a>
+<dd>Bagging predictors. <i>Machine Learning</i>, <i>24</i> (2), 123-140.
+	<br><br>
+<dt><a name="ref3">Breiman, L., Friedman, J., Olshen, R., &amp; Stone, J. (1984). </a>
+<dd><i>Classification and regression trees</i>. Wadsworth.
+	<br><br>
+<dt><a name="ref4">Charniak, E. (1993). </a>
+<dd><i>Statistical language learning</i>.
+	The MIT Press.
+	<br><br>
+<dt><a name="ref5">Charniak, E. (1997). </a>
+<dd>Statistical parsing with a context-free grammar and word statistics. 
+	<i>Proceedings of the 15th National Conference on Artificial Intelligence</i> (pp.598-603).
+	<br><br>
+<dt><a name="ref6">Collins, M. (1996). </a>
+<dd>A new statistical parser based on bigram lexical dependencies. 
+	<i>Proceedings of the 34th Annual Meeting of Association for Computational Linguistics</i> (pp.184-191).
+	<br><br>
+<dt><a name="ref7">Collins, M. (1997). </a>
+<dd>Three generative, lexicalised models for statistical parsing. 
+	<i>Proceedings of the 35th Annual Meeting of Association for Computational Linguistics</i> (pp.16-23).
+	<br><br>
+<dt><a name="ref8">Cortes, C., &amp; Vapnik, V. (1995). </a>
+<dd>Support-vector networks.
+	<i>Machine Learning</i>, <i>20</i> (3), 273-297.
+	<br><br>
+<dt><a name="ref9">Drucker, H., &amp; Cortes, C. (1996). </a>
+<dd>Boosting decision trees.
+	<i>Advances in Neural Information Pfocessing Systems 8</i> (pp.479-485).
+	<br><br>
+<dt><a name="ref10">EDR. (1995).</a>
+<dd><i>The EDR Electronic Dictionary Technical Guide</i>.
+	<br><br>
+<dt><a name="ref11">Efron, B. (1979). </a>
+<dd>Bootstrap: another look at the jackknife. 
+	<i>The Annals of Statistics</i>, <i>7</i> (1), 1-26.
+	<br><br>
+<dt><a name="ref12">Efron, B., &amp; Tibshirani, R. (1993). </a>
+<dd><i>An introduction to the bootstrap</i>. 
+	Chapman and Hall.
+	<br><br>
+<dt><a name="ref13">Ereund, Y., &amp; Schapire, R. (1996). </a>
+<dd>Experiments with a new boosting algorithm. 
+	<i>Proceedings of the 13th International Conference on Machine Learning</i> (pp.148-156).
+	<br><br>
+<dt><a name="ref14">Freund, Y., &amp; Schapire, R. (1997). </a>
+<dd>A decision-theoretic generalization of on-line learning and an application to boosting.
+	<i>Journal of Computer and System Scienes</i>, <i>55</i> (1), 119-139.
+	<br><br>
+<dt><a name="ref15">Fujio, M., &amp; Matsumoto, Y. (1997).</a>
+<dd>Japanese dependency structure analysis based on statistics.
+	<i>Working Note on Narural Lanuguage Processing NL117-12</i> (pp.83-90), in Japanese.
+	<br><br>
+<dt><a name="ref16">Haruno, M., &amp; Matsumoto, Y. (1997). </a>
+<dd>Mistake-driven mixture of hierarchical tag context trees.
+	<i>Proceedings of the 35th Annual Meeting of Association for Computational Linguistics</i> (pp.230-237).
+	<br><br>
+<dt><a name="ref17">Hull, D.A., Pedersen, J.O., &amp; Sch\"utze, H. (1996). </a>
+<dd>Method combination for document filtering.
+	<i>Proc. ACM SIGIR 96</i> (pp.279-287).
+	<br><br>
+<dt><a name="ref18">Ikehara, S., Yokoo, A., &amp; Miyazaki, M. (1991). </a>
+<dd>Semantic analysis dictionaries for machine translation (in Japanese).
+	<i>Working Note 0n Natural Language and Communication 91-19</i>.
+	Institute of Electronics, Information and Communication Engineers.
+	<br><br>
+<dt><a name="ref19">Kameda, M. (1996). </a>
+<dd>A portable &amp; quick Japanese parser: Q-jp. 
+	<i>Proceedings of the 16th International Conference on Computational Linguistics</i> (pp.616-621).
+	<br><br>
+<dt><a name="ref20">Kay, M. (1980).</a>
+<dd><i>Algorithm schemata and data structure in syntactic processing</i> (Tech. rep. CLS-80-12). 
+	Xerox PARC.
+	<br><br>
+<dt><a name="ref21">Kearns, M., &amp; Vazirani, U. (1994). </a>
+<dd><i>An introduction to computational learning theory</i>.
+	The MIT Press.
+	<br><br>
+<dt><a name="ref22">Magerman, D.M. (1995). </a>
+<dd>Statistical decision-tree models for parsing. 
+	<i>Proceedings of the 33rd Annual Meeting of Association for Computational Linguistics</i> (pp.276-283).
+	<br><br>
+<dt><a name="ref23">Marcus, M., Santorini, B., &amp; Marcinkiewicz, M.A. (1993). </a>
+<dd>Building a large annotated corpus of English: The Penn Treebank.
+	<i>Computational Linguistics</i>, <i>19</i> (2), 313-330.
+	<br><br>
+<dt><a name="ref24">Matsumoto, Y., Kitauchi, A., Yamashita, T., Hirano, Y., Imaichi, O., &amp; Imamura, T. (1997). </a>
+<dd><i>Japanese morphological analyisis system chasen manual</i>
+	(NAIST Technical Report NAIST-IS-TR97007).
+	<br><br>
+<dt><a name="ref25">NLRI (National Language Research Institute). (1964). </a>
+<dd><i>Word list by semantic principles</i>.
+	Syuei Syuppan (in Japanese).
+	<br><br>
+<dt><a name="ref26">Quinlan, J. (1993).</a>
+<dd><i>C4.5 programs for machine learning</i>.
+	Morgan Kauflnann Publishers.
+	<br><br>
+<dt><a name="ref27">Rissanen, J. (1983).</a>
+<dd>A universal data compression system.
+	<i>IEEE Transaction on Information Theory</i>, <i>29</i> (5), 656-664.
+	<br><br>
+<dt><a name="ref28">Schaipre, R., Freund, Y., Bartlett, P., &amp; Lee, W. (1997).</a>
+<dd>Boosting the margin: A new explanation for the effectiveness of voting methods.
+	<i>Proceedings of the 14th International Conference on Machine Learning</i>. (pp.338-347).
+	<br><br>
+<dt><a name="ref29">Vapnik, V. (1995).</a>
+<dd><i>The nature of statistical learning theory</i>.
+	Springer-Verlag.
+	<br><br>
+<dt><a name="ref30">Yoshida, S. (1972). </a>
+<dd>Japanese syntactic anaysis based on the modification between two bunsetsu.
+	<i>Transactions of the Institute of Electronics, Information and Communication Engineers</i>, 
+	<i>55-D</i> (4), in Japanese.
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

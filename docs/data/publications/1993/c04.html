@@ -1,0 +1,1218 @@
+<html>
+<head>
+<title>Kentaro Ogura, Akio Yokoo, Satoshi Shirai &amp; Satoru Ikehara, 44th Congress of the International Astronautical Federation, October 16-22, 1993</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>JAPANESE TO ENGLISH MACHINE TRANSLATION AND DICTIONARIES</font>
+<br><br>
+
+<font size=+2>Kentaro OGURA<sup>*</sup>, Akio YOKOO<sup>*</sup>, Satoshi SHIRAI<sup>*</sup> and Satoru IKEHARA<sup>**</sup></font>
+<br><br>
+<font size=+1>NTT Network Information Systems Laboratories</font>
+<br>
+<font size=+1>1-2356 Take, Yokosuka-shi, Kanagawa-ken, 238-03 Japan</font>
+<br>
+<font size=+1>E-mail:<tt> ogura@nttkb.ntt.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper shows how machine translation problems which come from
+conceptual differences between languages can largely be solved if the
+differences can be described with detailed semantic information in
+dictionaries.  We show how this is possible using a semantic attribute
+system in which concepts are separated into around 3,000
+categories. This information is incorporated in semantic word
+dictionaries (400,000 words) and semantic structure dictionaries
+(15,000 patterns). Appropriate selection of words is achieved by using
+the semantic relationships between words as encoded in the semantic
+dictionaries. These relationships can also be used across sentences to
+solve the problems of ellipsis supplementation, achieving a success
+rate of up to 98% in the translation of newspaper lead sentences. In
+addition, to avoid inappropriate literal translations, complicated
+Japanese sentences can be automatically rewritten so that they are
+easily translatable into natural English. Semantic information, is
+used with both Japanese and English syntactic information to correctly
+generate articles and number for 93% of noun phrases. As a result, our
+MT system (ALT-J/E: Automatic Language Translator - Japanese to
+English) with its detailed semantic dictionaries has the capability to
+translate 70% to 80% of sentences taken from lead paragraphs in
+newspaper articles so that they are understandable by native speakers.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of 44th Congress of the International Astronautical Federation</i>, pp.80-85 (October, 1993). ]
+</font>
+</div>
+
+<br><br>
+
+<font size=-1>
+Copyright (c) 1993 by the International Astronautical Federation. All rights reserved.<br>
+<sup>*</sup> Senior Research Engineer, Knowledge Systems Laboratory<br>
+<sup>**</sup> Senior Research Engineer, Supervisor, Research Group Leader,
+	Knowledge Systems Laboratory
+</font>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=17>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c04.html#chap-1">Introduction</a></td></tr>
+<tr><td><a href="c04.html#chap-2">Current MT Systems</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-2.1">Translation Methods</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-2.2">Dictionaries for MT Systems</a></td></tr>
+<tr><td><a href="c04.html#chap-3">Linguistic Knowledge Systems</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-3.1">The Precise Semantic Attribute System</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-3.2">7 A Semantic Word Dictionary with Extensive Coverage</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-3.3">A Structure Transfer Dictionary based on Semantics</a></td></tr>
+<tr><td><a href="c04.html#chap-4">Translation using Linguistic Knowledge</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-4.1">Appropriate Word Selection</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-4.2">Ellipsis supplementation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-4.3">Automatic Rewriting</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#chap-4.4">Articles and Number Generation</a></td></tr>
+<tr><td><a href="c04.html#chap-5">Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#ack">Acknowledgment</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c04.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>Introduction</font></h2></a>
+
+<p>
+Although many machine translation (MT) systems have been developed
+recently, it is not easy to achieve high quality MT because different
+languages are based on different concepts. These differences are
+particularly problematic when translating between languages which
+belong to different language families. However problems of conceptual
+differences can be largely solved if the differences can be described
+with detailed semantic information in dictionaries.  We show how this
+is possible using a semantic attribute system in which concepts are
+separated into about 3,000 categories and combined with both "is-a"
+and "has-a" relationships. This information has been incorporated in
+semantic word dictionaries and semantic structure dictionaries. Our MT
+system (ALT-J/E: Automatic Language Translator - Japanese to English)
+uses a translation method based on the Constructive Process Theory of
+language, which focuses attention on the speaker's perception, and the
+semantic and syntactic knowledge encoded in the dictionaries to
+achieve high quality translation from Japanese to English.<sup>[<a
+href="c04.html#ref7">7</a>]</sup>
+</p>
+<p>
+In Japanese to English MT, differences in concepts cause many
+problems. The most important is that of selecting the appropriate word
+or phrase when a word can be translated in many ways. Other typical
+problems include supplementation of the ellipsis of subjects and
+objects in Japanese, inappropriately literal translations and the
+generation of articles (a/the) and number (singular/plural).
+</p>
+<p>
+Overall ALT-J/E with its detailed semantic dictionaries has the
+capability to translate 70% to 80% of sentences taken from lead
+paragraphs in newspaper articles so that they are understandable by
+native speakers.<sup>[<a href="c04.html#ref8">8</a>]</sup>
+</p>
+<p>
+First, the current state of MT systems are described. In this section
+we discuss the current performance of MT systems, editing source
+language sentences (sentences to be translated) and target language
+sentences (translated sentences), various translation methods, and the
+use of dictionaries in MT systems. Second, the linguistic knowledge
+system which we have developed to solve the problems of conceptual
+differences is described. Third, we show how the linguistic knowledge
+system is used in MT.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>Current MT Systems</font></h2></a>
+
+<p>
+MT Systems can be divided into those that run on mainframes and
+workstations and those that run on personal computers such as IBM PCs
+or NEC PCs. MT systems on personal computers are still inferior to MT
+systems on workstations due to lack of computing power.
+</p>
+<p>
+The source text must usually be input manually. But in some current
+commercial MT systems, the source text can be input using an OCR.
+</p>
+<p>
+Usually, translation between languages which belong to different
+language families is more difficult than translation between languages
+which belong to the same language family. Current MT systems do not
+approach the same level as a human translator. To obtain good results
+you need to preedit before translation, postedit after translation and
+compile a user dictionary. <sup>[<a href="c04.html#ref15">15</a>]</sup>
+</p>
+<p>
+<strrong>Preediting</strong> is the process of editing a source text
+to be easily translatable, in particular rewriting expressions which
+the system is not good at translating. <strong>Postediting</strong> is
+the process of editing the translated text to produce acceptable
+output. Which is more effective for MT, preediting or postediting?
+Both are required in the current situation. But when you translate
+from your native language to a non-native language, usually you prefer
+to preedit, and when you translate from a non-native language to your
+native language, usually you prefer to postedit. In addition, system
+dictionaries do not always provide all the necessary vocabulary, so
+you need to compile a <strong>user dictionary</strong> for each domain
+in which you intend to translate.
+</p>
+<p>
+Now we will rough give an evaluation of current MT systems. If you do
+not provide a user dictionary and do not do any preediting and
+postediting, a typical Japanese to English machine translation system
+on a workstation or mainframe computer can translate only about 30% of
+the text.  <i>Can translate</i> means here that the translated text is
+understandable by an English native, not necessarily a perfect
+translation. If you compile a user dictionary for the target text and
+tune up translation rules for the target text, about 70% of the text
+can be translated. If the target text is a kind of manual which
+involves many stereotyped expressions, about 80% or 90% of the text
+can be translated. You can translate even more effectively when you
+translate between languages which belong to the same language
+family. We estimate about 70% of a text can be translated without
+preediting the text and tuning up translation rules. Current MT
+systems are suited to the translation of large texts restricted in
+narrow domain.<sup>[<a href="c04.html#ref9">9</a>]</sup>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>Translation Methods</font></h2></a>
+
+<p>
+There are several machine translation methods. The simplest method is
+the <strong>Direct-translation Method</strong> which merely replaces
+source language words with target language words. In early MT systems,
+this method was adopted but did not translate at all well, especially
+between different language families. A more refined method is the
+<strong>Syntactic Transfer Method</strong> which syntactically
+analyzes a source text and then translates it. This method also cannot
+translate a text well if the translation is between different language
+families. A third method is the <strong>Semantic Transfer
+Method</strong> which semantically analyzes a source text and then
+translates it using both semantic and syntactic information. A forth
+method is the <strong>Interlingual Method</strong> which semantically
+analyzes a source text and represents the result using a semantic
+representation called an interlingua. The Interlingual Method
+generally requires deeper analysis than the Semantic Transfer
+Method. This method is good for translating between multiple
+languages. When you translate for only one language pair, the Semantic
+Transfer Method can translate more efficiently.
+</p>
+<p>
+In almost all of current MT Systems the Semantic Transfer Method or
+the Interlingual Method is adopted. We use the Semantic Transfer
+Method in our MT system (<strong>ALT-J/E</strong>).
+</p>
+<p>
+Another way of classifying MT systems is into <strong>RBMT (Rule Based
+Machine Translation)</strong> and <strong>EBMT (Example Based Machine
+Translation)</strong>.<sup>[<a href="c04.html#ref18">18</a>]</sup> RBMT which
+uses rules as its knowledge source, is adopted by almost all MT
+systems. EBMT uses a database of translation examples as its knowledge
+source. This method was developed to overcome the difficulty of making
+translation rules manually on large scale. Some experimental MT
+programs are being developed using EBMT. EBMT can be used to
+complement RBMT in a hybrid MT system.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>Dictionaries for MT Systems</font></h2></a>
+
+<p>
+MT systems use various kinds of knowledge to translate a text. The
+most important kind of knowledge is linguistic knowledge. Linguistic
+knowledge is provided as dictionaries and a grammar. Generally if you
+provide a lot of linguistic knowledge in dictionaries the amount
+needed in the grammar is small, but if you only provide a little
+linguistic knowledge in the dictionaries the amount needed in the
+grammar is large. Because translation depends deeply on words,
+recently there is a tendency to store linguistic knowledge in
+dictionaries.
+</p>
+<p>
+The choice of translation methods affects what dictionaries are
+required to translate a text. The Direct-translation Method requires
+only a source language to target language dictionary. The two Transfer
+Methods require a source language analysis dictionary, a source
+language to target language transfer dictionary and a target language
+generation dictionary. The Interlingual Method requires a source
+language to interlingua analysis dictionary and a interlingua to
+target language generation dictionary.
+</p>
+<p>
+To maintain dictionaries more easily, some MT systems use managed
+dictionaries which are usually managed using database system. To
+effectively translate a text, processing dictionaries which are used
+on run time are created from manage dictionaries.
+</p>
+<p>
+When bidirectional translation is required, for example automatic
+interpretation telephony, it is very convenient if one dictionary can
+be used for both analysis and generation.  Such a dictionary is called
+a <strong>bidirectional dictionary</strong>. But different kinds of
+information are needed for analysis than for generation, so a complete
+bidirectional dictionary is hard to make.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>Linguistic Knowledge Systems</font></h2></a>
+
+<p>
+Human translators use various kinds of knowledge such as linguistic
+knowledge, contextual knowledge, common knowledge and domain
+knowledge.
+</p>
+<p>
+MT systems also use various kinds of knowledge are also used, but the
+most important of which is linguistic knowledge. While it is clear how
+linguistic knowledge is used to translate a text, it is still not
+clear how other knowledge is used to translate a text.
+</p>
+<p>
+In the translation process, ambiguities arise in such things as word
+meanings and sentence structures. To overcome these ambiguities, we
+have provided two kinds of information for meaning analysis, compiled
+into dictionaries based on a precise semantic attribute system.
+</p>
+<p>
+One kind is knowledge based on individual word's meaning. This has
+been compiled in the semantic word dictionary. The other is the
+knowledge related to the meaning implicit in the structure of an
+expression.
+</p>
+<p>
+The meanings of an expression is not just represented by the sum of
+the meanings of every word in the expression.  A structure expression
+is also a part of the meaning in natural language. So we have compiled
+a semantic structure transfer dictionary which determines the meaning
+of an expression according to the relationships between a verb (or
+adjective) its subject, object and complements.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>The Precise Semantic Attribute System</font></h2></a>
+
+<p>
+Nouns can express several concepts. Which concept a noun expresses in
+a text is determined by its relationship with the other words in the
+text. For example the noun "school" is used as a <i>place</i> in "I
+walked straight to school" and as an <i>organization</i> in "The whole
+school celebrated the victory of its baseball team".
+</p>
+<p>
+A semantic attribute system is a system which classifies concepts to
+use in expressing relationships between words.  It represents a kind
+of common knowledge. Relationships between concepts and words are
+described in the word semantic dictionary.
+</p>
+<p>
+In <strong>ALT-J/E</strong>, the semantic attribute system has a
+semantic concept hierarchy which represents "is-a" relationships and
+"has-a" relationships, with some 2,800 attributes (12-level tree
+structure) for common nouns, and some 200 attributes (9-level tree
+structure) for proper nouns.
+</p>
+<p>
+The common noun attributes are used to show relationships between
+verbs and nouns and the proper noun attributes are used to show
+relationships between nouns. The proper noun attributes are more
+detailed attributes than the common noun attributes.
+</p>
+<p>
+Fig.l shows the semantic attribute system for common nouns and Fig.2
+shows the semantic attribute system for proper nouns.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c04/c04-fig1.gif" width=817 height=661>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.1 The Semantic Attribute System for Common Nouns
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c04/c04-fig2.gif" width=793 height=541>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.2 The Semantic Attribute System for Proper Nouns
+</strong></div>
+</p>
+
+<p>
+In most MT systems, 30 to 50 semantic categories are used to classify
+concepts. As a more precise semantic attribute system, EDR (the Japan
+Electronic Dictionary Research Institute) plans to implement 500
+categories.<sup>[<a href="c04.html#ref4">4</a>]</sup>
+</p>
+<p>
+<strong>ALT-J/E</strong> is the first case of a system with a
+precision of some 3,000 categories used in a large scale dictionary
+(with 400,000 words).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>7 A Semantic Word Dictionary with Extensive Coverage</font></h2></a>
+
+<p>
+To analyze Japanese sentences a Japanese word semantic dictionary is
+provided. The dictionary includes 100,000 common nouns, 200,000 proper
+nouns, 70,000 technical terms and, 30,000 other words, in total
+400,000 words.  Fig.3 shows an example of one record of the Japanese
+semantic word dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c04/c04-fig3.gif" width=793 height=369>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.3 An example of one record of the Semantic Word Dictionary
+</strong></div>
+</p>
+
+<p>
+Each record has an index form, pronunciation, a canonical form,
+syntactic information and semantic attributes.  The syntactic
+information includes the part of speech, inflections, detailed parts
+of speech, conjunctive conditions and so on. As semantic attributes,
+it can have five common noun attributes and ten proper noun
+attributes. In the case of "Tokyo", there are three common noun
+attributes and four proper noun attributes. The average number of
+attributes is two.
+</p>
+<p>
+To transfer Japanese words to English, a Japanese to English transfer
+word dictionary is provided. Each record of the dictionary has a
+Japanese index form, a meaning number, an English index form, English
+syntactic information, English semantic information, domain
+information and so on.
+</p>
+<p>
+English syntactic information includes the part of speech,
+countability information, number information, article information,
+detailed parts of speech and so on. This dictionary is also used when
+the system generates English sentences. Two types of domain
+information is provided.  One shows a special domain, for example
+mathematics, physics, politics, art and so on. The system is
+classified into 80 domains. The other shows a writing style, for
+example newspaper style, manual style and so on.
+</p>
+<p>
+The English dictionary is used for the generation of English
+sentences. Each record includes the index form, its part of speech,
+a/an distinguishing, gender information, inflections, and derivational
+forms.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.3"><h2><font color=#ff0000>A Structure Transfer Dictionary based on Semantics</font></h2></a>
+
+<p>
+The basic structure of a sentence comes from the relationship between
+the main verb and nouns. A structure transfer dictionary is provided
+for producing basic sentence structures.
+</p>
+<p>
+There are two kinds of structure transfer dictionaries; a common
+structure transfer dictionary and an idiomatic structure transfer
+dictionary. <strong>ALT-J/E</strong> provides 10,000 patterns for the
+common structure transfer dictionary and 5,000 patterns for the
+idiomatic structure transfer dictionary. In the common structure
+transfer dictionary, there is an average of 2.3 patterns for each
+verb.
+</p>
+<p>
+Fig4. shows an example of the common structure transfer
+dictionary. Fig.5 shows examples of translations using these
+structures.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=8>Pattern 1</td></tr>
+<tr valign=top>
+    <td rowspan=5 width=20>IF</td><td width=60></td><td width=180></td><td width=120></td>
+    <td rowspan=5 width=20></td>
+    <td width=40>Then</td><td width=60></td><td width=80></td></tr>
+<tr><td>J-Verb</td><td>= Žg‚¤ (tsukau)</td><td></td>
+    <td></td><td>Subj</td><td>= <i>N1</i></td></tr>
+<tr><td>N1</td><td>= [Head: Agents</td><td>Particle: ‚ª(ga)]</td>
+    <td></td><td>E-Verb</td><td>= use</td></tr>
+<tr><td>N2</td><td>= [Head: <i>no restriction</i></td><td>Particle: ‚ð(o)]</td><td></td>
+	<td>Obj</td><td>= <i>N2</i></td></tr>
+<tr><td>N3</td><td>= [Head: <i>no restriction</i></td><td>Particle: ‚É(ni)]</td><td></td>
+    <td>PP</td><td>= as <i>N3</i></td></tr>
+</table>
+</td></tr>
+<tr></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=8>Pattern 2</td></tr>
+<tr valign=top>
+    <td rowspan=5 width=20>IF</td><td width=60></td><td width=180></td><td width=120></td>
+    <td rowspan=5 width=20></td>
+    <td width=40>Then</td><td width=60></td><td width=80></td></tr>
+<tr><td>J-Verb</td><td>= Žg‚¤ (tsukau)</td><td></td>
+    <td></td><td>Subj</td><td>= <i>N1</i></td></tr>
+<tr><td>N1</td><td>= [Head: Agents</td><td>Particle: ‚ª(ga)]</td>
+    <td></td><td>E-Verb</td><td>= spend</td></tr>
+<tr><td>N2</td><td>= [Head: Money or Time</td><td>Particle: ‚ð(o)]</td>
+    <td></td><td>Obj</td><td>= <i>N2</i></td></tr>
+<tr><td>N3</td><td>= [Head: <i>no restriction</i></td><td>Particle: ‚É(ni)]</td>
+    <td></td><td>PP</td><td>= on/for <i>N3</i></td></tr>
+</table>
+</td></tr>
+<tr></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=8>Pattern 3</td></tr>
+<tr valign=top>
+    <td rowspan=4 width=20>IF</td><td width=60></td><td width=180></td><td width=120></td>
+    <td rowspan=4 width=20></td>
+    <td width=40>Then</td><td width=60></td><td width=80></td></tr>
+<tr><td>J-Verb</td><td>= Žg‚¤ (tsukau)</td><td></td>
+    <td></td><td>Subj</td><td>= <i>N1</i></td></tr>
+<tr><td>N1</td><td>= [Head: Agents</td><td>Particle: ‚ª(ga)j</td>
+    <td></td><td>E-Verb</td><td>= employ</td></tr>
+<tr><td>N2</td><td>= [Head: People</td><td>Particle: ‚ð(o)]</td>
+    <td></td><td>Obj</td><td>= <i>N2</i> ]</td></tr>
+</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.4 Common Structure Transfer Dictionary Patterns
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=4><strong>Pattern 1:</strong></td></tr>
+<tr><td colspan=4>Ž„‚Í$‹@ŠB$‚ð$Žg‚¤$B</td></tr>
+<tr><td><i>Watashi-wa</i></td><td><i>kikai-o</i></td><td><i>tsukau.</i></td></tr>
+<tr><td>[I</td><td>machine</td><td>use]</td></tr>
+<tr><td colspan=4>&nbsp;&nbsp;&nbsp;&nbsp; ¨ I use a machine.</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4><strong>Pattern 2:</strong></td></tr>
+<tr><td colspan=4>Ž„‚Í$•ž$‚É$‚¨‹à$‚ð$Žg‚¤$B</td></tr>
+<tr><td><i>Watashi-wa</i></td><td><i>fuku-ni</i></td><td><i>okane-o</i></td><td><i>tsukau.</i></td></tr>
+<tr><td>[I</td><td>clothes</td><td>money</td><td>use]</td></tr>
+<tr><td colspan=4>&nbsp;&nbsp;&nbsp;&nbsp; ¨ I spend money on clothes.</td></tr>
+<tr><td><br></td></tr>
+<tr><td colspan=4><strong>Patten 3:</strong></td></tr>
+<tr><td colspan=4>Ž„‚Í$”é‘$‚ð$Žg‚¤$B</td></tr>
+<tr><td><i>Watashi-wa</i></td><td><i>hisho-o</i></td><td><i>tsukau.</i></td></tr>
+<tr><td>[I</td><td>secretary</td><td>use]</td></tr>
+<tr><td colspan=4>&nbsp;&nbsp;&nbsp;&nbsp; ¨ I employ a secretary</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.5 Translation examples using the structure transfer dictionary
+</strong></div>
+</p>
+
+<p>
+The structure transfer dictionary describes under which conditions a
+Japanese verb should translate into which English word. The Japanese
+verb "tsukau(Žg‚¤)" has many meanings and can be translated into
+various English words.
+</p>
+<p>
+For example Pattern 1 shows how if the Japanese verb is "tsukau" and
+the noun phrase with a "ga(‚ª)" particle, which shows a subject, is an
+<i>Agent</i> then the verb should be translated as "use". The noun
+phrase with a "ga" particle is translated as the English subject. The
+noun phrase with an "o(‚ð)" particle, which shows an object is
+translated as the English object. The noun phrase with a "ni(‚É)"
+particle, which shows purpose is translated as the English
+prepositional phrase headed by "as".
+</p>
+<p>
+If the Japanese verb is "tsukau" and the noun phrase with a "ga" is an
+<i>Agent</i> and the noun phrase with an "o" particle which shows an
+object is <i>Money</i> or <i>Time</i>, then the verb should be
+translated as "spend". The noun phrase with a "ga" particle is
+translated as the English subject. The noun phrase with an "o"
+particle which shows an object is translated as the English
+object. The noun phrase with a "ni" particle which shows purpose is
+translated as the English prepositional phrase headed by "on/for".
+</p>
+<p>
+In the semantic word dictionary, each word has been given the lowest
+possible level of attribute. Conversely, in the structure transfer
+dictionary the highest possible level of attributes has been used. The
+pattern which matches the lowest level has priority. The Japanese
+sentence "Watashi-wa fuku-ni okane-o tsukau. (Ž„‚Í$•ž$‚É$‚¨‹à$‚ð$Žg‚¤$B)
+" matches both Pattern 1 and Pattern 2, but Pattern 2 matches the
+sentence at a lower level than Pattern 1, so Pattern 2 is selected and
+the sentence is translated as "I spend money on clothes."
+</p>
+<p>
+Fig.6 shows an example of the idiomatic structure transfer
+dictionary. It is similer to the common structure transfer pattern,
+but the pattern requires a specific noun phrase "shippo-o(K”ö‚ð)
+[tail]" as a noun phrase with an "o(‚ð)" particle.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=8>Pattern</td></tr>
+<tr valign=top>
+    <td rowspan=5 width=20>IF</td><td width=60></td><td width=180></td><td width=120></td>
+    <td rowspan=5 width=20></td>
+    <td width=40>Then</td><td width=60></td><td width=80></td></tr>
+<tr><td>J-Verb</td><td>= ‚Â‚©‚Þ (tsukamu)</td><td></td>
+    <td></td><td>Subj</td><td>= <i>N1</i></td></tr>
+<tr><td>N1</td><td>= [Head: Agents</td><td>Particle: ‚ª(ga)]</td>
+    <td></td><td>E-Verb</td><td>= find</td></tr>
+<tr><td>*N2</td><td>= [Head: Agents</td><td>Particle: ‚Ì(no)]</td>
+    <td></td><td>Obj</td><td>= <i>N2</i> 's weak point</td></tr>
+<tr><td>++</td><td>= [Head: K”ö(shippo)</td><td>Particle: ‚ð(o)]</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.6 An Idiomatic Structure Transfer Dictionary Pattern
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>Translation using Linguistic Knowledge</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>Appropriate Word Selection</font></h2></a>
+
+<p>
+In the previous section, two examples of word selection were
+shown. This section describes two other examples of appropriate word
+selection. Fig.7 shows the two examples.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>Original sentence:</td><td rowspan=4>&nbsp;</td>
+    <td>Ž„$‚Í</td><td rowspan=3>&nbsp;</td>
+    <td>•Ç$‚É</td><td rowspan=3>&nbsp;</td>
+    <td>ŠG$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>Š|‚¯‚½$B</td></tr>
+<tr><td>Pronunciation:</td>
+    <td>watashi-wa</td><td>kabe-ni</td><td>e-o</td><td>kaketa.</td></tr>
+<tr><td>Literal translation:</td><td>I</td><td>wall</td><td>picture</td><td>hung</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=7>I hung a picture on a wall.</td></tr>
+<tr></tr><tr></tr><tr></tr>
+<tr><td>Original sentence:</td><td rowspan=4>&nbsp;</td>
+    <td>Ž„$‚Í</td><td rowspan=3>&nbsp;</td>
+    <td>‰Ô$‚É</td><td rowspan=3>&nbsp;</td>
+    <td>…$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>Š|‚¯‚½$B</td></tr>
+<tr><td>Pronunciation:</td>
+    <td>watashi-wa</td><td>hana-ni</td><td>mizu-o</td><td>kaketa.</td></tr>
+<tr><td>Literal translation:</td>
+    <td>I</td><td>flower</td><td>water</td><td>hung</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=7>I poured water on a flower.</td></tr>
+<tr></tr><tr></tr><tr></tr>
+<tr><td>Original sentence:</td><td rowspan=4>&nbsp;</td>
+    <td>Ž„$‚Í</td><td rowspan=3>&nbsp;</td>
+    <td>ŽÔ$‚É</td><td rowspan=3>&nbsp;</td>
+    <td>Œ®$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>Š|‚¯‚½$B</td></tr>
+<tr><td>Pronunciation:</td>
+    <td>watashi-wa</td><td>kuruma-ni</td><td>kagi-o</td><td>kaketa.</td></tr>
+<tr><td>Literal translation:</td>
+    <td>I</td><td>car</td><td>key</td><td>hung</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=7>I locked a car.</td></tr>
+<tr></tr><tr></tr><tr></tr>
+<tr><td>Original sentence:</td><td rowspan=4>&nbsp;</td>
+    <td>Ž„$‚Í</td><td rowspan=3>&nbsp;</td>
+    <td>_—l$‚É</td><td rowspan=3>&nbsp;</td>
+    <td>Šè$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>Š|‚¯‚½$B</td></tr>
+<tr><td>Pronunciation:</td>
+    <td>watashi-wa</td><td>kamisama-ni</td><td>gan-o</td><td>kaketa.</td></tr>
+<tr><td>Literal translation:</td><td>I</td><td>God</td><td>prayer</td><td>hung</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=7>I prayed to God.</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>Žël$‚Ì</td><td rowspan=3>&nbsp;</td>
+    <td>ŒQ$‚Í</td><td rowspan=3>&nbsp;</td>
+    <td>‹$‚Ì</td><td rowspan=3>&nbsp;</td>
+    <td>ŒQ$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>’Ç‚Á$‚Ä‚¢$‚½</td><td rowspan=3>&nbsp;</td>
+    <td>˜T$‚Ì</td><td rowspan=3>&nbsp;</td>
+    <td>ŒQ$‚ð</td><td rowspan=3>&nbsp;</td>
+    <td>’Ç‚Á$‚½$B</td></tr>
+<tr><td><i>kariudo-no</i></td><td><i>mure-wa</i></td>
+    <td><i>ushi-no</i></td><td><i>mure-o</i></td><td><i>otteita</i></td>
+    <td><i>ookami-no</i></td><td><i>mure-o</i></td><td><i>otta.</i></td></tr>
+<tr><td>hunter</td><td>group</td>
+    <td>cow</td><td>group</td><td>were chasing</td>
+    <td>wolf</td><td>group</td><td>chased</td></tr>
+<tr><td colspan=15>A group of hunters chased a pack of wolves
+	that were chasing a herd of cattle.</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.7 Precise Selection of Words in Translation
+</strong></div>
+</p>
+
+<p>
+The first example is verb selection for "kakeru(Š|‚¯‚é)". "Kakeru" is
+a typical verb which has many meanings, that is, many transfer
+patterns. In <strong>ALT-J/E</strong>, "kakeru" has 17 common
+structure transfer patterns and 68 idiomatic structure transfer
+patterns.
+</p>
+<p>
+The first three sentences are transferred using the common structure
+transfer patterns. When the Japanese object is an <i>Art</i>,
+<i>Clock</i>, <i>Mirror</i>, <i>Paintings</i>, <i>Clothes</i> or
+<i>Rope</i> and the noun phrase which shows location is <i>House</i>
+or <i>Branch</i>, "kakeru" is translated as "hang". When the Japanese
+object is <i>Seasoning</i>, <i>Liquid</i> or <i>Medicine</i> and the
+noun phrase which shows location is <i>People</i>, <i>Concrete</i> or
+<i>Fire</i>, "kakeru" is translated as "pour". When the Japanese
+object is <i>Key</i> and the noun phrase which shows location is
+<i>House</i>, <i>Automobile</i> or <i>Box</i>, "kakeru " is translated
+as "lock".
+</p>
+<p>
+The last sentence is transferred using the idiomatic structure
+transfer patterns. If the Japanese object is "gan-o (Šè)" and then
+"kakeru" is translated as "pray".
+</p>
+<p>
+The second example is of noun selection for "mure(ŒQ) [group]". The
+translation depends on the modifiers. When the modifier is "wolf",
+"mure" is translated as "pack".  When the modifier is an
+<i>Animal</i>, "mure" is translated as "herd". The default translation
+of "mure" is "group". The rule which matches the lowest level has
+priority.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>Ellipsis supplementation</font></h2></a>
+
+<p>
+In natural language, components which are easily understood from the
+context are often omitted from sentences. Japanese in particular tends
+to omit the subject and object. In Japanese to English MT, these
+phenomena cause a serious problem as English cannot always omit these
+components.  Thus, it becomes necessary to identify the omitted
+component to translate into English appropriately.<sup>[<a
+href="c04.html#ref17">17</a>]</sup>
+</p>
+<p>
+For ellipsis supplementation, both verbal and semantic attributes are
+used. Fig.8 shows a part of the verbal semantic attribute system.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c04/c04-fig8.gif" width=380 height=368>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.8 Verbal Semantic Attribute System
+</strong></div>
+</p>
+
+<p>
+Fig.9 shows an example of the rules for ellipsis supplementation. The
+relationships between the verbs and nouns is checked using the
+semantic attribute system. Fig. 10 shows an example of translations
+using ellipsis supplementation.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>IF</td><td rowspan=7>&nbsp;&nbsp;</td></tr>
+<tr><td></td>
+    <td>The Verb in the sentence which includes ellipsis = <i>Possession</i></td></tr>
+<tr><td align=right>and</td><td>The omitted noun = Subject</td></tr>
+<tr><td align=right>and</td>
+    <td>The Verb in the referent sentence = Possessive Transferi & Start</td></tr>
+<tr><td>Then</td></tr>
+<tr><td></td><td>The Verbal Relationship = Detailed explanation</td></tr>
+<tr><td align=right>and</td>
+    <td>The Assumed referent = the Object of the referent sentence</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>IF</td><td rowspan=7>&nbsp;&nbsp;</td></tr>
+<tr><td></td>
+    <td>The verb in the sentence which includes ellipsis = 
+	<i>Thinking action</i></td></tr>
+<tr><td align=right>and</td><td>The omitted = Subject</td></tr>
+<tr><td align=right>and</td>
+    <td>The verb in the referent sentence = Possessive Transferi & Start</td></tr>
+<tr><td>Then</td></tr>
+<tr><td></td><td>The Verbal Relationship = Policy decision</td></tr>
+<tr><td align=right>and</td>
+    <td>The Assumed referent = the Subject of the referent sentence</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.9 Rules for Identifying Ellipsis by Verbal Semantic Attributes
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=5>Referent Sentence</td></tr>
+<tr><td>NTT‚Í</td><td rowspan=4>&nbsp;</td>
+    <td>VŒ^ŒðŠ·‹@$‚ð</td><td rowspan=4>&nbsp;</td>
+    <td>“±“ü‚·‚é$B</td></tr>
+<tr><td><i>NTT-wa</i></td><td><i>shingatakoukanki-o</i></td>
+    <td><i>dounyuu-suru</i></td></tr>
+<tr><td>NTT</td><td>new model exchange</td><td>introduce</td></tr>
+<tr><td><i>Subject</i></td><td><i>Object</i></td>
+    <td><i>Possessive Transfer1 &amp; Start</i></td></tr>
+<tr><td colspan=5>NTT will introduce a new model exchange.</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td colspan=9>Sentence which includes ellipses</td></tr>
+<tr><td>Ž©ŒÈf’f‹@”\$‚ð</td><td rowspan=4>&nbsp;</td>
+    <td>“‹ÚA</td><td rowspan=4>&nbsp;</td>
+    <td>20ƒVƒXƒeƒ€$‚ð</td><td rowspan=4>&nbsp;</td>
+    <td>Ý’u‚·‚é</td><td rowspan=4>&nbsp;</td>
+    <td>—\’è‚¾$B</td>
+    <td rowspan=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td rowspan=4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr><td><i>jikoshindankinou-o</i></td><td><i>tousai,</i>
+    </td><td><i>20-shisutemu-o</i></td><td><i>secchi-suru</i></td>
+    <td><i>yotei-da</i></td></tr>
+<tr><td>self checking function</td><td>equip</td>
+    <td>20 system</td><td>install</td><td>plan</td></tr>
+<tr><td></td><td><i>Possession</td><td></td><td>Thinking action</i></td></tr>
+<tr><td colspan=11><i>The new model exchange</i> is equipped with a self checking 
+	function and <i>NTT</i> is planning to install 20 systems.</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.l0 An Example of Translations using Ellipsis Supplementation
+</strong></div>
+</p>
+
+<p>
+Using the method achieves a successful supplementation rate of up to
+98% in the translation of newspaper lead sentences.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>Automatic Rewriting</font></h2></a>
+
+<p>
+The Automatic Rewriting Method automatically rewrites difficult to
+translate expressions in the source text to more easily translated
+ones. At the same time, it improves processing efficiency by reducing
+ambiguities in the syntactic and semantic analyses.<sup>[<a
+href="c04.html#ref19">19</a>]</sup>
+</p>
+<p>
+Fig. 11 shows an example of an automatic rewriting rule and Fig. 12
+shows a translation using it.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>IF</td><td rowspan=11>&nbsp;&nbsp;</td></tr>
+<tr><td></td><td>X1</td><td>&nbsp;&nbsp;</td>
+    <td>= [Head: <i>Vehicle</i></td><td>&nbsp;&nbsp;</td>
+    <td>Particle: ‚É(ni)]</td></tr>
+<tr><td></td><td colspan=5>X1 modifies X2</td></tr>
+<tr><td></td><td>X2</td><td></td><td>= æ‚Á‚Ä(notte)</td></tr>
+<tr><td></td><td colspan=5>X2 joins X3</td></tr>
+<tr><td></td><td>X3</td><td></td><td>= s‚­(iku)</td></tr>
+<tr><td>Then</td></tr>
+<tr><td></td><td>X2</td><td></td>
+    <td>= [Head: Vehicle</td><td></td>
+    <td>Particle: ‚É$æ‚Á‚Ä(ni-notte)]</td></tr>
+<tr><td></td><td colspan=3>X2 modifies X3</td></tr>
+<tr><td></td><td>X3</td><td></td><td>= s‚­(iku)</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.11 An Example of Automatic Rewriting Rule
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>Source sentence:</td><td rowspan=5>&nbsp;</td>
+    <td>ƒoƒX$‚É</td><td rowspan=3>&nbsp;</td>
+    <td>æ‚Á‚Ä</td><td rowspan=3>&nbsp;</td>
+    <td>ŠwZ$‚Ö</td><td rowspan=3>&nbsp;</td>
+    <td>s‚­</td></tr>
+<tr><td>Pronunciation:</td>
+    <td><i>basu-ni</i></td><td><i>notte</i></td>
+    <td><i>gakkou-e</i></td><td><i>iku</i></td></tr>
+<tr><td>Literal translation:</td>
+    <td>bus</td><td>ride</td><td>school</td><td>go</td></tr>
+<tr><td></td>
+    <td colspan=7>I ride a bus and go to school.</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=7>I go to school <u>by bus</u>.</td><td></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.12	An Example of Translations using,	Automatic Rewriting Rule
+</strong></div>
+</p>
+
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.4"><h2><font color=#ff0000>Articles and Number Generation</font></h2></a>
+
+<p>
+In Japanese, there is no way of telling whether a particular noun is
+singular or plural by only looking at the noun itself. In English on
+the other hand, countable nouns must be either singular or
+plural. Fig.7 and Fig.13 show four methods that can be used to decide
+whether to translate a noun as singular or plural.<sup>[<a
+href="c04.html#ref1">1</a>]</sup>
+</p>
+
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>Source sentence:</td><td rowspan=4>&nbsp;&nbsp;</td>
+    <td>‚»‚Ì</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>‘åŠw$‚Í</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>‘S‘$‚Ì</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>‚Z‚©‚ç</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>Šw¶$‚ð</td><td rowspan=3>&nbsp;&nbsp;</td>
+    <td>W‚ß‚é$B</td></tr>
+<tr><td>Pronunciation:</td>
+    <td><i>sono</td><td>daigaku-wa</i></td><td><i>zenkoku-no</i></td>
+    <td><i>koukou-kara</i></td><td><i>gakusei-o</i></td><td><i>atsumeru</i></td></tr>
+<tr><td>Literal translation:</td>
+    <td>that university</td><td>whole country</td>
+    <td>high school from</td><td>student</td><td>gather</td></tr>
+<tr><td>Translation:</td>
+    <td colspan=11>That university recruits students from high schools, throughout the country.</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.13 An Example of Number Generation
+</strong></div>
+</p>
+
+<p>
+Two methods are shown in the first noun phrase in sentence Fig.7, "a
+group of hunters", "group" is translated as singular by default, as
+there is no specific information about it. A group must however
+consist of more than one member, so there must be more than one
+hunter, "hunter" is translated as plural. The same arguments are used
+to translate "a pack of wolves" and "a herd of cattle". Note that for
+"cattle" the collective noun "cattle" is used instead of the plural
+"cows" to reflect the common usage.
+</p>
+<p>
+In Fig.13, "university" is translated as singular by default. Because
+the meaning of the verb "recruit" is "to get or seek recruits", this
+implies that more than one student is being recruited so "students" is
+translated as plural. Finally, "high school" is translated as plural,
+because it is modified by "throughout the country" and a single high
+school cannot be spread throughout the country.
+</p>
+<p>
+Thus four methods have been used to generate number: by default,
+depending on the meaning of the the noun phrase the noun is embedded
+in, depending on the meaning of the verb phrase the noun is embedded
+in or depending on the meaning of elements modifying the noun phrase
+itself.
+</p>
+<p>
+ALT-J/E's processing of articles ("a/an" and "the") is quite
+simple. Noun phrases are indefinite by default. Indefinite noun
+phrases take "a/an" if they are both countable and singular, otherwise
+they take no article. A ooun phrase can be made definite in the
+following ways: if it is modified by a superlative adjective such as
+"best", by a general ordinal such as "next" or an ordinal numeral such
+as "first"; if it is not a classifier (like "group" in "a group of
+hunters") and it is modified by a prepositional phrase headed by "of"
+- "the leader of the group"; if it is supplemented during ellipses
+supplementation; or if the dictionary marks it as being unique - "the
+world". There is special processing for exceptions such as "go to
+school" where school takes no article.
+</p>
+<p>
+ALT-J/E also replaces articles by possesive pronouns where English
+requires them, for example parts of the body or relatives - "I
+scratched my head, my mother raised her eyebrows." In Japanese "head",
+"mother" and "eyebrows" are not normally modified by possesive
+pronouns.
+</p>
+<p>
+This processing correcdy generated articles and number for 93% of noun
+phrases when tested on newspaper articles.  Most of the remaining
+errors require either common knowledge (for number) or a deeper
+understanding of the text (for articles). Currently research is being
+carried out to identify noun phrases that have been refered to
+previously, so that they can be made definite.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>Conclusion</font></h2></a>
+
+<p>
+The precise noun and verbal semantic attribute systems and translation
+methods that use them can largely solve the translation problems which
+come from the conceptual differences between languages. MT systems
+with detailed semantic dictionaries based on the methods we proposed
+have the capability to translate 70% to 80% of sentences. To improve
+translation quality beyond this we must provide more precise common
+knowledge and be clear how the common knowledge is used in machine
+translation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgment</font></h2></a>
+
+<p>
+The authors wish to thank Mr. Nakaiwa and other members of the MT
+research group for valuable discussions, specially Mr. Bond who kindly
+corrected this paper. We also wish to thank the members of NTT
+Software Corp. and NTT Advanced Technology Corp. for helping to
+implement the ALT-J/E.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[1]</strong></a>
+<dd>F. Bond, K. Ogura, S Ikehara and S. Shirai,
+	<i>Using the meanings of verbs to select the countability of
+	English noun phrases<i>, Proc. of the Institute of Electronics,
+	Information and Communication Engineers Fall Meeting, 1993
+	<br><br>
+<dt><a name="ref2"><strong>[2]</strong></a>
+<dd>M. Vasconcellos et. al..
+	<i>State of the Art / Machine Translation</i>,
+	BYTE, January, 1993
+	<br><br>
+<dt><a name="ref3"><strong>[3]</strong></a>
+<dd>K. Church and P. Hanks,
+	<i>Word Association Norms, Mutual Information and Lexicography</i>,
+	Proc. of 27th Annual Meeting of the Association for Computational Linguistics,
+	June, 1989
+	<br><br>
+<dt><a name="ref4"><strong>[4]</strong></a>
+<dd>EDR,
+	Concept Dictionary,
+	Technical Report-027, Japan Electronic Dictionary Research Institute, Ltd.,,
+	April, 1990
+	<br><br>
+<dt><a name="ref5"><strong>[5]</strong></a>
+<dd>S. Ikehara, M. Miyazaki, S. Shirai and Y Hayashi,
+	<i>Speaker's Recognition in Language and Multi-level Translation Method</i> ,
+	Transaction of Information Society of Japan, Vol.28, No.12, 1987 (In Japanese)
+	<br><br>
+<dt><a name="ref6"><strong>[6]</strong></a>
+<dd>S. Ikehara, 
+	<i>Multi-Level Machine Translation System</i>,
+	Future Computer Systems, Vol.2, No.3, pp.1269-1279,1989
+	<br><br>
+<dt><a name="ref7"><strong>[7]</strong></a>
+<dd>S. Ikehara, M. Miyazaki, S. Shrai and A. Yokoo, 
+	<i>An Approach to Machine Translation Method Based on 
+	Constructive Process Theory</i>,
+	Review of ECL, Vol.37, No-1, pp.34-49,1989
+	<br><br>
+<dt><a name="ref8"><strong>[8]</strong></a>
+<dd>S. Ikehara, S. Shirai, A. Yokoo and H. Nakaiwa, 
+	<i>Toward an MT System without Pre-Editing
+	--Effects of New Methods in ALT-J/E --</i>,
+	Proc. of MT Summit-III, pp.101-106,1991
+	<br><br>
+<dt><a name="ref9"><strong>[9]</strong></a>
+<dd>S. Ikehara et al., 
+	<i>An Evaluation Method for MT Systems and its Application to ALT-J/E</i>,
+	Journal for Japanese Society for Artificial Intelligence, Vol.7, No.6, 1992
+	<br><br>
+<dt><a name="ref10"><strong>[10]</strong></a>
+<dd>M. King et al.,
+	<i>Evaluation ofMT Systems Panel Discussion</i>,
+	Proc. of MT Summit-III, pp.141-146,1991
+	<br><br>
+<dt><a name="ref11"><strong>[11]</strong></a>
+<dd>T. Morimoto et al..
+	<i>Spoken Language Translation Systems: SL-TRANS2</i>,
+	Proc. of 14th Int. Conference on Computational Linguistics, 1992
+	<br><br>
+<dt><a name="ref12"><strong>[12]</strong></a>
+<dd>MT News International No.4, January, 1993
+	<br><br>
+<dt><a name="ref13"><strong>[13]</strong></a>
+<dd>MT News International No.5, May, 1993
+	<br><br>
+<dt><a name="ref14"><strong>[14]</strong></a>
+<dd>M. Nagao, 
+	<i>Proposal of'Restricted Language Processing</i>.
+	Natural Language-Processing Technologies Symposium, June, 1983
+	<br><br>
+<dt><a name="ref15"><strong>[15]</strong></a>
+<dd>M. Nagao,
+	<i>Evaluation of the Quality of Machine-Translated Sentences and
+	the Control of Language</i>,
+	J. of Information Processing Society of Japan,
+	Vol.26, No.l0, pp.ll97-1202 (In Japanese)
+	<br><br>
+<dt><a name="ref16"><strong>[16]</strong></a>
+<dd>M. Nagao,
+	<i>Japanese View of Future of Machine Translation</i>,
+	Proc. of MT Summit-II
+	<br><br>
+<dt><a name="ref17"><strong>[17]</strong></a>
+<dd>H. Nakaiwa and S. Ikehara,
+	<i>Zero Pronoun Resolution in a Japanese to English Machine Translation System
+	using Verbal Semantic Attributes</i>,
+	Proc. of 3rd Conference on Applied Natural Language Processing, April, 1992
+	<br><br>
+<dt><a name="ref18"><strong>[18]</strong></a>
+<dd>S. Sato,
+	<i>Example-Based Machine Translation</i>,
+	Doctoral Dissertation, Kyoto University, 1991
+	<br><br>
+<dt><a name="ref19"><strong>[19]</strong></a>
+<dd>S. Shirai, S. Ikehara and T. Kawaoka,
+	<i>Effects of Automatic Rewriting of Source Language Within
+	a Japanese to English MT System</i>,
+	Proc. of the fifth International Conference on Theoretical and Methodological
+	Issues in Machine Translation, 1993
+	<br><br>
+<dt><a name="ref20"><strong>[20]</strong></a>
+<dd>Translation World, Babel Press, August, 1991 (In Japanese)
+	<br><br>
+<dt><a name="ref21"><strong>[21]</strong></a>
+<dd>Translation World, Babel Press, January, 1993 (In Japanese)
+	<br><br>
+<dt><a name="ref22"><strong>[22]</strong></a>
+<dd>H. Tomabechi,
+	<i>Direct Memory Access Translation</i>,
+	Proc. of IJCAI-87,1987
+	<br><br>
+<dt><a name="ref23"><strong>[23]</strong></a>
+<dd>R. Quirk et. al.,
+	A Comprehensive Grammar of the English Language,
+	Longman, 1985</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

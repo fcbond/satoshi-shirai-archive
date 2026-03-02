@@ -1,0 +1,1235 @@
+<html>
+<head>
+<title>Satoru Ikehara, Masahiro Miyazaki, Satoshi Shirai &amp; Akio Yokoo, Journal of Japanese Society for Artificial Intelligence, November 11, 1992</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>An Evaluation Method for MT Systems and Its Application to ALT-J/E</font>
+<br><br>
+
+<font size=+2>Satoru Ikehara<sup>*1</sup> &nbsp;&nbsp; Masahiro Miyazaki<sup>*2</sup> &nbsp;&nbsp; Satoshi Shirai<sup>*1</sup> &nbsp;&nbsp; Akio Yokoo<sup>*1</sup></font>
+<br><br>
+</div>
+
+<font size=+1>*1 NTT Communications and Information Processing Laboratories, Yokosuka 238-03, Japan.</font>
+<br>
+<font size=+1>*2 Niigata University, Niigata 950-21, Japan.</font>
+<br><br>
+
+Received November 27, 1991
+<br><br>
+<br>
+
+<h3>Keywords:</h3>
+
+<p>
+machine translation, evaluation of translation quality, translation technology, Japanese to English translation.
+</p>
+
+<br>
+
+<h2>Summary</h2>
+<p>
+An evaluation method for a Japanese to English machine translation system
+which estimates translation quality based on translation technologies
+and source text characteristics is proposed.
+This method is applied to the translation of newspaper articles
+by the ALT-J/E system and further problems that need to be surmounted.
+</p>
+<p>
+Assuming 70% acceptability to be a practical level of quality, it is shown that
+morphological and dependency analysis technologies would require accuracy rate per
+word and per "bunsetsu" (which are Japanese phrase, in most case, consisting of a noun
+and "joshi" or post-positional word) as high as 99.8% and 99.4%, respectively.
+Current technology has reached this level.
+But the precision of translation for individual expressions is lower than expected
+values and the acceptability rate for the entire sentence drops to between 40% and 50%.
+To achieve an acceptability rate of 70%,
+it is necessary to achieve an average 7% improvement in 9 types of expressions
+and thus achieve a successful translation ratio of 96%.
+</p>
+<p>
+To upgrade the translation rate of these expressions, it will be necessary to establish
+techniques for meaning analysis of post-positional words, translation of expressions
+that combine noun clauses and compounded words, handling connections and embedded
+clauses, and verification of ellipses and paratactical constructions.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ <i><img src="p03/j0000.gif"></i>, pp.315-320 (1992.11). ]<br>
+[ In <i>Proceedings of ICTP '83</i>, pp.315-320 (November, 1992). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="p03.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="p03.html#chap-2.">2. Statistical Characteristics Analysis of Newspaper Articles</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-2.1">2.1 Characteristics of Newspaper Article Forms</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-2.2">2.2 Characteristics of Expression in Newspaper Articles</a></td></tr>
+<tr><td><a href="p03.html#chap-3.">3. Concepts of Evaluation Model</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-3.1">3.1 Basic Idea of Quality Evaluation Model</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-3.2">3.2 Target Quality for a Practical Machine Translation System</a></td></tr>
+<tr><td><a href="p03.html#chap-4.">4. The Machine Translation Quality Evaluation Model and Its Application to ALT-J/E</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-4.1">4.1 Analytical Phase Evaluation Model</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-4.2">4.2 Accuracy Rate of the Conversion/ Generation Phase</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#chap-4.3">4.3 Summary of Quality Model Evaluation Results</a></td></tr>
+<tr><td><a href="p03.html#chap-5.">5. Summary</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="p03.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+In the field of Japanese-to-English machine translation, numerous
+experimental systems<sup>(<a href="p03.html#ref1">1</a>)(<a
+href="p03.html#ref2">2</a>)</sup> and commercial systems<sup>(<a
+href="p03.html#ref3">3</a>)-(<a href="p03.html#ref5">5</a>)</sup> have been developed.
+Without exception, these systems require pre-editing and post-editing
+to be of practical use.  Many technological problems have to be solved
+in order to develop a Japanese-English translation system capable of
+translating source text without pre-editing for monolingual
+users<sup>(<a href="p03.html#ref6">6</a>)</sup>.  Characteristics of
+expressions in an actual document, as well as the quality of each
+function or component of translation system have a great influence on
+the translation results. The evaluation method are required to clarify
+these relation.
+</p>
+<p>
+There have been some proposals for evaluating the quality of
+translation.  The ALPAC Report<sup>(<a href="p03.html#ref7">7</a>)</sup>
+proposed a 9-level standard.  Nagao<sup>(<a href="p03.html#ref8">8</a>)</sup>
+proposed two 5-level standards, one each for understandability and
+faithfulness, and applied it to the Mu-Project.  However these methods
+are concerned with only the results of translation.  Translation
+results are dependent on the technologies involved and source text
+characteristics.  This relation is so complicated that there has been
+no evaluation method for it.
+</p>
+<p>
+Taking notice of the construction of the translation system, this
+paper proposes an evaluation method which estimates translation
+quality based on translation technologies and source text
+characteristics.  This method is applied to translation of newspaper
+articles by the ALT-J/E (Automatic Language Translator: Japanese to
+English) system<sup>(<a href="p03.html#ref9">9</a>)(<a
+href="p03.html#ref10">10</a>)</sup>.  And it is also proposed that using this
+evaluation model, setting the translation acceptability rate at 70% as
+the target for translation quality will clarify the problem areas in
+the existing technology and identify the tasks to be faced.
+</p>
+<p>
+The translation process is divided into the sentence analysis phase
+and the conversion/generation phase. The capability of the former
+phase is represented by the capability of the morphological and
+dependency analysis phases, and that of the latter phase is derived
+from the capability of English expression generation for several
+characteristic expressions in language. An evaluation method is
+proposed from this point of view.
+</p>
+<p>
+Specially, 1 000 sentences of lead texts (which are
+typical introductory sentences summarizing a newspaper article immediately following the headlines)
+were taken from the Nikkei Sangyo Newspaper.
+Sentence structures and characteristic expressions
+that would pose problems in machine translation
+were studied.  Regarding the characteristics of
+structuring, formal characteristics of typical newspaper articles, such as length of articles, number of
+"bunsetsu" and other such statistical features are
+studied. As characteristics of expression, we consider 9 types of expression may pose problems in the
+formulation of algorithms and investigate the frequency of their appearance in newspaper articles.
+</p>
+<p>
+These characteristics of newspaper articles and the data quantity for
+each individual technology are used in the evaluation
+method. Estimates of final translation quality are made and compared
+with the actual measured values to confirm the accuracy of this
+evaluation method and examine technical problems which remain for
+solution in the future.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. Statistical Characteristics Analysis of Newspaper Articles</font></h2></a>
+
+<p>
+From the viewpoint of existing machine translation technology, actual
+text (this excludes fiction, essays, poetry and such artistic
+literature) for which
+</p>
+<p>
+demand is strong is to be desired for translation.  Real text could
+include classroom textbooks, dissertations, manuals, and newspaper
+articles. Of these texts, newspaper articles are read by many persons
+and are a popular form of text with a premium on speed of
+reporting. Hopes and expectations to be placed on translation without
+pre-editing<a name="rfn1" href="p03.html#fn1"><sup>*1</sup></a> are great
+indeed, and this type of text has therefore been selected as the
+object for evaluation.
+</p>
+<p>
+Specifically, 1 000 sentences from lead texts of the "Information,
+Software and AI" column and the "Communication" column of the Nikkei
+Sangyo Newspaper, February 1 to 28, 1988, have been selected as object
+texts.  The "lead text" as mentioned previously, is the summary which
+follows the head line of an article. When there is no such summary,
+the first paragraph of the main text of the article is regarded as the
+lead text. Lead texts generally consist of anywhere from 3 to 5
+sentences.  Hereafter, the sample documents will be referred to as
+newspaper article texts.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Characteristics of Newspaper Article Forms</font></h2></a>
+
+<p>
+A study of the characteristics of the forms of newspaper articles in
+terms of average number of characters and average number of words per
+sentence is summarized in Table 1.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1 Formal characteristics of newspaper article writing.<br>
+</strong>
+[Ch=charactcrs, pp=predicate portion, b=bunsetsu, w=word]
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Parameter</td><td>sentence</td><td>Pred.portion</td><td>Bunsetsu</td><td>Word</td></tr>
+<tr align=center><td>Characters</td><td>43.8 ch/s</td><td>19.0 ch/pp</td><td>5.25 ch/b</td><td>20.7 ch/wd</td></tr>
+<tr align=center><td>Words</td><td>21.2 wd/s</td><td>9.22 wd/pp</td><td>2.54 wd/b</td><td>-----</td></tr>
+<tr align=center><td>Bunsetsu</td><td>8.35 b/s</td><td>3.63 b/pp</td><td>-----</td><td>-----</td></tr>
+<tr align=center><td>Pred.portion</td><td>2.30 pp/s</td><td>-------</td><td>-------</td><td>-----</td></tr>
+</table>
+</p>
+				
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Characteristics of Expression in Newspaper Articles</font></h2></a>
+
+<p>
+When we consider the relation between characteristics of expression
+and translation quality, the kinds of expressions which lead
+translation failure are essential. Here we have taken up 9 types of
+expressions by the examination of translation which would cause
+problems for our machine translation system. And expressions relevant
+to these 9 types are picked up and tabulated the frequency with which
+they appear in newspaper article sentences.  The results shown in
+Table 2 indicate the following.
+</p>
+<p>
+(1) There are many expressions using sentences connected within
+sentences, quotations, and reporting types of expressions. With
+newspapers primarily playing the role of conveying reports, and
+following and reporting on events, there frequently arise expressions
+where the subject and the object are omitted and context analysis be
+comes necessary (Table 2 No. 2, 3).
+</p>
+<p>
+(2) There are many predicates accompanied by modality and compound
+predicates, which result from combination of subjects or objects
+directly with verbs to form new compounds. As in the case of compounds
+of successive nouns, this also is a method of compressing an
+expression (Table 2 No. 5, 6).
+</p>
+<p>
+(3) There is frequent usage of functional chain words consisting of
+compound words with a semantic or syntactic role. However, their
+numbers are limited when viewed from the types of compound words
+(Table 2 No. 8).
+</p>
+<p>
+(4) Compounds consisting of successive nouns are numerous, appearing
+an average of 3 times per sentence. These are compounded as necessary
+from proper nouns, numerals and ordinary nouns. It would be difficult
+to anticipate such compounds and have them compiled and registered
+into a dictionary beforehand (Table 2 No. 9).
+</p>
+
+<p>
+<div align=center><strong>
+Table 2 Types of newspaper article expressions and prequency of appearance (from 1 000 newspaper sentences).<br>
+</strong>
+Cases:Times appeared   Types:Number of Expression type
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center width=90%>
+<tr align=center><td>No</td><td>Type of Expression</td><td>Details and examples</td></tr>
+<tr valign=top><td align=center>1</td>
+    <td>Special Construction<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>511</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>55</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>"<img src="p03/j0002.gif">" construction (6 types, 111 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0003.gif">(the cost of<img src="p03/j0004.gif">is<img src="p03/j0004.gif">yen)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>adjective"<img src="p03/j0006.gif">"construction(7 types, 60 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0007.gif">(the aim is to)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>listing type construct ion (5 types, 44 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0009.gif">(not only to<img src="p03/j0004.gif">but also to<img src="p03/j0004.gif">)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td align=center>2</td>
+    <td>Connection within Sentence<br> Expression<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>634</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>29</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>Typical form(8 types,415 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0010.gif">(to develop<img src="p03/j0004.gif">and sell)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Connecting joshi type connection(8 types,132 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0011.gif">(will announce<img src="p03/j0004.gif">, but sales will be)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>Word repetition type connection (13 types,87 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0012.gif">(will<img src="p03/j0004.gif">through affiliation with<img src="p03/j0004.gif">)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td align=center>3</td>
+    <td>Quotation/Reporting Expression<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>336</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>38</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>General noun type(7 types, 49 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0013.gif">(is planning to<img src="p03/j0004.gif">)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Formal noun type(14 types,117 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0014.gif">(typically does<img src="p03/j0004.gif">)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>Connecting joshi type(8 types, 62 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0015.gif">(is viewed as<img src="p03/j0004.gif">)</td></tr>
+	<tr><td><img src="p03/j0016.gif"></td><td>Other(9 types,108 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0017.gif">(after having stated that<img src="p03/j0004.gif">)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td align=center>4</td>
+    <td>Predicate with a Declinable<br> Type Noun in a Case<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td>285</td><td width=5></td><td>Caces,</td></tr>
+	<tr><td>5</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>Objective case type(2 types, 258 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0018.gif">(conclude a contract)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Nominative case type(3 types,27 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0019.gif">(is interchangeable)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td align=center>5</td>
+    <td>Compound Object Expression<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>405</td><td></td><td>Cases</td></tr>
+	<tr><td align=right>39</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>Auxiliary yogen type(60 types,111 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0020.gif">(embark on, lean forward)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Compound word type yogen(13 types,39 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0021.gif">(to participate in capitalization, to invest jointly)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>Auxiliary yogen connecting type yogen(25 types, 255cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0022.gif">(is active)</td></tr>
+	</table>
+    </td></tr>
+<tr valign=top><td align=center>6</td>
+    <td>Predicate as a Sentence Ending<br> (not including general verbs and<br>
+	"sa" declining verbs)<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>413</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>114</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>"<img src="p03/j0023.gif">" declining verbs and verbs with a noun root plus "<img src="p03/j0024.gif">"</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0025.gif">(mountain climbing + undertake)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Model type ending(29 types,241 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0026.gif">(is participating in)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>Taigen ending(78 types,164 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0027.gif">(is over<img src="p03/j0004.gif">yen)</td></tr>
+	<tr><td><img src="p03/j0016.gif"></td><td>"<img src="p03/j0028.gif">"sentence ending(7 types, 8 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0029.gif">(for<img src="p03/j0004.gif">to happen is inevitable)</td></tr>
+	</table>
+    </td></tr>
+
+<tr valign=top><td align=center>7</td>
+    <td>Declinabie Idioms<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>78</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>11</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>"<img src="p03/j0030.gif">"case type(4 types, 44 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0031.gif">(make a serious effort to)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>"<img src="p03/j0032.gif">"case type(2 types, 14 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0033.gif">(gather speed)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>"<img src="p03/j0034.gif">"case type(3 types, 17 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0035.gif">(undertake development)</td></tr>
+	</table>
+    </td></tr>
+
+<tr valign=top><td align=center>8</td>
+    <td>Functional Connection<br> Expressions<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>691</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>4</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr><td><img src="p03/j0001.gif"></td><td>Connecting case type compound word(257 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0036.gif">(centered around <img src="p03/j0004.gif">)</td></tr>
+	<tr><td><img src="p03/j0005.gif"></td><td>Adverbial type compound(236 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0037.gif">(one after another)</td></tr>
+	<tr><td><img src="p03/j0008.gif"></td><td>Participial case type compound(89 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0038.gif">(the largest<img src="p03/j0004.gif">in<img src="p03/j0004.gif">)</td></tr>
+	<tr><td><img src="p03/j0016.gif"></td><td>Participial adjuective type compound (109 cases)</td></tr>
+	<tr><td></td><td>e.g. <img src="p03/j0039.gif">(conventional, former)</td></tr>
+	</table>
+    </td></tr>
+
+<tr valign=top><td align=center>9</td>
+    <td>Successive Noun Compound<br> Expression<br><br>
+	<table border=0 cellpadding=0 cellspacing=0 align=center>
+	<tr><td align=right>3,117</td><td width=5></td><td>Cases</td></tr>
+	<tr><td align=right>7</td><td></td><td>Types</td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=0 cellspacing=0>
+	<tr valign=top><td><img src="p03/j0001.gif"></td><td>Ordinary noun type<br> (1870 cases)</td>
+	    <td valign=middle rowspan=5><font size=-1 color=#c0c0c0><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"><br><img src="p03/j0040.gif"></font></td>
+	    <td>e.g.</td><td><img src="p03/j0041.gif">: Service agreement provisions)</td></tr>
+	<tr valign=top><td><img src="p03/j0005.gif"></td><td>Proper noun type<br> (390 cases)</td>
+	    <td>e.g.</td>
+	    <td>PC9800<img src="p03/j0042.gif">:a model corresponding to the PC9800 Series<br>
+		<img src="p03/j0043.gif">:University of Illinois,U.S.</td></tr>
+	<tr valign=top><td><img src="p03/j0008.gif"></td><td>Expression of time<br> (283 cases)</td>
+	    <td>e.g.</td>
+	    <td><img src="p03/j0044.gif">:since 15 years ago<br> 
+		<img src="p03/j0045.gif">:since the latter half of last year</td></tr>
+	<tr valign=top><td><img src="p03/j0016.gif"></td><td>Quantity expression<br> (320 cases)</td>
+	    <td>e.g.</td>
+	    <td><img src="p03/j0046.gif">22.8%<img src="p03/j0047.gif">:an increase of 22.8% over the same period of the prevous year</td></tr>
+	<tr valign=top><td><img src="p03/j0048.gif"></td><td>Cognate case expression<br> (3 types, 254 cases)</td>
+	    <td>e.g.</td><td><img src="p03/j0049.gif">: Midori Electronics, a computer apparatus maker</td></tr>
+	<table border=0 cellpadding=0 cellspacing=0>
+	</table>
+    </td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Concepts of Evaluation Model</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Basic Idea of Quality Evaluation Model</font></h2></a>
+
+<p>
+(1) <b>Structure of MT system</b> &nbsp;&nbsp; ALT-J/E system consists
+of two major processes, source language analysis and target language
+generation as shown in Fig. 1. These will be referred to as the
+analytical phase and the conversion/generation phase. The conventional
+translation system relying on the transfer method usually divides the
+processing phase into three phases such as the analytical, conversion
+and generation phases.  ALT-J/E is already aware of conversion to the
+target language at the analytic stage, so that the conventional stage
+of conversion become a process that spans both the analytic and
+generation phase. Conversion is regarded here as a portion of the
+generation phase and divides the entire translation process into two
+phases. However, the conventional three phases can also be considered
+as same these two phase construction, if the conversion process can be
+evaluated for each expression.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig1.gif" width=495 height=303>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 1 Translation phase constraction of ALT-J/E.
+</strong></div>
+</p>
+
+<p>
+The analytical phase consists of the morphological and dependency
+analyses<a name="rfn2" href="p03.html#fn2"><sup>*2</sup></a>.
+</p>
+<p>
+The conversion/generation phase consists of numerous phases. But, if a
+source expression is correctly analyzed in the analytical phase and it
+the generation mechanism for each expression works correctly,
+translation results should become almost understandable<a name="rfn3"
+href="p03.html#fn3"><sup>*3</sup></a>, regardless of whether it is good
+English<a name="rfn4" href="p03.html#fn4"><sup>*4</sup></a> or not.
+</p>
+<p>
+(2) <b>Remarks for evaluation model</b> &nbsp;&nbsp; The essential
+meaning of the above thoughts on phase separation is as follows. There
+are normally numerous types of expressions mixed in a single actual
+sentence. These expressions have mutual reactions that would be
+brought about when they are combined together. Then the translation
+quality of the entire sentence cannot be broken down into evaluations
+of the expressions contained. This method takes these mutual reactions
+into consideration and separates the evaluation of the analytical
+phase from the evaluation of the conversion/generation phase. Various
+types of expression are mixed in the analytical phase and their
+reactions are taken into consideration. After this has been accurately
+analyzed, evaluation of each individual expression can be conducted.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Target Quality for a Practical Machine Translation System</font></h2></a>
+
+<p>
+(1) <b>Target quality for translation</b> &nbsp;&nbsp; The objective
+of machine translation is to have a finished product in which the
+contents of an entire article can easily be understood almost without
+error.  Normally, newspaper articles consist of a number of sentences
+and an understanding of the outline of an article does not require a
+completely accurate translation of all of the sentences.
+</p>
+<p>
+As the passing line for a practical system, therefore, we shall assume
+as a quality target to have 70%<a name="rfn5"
+href="p03.html#fn5"><sup>*5</sup></a> of translation ratio (the ratio of
+understandable translation) for each sentence contained in an article.
+</p>
+<p>
+(2) <b>Technical quality target</b> &nbsp;&nbsp; In machine
+translation, a process error in any one of phases will result in an
+inaccurate product. In considering the probability of accuracy for
+each phase, the analytical phase consists of uniform processes which
+are commonly applied to all kinds of expressions, whereas the
+conversion/generation phase consists of a variety of processes
+depending on types of expressions.
+</p>
+<p>
+It is relatively difficult to improve the accuracy of the latter
+phase. With these factors in mind, the target yield rate for each
+phase needed to arrive at a translation with an final translation
+ratio of 70% was calculated (Fig. 2). Converting these yield rates,
+target accuracy rate for each phase are as follows.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40 rowspan=3></td><td colspan=2>Morphological Analysis</td><td align=right><img src="p03/j0004.gif"> &nbsp;</td><td>0.95/1.00=95.0%</td></tr>
+<tr><td>Dependency Analysis</td><td colspan=2 align=right><img src="p03/j0050.gif"> &nbsp;</td><td>0.90/0.95=94.7%</td></tr>
+<tr><td colspan=2>Conversion/Generation</td><td align=right><img src="p03/j0004.gif"> &nbsp;</td><td>0.70/0.90=77.8%</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig2.gif" width=505 height=364>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 2 Technical level target for a practical system.
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. The Machine Translation Quality Evaluation Model and Its Application to ALT-J/E</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Analytical Phase Evaluation Model</font></h2></a>
+
+<p>
+(1) <b>Accuracy of morphological analysis</b>
+</p>
+<p>
+Assume the average number of words in a sentence to be <i>n<sub>m</sub></i>. Assume also
+that the probability of the words of interest being accurately
+isolated from the rest of the sentence and of having the parts of
+speech and other syntactic attributes accurately appraised (i.e. word
+accuracy) to be <i>p<sub>m</sub></i>. When all of the words in a sentence have been
+accurately analyzed, morphological analysis of the sentence can be
+said to be accurate.
+</p>
+<p>
+Therefore the probability of accuracy of morphological analysis <i>P<sub>m</sub></i> can
+be expressed by the following equation.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f1a.gif" width=87 height=28></td>
+    <td width=40><td>
+    <td>then, &nbsp;</td>
+    <td><img src="p03/p03-f1b.gif" width=201 height=51></td>
+    <td width=60 align=right>(1)<td>
+</tr>
+</table>
+</p>
+<p>
+Assuming from the target accuracy ratio for practical use of the
+product that <i>P<sub>m</sub></i>=0.95 (See Fig. 2), and from Table 1
+that <i>n<sub>m</sub></i>=21.2, the accuracy per word for purposes of
+morphological analysis needs to be over 99.8%
+</p>
+<p>
+(2) <i>Accuracy rate of dependency analysis</i>
+</p>
+<p>
+In dependency analysis, dependencies are analyzed in relationship to
+all "bunsetsu" (phrase). Dependencies between "Bunsetsu" are
+determined as pairs of dependent phrase and supporting phrase. All
+bunsetsu become a dependent phrase and all bunsetsu excepting the
+first one but including a period (terminal mark of a sentence) becomes
+a supporting phrase. Thus, we can regard the number of pairs to be the
+same as the number of bunsetsu.
+</p>
+<p>
+If we assume the probability of each dependent and supporting pair
+determined accurately to be <i>p<sub>d</sub></i>, dependency analysis is accurate when
+all the dependent and support phrases have been accurately
+determined. Therefore, the probability of accurate dependent and
+support pairing is
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f2a.gif" width=78 height=28></td>
+    <td width=40><td>
+    <td>then, &nbsp;</td>
+    <td><img src="p03/p03-f2b.gif" width=199 height=51></td>
+    <td width=60 align=right>(2)<td>
+</tr>
+</table>
+</p>
+<p>
+From Fig. 2, the value <i>P<sub>d</sub></i>=0.947 and from Table 1 the
+value <i>n<sub>d</sub></i>=8.35 are substituted. To achieve the
+practical target, the accuracy rate of the dependent and support pair
+needs to be over 99.4%.
+</p>
+<p>
+(3) <b>Observation</b> &nbsp;&nbsp; The relation between
+Equation (1) and (2) in the case of newspaper articles
+is illustrated in Fig. 3. The technical difficulty in
+improving both word accuracy in morphological
+analysis and pair accuracy in dependency analysis
+increase sharply in both cases above approximately
+the 98% level. However, it is confirmed from the
+experiments that the current level of technology has
+achieved this objective in ALT-J/E.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig3.gif" width=668 height=432>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 3 Target performance for the analytical phase.
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Accuracy Rate of the Conversion/ Generation Phase</font></h2></a>
+
+<p>
+(1) <b>Conversion/generation accuracy rate</b>
+</p>
+<p>
+As described before, the causes of translation failures are classified
+in Table 2. We shall evaluate the conversion/generation rate by seeing
+whether the expressions taken up in this table can be accurately
+translated or not.
+</p>
+<p>
+We shall assume the number of types of expression to be <i>i</i>, and
+that <i>i</i>=1 to 9, i.e., any one of the 9 types of expression as
+listed in Table 2.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20></td><td width=30>EX)</td>
+    <td>In the case of "connection within compound sentence expression",
+	<i>i</i> = 2.</td></tr>
+</table>
+</p>
+<p>
+Assume the maximum number of times each expression can appear in one
+sentence of the original to be <i>N<sub>i</sub></i>, and that the average number of
+times it actually appears to be <i>n</i>.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20></td><td width=30>EX)</td>
+    <td>For <i>i</i>=2, <i>N<sub>i</sub></i> = 3 (from the observation of 1 000 sample
+	sentences) and <i>n<sub>i</sub></i>=634 cases / 1 000 sentences = 0.634
+	(Table 2).</td></tr>
+</table>
+</p>
+<p>
+The probability of the type of expression will be
+translated accurately when it appears is assumed to
+be <i>p<sub>i</sub></i>.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20></td><td width=30>EX)</td>
+    <td>For <i>i</i> = 2, <i>p</i> = 0.8 
+	(from individual experiments described later)</td></tr>
+</table>
+</p>
+<p>
+With a given sentence, let us consider the probability
+<i>P<sub>i</sub></i> of type <i>i</i> in this sentence being
+translated without error. The expression of type <i>i</i> has the
+chance of appearing <i>N<sub>i</sub></i> times and actually appears
+<i>n</i>, times. Therefore, for any one chance, it appears with the
+probability of <i>n<sub>i</sub></i>/<i>N<sub>i</sub></i>. When it
+actually appears, the probability of error in translation is 1
+-<i>p<sub>i</sub></i>. Thus, the probability of not making an error in
+translation for every appearance is
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f2x.gif" width=141 height=45></td>
+</tr>
+</table>
+</p>
+<p>
+When there is no error in all <i>N<sub>i</sub></i> chances, this
+sentence can be said to have cleared the type <i>i</i> expression. The
+probability of clearing type <i>i</i> expression is
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f3.gif" width=222 height=52></td>
+    <td width=60 align=right>(3)</td>
+</tr>
+</table>
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20></td><td width=30>EX)</td>
+    <td>For i=2,</td></tr>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f3x.gif" width=304 height=52></td>
+</tr>
+</table>
+</p>
+<p>
+Thus, accuracy of processing <i>P<sub>G</sub></i> of the conversion/
+generation phase is
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40><td>
+    <td><img src="p03/p03-f4.gif" width=100 height=49></td>
+    <td width=60 align=right>(4)<td>
+</tr>
+</table>
+</p>
+<p>
+(2) <b>Application of current level technology</b>
+</p>
+<p>
+Based on experience with the Japanese-English translation experiment
+system ALT-J/E, the feasibility of the above model is verified. The
+<i>n<sub>i</sub></i> and <i>N<sub>i</sub></i> values are given in
+Table 3. Current rate of accuracies <i>p<sub>i</sub></i> obtained from
+individual experiments<a name="rfn6" href="p03.html#fn6"><sup>*6</sup></a> on
+various types of expression are as also listed in Table
+3. Substituting these values into Eq. (4), <i>P<su>G</su></i> is
+obtained as
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40></td><td><i>P<sub>G</sub></i> = 0.48.</td><td width=60 align=right>(5)</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 3 Listing of specifier values.
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>NO</td><td>Type of expression</td>
+    <td>n<sub>i</sub></td><td>N<sub>i</sub></td><td>p<sub>i</sub></td></tr>
+<tr><td align=center>1</td><td>Special construction</td>
+    <td>0.511</td><td>2</td><td>0.8</td></tr>
+<tr><td align=center>2</td>
+    <td>Connection within compound sentence expression</td>
+    <td>0.634</td><td>3</td><td>0.8</td></tr>
+<tr><td align=center>3</td><td>Quotation-reporting expression</td>
+    <td>0.336</td><td>2</td><td>0.9</td></tr>
+<tr><td align=center>4</td><td>Predicate with a declinable noun in a case</td>
+    <td>0.285</td><td>3</td><td>0.95</td></tr>
+<tr><td align=center>5</td><td>Compound object expression</td>
+    <td>0.405</td><td>3</td><td>0.95</td></tr>
+<tr><td align=center>6</td><td>Special sentence ending object</td>
+    <td>0.413</td><td>1</td><td>0.9</td></tr>
+<tr><td align=center>7</td><td>Declinable idiom expression</td>
+    <td>0.078</td><td>1</td><td>0.95</td></tr>
+<tr><td align=center>8</td><td>Functional compound word expression</td>
+    <td>0.691</td><td>6</td><td>0.9</td></tr>
+<tr><td align=center>9</td>
+    <td>Compound word combining successive noun expression</td>
+    <td>3.117</td><td>8.35</td><td>0.9</td></tr>
+</table>
+</p>
+
+<p>
+Translation experiments<a name="rfn7" href="p03.html#fn7"><sup>*7</sup></a>
+dealing with newspaper articles reveal current translation
+acceptability rates of about of 40% to 50%. Current analytical phase
+accuracy rate is about 90%. Thus, the translation/generation phase
+accuracy rate is estimated to be about 45% to 55%. This coincides with
+results of Eq. (5), which was obtained as accuracy rate for the
+individual expressions above.
+</p>
+<p>
+(3) <b>Relationship between translation rates of
+expression groups and the total accuracy rate of
+conversion/generation phase</b> &nbsp;&nbsp; For case study,
+assuming the following relationship to hold true for
+translation accuracy <i>p</i>, for all 9 types of expression
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40></td><td>p1 = p2 = <img src="p03/j0050.gif"> p9 = p</td><td width=60 align=right>(6)</td></tr>
+</table>
+</p>
+<p>
+the relationship between p and Pc would be as shown in Fig. 4.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig4.gif" width=409 height=492>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 4 Relationship between translation accuracy rate of individual expression and accuracy rate of conversion/generation.
+</strong></div>
+</p>
+
+<p>
+Conversion/generation rate at the practical level according to
+<b>Sec. 3.2</b> shows <i>P<sub>G</sub></i> &gt; 0.778; therefore the
+translation accuracy rate for all types of expressions necessary
+according to Fig. 4 shows p &gt;= 0.96.  In contrast, current pz
+average accuracy rate <i>p</i> according to the same diagram shows
+<i>p</i> = 0.89. A difference of about 7% between the two figures
+remains.
+</p>
+<p>
+(4) <b>Bottle neck of translation quality of each expression</b>
+&nbsp;&nbsp; In actual practice, weight of importance will differ
+according to which of 9 expressions is involved. As a third case
+study, it is attempted to identify which of the 9 expressions would
+cause failure in achieving the target accuracy rate. This results in
+the graph shown in Fig. 5. If one out of 9 expressions should fall
+below line shown in this figure, achievement of quality required of a
+practically applicable product would be impossible.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig5.gif" width=894 height=476 width=671 height=357>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 5 Condition for realization of practical use of machine translation of newspaper articles.
+</strong></div>
+</p>
+<p>
+(5) <b>Conversion/generation accuracy improvement from improved
+individual expression translation rates</b> &nbsp;&nbsp; To examine
+the effects of improvements of various types of expression on the
+entire conversion/generation rate, changes in the accuracy rate
+<i>p<sub>i</sub></i> of the types of expression under observation were
+assumed to be <i>dp<sub>i</sub></i>, and changes in the
+conversion/generation accuracy rate <i>P<sub>G</sub></i> were assumed
+to be <i>dP<sub>G</sub></i>(<i>i</i>). Since the value of
+<i>dP<sub>G</sub></i>(<i>i</i>) depends also on the value of
+<i>p<sub>i</sub></i>(<i>j</i>/=<i>i</i>), the following three cases
+need to be considered.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr valign=top><td width=20></td><td>a)</td>
+    <td>At current technical levels: 
+	<i>dP<sub>G</sub></i><sup>(1)</sup>(<i>i</i>)</td></tr>
+<tr><td></td><td></td>
+    <td>When in relation to all <i>i</i>, <i>p<sub>i</sub></i> 
+	is in the neighborhood of the present level (Table 2).</td></tr>
+<tr valign=top><td></td><td>b)</td>
+    <td>At average target levels: <i>dP<sub>G</sub></i><sup>(2)</sup>(<i>i</i>)</td></tr>
+<tr><td></td><td></td>
+    <td>When <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = <img src="p03/j0050.gif"> <i>p</i><sub>9</sub> = 0.96.</td></tr>
+<tr valign=top><td></td><td>c)</td>
+    <td>At maximum efficiency : <i>dP<sub>G</sub></i><sup>(3)</sup>(<i>i</i>)</td></tr>
+<tr><td></td><td></td>
+    <td>When <i>p</i><sub>1</sub> = <i>p</i><sub>2</sub> = <img src="p03/j0050.gif"> <i>p</i><sub>9</sub> = 1.0.</td></tr>
+</table>
+</p>
+<p>
+Assuming <i>p<sub>i</sub></i> = 0.01(1%) and calculating <i>dP<sub>G</sub></i>(<i>i</i>)
+for the above 3 cases results in Fig. 6. This figure
+reveals that the effects <i>dP<sub>G</sub></i>(<i>i</i>) vary, depending on
+the type <i>i</i>, of expressions. However, in the foregoing 3 cases the effects are approximately equivalent.
+</p>
+<p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td width=40></td>
+    <td><i>dP<sub>G</sub></i><sup>(2)</sup>(<i>i</i>) / <i>dP<sub>G</sub></i><sup>(1)</sup>(<i>i</i>) = 1.8 (approximately constant)</td>
+    <td rowspan=2 width=60 align=right>(7)</td></tr>
+<tr><td></td>
+    <td><i>dP<sub>G</sub></i><sup>(3)</sup>(<i>i</i>)/ <i>dP<sub>G</sub></i><sup>(1)</sup>(<i>i</i>)= 2.2 (approximately constant)</td></tr>
+</table>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="p03/p03-fig6.gif" width=523 height=459>
+</tr>
+</table>
+<div align=center><strong>
+Fig. 6 Relationship between accuracy rate of individual expression and conversion/generation.
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.3"><h2><font color=#ff0000>4.3 Summary of Quality Model Evaluation Results</font></h2></a>
+
+<p>
+(1) <b>Analytical phase technology</b> &nbsp;&nbsp; To achieve the
+practical translation quality, a word accuracy rate of over 99.8% for
+morphological analysis, and a dependence and supporting pair accuracy
+rate of over 99.4% for dependency analysis is necessary.  Current
+technical levels for both morphological and dependency analyses have
+almost achieved these rates.
+</p>
+<p>
+(2) <b>Conversions/generation phase technology</b> &nbsp;&nbsp; To
+achieve the target rate of over 77.8% in a conversion/generation
+phase, an average translation accuracy rate of over 96% for
+individually observed types expression is necessary. Current values
+are at about 89%, so an average of about 7% improvement is required.
+</p>
+<p>
+With expressions for which translation rates are in excess of 90%, it
+would be difficult to achieve an additional 7% improvement. For
+specially structured sentences and connections in compound sentences,
+further improvement in successful translation ratios is necessary.
+For consecutive noun compounds, current accuracy rates range in the
+neighborhood of 90%.  The frequency of their appearance is high and
+therefore quality improvement is vital. Without such improvements,
+achievement of practical utility is impossible.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Summary</font></h2></a>
+
+<p>
+An evaluation method is proposed which estimate translation quality
+based on translation technologies and source text characteristics and
+applied to Japanese to English machine translation system
+ALT-J/E. Technological problems of the translations of lead texts in
+newspaper articles are evaluated.
+</p>
+<p>
+Assuming 70% acceptability to be a practical level of quality, the
+number of words and bunsetsu indicate that the morphological and
+dependency analysis technologies would require accuracy rates per word
+and per bunsetsu as high as 99.8% and 99.4 %, respectively. Current
+technology has reached these levels. But the precision of translation
+for individual expressions is lower than expected values so
+acceptability rates for the entire text drop to between 40% and
+50%. To achieve an acceptability rate of 70%, it is necessary to
+achieve an average 7% improvement in all 9 types of expressions
+mentioned in this study and thus achieve a individual translation
+ratio of 96%.
+</p>
+<p>
+To upgrade the translation rates of these expressions, it will be
+necessary to establish techniques for analysis of the meanings of
+joshi, translation of expressions that combine noun clauses and
+compounded words, handling connections and embedded phrases, and
+verification of ellipsis and paratactical construction.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000><img src="p03/j0051.gif">References<img src="p03/j0051.gif"></font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>(1)</strong></a>
+<dd>Nagao, Tsujii, Nakamura, Sakamoto, Toriumi and Sato :
+	Outline of Science and Technological Agency Mechanical Translation Project,
+	<i>Information Processing</i>, Vol.26, No.10, pp.1203-1213 (1985).
+	<br><br>
+<dt><a name="ref2"><strong>(2)</strong></a>
+<dd>Nagao and Tsujii :
+	World Selection and Process of Structural Conversion in Machine Translation,
+	<i>Information Processing</i>, Vol.26, No.11, pp.1261-1270 (1985).
+	<br><br>
+<dt><a name="ref3"><strong>(3)</strong></a>
+<dd>Uchida, <i>et al.</i> :
+	Japanese/English Machine Translation System ATLAS/U,
+	<i>Information Processing Association</i>,
+	Natural Language Processing Research Society Data, No.299-3 (1982).
+	<br><br>
+<dt><a name="ref4"><strong>(4)</strong></a>
+<dd>Muraki, K. :
+	Knowledge Base and the Japanese English Machine Translation System
+	Using Independent Intermediate Expressions for Words,
+	Nikkei Electronics, 1984. 12/17, pp.195-220 (1984).
+	<br><br>
+<dt><a name="ref5"><strong>(5)</strong></a>
+<dd>Sigurson, J. and Greatrex, R. :
+	Machine Translation of On-line Searches in Japanese Databases,
+	The Research Policy Institute Lund University, Sweden (1987).
+	<br><br>
+<dt><a name="ref6"><strong>(6)</strong></a>
+<dd>Hung, X. :
+	A Machine Translation System or Monolingual Users,
+	Australian-Japan Joint Symposium on Natural Language Processing, pp.50-56 (1989).
+	<br><br>
+<dt><a name="ref7"><strong>(7)</strong></a>
+<dd>ALPAC (Automatic Language Processing Advisory Committee) Report,
+	National Research Council (1966).
+	<br><br>
+<dt><a name="ref8"><strong>(8)</strong></a>
+<dd>Nagao, M. and Tsujii, J. :
+	Evaluation of the J-E Translation Results in Mu-Project,
+	Information and Processing Society of Japan,
+	Natural Language Processing, 47-11, pp.79-88 (1985).
+	<br><br>
+<dt><a name="ref9"><strong>(9)</strong></a>
+<dd>Ikehara, S., Miyazaki, M., Shirai, S. and Hayashi, Y. :
+	Recognition in Language and Multi-level Translation Method,
+	<i>J. of Information Processing</i>, Vol.28, No.21, pp.1269-1279 (Dec. 1987).
+	<br><br>
+<dt><a name="ref10"><strong>(10)</strong></a>
+<dd>Ikehara, S., Miyazaki, M., Shirai, S. and Yokoo, A. :
+	An Approach to Machine Translation Method Based on Constructive Process Theory,
+	<i>Review of the ECL</i>, Vol.37, No.1, pp.39-44 (1989).
+	<br><br>
+<dt><a name="ref11"><strong>(11)</strong></a>
+<dd>Saeki:
+	Opinions from the Working Place
+	--From the View-point of Mechanical Translation--,
+	<i>The J. of the Institute of Electronics, Information and Communication
+	Engineers</i>, Vol.71, No.11, pp.1221-1224 (1988).
+</dl>
+
+<br><br>
+
+<div align=right>
+<img src="p03/j0052.gif">
+</div>
+
+<hr size=2 width=40% align=left>
+
+<h3><font color=#ff0000>Authors' Profile</font></h3>
+
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p03/p03-a1.gif" width=114 height=142></td>
+    <td><font size=+1><strong>Satoru Ikehara</strong> (Member)</font><br>	
+	Senior Research Engineer, Supervisor,
+	the leader of Ikehara Research Group of the Knowledge System Laboratory
+	in the NTT Network Information System Laboratories.
+	Since joining the ECL system in 1969,
+	he has developed a formal algebraic manipulation language,
+	traffic theories and natural language processing systems.
+	He received bachelor's degree, master's degree and Dr. degree
+	from Osaka University in 1967, 1969 and 1983.
+	He was awarded the dissertation prize in 1982 for his research
+	on queuing network analysis from the Information Processing Society.
+	He is a member of the Institute of Electronics, Information and Communication
+	Engineers of Japan, Information Processing Society of Japan and
+	Japan Association for Machine Translation.
+</tr>
+</table>
+</p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p03/p03-a2.gif" width=114 height=141></td>
+    <td><font size=+1><strong>Masahiro Miyazaki</strong> (Member)</font><br>	
+	Professor in Dept. of Information Engineering, Faculty of Engineering,
+	Niigata University since 1989.
+	He had been engaged in the ECL (Electronic Communication Laboratories) system
+	of NTT from 1969 to 1989 and he has engaged in the research and development on
+	the computer system DIPS-11, performance evaluation theories for computer system,
+	Japanese text to speech systems and machine translation system.
+	He is presently researching on natural language understanding/generation and
+	machine translation systems.
+	He received bachelor's degree and Dr. Eng. degree
+	from Tokyo Institute of Technology in 1969 and 1986.
+	He is a member of the Institute of Electronics, Information and Communication
+	Engineers of Japan, Information Processing Society of Japan and
+	Japan Association for Machine Translation.
+</tr>
+</table>
+</p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p03/p03-a3.gif" width=114 height=144></td>
+    <td><font size=+1><strong>Satoshi Shirai</strong></font><br>	
+	Senior Research Engineer, in the NTT Network Information Systems Laboratories,
+	Since joining the ECL system in 1980, he has developed Japanese analysis systems
+	for natural language processing systems.
+	He is presently developing a machine translation system.
+	He received bachelor's degree and master's degree from Osaka University
+	in 1978 and 1980.
+	He is a member of the Institute of Electronics, Information and Communication
+	Engineers of Japan, and the Information Processing Society of Japan.
+</tr>
+</table>
+</p>
+<table border=0 cellpadding=0 cellspacing=5>
+<tr valign=top>
+    <td><img src="p03/p03-a4.gif" width=115 height=143></td>
+    <td><font size=+1><strong>Akio Yokoo</strong> (Member)</font><br>	
+	Senior Research Engineer of the Knowledge Systems Laboratory
+	in the NTT Network Information Systems Laboratories.
+	Since joining the ECL system in 1982, he has developed
+	a frame representation language and a natural language processing systems.
+	He is presently developing a machine translation system.
+	He received a bachelor's degree in 1980 and master's degree in 1982
+	from the University of Electro-Communications.
+	He is a member of the institute of Electronics, Information and Communication
+	Engineers of Japan and the Information Processing Society of Japan.
+</tr>
+</table>
+</p>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>*1</sup></a>
+Translation with pre-editing pose problems arising from the contents of pre-editing
+and evaluation becomes complicated.
+We shall therefore consider work without pre-editing. (<a href="p03.html#rfn1">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>*2</sup></a>
+Dependency analysis determines relations between phrases of source text.
+(<a href="p03.html#rfn2">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>*3</sup></a>
+The meanings of output can be understood and then the results can be post-edited
+without referring the source text. (<a href="p03.html#rfn3">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>*4</sup></a>
+This means that translation output can be used for publishing without rewriting.
+(<a href="p03.html#rfn4">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>*5</sup></a>
+With 70% as the passing grade for every sentence in an article, there should be
+among the unacceptable sentences some 10 to 20% whose meaning can be grasped a little.
+Then it is estimated that translation which cannot be understood at all
+would be limited to about 10%.
+In Saeki<sub>(<a href="p03.html#ref11">11</a>)</sub>, a translation ratio of 85% is judged
+from experience as beig at a level that is practically usable.
+This ratio includes the portion of translation in which some dubious part remain
+and therefore it is judged not so different from the standards set forth
+in this dissertation. (<a href="p03.html#rfn5">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn6"><sup>*6</sup></a>
+Test sentences are prepared by the following manner.
+Arbitrary 100 expression examples were picked up from each kinds of the expression group
+as shown in Table 2.
+Test sentences including a example expression are prepared
+for every 100 example expressions.
+But, test sentences should be short and easy to translate
+except the part of the expression to be tested. (<a href="p03.html#rfn6">Return</a>)
+
+<hr size=2 width=40% align=left>
+
+<a name="fn7"><sup>*7</sup></a>
+This experiment was conducted as follows.
+Three test groups of continuous 100 sentences are arbitrary chosen
+from 1 000 sentences used for the statistical analysis in <b>Sec. 2</b>.
+And translation results of these test groups are evaluated. (<a href="p03.html#rfn7">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

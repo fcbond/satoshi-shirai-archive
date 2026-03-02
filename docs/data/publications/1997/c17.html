@@ -1,0 +1,961 @@
+<html>
+<head>
+<title>Satoshi Shirai, Francis Bond &amp; Yamato Takahashi, NLPRS'97, December 2-4, 1997</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>A Hybrid Rule and Example-based Method for Machine Translation</font>
+<br><br>
+
+<font size=+2>Satoshi S<small>HIRAI</small>, Francis B<small>OND</small> and Yamato T<small>AKAHASHI</small></font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-1 Hikari-no-oka, Yokosuka-shi, Kanagawa-ken, JAPAN 239</font>
+<br>
+<font size=+1><tt> {shirai,bond,yamato}@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+<p>
+This paper introduces a new example-based method of machine
+translation in which the examples need not be direct translations. The
+system will weed out strange examples during translation, allowing the
+use of currently available sentence aligned corpora as
+data. Rule-based modules are used where appropriate. A prototype
+Japanese-to-English system has been implemented that allows multiple
+users to share corpora.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of NLPRS'97</i>, pp.49-54 (December, 1997). ]
+</font>
+</div>
+
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c17.html#chap-1">1 Introduction</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-1.1">1.1 Rule-Based Translation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-1.2">1.2 Example-based Translation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-1.3">1.3 Combined Translatian Methods</a></td></tr>
+<tr><td><a href="c17.html#chap-2">2 A Hybrid Translation Method</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-2.1">2.1 Greating and Indexing a Corpus</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-2.2">2.2 Finding Candidate Sentence Pairs</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-2.3">2.3 Selecting the template</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.3.1">2.3.1 Ranking the Candidate Sentences</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.3.2">2.3.2 Finding the best cluster</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.3.3">2.3.3 Selecting the sentence with the most typical translation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-2.4">2.4 Translating the input, using the template as guide</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.4.1">2.4.1 Finding the differences</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.4.2">2.4.2 Replacing the differences</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c17.html#chap-2.4.3">2.4.3 Smoothing the output</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#chap-2.5">2.5 System Architecture</a></td></tr>
+<tr><td><a href="c17.html#chap-3">3 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#ack">Acknowledgments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c17.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+Methods for machine translation can be generally classified as
+rule-based or example-based, and each has numerous problems which
+remain unsolved. Especially in Japanese-to-English translation, due to
+the difference in language categories, current methods are far from
+being at the stage where they can be of practical use (<a href="c17.html#ref11">Narita,
+1996</a>). This paper will attempt to make use of the strengths of both
+the rule and example-based methods to suggest a form of machine
+translation that can be used with existing technology.
+</p>
+<p>
+We will first discuss the strengths and weaknesses of various
+translation methods.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.1"><h2><font color=#ff0000>1.1 Rule-Based Translation</font></h2></a>
+
+<p>
+Most of the machine translation software on the market today is
+rule-based. These systems consist of (1) a process of analyzing input
+sentences (morphological, syntactic and/or semantic analyses) and (2)
+a process of generating sentences as a result of a series of
+structural conversions based on an internal structure or some
+interlingua. The steps of each process are controlled by the
+dictionary and the rules.
+</p>
+<p>
+As the accuracy of translation by the system is the product of the
+accuracies of each process, it is necessary to enlarge the magnitude
+and to upgrade the precision of existing dictionaries and rules for
+each step (<a href="c17.html#ref7">Ikehara et al., 1993</a>), and this is extremely labor
+intensive.
+</p>
+<p>
+Further, in-depth analyses enable the use of long-distance
+relationships and related information yet they tend to lose the
+collocational relations between words. In addition, most text produced
+by rule-based methods is incohesive. This is for two reasons, (1) the
+rules needed to increase cohesion are not yet fnily understood and (2)
+those that are understood often rely on a full semantic and pragmatic
+analysis ofthe text, whith is rarely available.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.2"><h2><font color=#ff0000>1.2 Example-based Translation</font></h2></a>
+
+<p>
+To overcome the problems of dictionaries and rules in the rule-based
+translation method, a method of translation by the principle of
+analogy has been proposed (<a href="c17.html#ref10">Nagao, 1984</a>). This is done by collecting
+aligned translated example sentences and translating the input
+sentence by imitating the translation of a sentence that resembles
+it. This has its merits in that, as long as there is a translated
+example, a well structured translation will be generated. There is no
+need to prepare dictionaries and rules through individual analysis of
+linguistic phenomena. Improvement in the translation capability could
+be expected by mereIy adding examples of translations. This has
+resuited in a large amount of researth in this field.
+</p>
+<p>
+This analogy method, however, frequently assumes the existence of an
+aligned corpus with examples that align on a strict 1-to-1 basis as
+well as on appropriate tag information showing the correspondence
+between words and phrases (<a href="c17.html#ref12">Sadler, 1989, 117</a>). Yet, cases of direct
+translation equivalents are limited in number and assessments of
+similarity using a thesaurus are rarely reliable.  Example-based
+translation that relies on a corpus with very similar text is really
+just a variation on translation memory, very useful for tasks such as
+upgrading manuals, where much of the text is reused, but not generally
+useful. And even if it were possible to secure a large voluIne of
+corresponding example sentences, the task of tagging them in a uniform
+and accurate manner is difficult. For example, <a href="c17.html#ref9">Kaji et al. (1992)</a> make
+a set of templates with variable expressions from their corpus, before
+using it. These templates are only be as accurate as the parsers used
+to prepare them, and must be remade every time the parsers change.
+</p>
+<p>
+<a href="c17.html#ref4">Cranias et al. (1995)</a> propose a matching method based on differences
+between function and content words. It relies crucially however, on
+segmenting sentences into coherent segments and alignment at the
+sub-sentential level, both processes that are hard to automate.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1.3"><h2><font color=#ff0000>1.3 Combined Translatian Methods</font></h2></a>
+
+<p>
+Multi-engine systems use both the rule and example-based methods and
+then choose one of the translations. These systems take over all of
+the strengths and weaknesses of each method and add the fresh problem
+of how to decide which output to use.
+</p>
+<p>
+<a href="c17.html#ref3">Brown (1996)</a> is an example of an example-based system run in parallel
+with a rule-based (knowledge-based) system as part of the Pangloss
+system. It only translates sequences of connected words, and so fails
+to give one of the expected benefits of an example-based system, the
+production of sentences with coherent structure. Its main strength
+seems to be in the fact that it is easy to adapt to new languages.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 A Hybrid Translation Method</font></h2></a>
+
+<p>
+The following hybrid design in an effort to produce a method that
+makes the most of the strengths of both methods and that will
+compensate for their weaknesses. The strungths of the rule-based
+method lie in the fact that information can be obtained through
+introspection and analysis, while those of the example-based method
+are that correspondences can be found from raw data. The weakness of
+the rule-based method in that the accuracy of the entire process in
+the product of the accuracies of each sub-stage. The weakness of the
+example-based method in the difficulty of finding appropriate
+examples.
+</p>
+<p>
+The basic outline of the algorithm in as follows:
+</p>
+<p>
+<ol>
+<li> Select a set of candidate sentences which are similar to the input
+	sentence (section 2.2)
+<li> Select the most typical translation out of those corresponding to
+	the candidates (section 2.3)
+<li> Use this translation and its source as templates to translate the
+	input sentence (section 2.4)
+</ol>
+</p>
+<p>
+The major innovation of this algorithm is in step two. Instead of
+simply choosing the source-target pair whose source sentence best
+matches the input sentence, a pair in chosen which both matches the
+input sentence and has a translation similar to other examples. By
+discarding candidates with atypical translations, the algorithm
+filters out free, incorrect or context dependent translations. This
+means that the input corpus does not have to cormist of good,
+context-independent sentence pairs to be useful. The only requirement
+is that there be enough translations to be able to find a typical
+translation.
+</p>
+<p>
+A variety of methods can be used to determine similarity in step one,
+to select the most typical translation in step two, and to finally
+translate the sentence in step three. The methods currently being used
+in our system are described in the following subsections, after a
+brief. discussion of the construction of the corpus.
+</p>
+<p>
+As all processing is done during the translation process, improvements
+in any of the modules will not require the entire corpus to be
+re-parsed.
+</p>
+<p>
+A more detailed outline is given in Figure 1.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top>
+    <td colspan=6>For each input sentence: <i>S<sub>I</sub></i></td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td rowspan=28>&nbsp;&nbsp;</td>
+    <td rowspan=4>1.</td><td rowspan=28>&nbsp;</td>
+    <td colspan=3>Find candidate sentences {<i>S<sub>i</sub></i>: 
+	<i>S<sub>i</sub></i> is similar to <i>S<sub>I</sub></i>} (section 2.2)</td></tr>
+<tr></tr><tr></tr>
+<tr><td colspan=3>If there are none, translate using rule-based system to give
+	<i>T<sub>I</sub></i>, goto step 4.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td rowspan=6>2.</td>
+    <td colspan=3>Select the template. <i>S<sub>t</sub></i> (section 2.3)</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td>(a)</td><td rowspan=3>&nbsp;</td>
+    <td>Rank the candidates, <i>S<sub>i</sub></i>, by similarity to the input 
+	sentence</td></tr>
+<tr valign=top>
+    <td>(b)</td>
+    <td>Cluster the translations, <i>T<sub>i</sub></i>, of the candidate 
+	sentences</td></tr>
+<tr valign=top>
+    <td>(c)</td>
+    <td>Select the highest ranked pair of the best cluster 
+	(<i>S<sub>t</sub></i>, <i>T<sub>t</sub></i>)</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td rowspan=11>3.</td>
+    <td colspan=3>Translate <i>S<sub>I</sub></i> by analogy to <i>S<sub>t</sub></i> 
+	(section 2.4)</td></tr>
+<tr></tr><tr></tr>
+<tr><td colspan=3>For each difference <i>d<sub>i</sub></i> between input 
+	<i>S<sub>I</sub></i> and selection <i>S<sub>t</sub></i></td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td>(a)</td><td rowspan=2>&nbsp;</td>
+    <td>Find the corresponding section <i>t<sub>i</sub></i> of the selected translation 
+	<i>T<sub>t</sub></i></td></tr>
+<tr valign=top>
+    <td>(b)</td>
+    <td>Replace <i>t<sub>i</sub></i> with the translation of <i>d<sub>i</sub></i>,
+	translated using the rule-based modules</td></tr>
+<tr></tr><tr></tr>
+<tr><td colspan=3>Adjust for number agreement and so forth</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top>
+    <td>4.</td>
+    <td colspan=3>Output the adjusted sentence <i>T<sub>I</sub></i></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1: An outline of the hybrid algorithm
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.1"><h2><font color=#ff0000>2.1 Greating and Indexing a Corpus</font></h2></a>
+
+<p>
+A practical example-based system requires a large volume of suitable
+data. In the case of our hybrid algorithm, for the corpus th be
+suitable it need only consist of sentences that are loosely aligned,
+not necessarily exact translations.
+</p>
+<p>
+A large volun1e of newspaper data is currently available, for example,
+the Nihon Keizai Shinbun,<a name="rfn1" href="c17.html#fn1"><sup>1</sup></a> much of it on CD-ROM. There is much more
+Japanese data than English. Considering stock-market reports alone, we
+estimate that there are 1,000,000 Japanese sentences (35 characters on
+average) and 150,000 English sentences (13 words on average) each
+year. The Japanese and English articles are not direct translations of
+each other, but for around half of the English sentences there are
+Japanese sentences that are close to being literal translations
+(<a href="c17.html#ref14">Shirai et al., 1995</a>). The aligned sentence pairs are, to some extent,
+translation equivalents. IdealIy they are sentences with equivalent
+meanings in the two languages, in reality many of them only contain
+sub-sections with equivalent meanings. Note that it is not important
+which was originally the source and which the translation.
+</p>
+<p>
+As our algorithm weeds out unsuitable sentences during translation, we
+focus on recall rather than precision when aligning our sentenccs,
+which can thus be done entirely automatically. First we align the
+newspaper articles, using, numerical expressions and proper nouns as
+anchors following the method outlined in <a href="c17.html#ref16">Takahashi et al. (1997)</a>.
+Then we align sentences within the aligned articles. We accept as
+aligned sentences, ones that contain even a small amount of equivalent
+text, so sentence level alignment can also be done
+automatically. Currently we adopt a method that uses both statistical
+and dictionary information (<a href="c17.html#ref5">Haruno and Yamazaki, 1996</a>), but any method
+could be used.
+</p>
+<p>
+We have tagged the data with SGML tags, using the TEI P3 document type
+definition (<a href="c17.html#ref15">Sperberg-McQueen and Burnard, 1994</a>). We do not tag any
+elements smaller than sentences as our aigorithm does not require a
+corpus tagged with details of the internal structure.
+</p>
+<p>
+Each article and each sentence in the article has a unique ID. The
+Japanese and English data are stored in separate files. A separate
+file contains links showing the correspondences between the two
+languages. The format is similar to that used in the Lingua Project
+(<a href="c17.html#ref2">Bonhomme and Romary, 1995</a>). As the links are in a separate file, they
+can easily be replaced as better alignment algorithms appear and are
+used.
+</p>
+<p>
+In addition, an index of all n-grams (n <img src="c17/j0000.gif"> 2) that appear more than
+once in the Japanese data has been prepared. It is used for finding
+similar sentences. The n-grams are found using the method outlined in
+(<a href="c17.html#ref8">Ikehara et al., 1996</a>), which eliminates any n-grams that appear only
+as substrings of larger n-grams. For a language such as English, which
+in separated into words by default, a word index (preferably
+lemmatized), could also be used. We used a variety of trie index, for
+fast and efficient searching (<a href="c17.html#ref1">Aoe et al., 1992</a>).
+</p>
+<p>
+We end up with the following data:
+</p>
+<p>
+<ul>
+<li> Source Sentences S<sup>i</sup>
+<li> Target Sentences T<sup>j</sup>
+<li> links l<sub>i-j</sub> (not all sentences have links)
+<li> trie index (of all n-grams that appeared more than once in the source sentences)
+</ul>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.2"><h2><font color=#ff0000>2.2 Finding Candidate Sentence Pairs</font></h2></a>
+
+<p>
+The input sentence <i>S<sub>I</sub></i> is searched for any n-grams that appear in the
+index (that is n-grams that appeared more than once in the Japanese
+corpus).  All sentences in the corpus that contain one or more of the
+n-grams, and have English equivalents, are selected as candidate
+sentences.
+</p>
+<p>
+For example, consider the following input sentence, which contains
+the following indexed n-grams:<a name="rfn2" href="c17.html#fn2"><sup>2</sup></a> <strong>nikkei, heikin,
+gatsu-mono-wa-zokuraku, wa-zokuraku</strong>.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td><i>S<sub>I</sub></i></td><td rowspan=3>&nbsp;</td>
+    <td>nikkei</td><td rowspan=2>&nbsp;</td>
+    <td>heikin</td><td rowspan=2>&nbsp;</td>
+    <td>10</td><td rowspan=2>&nbsp;</td>
+    <td>gatsu</td><td rowspan=2>&nbsp;</td>
+    <td>mono</td><td rowspan=2>&nbsp;</td>
+    <td>wa</td><td rowspan=2>&nbsp;</td>
+    <td>zokuraku</td><td rowspan=2>&nbsp;</td>
+    <td>.</td></tr>
+<tr><td></td>
+    <td><i>Nikkei</i></td><td><i>average</i></td><td><i>10</i></td>
+    <td><i>month</i></td><td><i>thing</i></td><td><i><sub>TOP</sub></i></td>
+    <td><i>continue-decline</i></td><td>.</td></tr>
+<tr><td></td>
+    <td colspan=15>The Nikkei Average October contracts continued declining</td></tr>
+</table>
+</p>
+<p>
+For the sake of our explaining the method, we will assume it only
+matched the following three sentences (matching n-grams marked bold):
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(1)</td><td rowspan=3>&nbsp;</td>
+    <td><strong>nikkei</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>heikin</strong></td><td rowspan=2>&nbsp;</td>
+    <td>9</td><td rowspan=2>&nbsp;</td>
+    <td><strong>gatsu</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>mono</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>wa</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>zokuraku</strong></td><td rowspan=2>&nbsp;</td>
+    <td>.</td></tr>
+<tr><td></td>
+    <td><i>Nikkei</i></td><td><i>average</i></td><td>9</td>
+    <td><i>month</i></td><td><i>thing</i></td><td><small>TOP</small></td>
+    <td><i>continue-decline</i></td><td>.</td></tr>
+<tr><td></td>
+    <td colspan=15>The Nikkei Average September contracts were lower.</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(2)</td><td rowspan=3>&nbsp;</td>
+    <td><strong>nikkei</strong></td><td rowspan=2>&nbsp;</td>
+    <td>tentoo</td><td rowspan=2>&nbsp;</td>
+    <td><strong>heikin</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>wa</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>zokuraku</strong></td><td rowspan=2>&nbsp;</td>
+    <td>.</td></tr>
+<tr><td></td>
+    <td><i>Nikkei</i></td><td><i>over-the-counter</i></td><td><i>average</i></td>
+    <td><small>TOP</small></td><td><i>continue-decline</i></td><td>.</td></tr>
+<tr><td></td>
+    <td colspan=13>The Nikkei over-the-counter average continued declining</td></tr>
+<tr></tr><tr></tr>
+</table>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>(3)</td><td rowspan=3>&nbsp;</td>
+    <td>8</td><td rowspan=2>&nbsp;</td>
+    <td><strong>gatsu</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>mono</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>wa</strong></td><td rowspan=2>&nbsp;</td>
+    <td><strong>zokuraku</strong></td><td rowspan=2>&nbsp;</td>
+    <td>.</td></tr>
+<tr><td></td>
+    <td>8</td><td><i>month</i></td><td><i>thing</i></td><td><small>TOP</small></td>
+    <td><i>continue-decline</i></td><td>.</td></tr>
+<tr><td></td>
+    <td colspan=13>August contracts continued declining.</td></tr>
+</table>
+</p>
+<p>
+However, if there are no candidate sentences, the hybrid design method
+in unable to function and the sentence in translated using a
+ruIe-based translation system.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3"><h2><font color=#ff0000>2.3 Selecting the template</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3.1"><h2><font color=#ff0000>2.3.1 Ranking the Candidate Sentences</font></h2></a>
+
+<p>
+The input sentences and all the candidates are segmented using a
+morphological analyzer (the same as used by the rule-based
+Japanese-to-English machine transIation system <strong>ALT-J/E</strong> (<a href="c17.html#ref6">Ikehara et
+al., 1991</a>)).
+</p>
+<p>
+The sentences are ranked using the similarity metric given below.
+</p>
+<p>
+The result is an ordered set of candidate sentences and their
+translation equivalents S<sub>1</sub>, ... S<sub><i>n</i></sub>, the higher ranked a sentence is,
+the more similar it is to the input sentence.
+</p>
+<p>
+At this stage it would be possible to discard some lower ranked
+sentences, in order to increase speed, either by discarding any with
+similarities below a certain threshold,<a name="rfn3" href="c17.html#fn3"><sup>3</sup></a> or all those beyond a certain
+numbar. However, at present, speed has not been a problem, so we do
+not do this.
+</p>
+
+<p>
+<i>Definition of 'similarity'</i>
+</p>
+<p>
+The similarity metric is calculated with two components, one based on
+the order of shared segments (M<sub><i>o</i></sub>), and one based only on their
+cooccurrence (M<sub><i>c</i></sub>).
+</p>
+<p>
+The two components are calculated as follows.  First all segments of
+S<sub><i>I</i></sub> are given a value from left to right, starting with 0, and
+increasing by one for each segment. Then all segments in S<sub><i>i</i></sub> that also
+occur in S<sub><i>I</i></sub> are given the same values, but differing segments are
+given a very high value (such as 99).
+</p>
+<p>
+M<sub><i>o</i></sub> and M<sub><i>c</i></sub> are defined as follows (bubble sort values given when
+compared to S<sub><i>I</i></sub> ):
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td rowspan=7>&nbsp;&nbsp;</td>
+    <td rowspan=3>M<sub><i>o</i></sub> (S<sub><i>I</i></sub> ,S<sub><i>i</i></sub> ) =</td>
+    <td colspan=2 align=center><i>no. of swaps to bubble sort S<sub>i</sub></i></td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td rowspan=3>(1)</td></tr>
+<tr><td><font size=-2 colspan=2>--------------------------------------------</font></td></tr>
+<tr><td colspan=2 align=center><i>no. of swaps to reserse S<sub>i</sub></i></td></tr>
+<tr><td><br></td></tr>
+<tr><td rowspan=3>M<sub><i>c</i></sub> (S<sub><i>I</i></sub> , S<sub><i>i</i></sub> ) =</td>
+    <td align=center><i>number of shared segments</i></td><td>&nbsp;</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td rowspan=3>(2)</td></tr>
+<tr><td><font size=-2>------------------------------------------</font></td><td></td></tr>
+<tr><td align=center><i>number of segments in S<sub>i</sub></i></td><td></td></tr>
+</table>
+</p>
+<p>
+The combined similarity metric <i>M</i> = (1 - M<sub><i>o</i></sub> )M<sub><i>c</i></sub> . M<sub><i>o</i></sub> penalizes changes in
+order, while M<sub><i>c</i></sub> penalizes non-matching segments. We take the final
+similarity as the average of M(S<sub><i>I</i></sub> , S<sub><i>i</i></sub> ) and M(S<sub><i>i</i></sub> , S<sub><i>I</i></sub> ). No explicit
+semantic anaiysis is undertaken.
+</p>
+<p>
+For example the above sentences are ranked as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>SI</td><td>&nbsp;&nbsp;</td><td>nikkei</td><td>heikin</td><td>10</td><td>gatsu</td><td>mono</td><td>wa</td><td>zokuraku</td><td>.</td></tr>
+<tr><td></td><td></td><td><i>0</i></td><td><i>1</i></td><td><i>2</i></td><td><i>3</i></td><td><i>4</i></td><td><i>5</i></td><td><i>6</i></td><td><i>7</i></td></tr>
+<tr></tr><tr></tr>
+<tr><td>S1</td><td>&nbsp;&nbsp;</td><td>nikkei</td><td>heikin</td><td>9</td><td>gatsu</td><td>mono</td><td>wa</td><td>zokuraku</td><td>.</td></tr>
+<tr><td></td><td></td><td><i>0</i></td><td><i>1</i></td><td><i>99</i></td><td><i>3</i></td><td><i>4</i></td><td><i>5</i></td><td><i>6</i></td><td><i>7</i></td></tr>
+<tr></tr>
+<tr><td></td><td></td><td colspan=8>(M(S<sub><i>I</i></sub> ,S<sub><i>i</i></sub> ) 5 swaps, 7 shared segments)</td></tr>
+<tr></tr><tr></tr>
+<tr><td>S2</td><td>&nbsp;&nbsp;</td><td>8</td><td>gatsu</td><td>mono</td><td>wa</td><td>zokuraku</td><td>.</td></tr>
+<tr><td></td><td></td><td><i>99</i></td><td><i>3</i></td><td><i>4</i></td><td><i>5</i></td><td><i>6</i></td><td><i>7</i></td></tr>
+<tr></tr>
+<tr><td></td><td></td><td colspan=8>(M(S<sub><i>I</i></sub> ,S<sub><i>i</i></sub> ) 5 swaps, 5 shared segments)</td></tr>
+<tr></tr><tr></tr>
+<tr><td>S3</td><td>&nbsp;&nbsp;</td><td>nikkei-tentoo-heikin</td><td>wa</td><td>zokuraku</td><td>.</td></tr>
+<tr><td></td><td></td><td><i>99</i></td><td><i>5</i></td><td><i>6</i></td><td><i>7</i></td></tr>
+<tr></tr>
+<tr><td></td><td></td><td colspan=8>(M(S<sub><i>I</i></sub> ,S<sub><i>i</i></sub> ) 3 swaps, 3 shared segments)</td></tr>
+</table>
+</p>
+<p>
+Note that <i>nikkei-tentoo-heikin</i> "the Nikkei over-the-counter average"
+appears as a single word in the user dictionary, and thus is analyzed
+as a single constituent. Therefore it does not match <i>nikkei</i> "Nikkei"
+or <i>heikin</i> "average", although it matched them using the initial n-gram
+index.
+</p>
+<p>
+This method considers not only the number of matching characters and
+the number of continuous matching characters, as in <a href="c17.html#ref13">Sato (1992)</a>, but
+also the number of non-matching characters found in the candidates.
+</p>
+<p>
+Because our morphological analyzer also gives POS and sense, as well
+as chunking the strings into phrases we are currently investigating
+ways of using this additional information, for exan1ple by comparing
+the number and order of case-marked noun phrases and comparing
+senses. However, our method in designed to work with a large corpus,
+so a simple fast algorithm is to be preferred.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3.2"><h2><font color=#ff0000>2.3.2 Finding the best cluster</font></h2></a>
+
+<p>
+The next step is to cluster the translation equivalents {T<sub><i>i</i></sub> } of the
+candidate sentences {S<sub><i>i</i></sub> } into groups of similar sentences. This in
+done in order to find translations that are reasonably direct. As all
+the candidate sentences are similar to the input sentence, we expect
+that direct translations will also be similar.
+</p>
+<p>
+We cluster the translations as follows:
+</p>
+<p>
+<ol>
+<li>Determine the frequency of all words in the set of translation
+	equivalents {T<sub><i>i</i></sub> }, ignoring any words that are in a set of stop words
+	(mainly function words such as articles, auxiliary verbs and
+	prepositions).
+<br><br>
+<li>If there is one most common word, then the best cluster in the set
+	of sentences that include it. Otherwise, the best cluster is the set
+	of those with the maximum number of the most common words.
+</ol>
+</p>
+<p>
+For example (frequencies given as subscripts, stop words have no
+subscripts):
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>T<sub>1</sub></td><td rowspan=3>&nbsp;</td>
+    <td>The Nikkei<sub>2</sub> Average<sub>1</sub> September<sub>1</sub> 
+	Contracts<sub>2</sub> were lower<sub>1</sub></td></tr>
+<tr><td>T<sub>2</sub></td>
+    <td>August<sub>1</sub> contracts<sub>2</sub> continued<sub>2</sub> 
+	declining<sub>2</sub></td></tr>
+<tr><td>T<sub>3</sub></td>
+    <td>The Nikkei<sub>2</sub> over-the-counter<sub>1</sub> average<sub>1</sub> 
+	continued<sub>2</sub> declining<sub>2</sub></td></tr>
+</table>
+</p>
+<p>
+In this case the best cluster has two members T<sub>2</sub> and T<sub>3</sub>.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.3.3"><h2><font color=#ff0000>2.3.3 Selecting the sentence with the most typical translation</font></h2></a>
+
+<p>
+The sentence pair to be used in the actual translation is the sentence
+pair (candidate sentence + translation equivalent) in the best cluster
+that has the nighest similarity to the input sentence (in our example
+(S<sub>2</sub> ,T<sub>2</sub> )). We call the two sentences the source template (S<sub><i>t</i></sub>) and the
+target template (T<sub><i>t</i></sub>).  This sentence pair ideally<a name="rfn4" href="c17.html#fn4"><sup>4</sup></a> has the following
+properties: (1) the source template resembles the input sentence, (2)
+the translation template is a reasonably direct transIation of the
+source template.  This makes the sentence pair a suitable template for
+example-based translation by analogy.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4"><h2><font color=#ff0000>2.4 Translating the input, using the template as guide</font></h2></a>
+
+<p>
+The differing sections of the input sentence and the source template
+are identified. Translations of these different sections in the input
+sentence are produced by rule-based methods and these translated
+sections are fitted into the translation sentence in the template. The
+resulting sentence is then smoothed over, by checking for agreement
+and inflection mismatches.
+</p>
+<p>
+The resulting translation has the overall structure provided by the
+example-based template, with only individuai words or phrases,
+translated by the rule-based system. In general, rule-based systems
+give better results for small segments, so this gives the best of both
+worlds.
+</p>
+<p>
+The input sentence and selected template are:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>S<sub><i>I</i></sub></td>
+    <td rowspan=3>&nbsp;</td>
+    <td>nikkei heikin 10 gatsu mono wa zokuraku .</td></tr>
+<tr><td>S<sub><i>t</i></sub></td>
+    <td>8 gatsu mono wa zokuraku .</td></tr>
+<tr><td>T<sub><i>t</i></sub></td>
+    <td>August contracts continued declining.</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4.1"><h2><font color=#ff0000>2.4.1 Finding the differences</font></h2></a>
+
+<p>
+In order to find any differences, both the input sentence and source
+template are parsed, and their parses are compared. Because the
+sentences are similar, even if there are errors in the parse, they are
+often the same errors for both sentences and have little effect on
+finding the differences, so the algorithm will work with imperfect
+parsers.  Tins is the only part of the process that requires parsing,
+and it is tolerant of errors, so there is no need for structural
+tagging in the corpus.
+</p>
+<p>
+In this case the difference is between <i>nikkei heikin 10 and 8</i> . The
+parsing process however shows that <i>nikkei heikin 10 gatsu mono</i> in all
+one noun phrase, and so matches it with <i>8 gatsu mono</i> "August
+contracts"
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4.2"><h2><font color=#ff0000>2.4.2 Replacing the differences</font></h2></a>
+
+<p>
+The rule-based translation of the source template is compared with the
+target template. Those parts of the template that correspond to the
+differing sections are replaced by their translations.
+</p>
+<p>
+<i>nikkei heikin 10 gatsu mono</i> is translated as "The Nikkei Average
+October contracts", by the rule-based noun phrase translation system,
+which gives good results for small segments. This is slotted into T<sub><i>t</i></sub>
+giving the foliowing:
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>T<sub><i>I</i></sub></td><td>&nbsp;</td>
+    <td>The Nikkei Average October contracts continued declining.</td></tr>
+</table>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.4.3"><h2><font color=#ff0000>2.4.3 Smoothing the output</font></h2></a>
+
+<p>
+A very rough surface analysis of the output sentence is used to check
+for person and number agreement.
+</p>
+<p>
+At present we have no methanism for identifying and deleting
+extraneous elements in the example-based translation, such as temporal
+adverbs. This in one of the major sources of errors in our system. We
+are currently adding a filter to identify and delete such terms.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2.5"><h2><font color=#ff0000>2.5 System Architecture</font></h2></a>
+
+<p>
+The features of the system as it is implemented are listed below:
+</p>
+<p>
+<ul>
+<li> The system operates as a multiuser client/server network.
+	The server runs on UNIX and the clients on Windows-NT.
+<li> Users can combine their own aligned corpora with the system's,
+	and share them amongst themselves.
+<li> The rule-based components and dictionaries are taken from <strong>ALT-J/E</strong> .
+</ul>
+</p>
+<p>
+The prototype was tested translating from Japanese to English, with a
+corpus of 5,000 sentences<a name="rfn5" href="c17.html#fn5"><sup>5</sup></a>. We are now in the process of testing it
+with a year's data.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Conclusion</font></h2></a>
+
+<p>
+The merits of using examples are that, translations of expressions
+winch are idiomatic, literal or domain dependent can all be put to
+use; and the system should be reversible, that is it can translate in
+either direction. Previously, many example-based systems assumed the
+existence of large word or phrase aligned corpora. To date, we know of
+no large scale corpora accurately aligned below the sentence
+level. For an example-based system to be useful in the foreseeable
+future, it has to be able to accept loosely aligned corpora, not
+aligned at low levels. We have suggested a design for a system that
+can use such loosely aligned texts. We have implemented a prototype of
+such a system, that works using corpora of the level currently
+available, to translate from Japanese to English. The prototype allows
+users to take advantage of any aligned text they may already have by
+adding it to the set of sentences searched by the system.
+</p>
+<p>
+In the future, we plan to improve the individual modules in the
+system, in particular the similarity measure and output smoother.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgments</font></h2></a>
+
+<p>
+We would like to thank Satoru Ikehara, Toshiaki Tanabe, Masatoshi
+Tachibana, Hiroko Inoue, Makiko Nishigaki, Hiromi Ueda and Tim Baldwin
+for their help and advice.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">J. Aoe, K. Morimoto, and T. Sato. 1992.</a>
+<dd>An efficient implementation of trie structures.
+	<i>Software Practice & Experiments</i> , 22(9):695-721.
+	<br><br>
+<dt><a name="ref2">Patrice Bonhomme and Laurent Romary. 1995.</a>
+<dd>The lingua parallel concordancing project.
+	Managing multilingual texts for educationai purpose.
+	In <i>Language Engineering '95</i> , June.
+	<br><br>
+<dt><a name="ref3">Ralf D. Brown. 1996.</a>
+<dd>Example-based machine translation in the pangloss system.
+	In <i>16th International Conference on Computational Linguistics: COLING-96</i> ,
+	pages 125-130, August.
+	<br><br>
+<dt><a name="ref4">Lambros Cranias, Harris Papageorgiou, and Stelios Piperidis. 1995.</a>
+<dd>A matching technique in example-based machine translation. (cmp-lg/9508005).
+	<br><br>
+<dt><a name="ref5">Masahiko Haruno and Takefumi Yamazaki. 1996.</a>
+<dd>High-performance bilingual text alignment using statistical
+	and dictionary information.
+	In <i>34th Annual Conference of the Association for Computational Linguistics</i> ,
+	pages 131-138.
+	<br><br>
+<dt><a name="ref6">Satoru Ikehara, Satoshi Shirai, Akio Yokoo, and Hiromi Nakaiwa. 1991.</a>
+<dd>Toward an MT system without pre-editing - effects of new methods in ALT-J/E-.
+	In <i>Third Machine Translation summit: MT Summit III</i> ,
+	pages 101-106, Washington DC. (cmp-lg/9510008).
+	<br><br>
+<dt><a name="ref7">Satoru Ikehara, Masahiro Miyazaki, and Akio Yokoo. 1993.</a>
+<dd>Classification of language knowledge for meaning analysis in machine translation.
+	<i>Transactions of the Information Processing Society of Japan</i> ,
+	34(8):1692-1704, 8. (in Japanese).
+	<br><br>
+<dt><a name="ref8">Satoru Ikehara, Satoshi Shirai, and Hajime Uchino. 1996.</a>
+<dd>A statistical method for extracting uninterrrupted and interrupted collocations
+	from very large corpora.
+	In <i>16th International Conference on Computational Linguistics: COLING-96</i> ,
+	pages 574-579, August.
+	<br><br>
+<dt><a name="ref9">H. Kaji, Y. Kida, and Y. Morimoto. 1992.</a>
+<dd>Learning translation templates from bilingual text.
+	In <i>14th International Conference on Computational Linguistics: COLlNG-92</i> ,
+	pages 672-678, August.
+	<br><br>
+<dt><a name="ref10">Makoto Nagao. 1984.</a>
+<dd>A framework of mechanical translation between Japanese and English
+	by analogy principle.
+	In <i>Elithorn and Banerji, editors, Artificial and Human Intelligence</i> ,
+	pages 179-180. Elsevier.
+	<br><br>
+<dt><a name="ref11">Narita. 1996.</a>
+<dd>Language type and machine translation.
+	<i>IPSJ SIG Netes 96-NL-114-21</i> , 96(65):143-50. (in Japanese).
+	<br><br>
+<dt><a name="ref12">Victor Sadler. 1989.</a>
+<dd><i>Working with Analogical Semantics: Disambiguation techniques in DLT</i> .
+	FORIS Publications.
+	<br><br>
+<dt><a name="ref13">Satoshi Sato. 1992.</a>
+<dd>CTM. An example based translation aid system.
+	In <i>14th International Confrrence on Computational Linguistics: COLING-92</i> ,
+	pages 1259-1263, August.
+	<br><br>
+<dt><a name="ref14">Satoshi Shirai, Mitsue Matsuo, Takako Seshimo, Susumu Fujinami, and Satoru Ikehara. 1995.</a>
+<dd>Constructing an aligned Japanese/English corpus of newspaper articles (3)
+	- peculiarities or the articles and sentence alignment -.
+	In <i>Record of the 1995 Joint Conference of Electrical and Electronics Engineers
+	in Kyushu</i> , page 857. (in Japanese).
+	<br><br>
+<dt><a name="ref15">C. M. Sperberg-McQueen and Lou Burnard, editors. 1994.</a>
+<dd><i>Guidelines for Electronic Text Encoding and Interchange</i> . Chicago, Oxford, April.
+	<br><br>
+<dt><a name="ref16">Yamato Takahashi, Satoshi Shirai, and Francis Bond. 1997.</a>
+<dd>A method of automatically aligning Japanese and English newspaper articles.
+	In <i>Natural Language Processing Pacific Rim Symposium '97: NLPRS-97</i> . (this volume).
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+A Japanese financial newspaper. (<a href="c17.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+To make an example with few enough matches to show,
+we have created examples assuming an unreasonably small
+corpus, in reality there would be more indexed n-grams.
+All input sentences are actually stored using Japanese characters, although we show only their transliterations in this
+paper. (<a href="c17.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+If there were no candidates above this threshold, the
+sentence would be translated by the ruIe-based system (<a href="c17.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn"><sup>4If</sup></a>
+the corpus was large enough to produce a choice of candidates. (<a href="c17.html#rfn">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>5</sup></a>
+The data was being collected as the system was being built. (<a href="c17.html#rfn5">Return</a>)
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

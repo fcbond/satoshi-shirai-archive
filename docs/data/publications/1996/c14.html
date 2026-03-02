@@ -1,0 +1,842 @@
+<html>
+<head>
+<title>Satoru Ikehara, Satoshi Shirai &amp; Francis Bond, MIDDIM-96, August 12-14, 1996</title>
+<meta http-equiv="content-type" content="text/html; charset=ascii">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>Approaches to Disambiguation in ALT-J/E</font>
+<br><br>
+
+<font size=+2>Satoru I<small>KEHARA</small></font>
+<br><br>
+<font size=+1>Tottori University</font>
+<br>
+<font size=+1>4-101 Minami, Koyama-chou, Tottori-shi, JAPAN 680</font>
+<br>
+<font size=+1><tt> ikehara@ike.tottori-u.ac.jp</tt></font>
+
+<br><br>
+
+<font size=+2>Satoshi S<small>HIRAI</small> and Francis B<small>OND</small></font>
+<br><br>
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-1 Hikari-no-oka, Yokosuka-shi, Kanagawa-ken, JAPAN 239</font>
+<br>
+<font size=+1><tt> bond@cslab.kecl.ntt.co.jp</tt></font>
+
+<br><br>
+
+<i>MIDDIM-96 Seminar, Le Col de Porte, August 1996</i>
+</div>
+
+<h2>Abstract</h2>
+<p>
+This paper outlines our approach to disambiguation in our
+Japanese-to-English system. First, it briefly shows the design concept
+of the Multi-Level Translation Method and discusses the necessity of
+semantic analysis in implementing this method. Second, it introduces
+our two approaches involving semantic analysis for
+disnmbiguation. Then it discusses semantic analysis and introduces the
+outline of our semantic dictionary prepared for semantic analysis,
+together with their effects on disambiguation. And finally, the paper
+outlines our plans to tackle problems which still remain.
+</p>
+
+<br><br>
+
+<h3>Keywords</h3>
+
+<p>
+Japanese-to-English Machine Translation, Constructive Process Theory, Disambiguation, Linguistic Knowledge, Semantic Dictionaries
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of MIDDIM-96</i>, pp.107-117 (August, 1996). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c14.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c14.html#chap-2">2 The Multi-Level Translation Method</a></td></tr>
+<tr><td><a href="c14.html#chap-3">3 Two Approaches to Disambiguation in ALT-J/E</a></td></tr>
+<tr><td><a href="c14.html#chap-4">4 Preparation of Linguistic Knowledge Systems</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c14.html#chap-4.1">4.1 The Syntactic Knowledge System</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c14.html#chap-4.2">4.2 The Semantic Knowledge System</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c14.html#chap-4.2.1">4.2.1 The Semantic Attribute System</a></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="c14.html#chap-4.2.2">4.2.2 How Detailed should Semantic Attributes be?</a></td></tr>
+<tr><td><a href="c14.html#chap-5">5 Semantic Dictionaries</a></td></tr>
+<tr><td><a href="c14.html#chap-6">6 Using the Semantic Dictionaries to Disambiguate</a></td></tr>
+<tr><td><a href="c14.html#chap-7">7 Further Approaches to Disambiguation</a></td></tr>
+<tr><td><a href="c14.html#chap-8">8 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c14.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+NTT Communication Science laboratories have been developing a machine
+translation system called <strong>ALT-J/E</strong>, the Automatic
+Language Translator - Japanese to English, for more than ten years (<a
+href="c14.html#ref8">Ikehara <i>et al.</i> 1987</a>; <a href="c14.html#ref10">Ikehara
+<i>et al.</i> 1991</a>). The aim is to produce a high quality machine
+translation system that can be used to facilitate communication via
+machine translation. To develop this system, we have proposed the
+Multi-Level Translation Method based on the Constructive Process
+Theory suggested by <a href="c14.html#ref28">Tokieda (1941)</a>, a famous
+Japanese linguist, some 50 years ago. This Multi-Level Translation
+Method enables us to overcome the limitations of the convcntional
+translation methods based on compositional semantics.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 The Multi-Level Translation Method</font></h2></a>
+
+<p>
+Let us consider the process of human translation from Japanese to
+English. When linguistic expressions are given to a translator, what
+do they understand, and how do they do so? There are two kinds of
+information which are combined to produce linguistic expressions. One
+is the shape of objects that are recognized thorough the writer's
+eyes. The other is the writer's judgments, emotions, will and
+intention concerning the objects. These are combined to generate
+expressions using the linguistic norms of the writer's language. From
+this information, the translator understands the shape of the objects
+and the writer's mind. In our system, this is done in the framework of
+the Japanese language.
+</p>
+<p>
+After thinking within the writer's world, the translator will switch
+his mind to the framework of the English language and reconstruct what
+he understood. The text is then available to be read by an English
+reader. This process is shown in Figure 1. In this process, only the
+object is common to the English and Japanese language. The writer's
+emotion, intention and will must be understood by the translator. The
+way to see and how to think is diffcrent between two languages. The
+translator needs to change their way of thinking to make a good
+translation. This process is simulated in our machine translation
+method.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c14/c14-fig1.gif" width=469 height=228>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1: The Human Translation Process
+</strong></div>
+</p>
+
+<p>
+Figure 2 shows the outline of the MuIti-LeveI Translation Method. It
+clearly shows the similarity between this method and the actions of
+the human translator (the dashed box in Figure 1).
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c14/c14-fig2.gif" width=432 height=264>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 2 The Multi-Level Translation Method
+</strong></div>
+</p>
+
+<p>
+The Multi-Level Translation Method is based on the two ideas outlined
+above. The first is the separation and synthesis of subjective
+expressions. It was pointed out in Constructive Process Theory (<a
+href="c14.html#ref15">Miura 1967</a>) that Japanese expressions are composed
+of Subjective Expressions and Objective Exprcssions. Here, Objective
+Expressions express conceptualized objects. On the other hand,
+Subjective Expressions express the speaker's unconceptualized emotion
+and intention. Two hundred years ago, the same relationship had been
+found in the Port Royal Grammar (<a href="c14.html#ref12">Lancelot and Arnauld
+1972</a>) but it seems forgotten now. We do not know of any other
+example of this idea being applied to natural language processing. The
+separation of Objective and Subjective expressions was first trialled
+and then implemented in our system.
+</p>
+<p>
+The second part of our method aims to overcome the limitations of
+conventional Compositional Semantics. In natural languages, not only
+every word in a sentence but also the structures of expressions have
+meanings. If sentences are separated into small elements such as
+words, the total meanings tend to be lost. So, our method finds the
+expression units in sentences which have fixed meanings and cannot be
+separated any more without losing their meanings. And it translates
+them from larger units to smaller ones. Until 1995 there were three
+levels: Idiomatic Expression Transfer, Semantic Valency Transfer and
+General Pattern Transfer. In 1995 we added Direct Parsc Tree Transfer,
+to handle translations of units larger than verb case frames (<a
+href="c14.html#ref2">Matsuo <i>et al.</i> 1994</a>). We are planning to add
+more translation steps within the Multi-LeveI Transfer framework, such
+as example-based transfer (<a href="c14.html#ref25">Shirai <i>et al.</i>
+1996a</a>; <a href="c14.html#ref26">Shirai <i>et al.</i> 1996b</a>).
+</p>
+<p>
+It is very difficult to find these units of structural meaning in
+actual sentences. Every expression needs to be judged as to whether it
+can be separated into smaller pieces or not, without losing its
+meaning. We think that semantic analysis techniques play a very
+important role in this process and it is impossible to develop this
+method without developing a full scale semantic analysis of the
+Japanese written language.
+</p>
+<p>
+Therefore, this system is based upon semantic analysis
+techniques. Semantic analysis is one of the major means for resolving
+semantic ambiguities, but as we used it, we discovered that it is also
+a powerful means to resolve the ambiguities which appear in
+morphological analysis and syntactic analysis (<a
+href="c14.html#ref16">Miyazaki <i>et al.</i> 1983</a>).
+</p>
+<p>
+In order to realize semantic analysis we have been developing a
+full-size semantic knowledge system. This is realized as the Semantic
+Dictionaries, which we have been developing for as long as we have
+been developing <strong>ALT-J/E</strong>. Many kinds of functions
+including semantic analysis have already been realized using this
+dictionary.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=7>1.</td><td rowspan=7>&nbsp;</td>
+    <td>Separation of subjective and objective expressions:</td></tr>
+<tr></tr><tr></tr>
+<tr><td><strong>Subjective Expressions:</strong> Unconceptualized expressions which 
+	express the speaker's emotion, intention and will.</td></tr>
+<tr></tr><tr></tr>
+<tr><td><strong>Objective Expressions:</strong> Conceptualized expressions which
+	describe the objective world.</td></tr>
+<tr></tr><tr></tr>
+<tr valign=top><td>2.</td><td></td>
+    <td>Translation from the view point of unit of meaning: <br>
+	The structures of expressions are abstracted into several classes without
+	loosing meaning</td></tr>
+<tr></tr><tr></tr>
+<tr><td colspan=3>These two ideas overcome the limitations of Compositional
+	Semantics</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 3: Concepts of the Multi-Level Translation Method
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Two Approaches to Disambiguation in ALT-J/E</font></h2></a>
+
+<p>
+Many kinds of ambiguities arise in natural language processing. We
+believe that how to resolve them is the most important and urgent
+issue we need to come to grips with before we can develop fully
+workable systems.
+</p>
+<p>
+In the past, many language models and their processing models have
+been proposed and their elegance and completeness have been
+discussed. However these models did not focus on major problems in
+actual systems. If these models are not applicable to actual
+languages, they remain merely intellectual pastimes and of little
+relevance to machine translation. Normally, ambiguities do not arise
+where there is sufficient information. They occur only when there is
+insufficient information or knowledge to solve them. We believe that
+there is no way to resolve them without obtaining the necessary
+information from the actual expressions or, if it is not possible,
+supplying suitable information from outside.
+</p>
+<p>
+The two most important actions to be carried out are: first, to
+classify the ambiguities and investigate their features; and second,
+to clarify the information and knowledge which are necessary to
+resolve each of them.
+</p>
+<p>
+If we consider how we can get the information to resolve tbe
+ambiguities, we will find the following two important points. First,
+actual language expressions have much information, even at lexical or
+syntactic levels, that has not yet been utilized by most natural
+language processing systems. Every word and every expression has much
+information based on its own history. The information which is useful
+for disambiguation should be clarified and entered into
+dictionaries. This is a slow and labor-intensive process, but the
+results are cumulative. It should only need to be done once, and
+shonld then be available for aIl further processing.
+</p>
+<p>
+The second point is about semantic information. There have been many
+discussions concerning semantic analysis (<a href="c14.html#ref29">Winograd
+1972</a>, <a href="c14.html#ref23">Shank and Riesbeck 1981</a>). However, up
+to now, no large scale semantic dictionary has yet been
+produced. Without this kind of dictionary, any proposal or discussion
+cannot be made definite. In order to realize an actual semantic
+analysis, an actual semantic dictionary needs to be developed. With
+these points in mind, two kinds of linguistic knowledge systems have
+been developed: syntactic and semantic.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Preparation of Linguistic Knowledge Systems</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 The Syntactic Knowledge System</font></h2></a>
+
+<p>
+The first is a syntactic knowledge system for Japanese. In this
+system, Japanese syntactic categories of words are classified into
+more than 300 types (<a href="c14.html#ref11">Miyazaki <i>et al.</i>
+1995</a>). In addition, 100 to 300 lexical features are registered for
+every word in a word dictionary composed of 400,000 words. The
+knowledge registered in this dictionary has enabled us to write a very
+accurate morphological analysis program, with a current accuracy of
+99.8% for every word.  The accuracy of Japanese morphological analysis
+had been known as one of the important but difficult
+problems. However, this problem has been almost solved by the
+production of this dictionary (<a href="c14.html#ref27">Shirai <i>et al.</i>
+1995b</a>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 The Semantic Knowledge System</font></h2></a>
+
+<p>
+The second knowledge system is for semantic analysis. It has already
+been noted that a semantic dictionary is needed for semantic
+analysis. We have developed a full-size semantic dictionary based on
+the study of the requirements for semantic analysis (<a
+href="c14.html#ref9">Ikehara <i>et al.</i> 1993</a>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.1"><h2><font color=#ff0000>4.2.1 The Semantic Attribute System</font></h2></a>
+
+<p>
+Before discussing the semantic dictionary, we describe our ontology:
+the Semantic Attribute System. This system is, so to speak, a
+meta-language used to write semantic knowledge.
+</p>
+<p>
+First, the structure of the semantic attribute system and the names of
+the attributes were defined, based on the classification for semantic
+usage of Japanese words. Not only the Semantic Dictionary but also
+many rules for semantic analysis use these attributes.
+</p>
+<p>
+The system comprises three subsystems, outlined in Figure 4. The first
+is the Common Noun Attribute System which consists of 2,800 semantic
+categories for Japanese common nouns. In this system, is-a and has-a
+relations between the meanings of words are defined into a tree
+structure with a maximum depth of 12. The second is the Proper Noun
+Attribute System which includes 120 categories for Japanese proper
+nouns. This system also has a tree structure with a maximum depth of
+9. The system has similar relations to those in the Common Noun
+Attribute System but more detail is defined for proper nouns. This
+system is used to handle phenomena such as apposition and compound
+nouns, where very detailed information about the relations between
+proper nouns may be required. The third is the Verbal Semantic
+Attribute System which includes 100 categories. This system was
+developed from two points of view. The first is the "dynamic
+characteristics of verbs, based on a verb's meaning and its cffects on
+discourse". The second is "the relationships of verbs to cases. based
+on the role which cases play with the verbs that govern them" (<a
+href="c14.html#ref21">Nakaiwa <i>et al.</i> 1994:674</a>)
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<div align=center>
+Meta Language for writing Semantic Knowledge<br>
+Semantic Knowledge = Semantic Dictionaries + Semantic Analysis Rules
+</div>
+<ol>
+<li> <strong>Common Noun Attribute System</strong> (2,800 Categories)<br>
+	is-a, has-a relations<br>
+	Hierarchical structure, Max Depth 12<br>
+<br>
+<li> <strong>Proper Noun Attribute System</strong> (120 Categories)<br>
+	is-a, has-a relations<br>
+	Hierarchical structure, Max Depth 9<br>
+<br>
+<li> <strong>Verbal Attribute System</strong> (100 Categories)<br>
+	is-a relationships; case relationships on leaf nodes<br>
+	Hierarchical structure, Max depth 5<br>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 4: The Semantic Attribute System
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2.2"><h2><font color=#ff0000>4.2.2 How Detailed should Semantic Attributes be?</font></h2></a>
+
+<p>
+One important problem in natural language processing is deciding how
+detailed semantic attributes should be. So far, nobody knows what
+degree of classification is sufficient for natural language
+processing. There has been much research on semantic analysis using
+case frames.  These studies usually used 30-50 semantic categories in
+spite of knowing that this level of classification is not sufficient
+for semantic analysis (<a href="c14.html#ref4">EDR 1990</a>). Moreover, it is
+apparent that the necessary degree of classification depends on why
+and how the classification is to be used.  Our purpose is to develop a
+semantic dictionary necessary for Japanese-to-English machine
+transIation. Therefore, we decided to define a semantic attribute
+system sufficient for disambiguating the meanings of Japanese verbs to
+translate them into English. Recent research on natural language
+semantics and thc lexicon, suggests that a very detailed amount of
+lexical information, including ARGUMENT STRUCTURE, EVENT STRUCTURE,
+QUALIA STRUCTURE in addition to LEXICAL INHERITANCE STRUCTURE is
+necessary to fully comprehend natural language (<a
+href="c14.html#ref22">Pustejovsky 1995</a>). Our dictionaries encode
+information about ARGUMENT STRUCTURE, in the Semantic Structure
+Dictionaries, and LEXICAL INHERITANCE STRUCTURE using the Semantic
+Attributes.
+</p>
+<p>
+First, we began to classify the semantic usages of Japanese nouns into
+500 categories.  But it was not sufficient for our purpose. Many
+patterns could not be defined because of the coarseness of the
+semantic attributes. After some trials, we found that a classification
+of 2,000 or more categories is necessary for our purpose (<a
+href="c14.html#ref9">Ikehara <i>et al.</i> 1993</a>). Then we classified the
+semantic usage of nouns into 2,800 categories. From the result of our
+pattern writing experiments and the translation experiments performed
+afterwards, we could confirm that this degree was almost sufficient
+for the purpose of disambiguating the meanings of Japanese verbs and
+the relations between case frames in sentences.
+</p>
+<p>
+However, it also clarified that this was not sufficient for the
+disambiguation of the meanings of Japanese nouns and the structure of
+noun phrases. Different solutions will be needed for the
+disambiguation of noun and noun phrase translations.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5"><h2><font color=#ff0000>5 Semantic Dictionaries</font></h2></a>
+
+<p>
+Using the Semantic Attribute System, we developed our Semantic
+Dictionary for ALT-J/E (<a href="c14.html#ref5">Ikehara <i>et al.</i>
+1996a</a>; <a href="c14.html#ref6">Ikehara <i>et al.</i> 1996b</a>; <a
+href="c14.html#ref7">Ikehara <i>et al.</i> 1996c</a>). It is composed of two
+subdictionaries. The first is a Semantic Word Dictionary which
+consists of 400,000 Japanese words. Generally speaking, a word has one
+or more possible senses. These senses of common and proper nouns are
+defined in this dictionary using the words defined in the Common Noun
+Attribute System and the Proper Noun Attribute System. The words to be
+registered in this dictionary were selected so as to, as far as
+possible, cover the words which appear in newspapers.
+</p>
+<p>
+There are many names of Japanese people and of areas which look the
+same. These names are represented by one word, in spite of having
+different meanings. The differences in meaning are discriminated by
+the semantic attributes used for each word. If we separate these
+words, according to their meanings, the dictionary has 600,000 words.
+</p>
+<p>
+The second dictionary is a Semantic Structure Dictionary which
+contains 15,000 sentence patterns. In this dictionary,
+Japanese-to-English pattern pairs are defined for every Japanese verb
+using the words defined in the common noun attribute system. A verbal
+semantic attribute is also given to every pattem pair. This attribute
+denotes the meaning and function of the pattern in actual
+sentences. We call these patterns valency patterns. They have similar
+structures to case frames, but we did not adopt the theory of Case
+Grammar because of the difficulty of defining the deep structure. We
+tried, as far as possible, to constrain case elements using semantic
+attributes. But this is difficult for some of them, so we were
+sometimes forced to use specific words in our definitions of case
+elements. Such patterns are called idiomatic patterns. We have
+currently 12,000 semantic valency pairs and 3,000 idiomatic expression
+pairs.
+</p>
+<p>
+How many pattern pairs are needed was unclear when we started. From
+the translation experiments, we found that the number of sentence
+patterns was not sufficient and that at least 25,000 patterns for the
+Japanese-to-English translation are needed (<a href="c14.html#ref24">Shirai
+<i>et al.</i> 1995a</a>). This amount of patterns can not be collected
+from the conventional dictionaries for humans nor from the parallel
+corpora which are currently available. It is especially difficult to
+cover the usages of verbs of Japanese origin, which tend to be more
+polysemous than those of Chinese origin. When we considered
+translation into English, we found lhat verbs of Japanese origin have
+many more meanings in English than appears from studying them only
+within Japanese Conventional dictionaries for human usage cover less
+than half of them. We were not able to get a sufficient amount of
+information from existing parallel corpora, there just aren't enough
+in the real world. For those that do exist, the translations are
+mainly based on the total meaning of the documents and there are few
+literal translations. Thus, it is very difficult to collect a large
+amount of examples which have sentence to sentence translations.
+</p>
+<p>
+After some trial, we found that the knowledge in human brains can
+produce example sentences which almost cover a sufficient variation of
+usage. Thus, by getting humans to think of different meanings and make
+appropriate example sentences, we have collected 15,000 Japanese
+example sentences for about 1,000 verbs of Japanese origin. These
+sentences were translated by a bi-lingual person and the results were
+compared with the translation obtained by ALT-J/E system. Based on
+this comparison, we are now adding new patterns as well as correcting
+old patterns (<a href="c14.html#ref24">Shirai <i>et al.</i> 1995a</a>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6"><h2><font color=#ff0000>6 Using the Semantic Dictionaries to Disambiguate</font></h2></a>
+
+<p>
+The Semantic Dictionary has made it possible to develop several new
+semantic analysis functions, as shown in Figure 5. The most prominent
+functions are disambiguation of the meanings of Japanese verbs and the
+separation of idiomatic expressions from normal expressions. These
+functions made it possible to further develop the Multi-Lcvel
+Translation method and we have been able to confirm the effectiveness
+of this method.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<ol>
+<li> High Quality Morphological Analysis
+<li> High Quality Syntactic Analysis
+<li> Noun Phrase and Compound Noun Analysis
+<li> Automatic Determination of Semantic Attributes for Unknown Words
+<li> Automatic Correction for the Errors of Morphological Analysis
+<li> Disambiguation of the meanings of Japanese Verbs
+<li> Separating Idiomatic Expressions from Literal Expressions
+<li> Direct Parse Tree Transfer
+<li> Automatic Rewriting Method for the Source Text
+<li> Context Analysis: Anaphora Resolution & Supplementation of Ellipsed Elements
+<li> Principled generation of Determiners and determination of Countability and Number
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 5: Disambiguation made possible by the Semantic Dictionary
+</strong></div>
+</p>
+
+<p>
+Conventionally, morphological and syntactic analyses are separated
+from semantic analysis. However, it was revealed from the experiments
+that semantic analysis can be used to augment morphological and
+syntactic analyses and make them more effective (<a
+href="c14.html#ref16">Miyazaki <i>et al.</i> 1983</a>). Another example of
+using semantic analysis in this fashion is given by <a
+href="c14.html#ref30">Zaysser (1996: this volume)</a>.
+</p>
+<p>
+It is generally acknowledged that that context processing is important
+but implementing it is difficult. One example where context proccssing
+is essential is when translating zero pronouns from Japanese to
+English Japancse often omits understood elements, particularly,
+subjects and objects, these elements are almost always obligatory in
+English. Therefore a method for resolving zero pronouns has been
+developed in <strong>ALT-J/E</strong>. We know of no other
+Japanese-to-EngIish machine translation systems which have implemented
+such processing. The system finds ellipsed elements in the source
+texts and identifies their referents appropriately within the text or
+deictically. It is then possible to generate appropriate English
+sentences. Window tests confirmed that this method of supplementing
+ellipsed elements has a potential accuracy of 95% with a recall rate
+of 100%. This function has highly improved the translation quality (<a
+href="c14.html#ref18">Nakaiwa and Ikehara 1992</a>; <a href="c14.html#ref18">Nakaiwa
+and Ikehara 1992</a>; <a href="c14.html#ref20">Nakaiwa <i>et al.</i>
+1996</a>).
+</p>
+<p>
+In order to translate phenomena that could not be handled by the
+lowest three paths of the multi-Ievel transfer method, such as
+transformations that change parts-of-speech, we introduced the Direct
+Parse Tree Transfer. Direct Parse Tree Transfer directly transfers
+parse trees of input sentences into target language parse trees using
+pairs from a bilingual parse tree dictionary (<a href="c14.html#ref2">Matsuo
+<i>et al.</i> 1994</a>; <a href="c14.html#ref3">Matsuo <i>et al.</i>
+1995</a>). This pattern based translation has the advantage that the
+rules can be written to be compatible with existing components.
+</p>
+<p>
+One of the difficult problems in translation is deciding how to
+translate underspecified terms. From the point of view of
+Japanese-to-English translation, almost all noun phrases are
+underspecified with respect to their specificity, determination,
+number and countability.  Our solution to this problem, based on an
+analysis of the referential use of noun phrases is discussed in <a
+href="c14.html#ref2">Bond <i>et al.</i> (1994)</a>; <a href="c14.html#ref3">Bond <i>et
+al.</i> (1995)</a>. Some of the panicular problems of determining
+countability and number in translation, and their implications, are
+discussed in (<a href="c14.html#ref1">Bond and Ikehara 1996: this
+volume</a>)
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-7"><h2><font color=#ff0000>7 Further Approaches to Disambiguation</font></h2></a>
+
+<p>
+It has already been stated that our semantic attribute system is not
+sufficient for the disambiguation of the meanings of Japanese nouns
+and noun phrases. We are now trying two approaches to solve this
+problem.
+</p>
+<p>
+The first is research into a Multi-Dimensional Semantic Attribute
+System. In this system, we are trying to introduce several view points
+to construct the semantic attribute system. How many view points are
+neccssary and what they are, is being studied. The second is research
+into a discrimination network for Japanese synonyms. We are studying
+how the meaning system of Japanese words is constructed and what the
+parameters are which discriminate the meanings of words, from the view
+point of the analysis of degrees of meaning (<a href="c14.html#ref11">Kawamura
+<i>et al.</i> 1995</a>).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-8"><h2><font color=#ff0000>8 Conclusion</font></h2></a>
+
+<p>
+This paper outlines our approaches to disambiguation, focusing in
+particular on our semantic dictionary and the processing that it
+enables. However, it should be emphasized that our semantic dictionary
+is sufficient only for semantic analysis not for semantic
+comprehension.  If we want to understand meaning, we need to develop a
+huge knowledge system of world knowledge and common sense. At present,
+this kind of system is unacceptably large and it is impractical to
+develop such a system for general fields. Therefore when we begin to
+focus on comprehension we should limit the field of the documents.
+</p>
+<p>
+Interactive disambiguation is surely a realistic way to develop actual
+systems. In particular, it is very important in the understanding of
+meaning. Yet, we think that we have still many things to do before we
+should ask the user to help to solve ambiguities. Therefore, we will
+continue to try to improve automatic disambiguation in the field of
+machine translation.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">B<small>OND</small>, F<small>RANCIS</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1996.</a>
+<dd>When and how to disambiguate? - countability in machine translation -
+	In <i>Proceedings of the International Seminar on Multimodal Interactive
+	Disambiguation (MIDDIM '96)</i>.
+	<br><br>
+<dt><a name="ref2">B<small>OND</small>, F<small>RANCIS</small>, K<small>ENTARO</small> O<small>GURA</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1994.</a>
+<dd>Countability and number in Japanese-to-English machine translation.
+	In <i>Proceedings of the 15th International Conference on Computational
+	Linguistics (COLING '94)</i>, 32-38. (cmp-lg/9511001).
+	<br><br>
+<dt><a name="ref3">B<small>OND</small>, F<small>RANCIS</small>, K<small>ENTARO</small> O<small>GURA</small>, and T<small>SUKASA</small> K<small>AWAOKA</small>. 1995.</a>
+<dd>Noun phrase reference in Japanese-to-English machine translation.
+	In <i>Proceedings of the Sixth International Conference on Theoretical and
+	Methodological Issues in Machine Translation (TMI '95)</i>, 1-14.
+	(cmp-lg/9601008).
+	<br><br>
+<dt><a name="ref4">EDR. 1990.</a>
+<dd>Concept dictionary.
+	Technical report, Japan Electronic Dictionary Research Institute, Ltd.
+	<br><br>
+<dt><a name="ref5">I<small>KEHARA</small>, S<small>ATORU</small> <i>et al.</i> 1996a.</a>
+<dd><i>The Semantic System</i>, volume 1 of <i>A Japanese Lexicon.
+	Tokyo Iwanami Shoten. (in press).
+	<br><br>
+<dt><a name="ref6">- 1996b.</a>
+<dd><i>The Word Dicrionary</i>, volume 2 of <i>A Japanese Lexicon</i>.
+	Tokyo Iwanami Shoten (in press).
+	<br><br>
+<dt><a name="ref7">- 1996c.</a>
+<dd><i>The Valency Dictionary</i>, volume 3 of <i>A Japanese Lexicon</i>.
+	Tokyo Iwanami Shoten (in press).
+	<br><br>
+<dt><a name="ref8">I<small>KEHARA</small>, S<small>ATORU</small>, M<small>ASAHIRO</small> M<small>IYAZAKI</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and Y. H<small>AYASHI</small>. 1987.</a>
+<dd>Speaker's recognition and multi-level-translating method based on it.
+	<i>Transactions of the Information Processing Sociery of Japan</i>
+	28.1269-1279. (in Japanese).
+	<br><br>
+<dt><a name="ref9">I<small>KEHARA</small>, S<small>ATORU</small>, M<small>ASAHIRO</small> 	M<small>IYAZAKI</small>, and A<small>KIO</small> Y<small>OKOO</small>. 1993.</a>
+<dd>Classification of language knowledge for meaning analysis in machine translation.
+	<i>Transactions of the Information Processing Society of Japan</i>
+	34.1692-1704. (in Japanese).
+	<br><br>
+<dt><a name="ref10">I<small>KEHARA</small>, S<small>ATORU</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, A<small>KIO</small> Y<small>OKOO</small>, and H<small>IROMI</small> N<small>AKAIWA</small>. 1991.</a>
+<dd>Toward an MT system without pre-editing - effects of new methods in ALT-J/E -.
+	In <i>Proceedings of MT Summit III</i>, 101-106. (cmp-lg/9510008).
+	<br><br>
+<dt><a name="ref11">K<small>AWAMURA</small>, K<small>AZUMI</small>, Y<small>ASUHIRO</small> K<small>ATAGIRI</small>, and M<small>ASAHIRO</small> M<small>IYAZAKI</small>. 1995.</a>
+<dd>Multi-dimensional thesaurus wth various facets,.
+	In <i>IEICE Technical Peport NLC94-48</i>, 33-40. (in Japanese).
+	<br><br>
+<dt><a name="ref12">L<small>ANCELOT</small>, C<small>LAUDE</small>, and A<small>NTOINE</small> A<small>RNAULD</small>. 1972.</a>
+<dd>Grammaire generale et raisonnee, les fondements de l'art de parler.
+	In <i>Port Royol Grammar</i>, ed. by Paul Reitsch.
+	Tokyo Taishukan Publishing. (Japanese Translation).
+	<br><br>
+<dt><a name="ref13">M<small>ATSUO</small>, Y<small>OSHIHIRO</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1995.</a>
+<dd>Changing Syntactic classes in transfer-based machine translation.
+	In <i>Proceedings of the Natural Language Processing Pacific Rim Symposium '95
+	(NLPRS '95)</i>, 432-437.
+	<br><br>
+<dt><a name="ref14">M<small>ATSUO</small>, Y<small>OSHIHIRO</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, A<small>KIO</small> Y<small>OKOO</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1994.</a>
+<dd>Direct parse tree translation in coopperation with the transfer method.
+	In <i>Proceedings of the International Corference on New Methods in Language
+	Processing (NeMLaP)</i>, 144-149.
+	<br><br>
+<dt><a name="ref15">M<small>IURA</small>, T. 1967.</a>
+<dd><i>Theory of Recognition and Languages</i>.
+	Keiso Shobou. (in Japanese).
+	<br><br>
+<dt><a name="ref16">M<small>IYAZAKI</small>, M<small>ASAHIRO</small>, M. G<small>OTO</small>, Y<small>OSHIFUMI</small> O<small>OYAMA</small>, and S<small>ATOSHI</small> S<small>HIRAI</small>. 1983.</a>
+<dd>Linguistic processing in a Japanese text-to-speech system.
+	In <i>Proceedings of the 1983 International Conference on Text Processing
+	with a Large Character Set</i>, 315-320.
+	<br><br>
+<dt><a name="ref17">M<small>IYAZAKI</small>, M<small>ASAHIRO</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1995.</a>
+<dd>A Japanese syntactic category system based on the constructive process theory
+	and its use.
+	<i>Journal of Natural Language Processing</i> 2.3-25. (in Japanese).
+	<br><br>
+<dt><a name="ref18">N<small>AKAIWA</small>, H<small>IROMI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1992.</a>
+<dd>Zero pronoun resolution in a Japanese to English machine translation system
+	using verbal semantic attributes.
+	In <i>Proceedings of the 3rd Conference on Applied Natural Language Processing
+	(ANLP '92)</i>, 201-208.
+	<br><br>
+<dt><a name="ref19">-, and -. 1995.</a>
+<dd>Intrasentential resolution of Japanese zero pronouns in a machine translation
+	system using semantic and pragmatic constraints.
+	In <i>Proceedings of the Sixth International Conference on Theoretical and
+	Methodological Issues in Machine Translation (TMI '95)</i>. 96-105.
+	<br><br>
+<dt><a name="ref20">N<small>AKAIWA</small>, H<small>IROMI</small>, S<small>ATOSHI</small> S<small>HIRAI</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1996.</a>
+<dd>Anaphora resolution of Japancse zero pronouns with deictic reference.
+	In <i>Proceedings of the 16th International Conference on Computational
+	Linguistics (COLING '96)</i>, 812-817.
+	<br><br>
+<dt><a name="ref21">N<small>AKAIWA</small>, H<small>IROMI</small>, A<small>KIO</small> Y<small>OKOO</small>, and S<small>ATORU</small> I<small>KEHARA</small>. 1994.</a>
+<dd>A system of verbal semantic attributes focused on the syntactic correspondence
+	between Japanese and English.
+	In <i>Proceedings of the 15th International Conference on Computational
+	Linguistics (COLING '94)</i>, 672-678.
+	<br><br>
+<dt><a name="ref22">P<small>USTEJOVSKY</small>, J<small>AMES</small>. 1995.</a>
+<dd><i>The Generative Lexicon MIT Press</i>.
+	<br><br>
+<dt><a name="ref23">S<small>HANK</small>, R. C., and C. K. R<small>IESBECK</small>. 1981.</a>
+<dd><i>Inside Computer Understanding</i>. Lawrence Erlbaum Associates, Inc.
+	<br><br>
+<dt><a name="ref24">S<small>HIRAI</small>, S<small>ATOSHI</small>, S<small>ATORU</small> I<small>KEHARA</small>, A<small>KIO</small> Y<small>OKOO</small>, and H<small>IROKO</small> I<small>NOUE</small>. 1995a.</a>
+<dd>The quantity of valency pattern pairs required for Japanese to English machine
+	translation and their compilation.
+	In <i>Proceedings of the Natural Language Processing Pacific Rim Symposium '95
+	(NLPRS '95)</i>, 443-448.
+	<br><br>
+<dt><a name="ref25">S<small>HIRAI</small>, S<small>ATOSHI</small>, Y<small>AMATO</small> T<small>AKAHASHI</small>, T<small>ACHIBANA</small> M<small>ASATOSHI</small>, S<small>ATORU</small> I<small>KEHARA</small>, and H<small>IROMI</small> U<small>EDA</small>. 1996a.</a>
+<dd>An outline of a method of rule-based analysis and example-based transfer for
+	Japanese-to-English machine translation.
+	In <i>Pecord of the 1996 Joint Conference of Electrical and Electronics
+	Engineers in Kyushu</i>. (in Japanese).
+	<br><br>
+<dt><a name="ref26">S<small>HIRAI</small>, S<small>ATOSHI</small>, Y<small>AMATO</small> T<small>AKAHASHI</small>, T<small>ACHIBANA</small> M<small>ASATOSHI</small>, H<small>IROKO</small> I<small>NOUE</small>, and MAKIKO N<small>ISHIGAKI</small>. 1996b.</a>
+<dd>Basic structure of a method of rule-based analysis and example-based transfer
+	for Japanese-to-English machine translation.
+	In <i>Record of the 1996 Joint Conference of Electrical and Electronics
+	Engineers in Kyushu</i>. (in Japanese).
+	<br><br>
+<dt><a name="ref27">S<small>HIRAI</small>, S<small>ATOSHI</small>, A<small>KIO</small> Y<small>OKOO</small>, S<small>ATORU</small> I<small>KEHARA</small>, S<small>HINSUKE</small> O<small>KUYAMA</small>, and M<small>ASAHIRO</small> M<small>IYAZAKI</small>. 1995b.</a>
+<dd>Accuracy of a Japanese morphological analysis based on the multi-level analysis
+	method.
+	In <i>Proceedings of the 50th Annual Convention IPSJ Japan</i>,
+	3:37-38. (in Japanese).
+	<br><br>
+<dt><a name="ref28">T<small>OKIEDA</small>, M<small>OTONAGA</small>. 1941.</a>
+<dd><i>The Principle of Linguistics</i>.
+	Tokyo: Iwanami Shoten. (in Japanese).
+	<br><br>
+<dt><a name="ref29">W<small>INOGRAD</small>, T<small>ERRY</small>. 1972.</a>
+<dd><i>Understanding Natural Language</i>.
+	Academic Press.
+	<br><br>
+<dt><a name="ref30">Z<small>AYSSER</small>, L<small>AURENCE</small>. 1996.</a>
+<dd>Representing morpho-syntactic ambiguity.
+	In <i>Proceedings of the International Seminar on Multimodal Interactive
+	Disambiguation (MIDDIM '96)</i>.
+</dl>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+</body>
+</html>

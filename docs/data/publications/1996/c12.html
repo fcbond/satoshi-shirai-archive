@@ -1,0 +1,1748 @@
+<html>
+<head>
+<title>Satoru Ikehara, Satoshi Shirai &amp; Hajime Uchino, COLING-96, August 5-9, 1996</title>
+<meta http-equiv="content-type" content="text/html; charset=ascii">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>A Statistical Method for Extracting Uninterrupted and Interrupted Collocations from Very Large Corpora</font>
+<br><br>
+
+<font size=+2>Satoru Ikehara, Satoshi Shirai and Hajime Uchino</font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>Take 1-2356, Yokoshuka-shi, Japan</font>
+<br>
+<font size=+1><tt> (E-mail:{ikehara,shirai,uchino}@nttkb.ntt.jp)</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract</h2>
+
+<p>
+In order to extract rigid expressions with a high frequency of use,
+new algorithm that can efficiently extract both uninterrupted and
+interrupted collocations from very large corpora has been proposed.
+</p>
+<p>
+The statistical method recently proposed for calculating N-gram of
+arbitrary N can be applied to the extraction of uninterrupted
+collocations. But this method posed problems that so large volumes of
+fractional and unnecessary expressions are extracted that it was
+imppossible to extract interrupted collocations combining the
+results. To solve this problem, this paper proposed a new algorithm
+that restrains extraction of unnecessary substrings. This is followed
+by the proposal of a method that enable to extract interrupted
+collocations.
+</p>
+<p>
+The new methods are applied to Japanese newspaper articles involving
+8.92 million characters. In the case of uninterrupted collocadons with
+string length of 2 or mere characters and frequency of appearance 2 or
+more times, there were 4.4 millions types of expressions (total
+frequency of 31.2 millions times) extracted by the N-gram method. In
+contrast, the new method has reduced this to 0.97 million types (total
+frequency of 2.6 million times) revealing a substantial reduction in
+fractional and unnecessary expressions. In the case of interrupted
+collocational substring extraction, combining the substring with
+frequency of 10 times or more extracted by the first method, 6.5
+thousand types of pairs of substrings with the total frequency of 21.8
+thousands were extracted.
+</p>
+
+<br><br>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of COLING-96</i>, Vol.1, pp.574-579 (August, 1996). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=14>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c12.html#chap-1.">1. Introduction</a></td></tr>
+<tr><td><a href="c12.html#chap-2.">2. N-gram Method and the Problem Involved</a></td></tr>
+<tr><td><a href="c12.html#chap-3.">3. Extraction of Uninterrupted Collocadon</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-3.1">3.1 Invaliditation of Extracted Substrings</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-3.2">3.2 Extracting Algorithm</a></td></tr>
+<tr><td><a href="c12.html#chap-4.">4. Extraction of Interrupted Collocation</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-4.1">4.1 Conditions for Extraction</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-4.2">4.2 Extraction Algorithm</a></td></tr>
+<tr><td><a href="c12.html#chap-5.">5. Experiments</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-5.1">5.1 Uninterrupted Collocationai Substrings</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#chap-5.2">5.2 Interrupted Collocational Substrings</a></td></tr>
+<tr><td><a href="c12.html#chap-6.">6. Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c12.html#ref">References:</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1."><h2><font color=#ff0000>1. Introduction</font></h2></a>
+
+<p>
+In natural language processing, the importance of large volume corpus
+has been pointed out together with the need for technology of
+analyzing these linguistic data. For example, in machine translation,
+there are many expressions that are difficult to be translated
+literally. Phrase translations or pattern translations based on phrase
+or pattern dictionaries are considered very useful for the
+translations of these expressions.
+</p>
+<p>
+In order to realize these translation, it is required to identify
+phrases of nigh frequency and patterns of expressions from the
+corpora, There are many method proposed to extract rigid expressions
+from corpora such as a method of focusing on the binding strength of
+two words (<a href="c12.html#ref1">Church and Hanks 1990</a>); the distance between words (<a href="c12.html#ref7">Smadja
+and Makeown 1990</a>); and the number of combined words and frequency of
+appearance (<a href="c12.html#ref3">Kita 1993</a>, <a href="c12.html#ref4">1994</a>). But it was not easy to identify and
+extract expressions of arbitrary lengths and high frequency of
+appearance from very large corpora.  Thus, conventional methods had to
+introduce some kinds of restrictions such as the limitation of the
+kind of chains or the length of chains to be extracted (<a href="c12.html#ref8">Smadja 1993</a>,
+<a href="c12.html#ref6">Shinnou and Isahara 1995</a>).
+</p>
+<p>
+Recently, a new method which can calculate arbitrary number of n-gram
+statistics for very large corpora has been proposed (<a href="c12.html#ref5">Nagao and Mori
+1994</a>). This method has made it possible to automatically and quickly
+extract and tabulate substrings of any length used in source
+texts. Unfortunately, in this method, so many fractionnl substrings
+that were grammatically and semantically inconsistent were being
+extracted that it was difficult to extract combi nations of
+expressions collocated at separate locations (i.e, interrupted
+collocation) which requires a search of the source text by combining
+the strings thus extracted, Thus, the analyses had to be limited into
+small texts (<a href="c12.html#ref2">Colier 1994</a>).
+</p>
+<p>
+To overcome this problems, this paper first, proposes a method that
+can automatically extract and tabulate uninterrupted collocationnl
+substrings and without omission from the corpora in the order of
+substring length and frequency under the condition that fractional
+substrings are excluded. Second, using the results of the first
+method, it also proposes a method that can automatically extract and
+tabulate internIpted collocational substrings.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2."><h2><font color=#ff0000>2. N-gram Method and the Problem Involved</font></h2></a>
+
+<p>
+<strong>(1) Conditions for Collocational Substring extraction</strong>
+</p>
+<p>
+In order to extract uninterrupted collocation without omission and to
+minimize extraction of fractional substrings, we will introduce the
+following three conditions.
+</p>
+<p>
+<strong>1st Condition:</strong> Substrings can be extracted in the order of the number
+of matching character (string length).
+</p>
+<p>
+<strong>2nd Condition:</strong> Substrings can be extracted in the order of
+frequency of use.
+</p>
+<p>
+<strong>3rd Condition:</strong> Substrings should be extracted according to
+the principle of the longest match.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c12/c12-fig1.gif" width=376 height=73>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 1 Substrings to be Extracted
+</strong></div>
+</p>
+
+<p>
+Here, 3rd condition means that when a string (for instance
+<img src="c12/j0000.gif"> in Fig.1) is extracted from a certain location within the
+source text, any substring ( <img src="c12/j0001.gif">, <img src="c12/j0002.gif"> ) that is included within
+the string ( <img src="c12/j0000.gif"> ) is not subject to extraction. But should
+such substring ( <img src="c12/j0003.gif"> ) be located in a separate or overlap
+position, it is to be extracted.
+</p>
+<p>
+<strong>(2) Conventional Algorithm for N-gram Statistics</strong>
+</p>
+<p>
+Before discussing the algorithm which satisfies the
+previous conditions for uninterrupted collocational substring, let's consider the Nagao and Mori's algorithm
+propose for N-gram statistics.
+</p>
+<p>
+<strong>[Statistica1 Method for N-gram]</strong>
+</p>
+<p>
+Assume that the total number of characters in a
+source text (corpus) is N.
+</p>
+<p>
+<strong><u>Procedure 1</u>: Preparation of Pointer Table</strong>
+</p>
+<p>
+Prepare <i>PT-0 (Pointer Table-0)</i> of N records of <i>SP
+(Source Pointer)</i> , with the values of 0, 1, 2, <img src="c12/j0004.gif">, i, <img src="c12/j0004.gif">,N-1.
+Here, the value i represents the <i>String-word</i> i which is the
+substring from position i to the last character (N-1
+address) in the source text.
+</p>
+<p>
+<strong><u>Procedure 2</u>: Pointer Table Sorting</strong>
+</p>
+<p>
+The records of <i>PT-0</i> are sorted in the order of corresponding <i>String-words</i> to obtain <i>SPT-0 (Sorted Pointer
+Table-0)</i>.
+</p>
+<p>
+<strong><u>Procedure 3</u>: Counting of Matching Characters</strong>
+</p>
+<p>
+The characters of <i>String-word i</i> is compared with that of
+the next <i>String-word i</i>+1 from the beginning. The number
+of matched characters are registered in the field of a <i>NMC
+(Number of Matching Character)</i> in the record i.
+</p>
+<p>
+<strong><u>Procedure E</u>: Extraction of Substrings</strong>
+</p>
+<p>
+Comparing the values of <i>NMCs</i> of record i and that of the
+record i+1 of the <i>SPT</i> from i=1 to i=N-1, substrings are
+extracted and their frequency are determined<a name="rfn1" href="c12.html#fn1"><sup>*1</sup></a>.
+</p>
+<p>
+<strong>(3) Problems of N-gram Statistic:s</strong>
+</p>
+<p>
+Nagao and Mori's method obviously fulfills requirements of Conditions 1 and 2, but not Condition 3. It is
+expected that the accurate frequency of any substring <img src="c12/j0000.gif"> is
+obtained subtracting the frequency by the frequency of the
+other subsuing <img src="c12/j0001.gif"> which is included in substring <img src="c12/j0000.gif"><a name="rfn2" href="c12.html#fn2"><sup>*2</sup></a>.
+Unfortunately, this does not satisfy Condition 3. At the
+time when extracted substring list has been compiled,
+information regaming mutual inter-relationship between
+the extracted substrings within the original text has been
+lost rendering calculations impossible.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3."><h2><font color=#ff0000>3. Extraction of Uninterrupted Collocadon</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.1"><h2><font color=#ff0000>3.1 Invaliditation of Extracted Substrings</font></h2></a>
+
+<p>
+<strong>(1) Co-relations between Extracted Substrings</strong>
+</p>
+<p>
+In order to satisfy the requirement of Condition 3, consider the extraction of n-gram substring after extracting m
+-gram substring. The problem arises when there is a
+certain overlap between them as shown in Fig.1.
+</p>
+<p>
+The Case of Absorbed Relation (Case 1) can be classified into three sub-cases as shown, but regardless of which
+situation, the m-gram substring is absorbed in the substring of n-gram and therefore there is no need to extract
+such a m-grarn substring. Thus, when extracting n-gram
+strings, there is a need to invalidate the related record of
+the <i>SPT</i> so that m-gram strings do not become involved in
+processes to follow.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c12/c12-fig2.gif" width=411 height=188>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig. 2 Relationships between Extracted Subsuings
+</strong></div>
+</p>
+
+<p>
+The Case of Partially Joint Relation (Case 2) can be
+further classified into two sub-cases. But in either
+situation, the m-gram string and n-gram string merely
+overlapped and therefore they are need to be extracted
+separately.
+</p>
+<p>
+<strong>(2) Necessity of Validity Check for String-words</strong>
+</p>
+<p>
+When one substring is extracted, in order not to extract
+the absorbed string from the same part of source text
+where the substring was already extracted (Case 1),
+related records of <i>SPT</i> need to be checked if the record is
+valid or not before extracting the next substring.
+</p>
+<p>
+For example, the substring of 6 characters in the String-word 3 shown in Fig. 3 was extracted, the substring of
+String-words 3,4,5,<img src="c12/j0004.gif">,8 need to be set as invalid for the
+length equal or less than 6,5,4,<img src="c12/j0004.gif">,1 characters from the
+beginning.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c12/c12-fig3.gif" width=412 height=180>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.3 Example of Validity check
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3.2"><h2><font color=#ff0000>3.2 Extracting Algorithm</font></h2></a>
+
+<p>
+Here, we propose an algorithm which satisfy Condition
+3 as well as Conditions 1 and 2.
+</p>
+<p>
+<strong>&lt;Preparation&gt;</strong>
+</p>
+<p>
+Fields of <i>NSC (Number of Significant Characters) and
+RN (Record Number) are</i> added to <i>SPT-0 (Sorted Pointer
+Table)</i> used for N-gram statistics.
+</p>
+<p>
+<strong>&lt;Algorithm (See Fig.4)&gt;</strong>
+</p>
+<p>
+<strong><u>Procedure 1 through 3</u>:</strong> Same as the N-gram statistics.
+</p>
+<p>
+<strong><u>Procedure 4</u>: Significant Character Determination</strong>
+</p>
+<p>
+The length of substrings to be extracted are decided
+from <i>NMC</i> and written in the <i>NSC</i> field of <i>SPT- 0</i> .
+</p>
+<p>
+<strong><u>Procedure 5</u>: Preparation of Augmented PT</strong>
+</p>
+<p>
+After sorting the <i>SPT-0</i> in the original order, add a
+<i>VP (Validity Flag)</i> field to obtain an <i>PT-1</i>.
+</p>
+<p>
+<strong><u>Procedre 6</u>: Validity Determination</strong>
+</p>
+<p>
+According to the method shown in 3.1(2), check the
+validity of the substring pointed by the records of the
+<i>PT-1</i> in the order of the record number and write the
+results in the <i>VF</i> field.
+</p>
+<p>
+<strong><u>Proceedure 7</u>: Resorting of PT-1</strong>
+</p>
+<p>
+Re-sort the <i>PT-1</i> in the order of the values of <i>SP</i> fields
+to obtain a <i>SPT-1</i>.
+</p>
+<p>
+<strong><u>Procedure 8</u>: Extraction and Tabulation</strong>
+</p>
+<p>
+By referring to the <i>SPT-1</i> , the strings to be extracted
+are determined and their frequencies are calculated.
+</p>
+<p>
+An example of the algorithm is shown in Fig.4. In this
+example, the types of substrings extracted by the conventional algorithm amounted to 24 with the total frequency of
+72. In contrast, in the method proposed in this paper,
+these numbers have reduced to 5 and 10 respectively.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+
+<table border=0 cellpadding=1 cellspacing=0>
+<tr><td></td>
+    <td>'ancient'</td><td colspan=2>'ancient'</td><td>'of'</td>
+    <td>'strange'</td><td>'cake'</td><td></td>
+    <td colspan=2>'cake'</td><td>'of'</td><td>'story'</td><td>'is'</td>
+    <td colspan=2>'strange'</td><td colspan=2>'story'</td></tr>
+<tr><td></td>
+    <td>mukasi</td><td colspan=2>mukasi-</td><td>no</td>
+    <td>okasina-</td><td>okasi</td><td></td>
+    <td colspan=2>okasi-</td><td>no-</td><td>hanasi-</td><td>ha-</td>
+    <td colspan=2>okasina-</td><td colspan=2>ohanasi</td>
+    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="c12/j0005.gif">:Substring</td></tr>
+<tr align=center>
+    <td><nobr>[Source Text]</nobr></td>
+    <td><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0006.gif"></td><td><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0009.gif"></td>
+    <td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td><td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0012.gif"></td>
+    <td><img src="c12/j0010.gif"></td><td><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0009.gif"></td><td><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0013.gif"></td>
+    <td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0011.gif"></td><td><img src="c12/j0010.gif"></td><td><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td><img src="c12/j0012.gif"></td></tr>
+<tr align=center>
+    <td rowspan=2><nobr>(Extracting Part)</nobr></td>
+    <td bgcolor="ffc0c0"><img src="c12/j0014.gif"></td><td colspan=2 bgcolor="ffffc0"><img src="c12/j0014.gif"></td>
+    <td bgcolor="c0c0ff"></td>
+    <td bgcolor="ffc0c0"><img src="c12/j0015.gif"></td><td bgcolor="ffffc0"><img src="c12/j0016.gif"></td><td></td>
+    <td colspan=2 bgcolor="ffc0c0"><img src="c12/j0016.gif"></td><td bgcolor="c0c0ff"></td>
+    <td bgcolor="ffffc0"><img src="c12/j0017.gif"></td><td></td>
+    <td bgcolor="ffc0c0"><img src="c12/j0015.gif"></td><td></td><td></td>
+    <td bgcolor="ffffc0"><img src="c12/j0017.gif"></td></tr>
+<tr align=center>
+    <td></td><td></td><td colspan=2 bgcolor="c0c0ff"><img src="c12/j0018.gif"></td>
+    <td></td><td></td><td></td><td></td>
+    <td colspan=2 bgcolor="c0c0ff"><img src="c12/j0018.gif"></td></tr>
+<tr><td align=center><nobr>&lt; Meaning &gt;</nobr></td>
+    <td colspan=18>This is a story of cakes in very old day.
+	The story of the cake is strange story.</td></tr>
+</table>
+
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td>
+
+<table border=0 cellpadding=1 cellspacing=1>
+<tr align=center valign=top><td>
+
+<nobr>PT0-0 (Pointer Table)</nobr>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=left bgcolor="ffffc0"><td align=right>SP</td>
+    <td bgcolor="ffffff"><nobr>String-Words</nobr></td></tr>
+<tr></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>1</td>
+    <td bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>2</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>3</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>4</td>
+    <td bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>5</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>6</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>7</td>
+    <td bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>8</td>
+    <td bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>9</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>10</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>11</td>
+    <td bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>12</td>
+    <td bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>13</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>14</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>15</td>
+    <td bgcolor="ffffff"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>16</td>
+    <td bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>17</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>18</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>19</td>
+    <td bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>20</td>
+    <td bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>21</td>
+    <td bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>22</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>23</td>
+    <td bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>24</td>
+    <td bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>25</td>
+    <td bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>26</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>27</td>
+    <td bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>28</td>
+    <td bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>29</td>
+    <td bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>30</td>
+    <td bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>31</td>
+    <td bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=left bgcolor="ffffc0"><td align=right>32</td>
+    <td bgcolor="ffffff"><img src="c12/j0012.gif"></td></tr>
+</table>
+
+    </td>
+    <td>
+
+<br><br><br><br>
+Proc. 2<br>Sorting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font><br><br>
+Proc. 3<br>Counting NMC<br><br>
+Proc. 4<br>Determine NSC
+
+    </td>
+    <td>
+
+<nobr>SPT-0 (Sorted Pointer Table)</nobr>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=right bgcolor="ffffc0"><td>NSC</td><td>NMC</td><td>RN</td><td>SP</td>
+    <td bgcolor="ffffff"><nobr>String-Words</nobr></td></tr>
+<tr></tr>
+<tr align=right bgcolor="ffffc0"><td>5</td><td>5</td><td>1 </td><td>8 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>5</td><td>3</td><td>2 </td><td>24</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>3</td><td>3 </td><td>16</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>1</td><td>4 </td><td>12</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>0</td><td>5 </td><td>28</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif">  </td></tr>
+<tr align=right bgcolor="ffffc0"><td>4</td><td>4</td><td>6 </td><td>9 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>4</td><td>2</td><td>7 </td><td>25</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>3</td><td>8 </td><td>5 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>2</td><td>9 </td><td>17</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>2</td><td>10</td><td>2 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>0</td><td>11</td><td>13</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>3</td><td>12</td><td>10</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>1</td><td>13</td><td>26</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>2</td><td>14</td><td>6 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>1</td><td>15</td><td>18</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>16</td><td>22</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>17</td><td>3 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>18</td><td>31</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif">        </td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>0</td><td>19</td><td>14</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>2</td><td>20</td><td>11</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>1</td><td>21</td><td>27</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>2</td><td>22</td><td>21</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td>0</td><td>23</td><td>30</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif">      </td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>24</td><td>7 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>0</td><td>25</td><td>19</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>26</td><td>23</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>3</td><td>27</td><td>20</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>0</td><td>28</td><td>29</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif">    </td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>3</td><td>29</td><td>4 </td>
+    <td align=left bgcolor="ffffff"><nobr><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></nobr></td></tr>
+<tr align=right bgcolor="ffffc0"><td>3</td><td>0</td><td>30</td><td>1 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>0</td><td>31</td><td>32</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>0</td><td>32</td><td>15</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"></td></tr>
+</table>
+
+    </td>
+    <td>
+
+<br><br><br><br>
+Proc. 5<br><nobr>Re-sorting</nobr><br><br>
+<font size=+3><img src="c12/j0019.gif"></font><br><br>
+[Proc. 6]<br>Validity Check(VF)
+
+    </td>
+    <td>
+
+<nobr>PT-1</nobr>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=right bgcolor="ffffc0"><td>VF</td><td>NSC</td><td>NMC</td><td>RN</td><td>SP</td>
+    <td bgcolor="ffffff"><nobr>String-Word</nobr></td></tr>
+<tr></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>0</td><td>30</td><td>1 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>2</td><td>10</td><td>2 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>1</td><td>17</td><td>3 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>3</td><td>29</td><td>4 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>3</td><td>8 </td><td>5 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>2</td><td>14</td><td>6 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>1</td><td>24</td><td>7 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>5</td><td>5</td><td>1 </td><td>8 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>4</td><td>4</td><td>6 </td><td>9 </td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>3</td><td>3</td><td>12</td><td>10</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>2</td><td>20</td><td>11</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>1</td><td>4 </td><td>12</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>0</td><td>11</td><td>13</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>0</td><td>19</td><td>14</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>0</td><td>0</td><td>32</td><td>15</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>3</td><td>3 </td><td>16</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>2</td><td>9 </td><td>17</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>1</td><td>15</td><td>18</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>0</td><td>25</td><td>19</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>3</td><td>27</td><td>20</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>2</td><td>22</td><td>21</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>1</td><td>16</td><td>22</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>1</td><td>1</td><td>26</td><td>23</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>5</td><td>3</td><td>2 </td><td>24</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>4</td><td>2</td><td>7 </td><td>25</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>3</td><td>1</td><td>13</td><td>26</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>1</td><td>21</td><td>27</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>0</td><td>5 </td><td>28</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td>3</td><td>0</td><td>28</td><td>29</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>2</td><td>0</td><td>23</td><td>30</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>1</td><td>1</td><td>18</td><td>31</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif">  </td></tr>
+<tr align=right bgcolor="ffffc0"><td>0</td><td>0</td><td>0</td><td>31</td><td>32</td>
+    <td align=left bgcolor="ffffff"><img src="c12/j0012.gif">  </td></tr>
+</table>
+
+    </td>
+    <td></tr>
+</table>
+
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td>
+
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top align=center>
+    <td>
+
+<br><br><br><br>
+Proc. 7<br>Sorting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font><br><br>
+Numbering for NES
+
+    </td>
+    <td>
+
+<nobr>SPT-1</nobr>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=right bgcolor="ffffc0"><td>NES</td><td>VF</td><td>NSC</td><td>NMC</td>
+    <td>RN</td><td>SP</td><td align=left bgcolor="ffffff">String-word</td></tr>
+<tr></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0015.gif"></td><td>1</td><td>5</td><td>5</td>
+    <td>1 </td><td>8 </td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0015.gif"></td><td>1</td><td>5</td><td>3</td>
+    <td>2 </td><td>24</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0016.gif"></td><td>1</td><td>3</td><td>3</td>
+    <td>3 </td><td>16</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0016.gif"></td><td>1</td><td>3</td><td>1</td>
+    <td>4 </td><td>12</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>0</td>
+    <td>5 </td><td>28</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>4</td><td>4</td>
+    <td>6 </td><td>9 </td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>4</td><td>2</td>
+    <td>7 </td><td>25</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0018.gif"></td><td>1</td><td>3</td><td>3</td>
+    <td>8 </td><td>5 </td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0018.gif"></td><td>1</td><td>3</td><td>2</td>
+    <td>9 </td><td>17</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>2</td>
+    <td>10</td><td>2 </td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>0</td>
+    <td>11</td><td>13</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>3</td><td>3</td>
+    <td>12</td><td>10</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>3</td><td>1</td>
+    <td>13</td><td>26</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>2</td>
+    <td>14</td><td>6 </td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>1</td>
+    <td>15</td><td>18</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>1</td>
+    <td>16</td><td>22</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>1</td>
+    <td>17</td><td>3 </td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>1</td>
+    <td>18</td><td>31</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif">  </td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>0</td>
+    <td>19</td><td>14</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>2</td>
+    <td>20</td><td>11</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>1</td>
+    <td>21</td><td>27</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>2</td>
+    <td>22</td><td>21</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>2</td><td>0</td>
+    <td>23</td><td>30</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>1</td>
+    <td>24</td><td>7 </td><td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>1</td><td>0</td>
+    <td>25</td><td>19</td><td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>1</td><td>1</td><td>1</td>
+    <td>26</td><td>23</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0017.gif"></td><td>1</td><td>3</td><td>3</td>
+    <td>27</td><td>20</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0017.gif"></td><td>1</td><td>3</td><td>0</td>
+    <td>28</td><td>29</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0014.gif"></td><td>1</td><td>3</td><td>3</td>
+    <td>29</td><td>4 </td><td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><img src="c12/j0014.gif"></td><td>1</td><td>3</td><td>0</td>
+    <td>30</td><td>1 </td><td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>0</td><td>0</td>
+    <td>31</td><td>32</td><td align=left bgcolor="ffffff"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td align=center><br></td><td>0</td><td>0</td><td>0</td>
+    <td>32</td><td>15</td><td align=left bgcolor="ffffff"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+</table>
+
+    </td>
+    <td>
+
+<br><br><br><br>
+Proc. 8<br>Extraction & Counting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font>
+
+    </td>
+    <td>
+
+<nobr><strong>Uninterrupted Collocation</strong></nobr>
+<table border=1 cellpadding=1 cellspacing=1 bgcolor="ffc0c0">
+<tr align=center><td rowspan=2 valign=bottom>gram</td>
+    <td colspan=2>Proposed Method</td><td colspan=2>N-gram Method</td></tr>
+<tr align=center>
+    <td>Substring</td><td>Frequency</td>
+    <td>Substring</td><td>Frequency</td></tr>
+<tr></tr>
+<tr><td>5 gram</td>
+    <td><img src="c12/j0015.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td align=center>2</td>
+    <td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td align=center>2</td></tr>
+<tr></tr>
+<tr><td rowspan=2 valign=top>4 gram</td>
+    <td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td>
+    <td><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td><br></td><td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td><td align=center>2</td></tr>
+<tr></tr>
+<tr><td rowspan=6 valign=top>3 gram</td>
+    <td><img src="c12/j0016.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td align=center>2</td><td><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td align=center>4</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td><br></td><td><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0018.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td><td align=center>2</td><td><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0017.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td align=center>2</td><td><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0014.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td align=center>2</td><td><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td align=center>2</td></tr>
+<tr></tr>
+<tr><td rowspan=8 valign=top>2 gram</td>
+    <td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td><td align=center>4</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td align=center>6</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"><img src="c12/j0021.gif"></td><td align=center><br></td><td><img src="c12/j0006.gif"><img src="c12/j0007.gif"></td><td align=center>2</td></tr>
+<tr></tr>
+<tr><td rowspan=7 valign=top>1 gram</td>
+    <td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0010.gif"></td><td align=center>5</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0007.gif"></td><td align=center>6</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0008.gif"></td><td align=center>8</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0011.gif"></td><td align=center>4</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0009.gif"></td><td align=center>2</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0013.gif"></td><td align=center>3</td></tr>
+<tr><td><img src="c12/j0020.gif"><img src="c12/j0021.gif"></td><td align=center>-</td><td><img src="c12/j0006.gif"></td><td align=center>2</td></tr>
+<tr></tr>
+<tr><td align=center>---</td>
+    <td align=center>Total</td><td align=center>10</td>
+    <td align=center>Total</td><td align=center>72</td></tr>
+</table>
+
+</td></tr>
+</table>
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td>
+
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top align=center>
+    <td rowspan=2>
+
+<br><br><br><br>
+Proc. 9<br>Sorting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font><br><br>
+Proc. 10<br>Numbering for SN
+
+    </td>
+    <td rowspan=2>
+
+<nobr>SPT-2</nobr>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=right bgcolor="ffffc0"><td>SN</td><td>NES</td><td>VF</td><td>NSC</td><td>
+    NMC</td><td>RN</td><td>SP</td><td align=left bgcolor="ffffff">String-word</td></tr>
+<tr></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><img src="c12/j0014.gif"></td><td>1</td><td>3</td>
+    <td>0</td><td>30</td><td>1</td><td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><br></td><td>0</td><td>2</td>
+    <td>2</td><td>10</td><td>2</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0006.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>1</td><td>1</td>
+    <td>17</td><td>3</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><img src="c12/j0014.gif"></td><td>1</td><td>3</td>
+    <td>3</td><td>29</td><td>4</td><td align=left bgcolor="ffffff"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><img src="c12/j0018.gif"></td><td>1</td><td>3</td>
+    <td>3</td><td>8</td><td>5</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>2</td><td>2</td>
+    <td>14</td><td>6</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>1</td><td>1</td>
+    <td>24</td><td>7</td><td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><img src="c12/j0015.gif"></td><td>1</td><td>5</td>
+    <td>5</td><td>1</td><td>8</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>4</td><td>4</td>
+    <td>6</td><td>9</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>3</td><td>3</td>
+    <td>12</td><td>10</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>2</td><td>2</td>
+    <td>20</td><td>11</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td align=center><img src="c12/j0016.gif"></td><td>1</td><td>3</td>
+    <td>1</td><td>4</td><td>12</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>2</td><td>0</td>
+    <td>ll</td><td>13</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>1</td><td>0</td>
+    <td>19</td><td>14</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>1</td><td><br></td><td>0</td><td>0</td><td>0</td>
+    <td>32</td><td>15</td><td align=left bgcolor="ffffff"><img src="c12/j0012.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td align=center><img src="c12/j0016.gif"></td><td>1</td><td>3</td>
+    <td>3</td><td>3</td><td>16</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td align=center><img src="c12/j0018.gif"></td><td>1</td><td>3</td>
+    <td>2</td><td>9</td><td>17</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>2</td><td>1</td>
+    <td>15</td><td>18</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0009.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>1</td><td>0</td>
+    <td>25</td><td>19</td><td align=left bgcolor="ffffff"><img src="c12/j0009.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td align=center><img src="c12/j0017.gif"></td><td>1</td><td>3</td>
+    <td>3</td><td>27</td><td>20</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>2</td><td>2</td>
+    <td>22</td><td>21</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>1</td><td>1</td>
+    <td>16</td><td>22</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0013.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>1</td><td>1</td><td>1</td>
+    <td>26</td><td>23</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td align=center><img src="c12/j0015.gif"></td><td>1</td><td>5</td>
+    <td>3</td><td>2</td><td>24</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>4</td><td>2</td>
+    <td>7</td><td>25</td><td align=left bgcolor="ffffff"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>3</td><td>1</td>
+    <td>13</td><td>26</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>2</td><td>1</td>
+    <td>21</td><td>27</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0010.gif"><img src="c12/j0013.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>1</td><td>0</td>
+    <td>5</td><td>28</td><td align=left bgcolor="ffffff"><img src="c12/j0010.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td align=center><img src="c12/j0017.gif"></td><td>1</td><td>3</td>
+    <td>0</td><td>28</td><td>29</td><td align=left bgcolor="ffffff"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>2</td><td>0</td>
+    <td>23</td><td>30</td><td align=left bgcolor="ffffff"><img src="c12/j0011.gif"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>1</td><td>1</td>
+    <td>18</td><td>31</td><td align=left bgcolor="ffffff"><img src="c12/j0008.gif"><img src="c12/j0012.gif"></td></tr>
+<tr align=right bgcolor="ffffc0"><td>2</td><td><br></td><td>0</td><td>0</td><td>0</td>
+    <td>31</td><td>32</td><td align=left bgcolor="ffffff"><img src="c12/j0012.gif"></td></tr>
+</table>
+
+    </td>
+    <td rowspan=2>
+
+<br><br><br><br>
+Proc 11<br>Condense<br><br>
+<font size=+3><img src="c12/j0019.gif"></font>
+
+    </td>
+    <td>
+
+<table border=1 cellpadding=1 cellspacing=1>
+<nobr>SPT-2*</nobr>
+<tr align=right bgcolor="ffffc0">
+    <td>SN</td><td>NES</td><td>NSC</td><td>SP</td></tr>
+<tr><td></td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>1 </td><td align=center><img src="c12/j0014.gif"></td><td>3 </td><td>1 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>1 </td><td align=center><img src="c12/j0014.gif"></td><td>3 </td><td>4 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>1 </td><td align=center><img src="c12/j0018.gif"></td><td>3 </td><td>5 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>1 </td><td align=center><img src="c12/j0015.gif"></td><td>5 </td><td>8 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>1 </td><td align=center><img src="c12/j0016.gif"></td><td>3 </td><td>12 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>2 </td><td align=center><img src="c12/j0016.gif"></td><td>3 </td><td>16 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>2 </td><td align=center><img src="c12/j0018.gif"></td><td>3 </td><td>17 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>2 </td><td align=center><img src="c12/j0017.gif"></td><td>3 </td><td>20 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>2 </td><td align=center><img src="c12/j0015.gif"></td><td>5 </td><td>24 </td></tr>
+<tr align=right bgcolor="ffffc0">
+    <td>2 </td><td align=center><img src="c12/j0017.gif"></td><td>3 </td><td>29 </td></tr>
+</table>
+
+    </td>
+    <td>
+
+<br><br><br><br>
+Proc. 12<br>Write down<br><br>
+<font size=+3><img src="c12/j0019.gif"></font><br><br>
+case of  k=2
+
+    </td>
+    <td>
+
+<br>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0014.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0015.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0017.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0017.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+<tr bgcolor="ffffc0"><td><img src="c12/j0022.gif"><img src="c12/j0015.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"> </td></tr>
+</table>
+
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </tr>
+
+</td></tr>
+<tr><td colspan=4 align=right>
+
+<table border=0 cellpadding=1 cellspacing=1>
+<tr><td>SP:</td><td>Source Pointer</td></tr>
+<tr><td>RN:</td><td>Record Number</td></tr>
+<tr><td>NMC:</td><td>Number of matched Characters</td></tr>
+<tr><td>NSC:</td><td>Number of Significant Characters</td></tr>
+<tr><td>VF:</td><td>Validity flag</td></tr>
+<tr><td>NES:</td><td>Number of Extracted Substring</td></tr>
+<tr><td>SN:</td><td>Sentence Number</td></tr>
+</table>
+
+</td></tr>
+
+</table>
+
+</td></tr>
+<tr><td><br></td></tr>
+<tr><td>
+
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top align=center>
+    <td rowspan=2>
+
+<br><br>
+Proc. 12<br>Sorting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font>
+
+    </td>
+    <td rowspan=2>
+
+<br>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 bgcolor="ffffc0">
+<tr align=center valign=top>
+    <td><img src="c12/j0022.gif"><img src="c12/j0015.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0015.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"></td>
+    <td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif">
+	<table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0016.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	</td>
+    <td><table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	<img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif">      
+	<table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0018.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	</td>
+    <td><img src="c12/j0022.gif"><img src="c12/j0017.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0017.gif">, <img src="c12/j0017.gif"><img src="c12/j0023.gif"></td>
+    <td><table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0015.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	<table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0016.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	<table border=1 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif"><br><img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0018.gif"><img src="c12/j0023.gif"></td></tr>
+	</table>
+	<img src="c12/j0022.gif"><img src="c12/j0014.gif">, <img src="c12/j0014.gif"><img src="c12/j0023.gif">        
+	</td></tr>
+</table>
+</td></tr>
+</table>
+
+    </td>
+    <td rowspan=2>
+
+<br><br>
+Proc. 12<br>Counting<br><br>
+<font size=+3><img src="c12/j0019.gif"></font>
+
+    </td>
+    <td colspan=2>
+
+<nobr><strong>Interrupted Collocational Pairs of substring</strong></nobr>
+<table border=1 cellpadding=1 cellspacing=1 bgcolor="c0c0ff">
+<tr align=center><td><nobr>Fomer Substring</nobr></td>
+    <td><nobr>Latter Substring and Frequency</nobr></td></tr>
+<tr></tr> 				 		 
+<tr><td align=center>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0015.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td></tr>
+	<tr><td><img src="c12/j0016.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+	<tr><td><img src="c12/j0018.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td></tr>
+	<tr><td><img src="c12/j0014.gif"><img src="c12/j0006.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td></tr>
+	</table>
+    </td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0024.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td>2</td><td rowspan=4>&nbsp;</td>
+	    <td colspan=2></td><td rowspan=4>&nbsp;</td></tr>
+	<tr><td><img src="c12/j0017.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0008.gif"></td><td>2</td></tr>
+	<tr><td><img src="c12/j0015.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td>2</td><td><img src="c12/j0017.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td>2</td></tr>
+	<tr><td><img src="c12/j0015.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0010.gif"></td><td>2</td><td><img src="c12/j0016.gif"><img src="c12/j0010.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"></td><td>2</td>
+	    <td><img src="c12/j0018.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0009.gif"></td><td>2</td></tr>
+</table>
+</td></tr>
+</table>
+
+</td></tr>
+<tr><td>
+
+<br>
+<font size=+3><img src="c12/j0019.gif"></font>
+
+    </td>
+    <td>
+
+<br>
+<table border=1 cellpadding=1 cellspacing=1>
+<tr align=center><td>&lt;Sentence List&gt;</td></tr>
+<tr align=center><td>Sentence list for each pair of interrupted collocation </td></tr>
+</table>
+
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.4 Example of Uninterrupted and Interrupted Collocational Substring Extraction
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4."><h2><font color=#ff0000>4. Extraction of Interrupted Collocation</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.1"><h2><font color=#ff0000>4.1 Conditions for Extraction</font></h2></a>
+
+<p>
+Here, let's consider combinations of 2 or more uninterrupted collocational substrings in different locations
+within a single sentence together with a method of determining the frequency of them. In this case, boundary
+conditions of sentences and mutual relationship between
+the extracted substrings need to be considered.
+</p>
+<p>
+<strong>(1) Boundary Conditions of Sentences</strong>
+</p>
+<p>
+When considering the collocation of substrings within a
+sentence, combinations of expressions spread over borders
+of sentences need to be excluded. But when a single
+sentence includes other sentences, the extraction of the
+combinations in units of sentences poses complications,
+</p>
+<p>
+To simplify matters, we first assume that the substrings which have any kinds of punctuation mark as a
+part of them are not extracted in the procedure of uninterrupted collocation extraction. This can be easily performed
+by restraining the comparison procedure after finding a
+punctuation mark in Procedure 3. Second, we assume
+that when a left quote character is found within a sentence,
+all characters are ignored until the right quote character
+forming a pair with the former character.
+</p>
+<p>
+<strong>(2) Relationships between Extracted Substrings</strong>
+</p>
+<p>
+In extraction of interrupted collocations, substrings that
+are linked to or partially overlap one another are excluded
+from the scope of extraction. Let's consider substrings <img src="c12/j0000.gif">
+and <img src="c12/j0001.gif"> which have been extracted from the same sentence.
+The positioning would be one of the three cases shown in
+Fig.3. Case (c) in which substring <img src="c12/j0000.gif"> and <img src="c12/j0001.gif"> are separate
+from one another is a case of extracting interrupted
+collocations, and Cases (a) and (b) are not<a name="rfn3" href="c12.html#fn3"><sup>*3</sup></a>.
+</p>
+<p>
+<strong>(3) Order of Substring Appearance</strong>
+</p>
+<p>
+In the case of extracting interrupted collocations, the
+order of appearance of substrings should be considered.
+Hence, collocational substrings are extracted and counted
+taking notice of the order of the appearance of each
+substring.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<img src="c12/c12-fig5.gif" width=406 height=193>
+</td></tr>
+</table>
+<div align=center><strong>
+Fig.5 Relations between Extracted two Substrings
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4.2"><h2><font color=#ff0000>4.2 Extraction Algorithm</font></h2></a>
+
+<p>
+<strong>[Preparation]</strong>
+</p>
+<p>
+Sequential number is given to all of the substrings
+extracted in Chapter 3 in the order of extractions. These
+Number are registered in the <i>NES (Number of Extracted
+Substrings) field</i> of the respective record in <i>SPT- 1</i>.
+</p>
+<p>
+<strong><u>Procedure 9</u>: Re-sorting the SPT-1</strong>
+</p>
+<p>
+The <i>SPT-1</i> is sorted in the original order of the values
+of <i>SP</i> fields.
+</p>
+<p>
+<strong><u>Procedure 10</u>: Numbering of the sentences</strong>
+</p>
+<p>
+<i>SN(Sentence Number)</i> field is added for entering the
+sentence number of original sentence to which one's
+record belongs.
+</p>
+<p>
+<strong><u>Procedure 11</u>: Table condensation</strong>
+</p>
+<p>
+The table obtained is condensed by procedures shown
+in the following to obtain a <i>SPT-2</i>*.
+</p>
+<p>
+(1) All fields other than the four, <i>Sentence Numbers</i>,
+<i>ESN</i>, <i>NSC</i> and <i>RN</i> are deleted.
+</p>
+<p>
+(2) All records with no values in the <i>NES</i> field are deleted.
+</p>
+<p>
+<strong><u>Procedure 12</u>: Extraction of Interrupted Collocation</strong>
+</p>
+<p>
+Here, k is the number of substrings which compose
+interrupted colocational expressions. Then, all of the combinations of k <i>NESs</i> for every sentence are written down
+into a file and sorted. And the number of the same
+combination of <i>NES</i> are counted.
+</p>
+<p>
+Thus, the substring list of interrupted collocations can
+be obtained. If the sentence number is given to every
+combination list of <i>NES</i>, the sentences corresponding to
+the extracted interrupted collocation call easily be
+identified.
+</p>
+<p>
+The lower part of Fig.4 shows the application of this
+method for k=2. In this case, there are possibility of 25
+combinations for 5 types of uninterrupted collocational
+substrings obtained by chapter 3. Out of these combinations, 7 combinations were extracted as the combinations
+which collocate twice or more within the same sentence.
+And the total frequency of these amount to 14 times.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5."><h2><font color=#ff0000>5. Experiments</font></h2></a>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.1"><h2><font color=#ff0000>5.1 Uninterrupted Collocationai Substrings</font></h2></a>
+
+<p>
+Applying the proposed method to the newspaper articles
+of Nikkei Industrial News for three months (8.92 million
+characters), uninterrupted and interrupted collocational
+substrings were extracted. in this experiments, XEROX
+ARGOSS 5270 (OS4.1.3) was used. The memory capacity
+were 48 MB.
+</p>
+<p>
+<strong>(1) Characteristics of Extracted Substring</strong>
+</p>
+<p>
+From the view point of the length and frequency, the
+number of extracted substrings are compared with those
+of the N-gram method and summarized in Table 1 and
+Table 2. Some examples of extracted substrings are shown
+in Table 3. And the examples of substrings with high
+frequency are also shown in Table 4.
+</p>
+
+<p>
+<div align=center><strong>
+Table 1. Length and Number of Extracted Substrings
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Comp</td>
+    <td colspan=2>Proposed Methfod</td>
+    <td colspan=2>N-gram Statistics</td>
+    <td colspan=2>Ratio</td></tr>
+<tr align=center><td>Gram</td>
+    <td>a: Extract Substring</td><td>b: Total Frequency</td>
+    <td>c:Extract Substring</td><td>d: Total Frequency</td>
+    <td>a/c</td><td>b/d</td></tr>
+<tr align=right><td>2<img src="c12/j0025.gif"></td>
+    <td>970,203</td><td>2,613,704</td>
+    <td>4,374,141</td><td>31,178,897</td>
+    <td>22.2%</td><td>8.38%</td></tr>
+<tr align=right><td>5<img src="c12/j0025.gif"></td>
+    <td>591,901</td><td>1,476,922</td>
+    <td>2,960,487</td><td>10,808,458</td>
+    <td>20.0%</td><td>13.7%</td></tr>
+<tr align=right><td>10<img src="c12/j0025.gif"></td>
+    <td>52,214</td><td>114,270</td>
+    <td>673,601</td><td>1,550,817</td>
+    <td>7.75%</td><td>7.37%</td></tr>
+<tr align=right><td>20<img src="c12/j0025.gif"></td>
+    <td>1,792</td><td>3,692</td>
+    <td>177,298</td><td>359,810</td>
+    <td>1.01%</td><td>1.03%</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table2. Frequency and Number of Extracted Substrings
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>Comp.</td>
+    <td colspan=2>Proposed Method</td>
+    <td colspan=2>N-gram Statistics</td>
+    <td colspan=2>Ratio</td></tr>
+<tr align=center><td>Freq.</td>
+    <td>a:Extract Substring</td><td>b: Total Frequency</td>
+    <td>c:Extract Substring</td><td>d: Total Frequency</td>
+    <td>a/c</td><td>b/d</td></tr>
+<tr align=right><td>2<img src="c12/j0025.gif"></td>
+    <td>970,203</td><td>2,613,704</td>
+    <td>4,377,087</td><td>39,588,291</td>
+    <td>22.2%</td><td>6.60%</td></tr>
+<tr align=right><td>5<img src="c12/j0025.gif"></td>
+    <td>67,321</td><td>551,441</td>
+    <td>882,217</td><td>31,288,701</td>
+    <td>7.63%</td><td>1.76%</td></tr>
+<tr align=right><td>l0<img src="c12/j0025.gif"></td>
+    <td>12,351</td><td>217,934</td>
+    <td>372,291</td><td>28,050,199</td>
+    <td>3.32%</td><td>0.78%</td></tr>
+<tr align=right><td>20<img src="c12/j0025.gif"></td>
+    <td>2,288</td><td>92,804</td>
+    <td>169,375</td><td>25,871,964</td>
+    <td>1.35%</td><td>0.36%</td></tr>
+<tr align=right><td>50<img src="c12/j0025.gif"></td>
+    <td>285</td><td>37,850</td>
+    <td>62,991</td><td>22,209,375</td>
+    <td>0.45%</td><td>0.17%</td></tr>
+<tr align=right><td>l00<img src="c12/j0025.gif"></td>
+    <td>76</td><td>24,167</td>
+    <td>30,316</td><td>19,961,961</td>
+    <td>0.25%</td><td>0.12%</td></tr>
+<tr align=right><td>200<img src="c12/j0025.gif"></td>
+    <td>20</td><td>16,771</td>
+    <td>14,363</td><td>17,759,432</td>
+    <td>0.14%</td><td>0.07%</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 3 Examples of Extracted Substrings (in the order of frequency)
+</strong>
+(cf.)<img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif">:Fractional substring
+</div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center><td>gram</td><td>Proposed Method</td><td>N-gram Statistics</td></tr>
+<tr><td align=right>5 gram
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(436),</td><td><img src="c12/j0031.gif"><img src="c12/j0032.gif"><img src="c12/j0033.gif"><img src="c12/j0034.gif"><img src="c12/j0035.gif">(277),</td>
+	    <td><img src="c12/j0036.gif"><img src="c12/j0009.gif"><img src="c12/j0037.gif"><img src="c12/j0038.gif"><img src="c12/j0039.gif">(158),</td></tr>
+	<tr><td>(make it that <img src="c12/j0025.gif">),</td><td>(EC),</td><td>(for this purpose),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0040.gif"><img src="c12/j0041.gif"><img src="c12/j0042.gif"><img src="c12/j0043.gif"><img src="c12/j0044.gif">(141),</td><td><img src="c12/j0027.gif"><img src="c12/j0045.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(141),</td>
+	    <td><img src="c12/j0046.gif"><img src="c12/j0047.gif"><img src="c12/j0048.gif"><img src="c12/j0047.gif"><img src="c12/j0049.gif">(133),</td></tr>
+	<tr><td>(market share),</td><td>(consider that <img src="c12/j0025.gif">),</td><td>(motors),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0027.gif"><img src="c12/j0050.gif"><img src="c12/j0051.gif"><img src="c12/j0008.gif"><img src="c12/j0037.gif">(130),</td><td><img src="c12/j0036.gif"><img src="c12/j0052.gif"><img src="c12/j0053.gif"><img src="c12/j0054.gif"><img src="c12/j0008.gif">(126),</td>
+	    <td><img src="c12/j0036.gif"><img src="c12/j0009.gif"><img src="c12/j0055.gif"><img src="c12/j0056.gif"><img src="c12/j0039.gif">(112),</td></tr>
+	<tr><td>(enphasized that <img src="c12/j0025.gif">),</td><td>(on the contrary),</td>
+	    <td>(subsequently <img src="c12/j0025.gif">),</td></tr>
+	</table>
+	<div align=center>[ 190,925 types Total 499,653 times ]</div>
+    </td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0011.gif"><img src="c12/j0057.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(3710),</td><td><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif"><img src="c12/j0058.gif"><img src="c12/j0039.gif">(2827),</td>
+	    <td><img src="c12/j0053.gif"><img src="c12/j0059.gif"><img src="c12/j0030.gif"><img src="c12/j0027.gif"><img src="c12/j0039.gif">(2753),</td></tr>
+	<tr><td>(became to be <img src="c12/j0025.gif">),</td><td>(be <img src="c12/j0025.gif">ing but <img src="c12/j0025.gif">),</td>
+	    <td>(according to <img src="c12/j0025.gif">),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0053.gif"><img src="c12/j0060.gif"><img src="c12/j0029.gif"><img src="c12/j0028.gif"><img src="c12/j0013.gif">(2721),</td><td><img src="c12/j0061.gif"><img src="c12/j0052.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(2334),</td>
+	    <td><img src="c12/j0030.gif"><img src="c12/j0036.gif"><img src="c12/j0027.gif"><img src="c12/j0053.gif"><img src="c12/j0011.gif">(2286),</td></tr>
+	<tr><td>(speaking about <img src="c12/j0025.gif">),</td><td>(be done), </td><td><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"></td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0053.gif"><img src="c12/j0011.gif"><img src="c12/j0057.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif">(2079),</td><td><img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(1997),</td>
+	    <td><img src="c12/j0062.gif"><img src="c12/j0063.gif"><img src="c12/j0064.gif"><img src="c12/j0065.gif"><img src="c12/j0066.gif">(1849),</td></tr>
+	<tr><td><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif">,</td><td>(explain that <img src="c12/j0025.gif">),</td>
+	    <td>(57 fiscal year),</td></tr>
+	</table>
+	<div align=center>[ 748,172 types Total3,793,077 times ]</div>
+</td></tr>
+<tr><td align=right>10 gram</td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0067.gif"><img src="c12/j0030.gif"><img src="c12/j0036.gif"><img src="c12/j0027.gif"><img src="c12/j0053.gif"><img src="c12/j0011.gif"><img src="c12/j0057.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(44),</td><td><img src="c12/j0068.gif"><img src="c12/j0069.gif"><img src="c12/j0070.gif"><img src="c12/j0071.gif"><img src="c12/j0072.gif"><img src="c12/j0073.gif"><img src="c12/j0074.gif"><img src="c12/j0051.gif"><img src="c12/j0075.gif"><img src="c12/j0076.gif">(35),</td></tr>
+	<tr><td>(to be <img src="c12/j0025.gif">ing),</td><td>(second),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0067.gif"><img src="c12/j0030.gif"><img src="c12/j0036.gif"><img src="c12/j0027.gif"><img src="c12/j0053.gif"><img src="c12/j0011.gif"><img src="c12/j0077.gif"><img src="c12/j0078.gif"><img src="c12/j0079.gif"><img src="c12/j0080.gif">(19),</td><td><img src="c12/j0081.gif"><img src="c12/j0082.gif"><img src="c12/j0083.gif"><img src="c12/j0084.gif"><img src="c12/j0085.gif"><img src="c12/j0086.gif"><img src="c12/j0087.gif"><img src="c12/j0088.gif"><img src="c12/j0089.gif"><img src="c12/j0090.gif">(17),</td></tr>
+	<tr><td>(it seems to do <img src="c12/j0025.gif">),</td><td>(82 Japan shop),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0008.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif"><img src="c12/j0009.gif"><img src="c12/j0091.gif"><img src="c12/j0013.gif"><img src="c12/j0011.gif"><img src="c12/j0029.gif"><img src="c12/j0007.gif">(16),</td><td><img src="c12/j0092.gif"><img src="c12/j0087.gif"><img src="c12/j0086.gif"><img src="c12/j0093.gif"><img src="c12/j0086.gif"><img src="c12/j0094.gif"><img src="c12/j0095.gif"><img src="c12/j0096.gif"><img src="c12/j0033.gif"><img src="c12/j0034.gif">(14)</td></tr>
+	<tr><td>(wonder if <img src="c12/j0025.gif"> do <img src="c12/j0025.gif">),</td><td>(Washington 19),</td></tr>
+	</table>
+	<div align=center>[ 21,155 types Total 47,336 times ]</div>
+    </td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0008.gif"><img src="c12/j0037.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0097.gif"><img src="c12/j0053.gif"><img src="c12/j0059.gif"><img src="c12/j0030.gif"><img src="c12/j0027.gif"><img src="c12/j0039.gif">(273),</td><td><img src="c12/j0098.gif"><img src="c12/j0007.gif"><img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0037.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0097.gif"><img src="c12/j0053.gif"><img src="c12/j0059.gif">(223),</td></tr>
+	<tr><td>(from what <img src="c12/j0025.gif"> do),</td><td><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif">,</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0099.gif"><img src="c12/j0098.gif"><img src="c12/j0007.gif"><img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0037.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0097.gif"><img src="c12/j0053.gif">(223),</td><td><img src="c12/j0007.gif"><img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0037.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0097.gif"><img src="c12/j0053.gif"><img src="c12/j0059.gif"><img src="c12/j0030.gif">(222),</td></tr>
+	<tr><td><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif">, </td><td><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif"><img src="c12/j0026.gif">,</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0037.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0097.gif"><img src="c12/j0053.gif"><img src="c12/j0059.gif"><img src="c12/j0030.gif"><img src="c12/j0027.gif">(222),</td><td><img src="c12/j0068.gif"><img src="c12/j0069.gif"><img src="c12/j0070.gif"><img src="c12/j0071.gif"><img src="c12/j0072.gif"><img src="c12/j0073.gif"><img src="c12/j0074.gif"><img src="c12/j0051.gif"><img src="c12/j0075.gif"><img src="c12/j0076.gif">(208),</td></tr>
+	<tr><td>(according to that <img src="c12/j0025.gif"> was),</td><td>(second research party),</td></tr>
+	</table>
+	<div align=center>[ 132,865 types Total 345,232 times ]</div>
+</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 4 Examples of Substrings with High Frequency
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td align=right>Examples of Substrings<br>(frequency <img src="c12/j0100.gif">200)</td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0027.gif"><img src="c12/j0029.gif"><img src="c12/j0079.gif">(586),</td><td><img src="c12/j0027.gif"><img src="c12/j0101.gif"><img src="c12/j0102.gif"><img src="c12/j0037.gif">(512),</td><td><img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(436),</td>
+	    <td><img src="c12/j0103.gif"><img src="c12/j0037.gif">(325),</td><td><img src="c12/j0091.gif"><img src="c12/j0104.gif"><img src="c12/j0030.gif">(324),</td><td><img src="c12/j0105.gif"><img src="c12/j0106.gif">(315),</td></tr>
+	<tr><td>(to say that),</td><td>(said that),</td><td>(set as),</td>
+	    <td>(again),</td><td>(is that),</td><td>(photography),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0008.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif"><img src="c12/j0039.gif">(302),</td><td><img src="c12/j0027.gif"><img src="c12/j0107.gif"><img src="c12/j0057.gif"><img src="c12/j0037.gif">(283),</td><td><img src="c12/j0108.gif"><img src="c12/j0109.gif">(281),</td>
+	    <td><img src="c12/j0110.gif"><img src="c12/j0111.gif">(278),</td><td><img src="c12/j0031.gif"><img src="c12/j0032.gif"><img src="c12/j0033.gif"><img src="c12/j0034.gif"><img src="c12/j0035.gif">(277),</td><td><img src="c12/j0008.gif"><img src="c12/j0007.gif"><img src="c12/j0008.gif">(274),</td>
+	    <td><img src="c12/j0112.gif"><img src="c12/j0113.gif"><img src="c12/j0086.gif"><img src="c12/j0093.gif">(269),</td></tr>
+	<tr><td>(but),</td><td>(said that),</td><td>(Tokyo),</td>
+	    <td>(Price),</td><td>(EC),</td><td>(however),</td>
+	    <td>(Point),</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0114.gif"><img src="c12/j0027.gif"><img src="c12/j0036.gif"><img src="c12/j0027.gif">(264),</td><td><img src="c12/j0115.gif"><img src="c12/j0116.gif"><img src="c12/j0117.gif"><img src="c12/j0118.gif">(259),</td><td><img src="c12/j0103.gif"><img src="c12/j0037.gif"><img src="c12/j0039.gif">(236),</td>
+	    <td><img src="c12/j0036.gif"><img src="c12/j0052.gif"><img src="c12/j0013.gif">(220),</td><td><img src="c12/j0036.gif"><img src="c12/j0009.gif"><img src="c12/j0037.gif"><img src="c12/j0038.gif">(204),</td><td><img src="c12/j0037.gif"><img src="c12/j0080.gif"><img src="c12/j0039.gif">(201)</td></tr>
+	<tr><td>(one word),</td><td>(sell term)</td><td>(mere over)</td>
+	    <td>(this is)</td><td>(for this sake),</td><td>(yet)</td></tr>
+	</table>
+</td></tr>
+</table>
+</p>
+
+<p>
+From these results, the following observations can be
+obtained.
+</p>
+<p>
+<img src="c12/j0015.gif"> Compared with the N-gram method, most of fractional
+subsuing has been deleted, and the types and the
+number of the extracted substrings have highly reduced.
+</p>
+<p>
+For example, in the extraction of substrings with the
+length of 2 or more and the frequency of 2 times or more,
+the substring type reduced to 22.2 % and total frequency
+of them reduced to 8.38 %. This effect increases as the
+increase of substring length. In the case of substrings of
+20 or more characters, these number reduced to 1 %.
+</p>
+<p>
+<img src="c12/j0016.gif"> Most of substrings extracted by the proposed method
+forms expressions as syntactic or semantic units and
+there are few fractional substrings.
+</p>
+<p>
+(2) Processing Time
+</p>
+<p>
+It took about 40 hours to make <i>SPT-0</i><a name="rfn4" href="c12.html#fn4"><sup>*4</sup></a>. But successive processes were performed very quickly (within one
+hour).
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-5.2"><h2><font color=#ff0000>5.2 Interrupted Collocational Substrings</font></h2></a>
+
+<p>
+<strong>(1) Characteristics of Extracted Substrings</strong>
+</p>
+<p>
+Interrupted conocational substrings were extracted for
+every two substrings which had appeared 10 or more times
+in the source text<a name="rfnup>*5</sup" href="c12.html#fnup>*5</sup"><sup>*5</sup></a>. The results are shown in Table 5.
+And, examples of substrings with nigh frequency and with
+much characters in total are shown in Table 6.
+</p>
+
+<p>
+<div align=center><strong>
+Table 5 Number of Extracted Pairs of Substrings
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td>Frequency<img src="c12/j0119.gif">Results</td>
+    <td>No. of Pair of Substrings</td>
+    <td>Total Frequency of Pairs</td></tr>
+<tr align=right><td>2 or more times</td><td>6,544</td><td>21,829</td></tr>
+<tr align=right><td>5 or more times</td><td>941</td><td>9,057</td></tr>
+<tr align=right><td>10 or more times</td><td>237</td><td>4,556</td></tr>
+<tr align=right><td>20 or more times</td><td>61</td><td>2,291</td></tr>
+</table>
+</p>
+
+<p>
+<div align=center><strong>
+Table 6 Pairs of Substrings with High Frequency
+</strong></div>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Collocations of Compound Nouns</td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0110.gif"><img src="c12/j0111.gif"> <img src="c12/j0025.gif"> <img src="c12/j0115.gif"><img src="c12/j0116.gif"><img src="c12/j0072.gif"><img src="c12/j0117.gif">(257),</td><td><img src="c12/j0120.gif"><img src="c12/j0121.gif"><img src="c12/j0122.gif"><img src="c12/j0123.gif"> <img src="c12/j0025.gif"> <img src="c12/j0046.gif"><img src="c12/j0047.gif"><img src="c12/j0048.gif"><img src="c12/j0047.gif"><img src="c12/j0049.gif">(117),</td></tr>
+	<tr><td>(price <img src="c12/j0025.gif"> sell time),</td><td>(General <img src="c12/j0025.gif"> Motors)</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0124.gif"><img src="c12/j0125.gif"><img src="c12/j0089.gif"><img src="c12/j0093.gif"> <img src="c12/j0025.gif"> <img src="c12/j0126.gif"><img src="c12/j0127.gif"><img src="c12/j0128.gif"><img src="c12/j0129.gif"><img src="c12/j0130.gif"><img src="c12/j0076.gif"><img src="c12/j0131.gif">(86),</td><td><img src="c12/j0132.gif"><img src="c12/j0133.gif"> <img src="c12/j0025.gif"> <img src="c12/j0031.gif"><img src="c12/j0032.gif"><img src="c12/j0033.gif"><img src="c12/j0034.gif"><img src="c12/j0035.gif">(80)</td></tr>
+	<tr><td>(Summit <img src="c12/j0025.gif"> )</td><td>(EC <img src="c12/j0025.gif"> the European Community)</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0113.gif"><img src="c12/j0122.gif"><img src="c12/j0086.gif"> <img src="c12/j0025.gif"> <img src="c12/j0083.gif"><img src="c12/j0084.gif"><img src="c12/j0085.gif"><img src="c12/j0086.gif"><img src="c12/j0134.gif"><img src="c12/j0135.gif"><img src="c12/j0136.gif"><img src="c12/j0137.gif">(80)</td></tr>
+	<tr><td>(Iran <img src="c12/j0025.gif"> Japan Oil Industry)</td></tr>
+	</table>
+</td></tr>
+<tr><td>Collocations of Sentence Patterns</td>
+    <td><table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0011.gif"><img src="c12/j0007.gif"><img src="c12/j0098.gif"><img src="c12/j0138.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0101.gif"><img src="c12/j0102.gif"><img src="c12/j0037.gif">(9),</td>
+	    <td><img src="c12/j0025.gif"> <img src="c12/j0009.gif"><img src="c12/j0139.gif"><img src="c12/j0140.gif"><img src="c12/j0053.gif"><img src="c12/j0141.gif"><img src="c12/j0142.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0101.gif"><img src="c12/j0102.gif"><img src="c12/j0037.gif">(9),</td></tr>
+	<tr><td>(did <img src="c12/j0025.gif"> but said that),</td><td>(In the answer to <img src="c12/j0025.gif"> said <img src="c12/j0025.gif"> )</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0143.gif"><img src="c12/j0052.gif"><img src="c12/j0143.gif"><img src="c12/j0052.gif"><img src="c12/j0013.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0107.gif"><img src="c12/j0057.gif"><img src="c12/j0037.gif">(6),</td><td><img src="c12/j0078.gif"><img src="c12/j0009.gif"><img src="c12/j0144.gif"><img src="c12/j0145.gif"><img src="c12/j0013.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0029.gif"><img src="c12/j0079.gif"><img src="c12/j0138.gif"><img src="c12/j0009.gif">(6),</td></tr>
+	<tr><td>(we talke that <img src="c12/j0025.gif">),</td><td>(the contents is such that <img src="c12/j0025.gif">)</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0061.gif"><img src="c12/j0098.gif"><img src="c12/j0053.gif"><img src="c12/j0129.gif"><img src="c12/j0146.gif"><img src="c12/j0013.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0101.gif"><img src="c12/j0102.gif"><img src="c12/j0037.gif">(5),</td><td><img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0039.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0101.gif"><img src="c12/j0102.gif"><img src="c12/j0037.gif">(5),</td></tr>
+	<tr><td>(moreover the minister said that),</td><td>(doing <img src="c12/j0025.gif"> said <img src="c12/j0025.gif"> )</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td><img src="c12/j0078.gif"><img src="c12/j0009.gif"><img src="c12/j0144.gif"><img src="c12/j0145.gif"><img src="c12/j0013.gif"> <img src="c12/j0025.gif"> <img src="c12/j0011.gif"><img src="c12/j0147.gif">(5),</td><td><img src="c12/j0025.gif"> <img src="c12/j0053.gif"><img src="c12/j0060.gif"><img src="c12/j0029.gif"><img src="c12/j0028.gif"><img src="c12/j0138.gif"> <img src="c12/j0025.gif"> <img src="c12/j0027.gif"><img src="c12/j0008.gif"><img src="c12/j0028.gif"><img src="c12/j0029.gif"><img src="c12/j0030.gif">(4),</td></tr>
+	<tr><td>(the contents is <img src="c12/j0025.gif"> and so),</td><td>(did <img src="c12/j0025.gif"> also about <img src="c12/j0025.gif">)</td></tr>
+	</table>
+	<table border=0 cellpadding=1 cellspacing=1>
+	<tr><td></td><td><img src="c12/j0029.gif"><img src="c12/j0007.gif"><img src="c12/j0053.gif"><img src="c12/j0138.gif"> <img src="c12/j0025.gif"> <img src="c12/j0098.gif"><img src="c12/j0008.gif"><img src="c12/j0029.gif">(4),</td><td><img src="c12/j0060.gif"><img src="c12/j0103.gif"><img src="c12/j0077.gif"> <img src="c12/j0025.gif"> <img src="c12/j0091.gif"><img src="c12/j0104.gif"><img src="c12/j0030.gif">(4),</td>
+	    <td><img src="c12/j0025.gif"> <img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0097.gif"> <img src="c12/j0025.gif"> <img src="c12/j0053.gif"><img src="c12/j0008.gif"><img src="c12/j0097.gif">(4)</td></tr>
+	<tr><td></td><td>(as if <img src="c12/j0025.gif"> looks <img src="c12/j0025.gif">),</td><td>(namely <img src="c12/j0025.gif"> is <img src="c12/j0025.gif">),</td>
+	    <td>(either <img src="c12/j0025.gif"> or <img src="c12/j0025.gif">)</td></tr>
+	</table>
+</td></tr>
+</table>
+</p>
+
+<p>
+From these results, it can also be seen that expressions
+typical to newspapers have been extracted. Thus, using the
+output results, we can easily obtain interrupted collocational expressions as well as uninterrupted ones.
+</p>
+<p>
+<strong>(2) Processing Time</strong>
+</p>
+<p>
+In the case of interrupted collocational substring
+extraction, processing time depend highly on the number of
+components of substrings. In this experiment, the turnaround time was 1 or 2 hours where components of
+collocations to be extracted was limited to the substrings
+with the frequency of 10 or more times.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-6."><h2><font color=#ff0000>6. Conclusion</font></h2></a>
+
+<p>
+The methods of automatically identifying and extracting
+uninterrupted and interrupted collocations fcom very large
+corpora has been proposed.
+</p>
+<p>
+First, from the view point of collocational expression
+extraction, the problems of Nagao and Mori's algorithm for
+calculating arbitrary length of N-gram has been pointed out.
+And, under the condition that fractional substrings are
+restrained to be extract, a new method of automatically
+extracting and tabulating all of the uninterrupted collocational substrings has been proposed. Next, using these
+results, a method for automatically extracting interrupted
+collocational substrings has been proposed. In this method,
+combinations of uninterrupted collocational substrings
+which collocate at different positions within a sentence
+are extracted and counted.
+</p>
+<p>
+The method was applied to newspaper articles
+involving some 8.92 million characters. The results for
+uninterrupted collocations were compared with that of N-gram statistics. In the case of substring extraction with 2
+or more characters, conventional method yielded substring
+of 4.4 millions types and the total frequency of them
+amount to 31.2 millions. In contrast, the method proposed
+in this paper extracted 0.97 millions types of substrings
+and a total frequency of them has reduced to 2.6 millions.
+In the case of interrupted collocational subsuing extraction,
+combining the substring with frequency of 10 times or
+more extracted by the first method, 6.5 thousand types of
+pairs of substrings with the total frequency of 21.8
+thousands were extracted.
+</p>
+<p>
+From these results, it can be said that , viewed from
+the point of extraction of collocational expressions (as units
+of syntactic and semantic expressions), substrings obtained
+by conventional methods include a voluminous amount of
+fractional substrings. In contrast, the method proposed in
+this paper reduces many of such fractional substrings and
+condensed into a group of substrings that can be regarded
+as units of expression. As a result, it has been made
+possible to easily calculate interrupted collocations and
+together with phrase templates and other basic data
+regarding sentence structure.
+</p>
+<p>
+This paper used Japanese character chains to examine
+the algorithm. Yet this algorithm can be applied to arbitrary
+symbol chains. Various types of applications are possible,
+such as word chains, syntactic element chains obtained
+from results of morphological analysis or semantic attribute
+chains which consist of each word being converted to
+semantic attributes. As shown in this paper, applications for
+Japanese character chains still involve output of some
+amount of fractional stings. But when applications to word
+chains or syntactic element strings are concerned, further
+restriction of unnecessary elements are anticipated.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References:</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1">Church, K. W. and Hanks, P. (1990):</a>
+<dd>Word Association norms, Mutual Information and Lexicography,
+	Computational Linguistics, Vol.16, No.1, pp.22-29
+	<br><br>
+<dt><a name="ref2">Colier, R. (1994):</a>
+<dd>N-gram Cluster Identification during Empirical Knowledge Representation
+	Generation,
+	The Computation and Language E-Print Archive
+	<br><br>
+<dt><a name="ref3">Kita, K., Ogura, K., Morimoto, T. and Ueno,Y. (1993):</a>
+<dd>Automatically Extracting Frozen Patterrls from Corpora Using Cost Criteria,
+	Journal of Information Processing, Vol.34, No.9, pp.1937-1943
+	<br><br>
+<dt><a name="ref4">Kita, K., Kato, Y., Omoto, T. and Yano, Y. (1994):</a>
+<dd>A Comparative Study of Automatic Extraction of Collocations from Corpora:
+	Mutunl Information vs. Cost Criteria,
+	Journal of Naturnl Language Processing, Vol.1, No.1, pp.21-33
+	<br><br>
+<dt><a name="ref5">Nagao, M and Mori, S (1994):</a>
+<dd>A New Method of N-gram Statistics for Large Number of n and
+	Automatic Extraction of Words and Phrases from Large Text Data of Japanese,
+	The Proceedings of the 15th International Conference on Computational
+	Linguistics, pp.6ll-615
+	<br><br>
+<dt><a name="ref6">Shinnou, H. and Isahara, H. (1994):</a>
+<dd>Automatic Extraction of Frozen Patterns to Act as a Postpositional Particle
+	by Pseudo N-gram,
+	Journal of Information Processing, Vol.36. No.1, pp.32-40
+	<br><br>
+<dt><a name="ref7">Smadja, F, A. and MeKeown, K. R. (1992):</a>
+<dd>Automatically Extracting and Representing Collocations for Language Generation,
+	Proceedings of the 28th Annual Meetifig of the Association for Computationnl
+	Linguistics, pp.252-259
+	<br><br>
+<dt><a name="ref8">Smadja, F. (1993):</a>
+<dd>Retrieving Collocatibns from Text: Xtract,
+	Computational Lingtlistics, Vol.19, No.9, pp.143-177
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>*1</sup></a>
+Extraction is conducted based on the relation between the values of consecutive <i>NMC</i>. Ddetails are in (Nagao and Mori 1994). (<a href="c12.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>*2</sup></a>
+Recently, combining the frequencies of related substring, calculation was conducted(Kita, etal 1993) to obtain the frequency
+which satisfy the Condition 3. But accurate results cannot be obtained by this method. (<a href="c12.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>*3</sup></a>
+In the case of (a), there would be a combination of substrings which is regarded as a interrupted collocation. However the
+frequency of such a pair is limitted to 1. Then there is no need to consider. (<a href="c12.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>*4</sup></a>
+Indirect sorting is conducted. When this process is excuted within a memory by the computer which has a compare
+instruction with indirect adressing for arbitrary length of fields, sorting time will be extremely shortened. (<a href="c12.html#rfn4">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>*5</sup></a>
+It is expected that when the frequency of cach substring is small, the frequency of their co- occurence is further small. (<a href="c12.html#rfn5">Return</a>)

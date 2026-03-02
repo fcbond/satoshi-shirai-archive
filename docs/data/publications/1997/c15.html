@@ -1,0 +1,931 @@
+<html>
+<head>
+<title>Kentaro Ogura, Satoshi Shirai &amp; Francis Bond, TMI-97, July 23-25, 1997</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor=#ffffff link=#0000ff vlink=#0000ff alink=#0000ff>
+
+<div align=center>
+<font size=+3>English Adverb Processing in Japanese-to-English Machine Translation</font>
+<br><br>
+
+<font size=+2>Kentaro OGURA, Satoshi SHIRAI, and Francis BOND</font>
+<br><br>
+
+<font size=+1>NTT Communication Science Laboratories</font>
+<br>
+<font size=+1>1-1 Hikari-no-oka, Yokosuka-shi, Kanagawa, 239 JAPAN</font>
+<br>
+<font size=+1><tt> {ogura,shirai,bond}@cslab.kecl.ntt.co.jp</tt></font>
+</div>
+
+<br><br>
+
+<h2>Abstract.</h2>
+<p>
+When translating between different language families, the correspondence between
+language elements are often not straightforward. This paper analyzes Japanese
+expressions which correspond to English adverbs, We classify the expressions
+into three types winch are translated differently. An adverb processing method
+in J-to-E machine translation using this classification is proposed.
+</p>
+
+<div align=center>
+<font size=-1>
+[ In <i>Proceedings of TMI-97</i>, pp.95-102 (July, 1997). ]
+</font>
+</div>
+
+<br><br>
+<br><br>
+
+<hr size=2>
+
+<h3>INDEX</h3>
+<table border=0 cellpadding=0>
+<tr><td rowspan=7>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td><a href="c15.html#chap-1">1 Introduction</a></td></tr>
+<tr><td><a href="c15.html#chap-2">2 Correspondence between Japanese expressions and English adverbs</a></td></tr>
+<tr><td><a href="c15.html#chap-3">3 Processing of adverbial expressions</a></td></tr>
+<tr><td><a href="c15.html#chap-4">4 Conclusion</a></td></tr>
+<tr></tr>
+<tr><td>&nbsp;&nbsp;<a href="c15.html#ack">Acknowledgment</a></td></tr>
+<tr><td>&nbsp;&nbsp;<a href="c15.html#ref">References</a></td></tr>
+</table>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-1"><h2><font color=#ff0000>1 Introduction</font></h2></a>
+
+<p>
+In natural language processing, the study of adverbs<a name="rfn1" href="c15.html#fn1"><sup>1</sup></a> has not
+developed very far to date, compared with nouns and verbs, because it was
+thought that adverbs do not construct the main parts of sentence meaning and
+have various complex gramnlatical functions in sentences, However, adverbs occur
+frequently and make important contributions to sentence meaning. Thus, the
+accurate processing of English adverbs is required for high quality machine
+translation.
+</p>
+<p>
+From a linguistic point of view, linguists have examined adverb grammatical
+functions and meanings in detail [<a href="c15.html#ref10">Quirk et al., 1985</a>]. Conjuncts and disjuncts,
+usually called sentence adverbs, are described in detail in [<a href="c15.html#ref5">Greenbaum, 1983</a>].
+Other studies by linguists include those which handle the meanings of specific
+adverbs, such as "<i>even</i>" [<a href="c15.html#ref1">Berckmans, 1993</a>], "<i>still</i>" and
+"<i>already</i>" [<a href="c15.html#ref12">van der Auwera, 1993</a>], and temporal adverb studies which
+handle temporal semantics in sentences [<a href="c15.html#ref13">Vlach, 1993</a>]. There are also studies of
+adverb position in English in general [<a href="c15.html#ref3">Ernst, 1984</a>] and positions of specific
+adverbs, such as "<i>however</i>" [<a href="c15.html#ref11">Sugiura, 1991</a>]. But it is difficult to apply
+the results of these studies to natural language processing directly because
+they are the knowledge for human so computers cannot understand them easily.
+</p>
+<p>
+From the natural language processing viewpoint, few studies [<a href="c15.html#ref4">Glasbey, 1993</a>] have
+considered adverbs in natural language processing. [<a href="c15.html#ref2">Conlon and Evans, 1992</a>]
+aimed to decrease ambiguity in adverb meanings and to select words during
+generation by applying information about adverb semantics and syntax from
+linguistic studies to an adverb lexicon. These are studies of the multiplicity
+of adverb meanings. A method for determining where adverbs should be placed in
+English sentences in Japanese-to-English machine translation has been proposed
+[<a href="c15.html#ref8">Ogura et al., 1994</a>].  The method is based on adverb grammatical functions
+(subjuncts, adjuncts, disjuncts and conjuncts) and meanings (process, space,
+time etc.), preferred positions in sentences (initial, medial, end, pre, post)
+, and priorities between adverbs with the same preferred position.
+</p>
+<p>
+There are few studies of differences in expression between Japanese and English
+for adverbial meaning. [<a href="c15.html#ref9">Ogura et al., 1995</a>] showed that only about 55% of
+Japanese adverbs were translated into English adverbs in translation from
+Japanese to English by human translators.  On the other hand, only about 17% of
+English adverbs that appeared in the human translation were translated from
+Japanese adverbs in the original. This shows clearly the difference between
+Japanese and English representations for adverbial meaning and the diffculty of
+adverb processing in machine translation.
+</p>
+<p>
+Adverb processing in Japanese-to-English machine translation is very
+complicated. Thus, in this paper, we focus our attention on the problem of
+differences in expressions between Japanese and English adverbial meaning from
+the viewpoint of English adverbs. When translating between different language
+families, correspondence between language elements is not straightforward. The
+tendency is especially prominent in translation of adverbial expressions.  So
+first we examine in detail examples in which Japanese expressions correspond to
+English adverbs (Section 2). We classify the examples into three types, which
+are translated differently.  In Section 3, an adverb processing method in
+Japanese-to-English machine translation using the correspondence types and
+functional differences of adverb expressions is proposed. The content of
+Japanese dictionaries which are used to determine Japanese composition of words,
+Japanese-to-English word transfer dictionaries which are used to transfer by
+word units, and Japanese-to-English structure transfer dictionaries which are
+used to transfer by predicate unit, are also presented. Section 4 concludes the
+paper.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-2"><h2><font color=#ff0000>2 Correspondence between Japanese expressions and English adverbs</font></h2></a>
+
+<p>
+We examined Japanese expressions which correspond to English adverbs in
+Japanese-to-English translations made by professional human translators. 1,000
+sentenccs in newspaper articles of industrial and economic domains and their
+translations were investigated from the viewpoint of correspondence between
+Japanese expressions and English adverbs. Examining adverb frequency in English
+showed that adverbs appeared 585 times in 1,000 sentences, that is, one adverb
+appeared in roughly every two sentences on average. Table 1 shows the result.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>Type</td><td>Japanese expressions</td>
+    <td colspan=2>Correspondence between J/E</td>
+    <td>Freq.</td><td align=right>%</td></tr>
+<tr></tr>
+<tr></tr>
+<tr valign=top><td rowspan=6>1-1</td><td>Adverbs</td>
+    <td colspan=2><i>sarani</i> "even", <i>shôrai</i> "in the future"</td>
+    <td align=right>99</td><td align=right>16.9</td></tr>
+<tr valign=top>
+    <td>Adjectival nouns + <i>ni</i></td>
+    <td colspan=2><i>ôhaba-ni</i> "greatly"</td>
+    <td align=right>38</td><td align=right>6.5</td></tr>
+<tr valign=bottom>
+    <td rowspan=2 valign=top>Nouns + <i>ni</i> or <i>de</i></td>
+    <td colspan=2><i>chûshin-ni</i> "especially",</td>
+    <td align=right rowspan=2>8</td><td align=right rowspan=2>1.4</td></tr>
+<tr valign=top>
+    <td colspan=2><i>kinyûmen-de</i> "financially"</td></tr>
+<tr valign=top>
+    <td>Verbs (continuative form)</td>
+    <td colspan=2><i>hikitsuduki</i> "continuously"</td>
+    <td align=right>4</td><td align=right>0.7</td></tr>
+<tr valign=top>
+    <td>Adjectives (continuative form)</td>
+    <td colspan=2><i>subayaku</i> "quickly"</td>
+    <td align=right>3</td><td align=right>0.5</td></tr>
+<tr valign=top>
+    <td rowspan=2>1-2</td><td>Numerical prefixes</td>
+    <td colspan=2><i>yaku-</i> "about"</td>
+    <td align=right>30</td><td align=right>5.1</td></tr>
+<tr valign=top>
+    <td>Quantitative noun</td>
+    <td colspan=2><i>teido</i> "about"</td>
+    <td align=right>7</td><td align=right>1.2</td></tr>
+<tr valign=top>
+    <td rowspan=2>1-3</td><td>Modal particles</td>
+    <td colspan=2><i>-dake</i> "only", <i>-mo</i> "also"</td>
+    <td align=right>62</td><td align=right>10.6</td></tr>
+<tr valign=top>
+    <td>Modal expressions</td>
+    <td colspan=2><i>sô-da</i> "probably"</td>
+    <td align=right>14</td><td align=right>2.4</td></tr>
+<tr valign=top>
+    <td>1-4</td><td>Conjuncts</td>
+    <td colspan=2><i>mata</i> "also"</td>
+    <td align=right>62</td><td align=right>10.6</td></tr>
+<tr valign=top>
+    <td></td><td align=center colspan=2>Sub total</td>
+    <td align=right>55.9%</td></tr>
+<tr valign=top>
+    <td rowspan=2>2</td><td rowspan=2>Predicate corresponding to English verbal idiom</td>
+    <td colspan=2><i>secchi-suru</i> "set <u>up</u>",</td>
+    <td rowspan=2 align=right>54</td><td rowspan=2 align=right>9.2</td></tr>
+<tr valign=top>
+    <td><i>okonau</i> "carry <u>out</u>"</td>
+    <td align=right>9.2%</td></tr>
+<tr valign=top>
+    <td rowspan=8>3</td><td>Nouns</td>
+    <td colspan=2><i>chokuei</i> "directly"</td>
+    <td align=right>68</td><td align=right>11.6</td></tr>
+<tr valign=top>
+    <td>Verbs (attributive form)</td>
+    <td colspan=2><i>isogu</i> "rapidly"</td>
+    <td align=right>24</td><td align=right>4.1</td></tr>
+<tr valign=top>
+    <td>Adjectival nouns + na</td>
+    <td colspan=2><i>tokushu-na</i> "specially"</td>
+    <td align=right>12</td><td align=right>2.1</td></tr>
+<tr valign=top>
+    <td>Affixes</td>
+    <td colspan=2><i>shin-</i> "newly"</td>
+    <td align=right>8</td><td align=right>1.4</td></tr>
+<tr valign=top>
+    <td>Adjectives (attributive form)</td>
+    <td colspan=2><i>chikai</i> "almost"</td>
+    <td align=right>6</td><td align=right>1.0</td></tr>
+<tr valign=top>
+    <td>Uninflected adjectives</td>
+    <td colspan=2><i>ôkina</i> "greatly"</td>
+    <td align=right>1</td><td align=right>0.2</td></tr>
+<tr valign=top>
+    <td colspan=3>"None" or "Paraphrase"</td>
+    <td align=right>86</td><td align=right>14.7</td></tr>
+<tr valign=top>
+    <td colspan=2 align=center>Sub total</td>
+    <td align=right>34.9%</td></tr>
+<tr valign=top>
+    <td colspan=4>Total</td>
+    <td align=right>585</td><td align=right>100.0</td></tr>
+</table>
+<div align=center><strong>
+Table 1. Japanese expressions corresponding to English Adverbs
+</strong></div>
+</p>
+
+<p>
+We classified the examples into three types, depending on how they can be
+translated. In Type 1, Japanese expressions can be directly translated into
+English adverbs, as opposed to Type 2 and Type 3. In Type 1, the Japanese
+expressions can be transferred by word unit. In Type 2, English adverbs do not
+correspond directly to Japanese adverbial expressions but rather English
+idiomatic expressions with adverbs. Type 2 can be also transferred by word
+(predicate) unit. Type 3 is more complicated and very diffcult to translate. The
+sentence structures were changed because of the different ways of expression or
+thinking in Japanese and English. As a result, some expressions (nouns, verbs,
+adjectives etc.) were translated into English adverbs indirectly. Type 3 must be
+transferred by larger units than the word.
+</p>
+<p>
+<strong>Type 1</strong>
+</p>
+<p>
+Type 1 was the most common type. Type 1 consists of Japanese expressions which
+have adverbial function and correspondence to English adverbs. 55.9% of English
+adverbs were translation of Type 1 Japanese expressions. The table shows that
+Japanese expressions which have adverbial functions are expressed mostly by
+adverbs, but they are also expressed in other ways.  English adverbs which were
+translated from Japanese adverbs were only 17% of all English adverbs. In
+Japanese, an adverbial typically takes the form of an adverb or a noun followed
+by some particle or continuative form of a predicate (1-1).
+</p>
+<p>
+The most typical case of Type 1 is the correspondence between Japanese adverbs
+and English adverbs. For examplel the Japanese adverb "<i>sarani</i>" was
+translated into the English adverb
+"even". Adjectival nouns followed by the particle "<i>-ni</i>",
+continuatiye forms<a name="rfn2" href="c15.html#fn2"><sup>2</sup></a> of verbs and adjectives, and some nouns
+followed by particle "<i>-ni</i>" or "<i>-de</i>", which have
+adverbial functions as a whole, were translated into English
+adverbs. Such Japanese expressions are translated as case elements in
+English.
+</p>
+<p>
+Numerical prefixes, such as "<i>yaku-</i>" (about) and some
+quantitative nouns, such as "<i>teido</i>" (about) were translated
+into English intensifiers (1-2).
+</p>
+<p>
+The Japanese adverbial particle "<i>-mo</i>" was translated as "also"
+a modal adverb (subjunct) in English. Japanese idiomatic expressions
+for modals were translated into disjuncts (1-3).
+</p>
+<p>
+Many Japanese conjunctions<a name="rfn3" href="c15.html#fn3"><sup>3</sup></a> were also translated into
+English conjuncts (1-4).
+</p>
+<p>
+<strong>Type 2</strong>
+</p>
+<p>
+9.2% of the correspondences were Type 2, where an adverb appears in a
+larger English expression that is stored in the lexicon. The typical
+pattern of Type 2 was the pattern that Japanese verbs were translated
+into English idiomatic verb-particle constructions.  A
+exarnple<a name="rfn4" href="c15.html#fn4"><sup>4</sup></a> of Type 2 is as follows:
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(1)</td><td rowspan=3>&nbsp;</td>
+    <td>Jpn:</td><td rowspan=3>&nbsp;</td>
+    <td><i>sono-kaisha-wa</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>tôkyô-de</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>honkaku-saiyô-shiken-o<i></td><td rowspan=2>&nbsp;</td>
+    <td><i><u>okonatta</u></i></td></tr>
+<tr><td>Gloss:</td>
+    <td>The company <small>TOP</small></td>
+    <td>Tokyo <small>LOC</small></td>
+    <td>practical tests</td>
+    <td><strong>carried <u>out</u></strong></td></tr>
+<tr><td>Eng:</td>
+    <td colspan=7>The company <strong>carried <u>out</u></strong> practical tests in Tokyo</td></tr>
+</table>
+</p>
+<p>
+The Japanese verb "<i>okonatta</i>" was translated into "carried
+<strong>out</strong>" (verb + adverb particle).  In this examination,
+all of the Type 2 examples in the corpus were this type. Another
+possible kind of Type 2 is "<i>shinkon</i>" (a <strong>newly</strong>
+married couple); this type is quite rare.
+</p>
+<p>
+<strong>Type 3</strong>
+</p>
+<p>
+Type 3 appeared 34.9% of the time in this examination, over a third of
+the time. Therefore, it is essential to treat this type correctly in
+Japanese-to-English machine translation. Most direct transfer machine
+translation systems cannot deal with this type.
+</p>
+<p>
+The most typical pattern of Type 3 consisted of nouns, attributive
+forms<a name="rfn5" href="c15.html#fn5"><sup>5</sup></a> of verbs, adjectival nouns followed by particle
+"<i>na</i>", attributive form of adjectives, or uninflected adjectives
+which function as modifiers, which were translated into English
+adverbs. When the sentence structures were changed and the modificants
+were changed to predicates (verbs or adjectives), the modifiers were
+accordingly changed to adverbs. An example is shown below.
+</p>
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=3>&nbsp;&nbsp;</td>
+    <td rowspan=3>(2)</td><td rowspan=3>&nbsp;</td>
+    <td>Jpn:</td><td rowspan=3>&nbsp;</td>
+    <td><i>Sanyô-denki-wa</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>seisan-o</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>kogaisha-ni</i></td><td rowspan=2>&nbsp;</td>
+    <td><i><u>zenmen</u></i></td><td rowspan=2>&nbsp;</td>
+    <td><i>ikan</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>suru</i></td></tr>
+<tr valign=top>
+    <td>Gloss:</td>
+    <td>Sanyo Electric <small>TOP</small></td>
+    <td>production <small>OBJ</small></td>
+    <td>subsidiary company <small>LOC</small></td>
+    <td><strong>whole surface</strong></td>
+    <td>transfer</td><td>do</td></tr>
+<tr valign=top>
+    <td>Eng:</td>
+    <td colspan=11>Sanyo Electric completely transfers control of production to
+	its subsidiary company</td></tr>
+</table>
+</p>
+<p>
+In this example, the light verb "<i>suru</i>", together with its
+object the verbal noun "<i>ikan</i>" was translated into the English
+action verb "transfer". Accompanying this process, the attributive
+noun "<i>zenmen</i>" which was the modifier of the Japanese action
+noun "<i>ikan</i>", was translated into the English adverb
+"completely" which modifies the action verb "transfer".
+</p>
+<p>
+"None" and "Paraphrase" are also included in Type 3. These cases are
+the most difiicult to translate. These cases could not easily be
+described by rules, because the conditions under which the paraphrase
+occurs are not clear. "None" is when the English translation has an
+adverb but there is no element corresponding to it in Japanese. Time
+adverbs such as "now", "just" and "still", or intensifiers such as
+"extremely", "highly" are sometimes added in the English
+translation. We judged that in some of these cases, translations
+without the "paraphrase" or "addition of adverbs" were perfectly
+acceptable, so there is no real need to generate them.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-3"><h2><font color=#ff0000>3 Processing of adverbial expressions</font></h2></a>
+
+<p>
+Figure 1 shows a process of adverbial expressions in
+Japanese-to-English machine translation (ALT-J/E) [<a href="c15.html#ref6">Ikehara et al.,
+1991</a>]. It shows the clear separation of the processing which treats
+expressions in which the correspondence between the language elements
+are not straightforward from ordinary word-to-word processing. This
+processing is necessary to deal with differences in the ways that
+different languages are used to express concepts.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td colspan=7>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Morphological Analysis</td></tr>
+    </table></td></tr>
+<tr><td align=center colspan=7><img src="c15/j0000.gif"></td></tr>
+<tr><td colspan=7>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Dependency Analysis</td></tr>
+    </table></td></tr>
+<tr><td align=center colspan=7><img src="c15/j0000.gif"></td></tr>
+<tr><td colspan=7>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Should the overall structure of the Japanese expression 
+	be changed?</td></tr>
+    </table></td></tr>
+<tr><td width=20%></td><td width=5%><img src="c15/j0000.gif"></td><td width=20%><nobr>No (Type 1, 2)</nobr></td>
+    <td width=10%></td>
+    <td width=20%></td><td width=5%><img src="c15/j0001.gif"></td><td width=20%><nobr>Yes (Type 3)</nobr></td></tr>
+<tr><td colspan=3>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Adverbial Element Analysis</td></tr>
+    </table></td>
+    <td></td>
+    <td></td><td><img src="c15/j0000.gif"></td><td></td></tr>
+<tr><td colspan=3>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Modal and Conjunct Analysis</td></tr>
+    </table></td>
+    <td></td>
+    <td colspan=3>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Direct Parse Tree Transfer</td></tr>
+    </table></td></tr>
+<tr><td></td><td><img src="c15/j0000.gif"></td><td></td>
+    <td></td>
+    <td></td><td><img src="c15/j0001.gif"></td></tr>
+<tr><td colspan=3>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>General Transfer</td></tr>
+    </table></td>
+    <td></td>
+    <td></td><td><img src="c15/j0001.gif"></td></tr>
+<tr><td></td><td><img src="c15/j0000.gif"></td><td></td>
+    <td></td>
+    <td></td><td><img src="c15/j0000.gif"></td></tr>
+<tr><td colspan=7>
+    <table border=1 cellpadding=1 cellspacing=1 align=center width=100%>
+    <tr><td align=center>Adverb Generation</td></tr>
+    </table></td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 1. Processing of Adverbial Expressions
+</strong></div>
+</p>
+
+<p>
+The main flow of the process is morphological analysis, dependency
+analysis, Japanese syntactic and semantic analysis (which involves
+adverbial element analysis and modal analysis and conjunct analysis),
+general transfer and adverb generation. Type 1 and Type 2 adverbial
+expressions are processed in the main flow. They are comparatively
+easy to handle.
+</p>
+<p>
+In morphological analysis, Japanese sentences are divided into words
+by using the Japanese word dictionary and the word-conjunction table,
+and morphologicai information of the words are examined. Examples from
+the Japanese word dictionary used to analyze Japanese adverbial
+expressions are shown below.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr align=center>
+    <td colspan=4>Dictionary Information</td><td rowspan=2>Adverbial expression</td></tr>
+<tr><td>Entry (Stem)</td><td>part of speech</td><td>particle</td><td>conjugation</td></tr>
+<tr></tr><tr></tr>
+<tr><td><i>totemo</i> (very)</td><td>adverb</td>
+    <td align=center>-</td><td align=center>-</td><td><i>totemo</i></td></tr>
+<tr><td><i>ôhaba</i> (large, great)</td><td>adjectival noun</td>
+    <td><i>-na</i>, <i>-ni</i></td><td align=center>-</td><td><i>ôhabani</i></td></tr>
+<tr><td><i>hikitstizu</i> (continue)</td><td>verb</td>
+    <td align=center>-</td><td><i>ka-gyô-godan</i></td><td><i>hikitsuzuki</i></td></tr>
+<tr><td><i>haya</i> (fast)</td><td>adjective</td>
+    <td align=center>-</td><td>adjective</td><td><i>hayaku</i></td></tr>
+</table>
+<div align=center><strong>
+Figure 2. Japanese word dictionaries
+</strong></div>
+</p>
+
+<p>
+These entries have a particle slot which shows connectable particles,
+and a conjugation slot which shows how to be conjugated. Using this
+information, Japanese expressions which have adverbial functions, such
+as, adjectival nouns followed by the particle "<i>-ni</i>", and
+continuative forms of verbs and adjectives, etc., can be analyzed.
+</p>
+<p>
+In dependency analysis, phrases are constructed from words, and
+modifier/modificant relationships between phrases are examined.
+</p>
+<p>
+In the Japanese structure analysis, noun phrases, adverb phrases
+etc. are determined and parse tree structures are made from
+phrases. Modal and conjunct information is also analyzed.  Then, the
+Japanese structures are transferred to the English structures by using
+the Japanese-to-English structure and word transfer dictionaries.
+</p>
+<p>
+An example rule from the Japanese-to-English structure transfer
+dictionaries is shown below.  It shows correspondence between Japanese
+and English phrases as a unit sentence.
+</p>
+<p>
+Figure 4 shows an example from the Japanese-to-English word transfer
+dictionaries. In this case, <i>teinei-ni</i> is translated as
+<strong>carefully</strong> if it appears with a Japanese verb which
+means "see", "hear" or "write", otherwise as
+<strong>politely</strong>.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td><strong>IF</strong></td><td colspan=2></td>
+    <td>; "N1-<i>ga</i> N2-<i>o</i> <i>jikkô-suru</i>"</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td>J-Verb </td>
+    <td>= "<i>jikkô-suru</i>"</td></tr>
+<tr><td></td>
+    <td>N1 </td>
+    <td>= [Head:<tt>Agent</tt> or <tt>Machine</tt></td>
+    <td>Particle: "<i>ga</i>"]</td></tr>
+<tr><td></td>
+    <td>N2 </td>
+    <td>= [Head:<tt>Abstract</tt></td>
+    <td>Particle: "<i>o</i>" ]</td></tr>
+<tr><td><strong>THEN</strong></td><td colspan=2></td>
+    <td>; "N1 carry ont N2"</td></tr>
+<tr><td></td>
+    <td>E-Verb</td>
+    <td>= "carry"</td></tr>
+<tr><td></td>
+    <td>Particle</td>
+    <td>= "out"</td></tr>
+<tr><td></td>
+    <td>subj</td>
+    <td>= N1</td></tr>
+<tr><td></td>
+    <td>Obj</td>
+    <td>= N2</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 3. Japanese-to-English structure transfer dictionaries
+</strong></div>
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td><strong>IF</strong></td><td>"<i>teinei-ni</i>"</td><td>&lt;adjectival noun <i>-ni</i>&gt;</td></tr>
+<tr><td><strong>THEN</strong></td><td>"politely"</td><td>:condition DEFAULT</td></tr>
+<tr><td></td><td>"carefully"</td><td>:condition [Verb heading clause: <tt>Seeing</tt>, <tt>Hearing</tt> or <tt>Writing</tt>]</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 4. Japanese-to-English word transfer dictionaries
+</strong></div>
+</p>
+
+<p>
+The final process is adverb generation, which generates from English
+structure (semantic structure) to English sentences.
+</p>
+<p>
+Direct correspondence between Japanese structures and English
+structures, such as between Japanese adverbial phrases and English
+adverbs, and between Japanese predicates and English predicates, can
+be processed in the main flow.
+</p>
+<p>
+Type 1 can be classified into four types by Japanese word compositions
+and functions of adverbial expression. Type 1-1 is Japanese adverbial
+expressions which work mainly as case elements, such as adverbs and
+adjectival nouns followed by particle "<i>-ni</i>" etc. Type 1-2 is
+numerical prefixes and some quantitative nouns which work as
+downtoners. These two types are transferred by word unit using
+Japanese-to-English word transfer dictionaries. Type 1-3 is modal
+adverbial expressions. This type is transferred using modal transfer
+rules. Type 1-4 is conjunctive adverbial expressions. This type is
+transferred using conjunct transfer rules.
+</p>
+<p>
+Examples of rules for adverb processing which involve modal transfer
+rules, and conjunct transfer rules are shown Figure 5 and Figire 6.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td><strong>IF</strong></td><td>"<i>darô" &lt; auxiliary verb &gt;,</td></tr>
+<tr><td></td><td>"<i>dearô" &lt; auxiliary verb + auxiliary verb &gt; or</td></tr>
+<tr><td></td><td>"<i>to-omowareru" &lt; particle + verb + auxiliary verb &gt;</td></tr>
+<tr><td><strong>THEN</strong></td><td>"probably" </td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 5. Modal transfer rules
+</strong></div>
+</p>
+
+<p>
+Type 2 are mainly transferred by predicate unit using
+Japanese-to-English structure transfer dictionaries. In Figure 3, the
+Japanese verb <i>jikkô-suru</i> corresponds to the English verbal idiom
+"<strong>carry out</strong>".
+</p>
+<p>
+But Type 3 correspondences are complicated and the predicate unit and
+sometimes a Japanese transfer unit is different from an English
+transfer unit: for example, Japanese nouns to EnglIsh verbs, Japanese
+adjectives to Bnglish adverbs, Japanese adverbs to English adjectives,
+Japanese verbs or adjectives to English nouns, Japanese clause to
+phrase etc.
+</p>
+<p>
+Type 3 cannot be transferred in conventional direct transfer
+(word-to-word) method. We propose an adverb transfer method which uses
+direct parse tree transfer [<a href="c15.html#ref7">Matsuo et al., 1995</a>] for Type 3. Direct
+parse tree transfer provides a flexible framework for translation
+where source language units are different from target language units.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr><td><strong>IF</strong></td>
+    <td>"<i>shikaru-nochi-ni</i>"</td>
+    <td>&lt; conjunctive noun <i>-ni</i> &gt; or</td>
+    <td>"<i>shikaru-nochi</i>"</td>
+    <td>&lt; conjunctive noun &gt; or</td></tr>
+<tr><td></td>
+    <td>"<i>shitagatte</i>"</td>
+    <td>&lt; conjunction &gt; or</td>
+    <td>"<i>tsumari</i>"</td>
+    <td>&lt; conjunction &gt;</td></tr>
+<tr><td><strong>THEN</strong></td><td>"then"</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figure 6. Conjunction transfer rules
+</strong></div>
+</p>
+ 
+<p>
+In direct parse tree transfer, input is a dependency analysis result
+and output is an English strncture. This process calls analysis
+modules in Japanese structure analysis. An example<a name="rfn6"
+href="c15.html#fn6"><sup>6</sup></a> of a Japanese sentence which has a
+structure that must be changed when it is translated to English is
+shown below.
+</p>
+
+<p>
+<table border=0 cellpadding=1 cellspacing=1>
+<tr valign=top><td rowspan=4>&nbsp;&nbsp;</td>
+    <td rowspan=4>(3)</td><td rowspan=4>&nbsp;</td>
+    <td>Jpn:</td><td rowspan=4>&nbsp;</td>
+    <td><i>watashi-wa</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>shôsai-na</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>kentô-o</i></td><td rowspan=2>&nbsp;</td>
+    <td><i>okonau</i></td></tr>
+<tr valign=top>
+    <td>Gloss:</td>
+    <td>I <small>TOP</small></td>
+    <td>detail</td>
+    <td>examination <small>OBJ</small></td>
+    <td>do</td></tr>
+<tr valign=top>
+    <td>Eng1:</td>
+    <td colspan=7>I do a detailed examination</td></tr>
+<tr valign=top>
+    <td>Eng2:</td>
+    <td colspan=7>I exmine in detail</td></tr>
+</table>
+</p>
+
+<p>
+When translating a Japanese light verb such as "<i>okonau</i>" (do) or
+"<i>suru</i>" (do) which has an action noun as an object, it is
+sometimes preferable to use the action noun as a verb. In this
+example, <i>kentô-o okonau</i> (do examination) is translated as
+"examine". According to this, the Japanese expression
+"<i>shôsai-na</i>" &lt; adjectival noun <i>-na</i> &gt; (detail) which
+modifies "<i>kentô-o</i>" must be translated to English adverb "in
+detail".
+</p>
+<p>
+The direct parse tree transfer rule used in translating in (3) is shown below.
+</p>
+
+<p>
+<table border=3 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top><td>
+<table border=0 cellpadding=1 cellspacing=1 align=center>
+<tr valign=top>
+    <td><strong>IF</strong></td>
+    <td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+    <td></td>
+    <td>; B-<i>ga</i> DC-<i>o</i> <i>okonau</i></td></tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=2>(<strong>A</strong> "<i>okonau</i>"</td></tr>
+<tr valign=top>
+    <td></td>
+    <td></td>
+    <td>(<strong>B</strong> noun-phrase :particle ("<i>wa</i>" or "<i>ga</i>"))</td></tr>
+<tr valign=top>
+    <td></td>
+    <td></td>
+    <td>(<strong>C</strong> noun-phrase :partiCle "<i>o</i>"
+	(<strong>D</strong> adjective-phrase)))</td></tr>
+<tr valign=top>
+    <td><strong>THEN</strong></td>
+    <td></td>
+    <td></td>
+    <td>; B C D</td></tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=2>((SUBJ <strong>B</strong>)</td></tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=2>&nbsp;(VP <strong>C</strong> :VERB)</td></tr>
+<tr valign=top>
+    <td></td>
+    <td colspan=2>&nbsp;(ADVP <strong>D</strong> :ADV))</td></tr>
+</table>
+</td></tr>
+</table>
+<div align=center><strong>
+Figere7. Outline of direct parse tree transfer rule (adjective to adverb)
+</strong></div>
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="chap-4"><h2><font color=#ff0000>4 Conclusion</font></h2></a>
+
+<p>
+From the viewpoint analyzing Japanese expressions which correspond to
+English adverbs, we examined correspondence between Japanese and
+English, From the result of the examination, we classified the
+correspondence into three types. The adverb translation method
+according to the three types was proposed.
+</p>
+<p>
+Almost all of Type 1 and Type 2 can be translated using the proposed
+method and half of Type 3 can be translated using it. We estimate that
+at least 80% of Japanese expressions which are translated into English
+adverbs can be translated by the propolsed method. Currently not all
+kinds of direct parse tree transfer have been implemented, although
+the framework for the direct parse tree transfer has been implemented
+and rules have been provided for cases which were not so
+complicated. We are currently expanding the number and scope of the
+rules.
+</p>
+<p>
+In this paper, we proposed a method for adverb processing from the
+viewpoint of Japanese expressions which correspond to English
+adverbs. The approach from Japanese adverbs which are translated
+variously in English must also be studied.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ack"><h2><font color=#ff0000>Acknowledgment</font></h2></a>
+
+<p>
+The authors wish to thank Satoru Ikehara of Tottori University,
+Yoshihiro Matsuo and other members of the NTT Machine Translation
+Research Group for their valuable discussion. They also thank Roland
+Sussex of Queenslal1d University for his many constructive
+suggestions, and the members of NTT Advanced Technology for data
+collection.
+</p>
+
+<br><br>
+
+<hr size=2>
+
+<a name="ref"><h2><font color=#ff0000>References</font></h2></a>
+
+<p>
+<dl compact>
+<dt><a name="ref1"><strong>[Berckmans, 1993]</strong></a>
+<dd>Paul BerckinaIls. 1993.
+	The quantifier theory of even.
+	<i>Linguistics and Philosophy</i>, 16:589-611.
+	<br><br>
+<dt><a name="ref2"><strong>[Conlon and Evans, 1992]</strong></a>
+<dd>Sumali Pin-Ngern Conlon and Martha Evans. 1992.
+	Can computers handle adverbs?
+	In <i>14th International Conference on Computational Linguistics (COLING-92)</i>,
+	pages 1192-1196, Nantes, France.
+	<br><br>
+<dt><a name="ref3"><strong>[Ernst, 1984]</strong></a>
+<dd>Thomas Boyden Ernst. 1984.
+	<i>Towards an integrated theorg of adverb position in Engltsh</i>.
+	Ph.D. thesis, Indiana University, Bloomington, Indiana, USA, April.
+	<br><br>
+<dt><a name="ref4"><strong>[Glasbey, 1993]</strong></a>
+<dd>Sheila Glasbey. 1993.
+	A computational treatment of sentence-final 'then'.
+	In <i>Sixth Conference of the European Chapter of the Association for
+	Computational Linguistics (EACL-93)</i>, pages 158-167, Utrecht, Holland.
+	<br><br>
+<dt><a name="ref5"><strong>[Greenbaum, 1983]</strong></a>
+<dd>Sidney Greenbaum. 1983.
+	<i>Studies in English adverbial usage</i>.
+	Kenkyusha Ltd. (Japanese Translation).
+	<br><br>
+<dt><a name="ref6"><strong>[Ikehara et al., 1991]</strong></a>
+<dd>Satoru Ikehara, Satoshi Shirai, Akio Yokoo, and Hiromi Nakaiwa.
+	1991.
+	Toward an MT system without pre-editing - Efrccts of new methods in ALT-J/E -.
+	In <i>Third Machine Translation Summit: MT Summit III</i>,
+	pages 101-106, Washinton,D.C., USA.
+	<br><br>
+<dt><a name="ref7"><strong>[Matsuo et al., 1995]</strong></a>
+<dd>Yoshihiro Matsuo, Satoshi Shirai, and Satoru Ikehara. 1995.
+	Changing syntactic classes in transfer-based machine translation.
+	In <i>First Natural Language Processing Pacific Rim Symposium (NLPRS-95)</i>,
+	Seoul, Korea.
+	<br><br>
+<dt><a name="ref8"><strong>[Ogura et al., 1994]</strong></a>
+<dd>Kentaro Ogura, Francis Bond, and Satoru Ikehara. 1994.
+	English adverb generation in Japanese to English machine translation.
+	In <i>4th Conference on Applied Natural Language Proceseing</i>,
+	pages 190-191, Stuttgart, Germany.
+	<br><br>
+<dt><a name="ref9"><strong>[Ogura et al., 1995]</strong></a>
+<dd>Kentaro Ogura, Satoshi Shirai, and Satoru Ikehara. 1995.
+	Translation of adverbs In Japanese to English machine translation.
+	IEICE Technical Report, NLC, 94(575):1-8. NLC-94-44, (In Japanese).
+	<br><br>
+<dt><a name="ref10"><strong>[Quirk et al., 1985]</strong></a>
+<dd>Randolph Quirk, Sidney Greenbaum, Geoffrey Leech, and Jan Svartvik.
+	1985.
+	<i>A Comprehensive Grammar of the English Language</i>.
+	Longman, London.
+	<br><br>
+<dt><a name="ref11"><strong>[Sugiura, 1991]</strong></a>
+<dd>Masatoshi Sugiura. 1991.
+	The Distribution Environment of the Connective "however" and the Principle
+	of Its Position - Based on the LOB Corpus -.
+	<i>Journal of Language and Culture Chubu University Junior College</i>, 2:47-63.
+	<br><br>
+<dt><a name="ref12"><strong>[van der Auwera, 1993]</strong></a>
+<dd>Johan van der Auwera. 1993.
+	'Already' and 'Still': Beyond Duality.
+	<i>Linguistics and Philosophy</i>, 16:613-653.
+	<br><br>
+<dt><a name="ref13"><strong>[Vlach, 1993]</strong></a>
+<dd>Frank Vlach. 1993.
+	Temporal adverbials, tenses and the perfect.
+	<i>Linguistics and Philosophy</i>, 16:231-283.
+</dl>
+
+<br><br>
+
+<hr size=2>
+
+<br>
+
+<font color=#ff0000><strong>Footnote</strong></font>
+
+<hr size=2 width=40% align=left>
+
+<a name="fn1"><sup>1</sup></a>
+In this paper, idiomatic adverbial phrases, such as "on purpose" are considered to be adverbs. (<a href="c15.html#rfn1">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn2"><sup>2</sup></a>
+Continuative forms modify predicates. (<a href="c15.html#rfn2">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn3"><sup>3</sup></a>
+There were many other Japanese conjunctive expressions, for example, noun "<i>ippô</i>" (on the other
+hand), "ue-ni" (besides). (<a href="c15.html#rfn3">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn4"><sup>4</sup></a>
+Examples are given with the (romanized) Japanese original (Jpn), a gloss (Gloss) and the human
+translation (Eng). Japanese particles are glossed as follows: <small>TOP</small> for "<i>-wa</i>" which marks the topic,
+<small>OBJ</small> for "<i>-o</i>" which marks the object, <small>INS</small> for "<i>-de</i>" which marks the instrument, <small>LOC</small> for "<i>-de</i>" which
+marks the location, <small>LOC</small> for "<i>-ni</i>" which marks the location, and <small>SUBJ</small> for "<i>-ga</i>" which marks the
+subject. Many Japanese particles have multiple functions depending on the verb. The same function
+can be expressed by difrerent particles. (<a href="c15.html#rfn4">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn5"><sup>5</sup></a>
+Attributive forms modify nouns. (<a href="c15.html#rfn5">Return</a>)
+<hr size=2 width=40% align=left>
+
+<a name="fn6"><sup>6</sup></a>
+Eng1 shows the translation without direct parse tree transfer by ALT-J/E. Eng2 shows the translation
+with it. (<a href="c15.html#rfn6">Return</a>)
